@@ -7,5 +7,9 @@
 <body>
     <h1 th:text="hello"></h1>
     <h2 th:text="msg"></h2>
+    <h3 th:each="item:${list}">
+        <span th:text="${item.id}"></span>
+        <span th:text="${item.name}"></span>
+    </h3>
 </body>
 </html>

@@ -19,11 +19,20 @@
         <mybatis.version>2.1.1</mybatis.version>
         <mysql.version>8.0.18</mysql.version>
         <druid.version>1.1.21</druid.version>
+        <spring-boot-devtools.version>2.2.3.RELEASE</spring-boot-devtools.version>
+        <spring-boot-starter-data-redis.version>2.2.3.RELEASE</spring-boot-starter-data-redis.version>
     </properties>
 
     <dependencies>
 
-        <!--thymeleaf前端模板引擎-->
+        <!--redis启动器坐标-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-boot-starter-data-redis.version}</version>
+        </dependency>
+
+        <!--thymeleaf模板引擎-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -55,7 +64,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-            <version>2.2.3.RELEASE</version>
+            <version>${spring-boot-devtools.version}</version>
         </dependency>
 
         <dependency>
