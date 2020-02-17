@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
  * @author yuyy
  * @date 20-2-9 下午8:08
  */
-@Getter//使用lombok
+@Getter
 @Setter
 @ToString
 @Builder
