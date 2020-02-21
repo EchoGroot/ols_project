@@ -1,0 +1,46 @@
+package com.ols.ols_project.service;
+
+import com.ols.ols_project.model.AcceptTask;
+import com.ols.ols_project.model.UserEntity;
+
+import java.util.List;
+
+/**
+ * 关于User的Service
+ * @author yuyy
+ * @date 20-2-19 下午2:18
+ */
+public interface UserService {
+
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return
+     */
+    UserEntity getUserInfoById(int id);
+
+    /**
+     * 根据用户id查询密码
+     * @param id
+     * @return
+     */
+    String getPassWodById(int id);
+
+    /**
+     * 根据id修改用户密码
+     * @param id
+     * @param passWord
+     * @return
+     */
+    int changePassWordById(int id,String passWord);
+
+    /**
+     * 根据id查询已接受的任务
+     * @param id
+     * @param query
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    List<AcceptTask> getAcceptTaskByUserId(int id, String query, int pageNum, int pageSize);
+}

@@ -74,4 +74,24 @@ public class UserEntity {
      * 备用字段3
      */
     private String ext3;
+
+    /**
+     * 没有密码的构造函数
+     * @param id
+     * @param name
+     * @param birthday
+     * @param sex
+     * @param email
+     * @param role
+     * @param points
+     */
+    public UserEntity(Integer id, String name, Date birthday, String sex, String email, Integer role, Integer points) {
+        this.id = id;
+        this.name = name;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.email = email;
+        this.role = role;
+        this.points = points;
+    }
 }

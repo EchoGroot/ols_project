@@ -58,12 +58,12 @@ public class TaskEntity {
     /**
      * 发布时间
      */
-    private Timestamp releasetime;
+    private Timestamp release_time;
 
     /**
      * 完成时间
      */
-    private Timestamp finishtime;
+    private Timestamp finish_time;
 
     /**
      * 备用字段1

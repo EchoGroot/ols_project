@@ -52,7 +52,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         taskEntity.setPoints(random.nextInt(20)+10);
         taskEntity.setState(random.nextInt(4));
         taskEntity.setType(random.nextInt(2));
-        taskEntity.setReleasetime(new Timestamp(
+        taskEntity.setRelease_time(new Timestamp(
                 119,
                 random.nextInt(6)+1,
                 random.nextInt(28)+1,
@@ -61,7 +61,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                 random.nextInt(60),
                 random.nextInt(10000000)
         ));
-        taskEntity.setFinishtime(new Timestamp(
+        taskEntity.setFinish_time(new Timestamp(
                 119,
                 random.nextInt(6)+7,
                 random.nextInt(28)+1,

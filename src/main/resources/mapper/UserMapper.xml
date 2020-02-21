@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ols.ols_project.mapper.UserMapper">
+    <select id="getUserInfoById"
+            resultType="com.ols.ols_project.model.UserEntity">
+        select
+          id,name,birthday,sex,email,role,points
+        from
+          ols_user
+        where
+          id=#{id}
+    </select>
+
+    <select id="getAcceptTaskByUserId" resultMap="AcceptTaskMap">
+        select
+           ols_task.id as ols_task_id,
+           name,
+           ols_task.url as ols_task_url,
+           information,
+           points,
+           ols_task.state as ols_task_state,
+           type,
+           ols_task.finish_time as ols_task_finish_time,
+           release_time,
+           release_user_id,
+           accepte_num,
+           adopt_accepte_id,
+           ols_accepte.id as ols_accept_id,
+           user_id,
+           accept_time,
+           ols_accepte.finish_time as ols_accept_finish_time,
+           ols_accepte.state as ols_accepte_state,
+           ols_accepte.url as ols_accepte_url
+        from
+          ols_task,ols_accepte
+        where
+          ols_task.id = ols_accepte.task_id
+          and ols_accepte.user_id = #{id}
+          <choose>
+            <when test="query == 'acceptfinish'">
+                and ols_accepte.state != 0
+            </when>
+          </choose>
+    </select>
+
+    <select id="getPassWodById" resultType="String">
+        select
+          password
+        from
+          ols_user
+        where
+          id=#{id}
+    </select>
+
+    <update id="changePassWordById">
+        update
+          ols_user
+        set
+          password=#{passWord}
+        where
+          id=#{id}
+    </update>
+
+    <resultMap id="AcceptTaskMap" type="com.ols.ols_project.model.AcceptTask" >
+        <id column="ols_task_id" property="ols_task_id"  />
+        <result column="name" property="name" />
+        <result column="ols_task_url" property="ols_task_url" />
+        <result column="information" property="information" />
+        <result column="points" property="points" />
+        <result column="ols_task_state" property="ols_task_state" />
+        <result column="type" property="type" />
+        <result column="ols_task_finish_time" property="ols_task_finish_time" />
+        <result column="release_time" property="release_time" />
+        <result column="release_user_id" property="release_user_id" />
+        <result column="accepte_num" property="accepte_num" />
+        <result column="adopt_accepte_id" property="adopt_accepte_id" />
+        <result column="ols_accept_id" property="ols_accept_id" />
+        <result column="user_id" property="user_id" />
+        <result column="accept_time" property="accept_time" />
+        <result column="ols_accept_finish_time" property="ols_accept_finish_time" />
+        <result column="ols_accepte_state" property="ols_accepte_state" />
+        <result column="ols_accepte_url" property="ols_accepte_url" />
+    </resultMap>
+</mapper>
