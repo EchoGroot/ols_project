@@ -66,6 +66,21 @@ public class TaskEntity {
     private Timestamp finish_time;
 
     /**
+     *发布者编号
+     */
+    private Integer release_user_id;
+
+    /**
+     *接受者数量
+     */
+    private Integer accepte_num;
+
+    /**
+     *采纳的接受任务编号
+     */
+    private Integer adopt_accepte_id;
+
+    /**
      * 备用字段1
      */
     private String ext1;

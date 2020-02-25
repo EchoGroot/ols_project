@@ -3,6 +3,7 @@ package com.ols.ols_project.service.Impl;
 import com.ols.ols_project.common.utils.GenerateNameOfPerson;
 import com.ols.ols_project.common.utils.GenerateString;
 import com.ols.ols_project.mapper.CreateTestDataMapper;
+import com.ols.ols_project.model.AccepteEntity;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.service.CreateTestDataService;
@@ -50,7 +51,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         taskEntity.setUrl("测试数据的URL-"+GenerateString.generateString(30));
         taskEntity.setInformation("测试数据的详细信息-"+GenerateString.generateString(8));
         taskEntity.setPoints(random.nextInt(20)+10);
-        taskEntity.setState(random.nextInt(4));
+        taskEntity.setState(1);
         taskEntity.setType(random.nextInt(2));
         taskEntity.setRelease_time(new Timestamp(
                 119,
@@ -70,8 +71,43 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                 random.nextInt(60),
                 random.nextInt(10000000)
         ));
-
-        //System.out.println(taskEntity);
+        taskEntity.setRelease_user_id(11003);
+        taskEntity.setAccepte_num(1);
+        //taskEntity.setAdopt_accepte_id();
+//        System.out.println(taskEntity);
         createTestDataMapper.createTestDataForOlsTask(taskEntity);
     }
+
+    @Override
+    public void createTestDataForOlsAccepte() {
+        AccepteEntity accepteEntity=new AccepteEntity();
+        Random random = new Random();
+        for (int i = 0; i < 1; i++) {
+            accepteEntity.setUser_id(10000);
+            accepteEntity.setTask_id(10128);
+            accepteEntity.setAccept_time(new Timestamp(
+                    119,
+                    random.nextInt(1)+8,
+                    random.nextInt(28)+1,
+                    random.nextInt(24),
+                    random.nextInt(60),
+                    random.nextInt(60),
+                    random.nextInt(10000000)
+            ));
+        accepteEntity.setFinish_time(new Timestamp(
+                119,
+                random.nextInt(1)+10,
+                random.nextInt(28)+1,
+                random.nextInt(24),
+                random.nextInt(60),
+                random.nextInt(60),
+                random.nextInt(10000000)
+        ));
+            accepteEntity.setState(2);
+            createTestDataMapper.createTestDataForOlsAccepte(accepteEntity);
+        }
+
+    }
+
+
 }

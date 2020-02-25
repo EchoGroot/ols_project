@@ -1,6 +1,7 @@
 package com.ols.ols_project.service;
 
 import com.ols.ols_project.model.AcceptTask;
+import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 
 import java.util.List;
@@ -42,5 +43,15 @@ public interface UserService {
      * @param pageSize
      * @return
      */
-    List<AcceptTask> getAcceptTaskByUserId(int id, String query, int pageNum, int pageSize);
+    List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int pageNum, int pageSize);
+
+    /**
+     * 根据id查询已发布的任务
+     * @param id
+     * @param query
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int pageNum, int pageSize);
 }

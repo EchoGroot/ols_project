@@ -28,8 +28,17 @@ public class CreateTestDataController {
     @RequestMapping("createTestDataForOlsTask")
     @ResponseBody
     public String createTestDataForOlsTask(){
-        for (int i=0;i<1300;i++){
+        for (int i=0;i<1;i++){
             createTestDataService.createTestDataForOlsTask();
+        }
+        return "ok";
+    }
+
+    @RequestMapping("createTestDataForOlsAccepte")
+    @ResponseBody
+    public String createTestDataForOlsAccepte(){
+        createTestDataService.createTestDataForOlsAccepte();
+        for (int i=0;i<25;i++){
         }
         return "ok";
     }

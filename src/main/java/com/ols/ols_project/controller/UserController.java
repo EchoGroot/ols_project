@@ -3,6 +3,7 @@ package com.ols.ols_project.controller;
 import com.alibaba.fastjson.JSON;
 import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.Result;
+import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,21 +59,44 @@ public class UserController {
     @RequestMapping(value = "/getAcceptTaskByUserId",method = RequestMethod.GET)
     @ResponseBody
     public String getAcceptTaskByUserId(
-            @RequestParam(value = "id",required=false) Integer id,
-            @RequestParam(value = "query",required=false) String query,
-            @RequestParam(value = "pagenum",required=false) Integer pagenum,
-            @RequestParam(value = "pagesize",required=false) Integer pagesize
+            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "pagenum") Integer pagenum,
+            @RequestParam(value = "pagesize") Integer pagesize
     ){
         System.out.println("id:"+id);
         System.out.println("query:"+query);
         System.out.println("pagenum:"+pagenum);
         System.out.println("pagesize:"+pagesize);
-        List<AcceptTask> acceptTaskByUserId = userService.getAcceptTaskByUserId(id, query, pagenum, pagesize
+        List<List<AcceptTask>> acceptTaskByUserId = userService.getAcceptTaskByUserId(id, query, pagenum, pagesize
         );
-        System.out.println(acceptTaskByUserId);
+        System.out.println(acceptTaskByUserId.get(0));
+        System.out.println(acceptTaskByUserId.get(1).get(0));
         HashMap<String,Object> data=new HashMap<>();
-        data.put("taskList",acceptTaskByUserId);
+        data.put("taskList",acceptTaskByUserId.get(0));
+        data.put("total",acceptTaskByUserId.get(1).get(0));
         return JSON.toJSONStringWithDateFormat(new Result(data,"200","获取已接受任务成功"),"yyyy-mm-dd hh:mm:ss");
+    }
+
+    @RequestMapping(value = "/getReleaseTaskByUserId",method = RequestMethod.GET)
+    @ResponseBody
+    public String getReleaseTaskByUserId(
+            @RequestParam(value = "id") Integer id,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "pagenum") Integer pagenum,
+            @RequestParam(value = "pagesize") Integer pagesize
+    ){
+        System.out.println("id:"+id);
+        System.out.println("query:"+query);
+        System.out.println("pagenum:"+pagenum);
+        System.out.println("pagesize:"+pagesize);
+        List<List<TaskEntity>> releaseTaskByUserId = userService.getReleaseTaskByUserId(id, query, pagenum, pagesize);
+        System.out.println(releaseTaskByUserId.get(0));
+        System.out.println(releaseTaskByUserId.get(1).get(0));
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("taskList",releaseTaskByUserId.get(0));
+        data.put("total",releaseTaskByUserId.get(1).get(0));
+        return JSON.toJSONStringWithDateFormat(new Result(data,"200","获取已发布任务成功"),"yyyy-mm-dd hh:mm:ss");
     }
 
 

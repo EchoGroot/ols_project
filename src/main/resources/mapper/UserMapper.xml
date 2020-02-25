@@ -12,9 +12,9 @@
           id=#{id}
     </select>
 
-    <select id="getAcceptTaskByUserId" resultMap="AcceptTaskMap">
+    <select id="getAcceptTaskByUserId" resultMap="AcceptTaskMap,total">
         select
-           ols_task.id as ols_task_id,
+           SQL_CALC_FOUND_ROWS ols_task.id as ols_task_id,
            name,
            ols_task.url as ols_task_url,
            information,
@@ -41,7 +41,47 @@
             <when test="query == 'acceptfinish'">
                 and ols_accepte.state != 0
             </when>
+            <when test="query == 'acceptnotfinish'">
+                and ols_accepte.state = 0
+            </when>
           </choose>
+        limit
+          #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
+    <select id="getReleaseTaskByUserId" resultMap="ReleaseTaskMap,total">
+        SELECT
+            SQL_CALC_FOUND_ROWS id,
+            name,
+            url,
+            information,
+            points,
+            state,
+            type,
+            release_time,
+            finish_time,
+            release_user_id,
+            accepte_num,
+            adopt_accepte_id,
+            ext1,
+            ext2,
+            ext3
+        from
+            ols_task
+        where
+            release_user_id=#{id}
+            <choose>
+                <when test="query == 'releasefinish'">
+                    and state != 0
+                </when>
+                <when test="query == 'releasenotfinish'">
+                    and state = 0
+                </when>
+            </choose>
+        limit
+          #{start},#{end};
+        SELECT FOUND_ROWS() as total;
     </select>
 
     <select id="getPassWodById" resultType="String">
@@ -81,5 +121,27 @@
         <result column="ols_accept_finish_time" property="ols_accept_finish_time" />
         <result column="ols_accepte_state" property="ols_accepte_state" />
         <result column="ols_accepte_url" property="ols_accepte_url" />
+    </resultMap>
+
+    <resultMap id="ReleaseTaskMap" type="com.ols.ols_project.model.TaskEntity" >
+        <id column="id" property="id"  />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="information" property="information" />
+        <result column="points" property="points" />
+        <result column="state" property="state" />
+        <result column="type" property="type" />
+        <result column="release_time" property="release_time" />
+        <result column="finish_time" property="finish_time" />
+        <result column="release_user_id" property="release_user_id" />
+        <result column="accepte_num" property="accepte_num" />
+        <result column="adopt_accepte_id" property="adopt_accepte_id" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+    </resultMap>
+
+    <resultMap id="total" type="java.lang.Integer">
+        <result column="total"/>
     </resultMap>
 </mapper>

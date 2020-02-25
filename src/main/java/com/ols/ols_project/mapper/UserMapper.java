@@ -1,6 +1,7 @@
 package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.AcceptTask;
+import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface UserMapper {
 
     int changePassWordById(int id,String passWord);
 
-    List<AcceptTask> getAcceptTaskByUserId(int id, String query, int pageNum, int pageSize);
+    List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int start, int end);
+
+    List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int start, int end);
 }

@@ -23,7 +23,7 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 5
   datasource:
-    url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=UTC
+    url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=UTC&allowMultiQueries=true&useAffectedRows=true
     username: ${mysql.username:}
     password: ${mysql.password:}
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -8,4 +8,5 @@ package com.ols.ols_project.service;
 public interface CreateTestDataService {
     void createTestDataForOlsUser();
     void createTestDataForOlsTask();
+    void createTestDataForOlsAccepte();
 }
