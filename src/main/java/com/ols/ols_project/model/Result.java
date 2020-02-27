@@ -7,6 +7,7 @@ import lombok.ToString;
 import java.util.HashMap;
 
 /**
+ * 返回数据给前段的信息实体类
  * @author yuyy
  * @date 20-2-19 下午2:37
  */

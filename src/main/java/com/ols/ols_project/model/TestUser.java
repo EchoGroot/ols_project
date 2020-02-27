@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
+ * 测试项目基础功能的实体类
  * @author yuyy
  * @date 20-2-9 下午8:08
  */

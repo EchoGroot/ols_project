@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * 构建测试数据
  * @author yuyy
  * @date 20-2-17 下午7:29
  */
@@ -16,6 +17,10 @@ public class CreateTestDataController {
     @Autowired
     private CreateTestDataService createTestDataService;
 
+    /**
+     * 创建ols_user表的测试数据
+     * @return
+     */
     @RequestMapping("createTestDataForOlsUser")
     @ResponseBody
     public String createTestDataForOlsUser(){
@@ -25,6 +30,10 @@ public class CreateTestDataController {
         return "ok";
     }
 
+    /**
+     * 创建ols_task表的测试数据
+     * @return
+     */
     @RequestMapping("createTestDataForOlsTask")
     @ResponseBody
     public String createTestDataForOlsTask(){
@@ -34,6 +43,10 @@ public class CreateTestDataController {
         return "ok";
     }
 
+    /**
+     * 创建ols_accepte表的测试数据
+     * @return
+     */
     @RequestMapping("createTestDataForOlsAccepte")
     @ResponseBody
     public String createTestDataForOlsAccepte(){

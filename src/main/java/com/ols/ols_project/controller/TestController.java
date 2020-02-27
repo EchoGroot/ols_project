@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
+ * 测试项目基础功能（连接MySQL，redis）
  * @author yuyy
  * @date 20-2-9 下午8:18
  */
@@ -35,10 +36,7 @@ public class TestController {
         RedisTemplate<Object, Object> redisTemplate = redisConfig.getRedisTemplate();
         //配置value的Json格式存储
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(TestUser.class));
-
         redisTemplate.opsForValue().set("testkey",new TestUser());
-
-
         redisTemplate.opsForValue().set("dd","fdsfdsfsdfds");
         TestUser value = (TestUser)redisTemplate.opsForValue().get("testkey");
         System.out.println(value);

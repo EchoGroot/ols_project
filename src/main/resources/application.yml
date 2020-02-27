@@ -1,8 +1,4 @@
 spring:
-  cache:
-    ehcache:
-      config:
-        classpath: ehcache.xml
   redis:
     # Redis服务器地址
     host: ${redis.ip:127.0.0.1}
@@ -22,15 +18,16 @@ spring:
         max-idle: 10
         # 连接池中的最小空闲连接
         min-idle: 5
+  #MySQL配置
   datasource:
     url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=UTC&allowMultiQueries=true&useAffectedRows=true
     username: ${mysql.username:}
     password: ${mysql.password:}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  #数据库连接池
   type: com.alibaba.druid.pool.DruidDataSource
-
+#mybatis配置
 mybatis:
-  #type-aliases-package: com.yuyy.springbootdemo.pojo
   mapper-locations: classpath*:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

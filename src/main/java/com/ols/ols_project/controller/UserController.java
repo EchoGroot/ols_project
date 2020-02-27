@@ -25,15 +25,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 获取用户信息
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
-        System.out.println(param.get("id"));
         UserEntity userInfoById = userService.getUserInfoById(Integer.parseInt((String) param.get("id")));
         if(userInfoById == null){
             Result result = new Result("201", "未找到该用户");
-            System.out.println("result:"+result);
-            System.out.println("res"+JSON.toJSONString(result));
             return JSON.toJSONString(result);
         }
         HashMap<String,Object> data=new HashMap<>();
@@ -41,6 +43,11 @@ public class UserController {
         return JSON.toJSONString(new Result(data,"200","获取用户信息成功"));
     }
 
+    /**
+     * 更改密码
+     * @param param
+     * @return
+     */
     @RequestMapping(value = "/changePassWord",method = RequestMethod.POST)
     @ResponseBody
     public String changePassWord(@RequestBody HashMap<String,Object> param){
@@ -56,6 +63,14 @@ public class UserController {
         return JSON.toJSONString(new Result("202","修改密码失败，原密码错误"));
     }
 
+    /**
+     * 获取用户已接受的任务
+     * @param id
+     * @param query
+     * @param pagenum
+     * @param pagesize
+     * @return
+     */
     @RequestMapping(value = "/getAcceptTaskByUserId",method = RequestMethod.GET)
     @ResponseBody
     public String getAcceptTaskByUserId(
@@ -64,20 +79,22 @@ public class UserController {
             @RequestParam(value = "pagenum") Integer pagenum,
             @RequestParam(value = "pagesize") Integer pagesize
     ){
-        System.out.println("id:"+id);
-        System.out.println("query:"+query);
-        System.out.println("pagenum:"+pagenum);
-        System.out.println("pagesize:"+pagesize);
         List<List<AcceptTask>> acceptTaskByUserId = userService.getAcceptTaskByUserId(id, query, pagenum, pagesize
         );
-        System.out.println(acceptTaskByUserId.get(0));
-        System.out.println(acceptTaskByUserId.get(1).get(0));
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskList",acceptTaskByUserId.get(0));
         data.put("total",acceptTaskByUserId.get(1).get(0));
         return JSON.toJSONStringWithDateFormat(new Result(data,"200","获取已接受任务成功"),"yyyy-mm-dd hh:mm:ss");
     }
 
+    /**
+     * 获取用户已发布的任务
+     * @param id
+     * @param query
+     * @param pagenum
+     * @param pagesize
+     * @return
+     */
     @RequestMapping(value = "/getReleaseTaskByUserId",method = RequestMethod.GET)
     @ResponseBody
     public String getReleaseTaskByUserId(
@@ -86,13 +103,7 @@ public class UserController {
             @RequestParam(value = "pagenum") Integer pagenum,
             @RequestParam(value = "pagesize") Integer pagesize
     ){
-        System.out.println("id:"+id);
-        System.out.println("query:"+query);
-        System.out.println("pagenum:"+pagenum);
-        System.out.println("pagesize:"+pagesize);
         List<List<TaskEntity>> releaseTaskByUserId = userService.getReleaseTaskByUserId(id, query, pagenum, pagesize);
-        System.out.println(releaseTaskByUserId.get(0));
-        System.out.println(releaseTaskByUserId.get(1).get(0));
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskList",releaseTaskByUserId.get(0));
         data.put("total",releaseTaskByUserId.get(1).get(0));

@@ -39,7 +39,6 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         userEntity.setEmail(GenerateString.generateNumber(10)+"@qq.com");
         userEntity.setRole(Math.random()>0.5?1:0);
         userEntity.setPoints(random.nextInt(1000));
-        //System.out.println(userEntity);
         createTestDataMapper.createTestDataForOlsUser(userEntity);
     }
 
@@ -73,8 +72,6 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         ));
         taskEntity.setRelease_user_id(11003);
         taskEntity.setAccepte_num(1);
-        //taskEntity.setAdopt_accepte_id();
-//        System.out.println(taskEntity);
         createTestDataMapper.createTestDataForOlsTask(taskEntity);
     }
 

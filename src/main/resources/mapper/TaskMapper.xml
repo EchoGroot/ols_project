@@ -33,7 +33,7 @@
           and ols_accepte.id = #{accepteId}
     </select>
 
-    <select id="getAccepteTaskInfoByAcceptId" resultType="java.lang.String">
+    <select id="getAccepteTaskInfoByAcceptId" resultType="com.ols.ols_project.model.AccepteEntity">
         select
           id,
           user_id,
@@ -51,7 +51,12 @@
           id=#{accepteId}
     </select>
 
-    <update id="storeImageLabelInfoByAccepteId" parameterType="com.ols.ols_project.model.AccepteEntity">
-
+    <update id="storeImageLabelInfoByAccepteId">
+      update
+        ols_accepte
+      set
+        url=#{url}
+      where
+        id=#{accepteId}
     </update>
 </mapper>
