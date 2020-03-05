@@ -78,14 +78,31 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!-- 打包时移除嵌入式tomcat插件 -->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>org.springframework.boot</groupId>-->
+                    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
 
+        <!--使用外部tomcat容器时需要-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--Lombok坐标-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
+        <!--单元测试模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -104,7 +121,13 @@
         </dependency>
     </dependencies>
 
+    <!--打包格式-->
+    <packaging>war</packaging>
+
     <build>
+        <!--打包最终命名-->
+        <finalName>ols_project</finalName>
+        <!--maven的构建插件-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
