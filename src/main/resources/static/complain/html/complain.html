@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>在线标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link id="layuicss-layer" href="https://www.layui.com/template/fly/demo/res/layui/css/modules/layer/default/layer.css?v=3.1.0" rel="stylesheet" media="all">
+    <script src="../layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-container fly-marginTop">
+    <div class="fly-panel" pad20 style="padding-top: 5px;">
+        <!--<div class="fly-none">没有权限</div>-->
+        <div class="layui-form layui-form-pane">
+            <div class="layui-tab layui-tab-brief" lay-filter="user">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">投诉</li>
+                </ul>
+                <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+                    <div class="layui-tab-item layui-show">
+                        <form action="" method="post">
+                            <div class="layui-row layui-col-space15 layui-form-item">
+                                <div class="layui-col-md3">
+                                    <label class="layui-form-label">所在专栏</label>
+                                    <div class="layui-input-block">
+                                        <select lay-verify="required" name="class" lay-filter="column">
+                                            <option></option>
+                                            <option value="0">图片标注</option>
+                                            <option value="99">文字标注</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md9">
+                                    <label for="L_title" class="layui-form-label">投诉理由</label>
+                                    <div class="layui-input-block">
+                                        <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                                        <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <div class="layui-input-block">
+
+
+
+
+
+                                    <div class="layui-unselect fly-edit">
+                                        <span title="插入表情" type="face">
+                                            <i class="iconfont icon-yxj-expression" style="top: 1px;"></i>
+                                        </span>
+                                        <span title="插入图片：img[src]" type="picture">
+                                            <i class="iconfont icon-tupian"></i>
+                                        </span>
+                                        <span title="预览" type="yulan">
+                                            <i class="iconfont icon-yulan1"></i>
+                                        </span>
+                                    </div>
+
+
+
+                                    <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label for="L_vercode" class="layui-form-label">人类验证</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-form-mid">
+                                    <span style="color: #c00;">1+1=?</span>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-filter="*" lay-submit>立即发布</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../layui/layui.js">
+</script>
+
+
+
+</body>
+</html>
