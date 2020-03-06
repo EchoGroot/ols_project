@@ -31,6 +31,7 @@ public class UserController {
      * @param param
      * @return
      */
+
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
