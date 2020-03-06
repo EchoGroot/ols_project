@@ -4,6 +4,7 @@ import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -54,4 +55,12 @@ public interface UserService {
      * @return
      */
     List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int pageNum, int pageSize);
+
+    /**
+     * 查询待批准的审核者注册账号
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    HashMap<String, Object> getReviewerSignUp(Integer pageNum, Integer pageSize);
 }

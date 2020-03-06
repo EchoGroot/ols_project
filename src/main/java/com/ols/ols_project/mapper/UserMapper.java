@@ -21,4 +21,6 @@ public interface UserMapper {
     List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int start, int end);
 
     List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int start, int end);
+
+    List<List<UserEntity>> getReviewerSignUp(int start, Integer end);
 }

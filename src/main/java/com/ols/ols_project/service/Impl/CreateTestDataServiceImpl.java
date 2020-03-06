@@ -37,8 +37,8 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         userEntity.setPassword(GenerateString.generateString(8));
         userEntity.setSex(Math.random()>0.5?"男":"女");
         userEntity.setEmail(GenerateString.generateNumber(10)+"@qq.com");
-        userEntity.setRole(Math.random()>0.5?1:0);
-        userEntity.setPoints(random.nextInt(1000));
+        userEntity.setRole(2);
+        userEntity.setExt1("0");
         createTestDataMapper.createTestDataForOlsUser(userEntity);
     }
 

@@ -27,13 +27,16 @@ public class UserController {
 
     /**
      * 获取用户信息
+     * id：用户ID
      * @param param
      * @return
      */
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
-        UserEntity userInfoById = userService.getUserInfoById(Integer.parseInt((String) param.get("id")));
+        UserEntity userInfoById = userService.getUserInfoById(
+                Integer.parseInt((String) param.get("id"))
+        );
         if(userInfoById == null){
             Result result = new Result("201", "未找到该用户");
             return JSON.toJSONString(result);
@@ -109,6 +112,25 @@ public class UserController {
         data.put("total",releaseTaskByUserId.get(1).get(0));
         return JSON.toJSONStringWithDateFormat(new Result(data,"200","获取已发布任务成功"),"yyyy-mm-dd hh:mm:ss");
     }
+
+    /**
+     * 查询待批准的审核者注册账号
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/getReviewerSignUp",method = RequestMethod.GET)
+    @ResponseBody
+    public String getReleaseTaskByUserId(
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize
+    ){
+        HashMap<String, Object> data = userService.getReviewerSignUp(pageNum, pageSize);
+        // layui默认数据表格的status为0才显示数据
+        return JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-mm-dd");
+    }
+
+
 
 
 }

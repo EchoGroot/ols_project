@@ -9,7 +9,7 @@
         <script src="/js/jquery-3.4.1.js"></script>
         <script src="./js/AdminPage.js"></script>
     </head>
-    <body class="layui-layout-body">
+    <body class="layui-layout-body close-footer">
         <div class="layui-layout layui-layout-admin">
             <div class="layui-header">
                 <div class="layui-logo">OLS 后台管理</div>
@@ -53,15 +53,11 @@
             </div>
 
 
-            <div class="layui-body">
+            <div class="layui-body close-footer" id="iframeContainer">
                 <!-- 内容主体区域 -->
-                <iframe id="iframeMain" src="" style="width: 100%"; height="100%";></iframe>
+                <iframe id="iframeMain" src="./AdminInfo.html" style="width: 100%;height: 100%";></iframe>
             </div>
 
-            <div class="layui-footer">
-                <!-- 底部固定区域 -->
-                © layui.com - 底部固定区域
-            </div>
         </div>
     </body>
 </html>

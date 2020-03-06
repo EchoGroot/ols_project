@@ -24,7 +24,7 @@ public class CreateTestDataController {
     @RequestMapping("createTestDataForOlsUser")
     @ResponseBody
     public String createTestDataForOlsUser(){
-        for (int i=0;i<1000;i++){
+        for (int i=0;i<100;i++){
             createTestDataService.createTestDataForOlsUser();
         }
         return "ok";
