@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在线标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <link rel="stylesheet" href="../complain/css/global.css">
+</head>
+<body>
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" href="/">
+            <img src="image/logo1.png" height="50" width="270"/>
+        </a>
+        <ul class="layui-nav fly-nav-user">
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+              <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+            </li>
+            <li class="layui-nav-item">
+              <a href="user/login.html">登入</a>
+            </li>
+            <li class="layui-nav-item">
+              <a href="user/reg.html">注册</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+              <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+              <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="fly-panel fly-column">
+    <div class="layui-container">
+        <ul class="layui-clear">
+            <li class="layui-hide-xs">任务大厅</li>
+            <li class="layui-this"><a href="">提问</a></li>
+            <li><a href="">建议</a></li>
+            <li><a href="">公告</a></li>
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
+
+            <!-- 用户登入后显示 -->
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我接受的任务</a></li>
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我发布的任务</a></li>
+        </ul>
+
+        <div class="fly-column-right layui-hide-xs">
+            <span class="fly-search"><i class="layui-icon"></i></span>
+            <a href="add.html" class="layui-btn">发布任务</a>
+        </div>
+        <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+            <a href="add.html" class="layui-btn">发布任务</a>
+        </div>
+    </div>
+</div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="fly-panel" style="margin-bottom: 0;">
+
+                <div class="fly-panel-title fly-filter">
+                    <a href="" class="layui-this">综合</a>
+                    <span class="fly-mid"></span>
+                    <a href="">未结</a>
+                    <span class="fly-mid"></span>
+                    <a href="">已结</a>
+                    <span class="fly-filter-right layui-hide-xs">
+            <a href="" class="layui-this">按最新</a>
+            <span class="fly-mid"></span>
+            <a href="">按热度</a>
+          </span>
+                </div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <dl class="fly-panel fly-list-one">
+                <dt class="fly-panel-title">排行榜</dt>
+
+                <!-- 无数据时 -->
+
+                <div class="fly-none">没有相关数据</div>
+
+            </dl>
+
+            <div class="fly-panel">
+                <div class="fly-panel-title">
+                    这里可作为广告区域
+                </div>
+                <div class="fly-panel-main">
+                    <a href="" target="_blank" class="fly-zanzhu" style="background-color: #393D49;">虚席以待</a>
+                </div>
+            </div>
+
+            <div class="fly-panel fly-link">
+                <h3 class="fly-panel-title">友情链接</h3>
+                <dl class="fly-panel-main">
+                    <dd>申请友链<dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="fly-footer">
+    <p> 2020 &copy;啦啦啦啦 </p>
+</div>
+
+
+</body>
+</html>
