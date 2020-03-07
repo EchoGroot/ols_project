@@ -104,24 +104,67 @@
 
     <select id="getReviewerSignUp" resultMap="UserMap,total">
         SELECT
-          SQL_CALC_FOUND_ROWS id,
+          SQL_CALC_FOUND_ROWS ols_user.id,
           name,
           birthday,
           sex,
           email,
           role,
           points,
-          ext1,
-          ext2,
-          ext3
+          ols_user.ext1,
+          ols_user.ext2,
+          ols_user.ext3,
+          ols_user_operation_log.time as signUpTime
         from
-          ols_user
+          ols_user,ols_user_operation_log
         where
-          role=2 and ext1='0'
+          role=2
+          and ols_user_operation_log.user_id=ols_user.id
+        <if test="searchInfo != ''">
+            and name like '%${searchInfo}%'
+        </if>
+        <choose>
+            <when test="queryInfo == 'notHandled'">
+                and ols_user.ext1 like '0'
+            </when>
+            <when test="queryInfo == 'passed'">
+                and ols_user.ext1 like '1'
+            </when>
+            <when test="queryInfo == 'notPassed'">
+                and ols_user.ext1 like '2'
+            </when>
+            <when test="queryInfo == 'man'">
+                and ols_user.sex like '男'
+            </when>
+            <when test="queryInfo == 'wuman'">
+                and ols_user.sex like '女'
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY signUpTime
+        </if>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY signUpTime DESC
+        </if>
         limit
         #{start},#{end};
         SELECT FOUND_ROWS() as total;
     </select>
+
+    <update id="yesAndNoReviewerSignUp">
+        update
+          ols_user
+        set
+          ext1 =
+          <if test="operation == 'yes'">
+              '1'
+          </if>
+          <if test="operation == 'no'">
+              '2'
+          </if>
+        where
+          id = #{userId}
+    </update>
 
     <resultMap id="AcceptTaskMap" type="com.ols.ols_project.model.AcceptTask" >
         <id column="ols_task_id" property="ols_task_id"  />
@@ -162,7 +205,7 @@
         <result column="ext3" property="ext3" />
     </resultMap>
 
-    <resultMap id="UserMap" type="com.ols.ols_project.model.UserEntity" >
+    <resultMap id="UserMap" type="com.ols.ols_project.model.UserSignUp" >
         <id column="id" property="id"  />
         <result column="name" property="name" />
         <result column="birthday" property="birthday" />
@@ -170,6 +213,7 @@
         <result column="email" property="email" />
         <result column="role" property="role" />
         <result column="points" property="points" />
+        <result column="signUpTime" property="signUpTime" />
         <result column="ext1" property="ext1" />
         <result column="ext2" property="ext2" />
         <result column="ext3" property="ext3" />

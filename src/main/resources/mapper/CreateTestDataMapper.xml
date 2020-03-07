@@ -69,4 +69,29 @@
             #{ext3}
           )
     </insert>
+
+    <insert id="createTestDataForOlsUserOperationLog" parameterType="com.ols.ols_project.model.UserOperationLogEntity">
+        insert into ols_user_operation_log
+          (
+            id,
+            user_id,
+            type,
+            operation,
+            time,
+            ext1,
+            ext2,
+            ext3
+          )
+        values
+          (
+            #{id},
+            #{user_id},
+            #{type},
+            #{operation},
+            #{time},
+            #{ext1},
+            #{ext2},
+            #{ext3}
+          )
+    </insert>
 </mapper>

@@ -6,6 +6,7 @@ import com.ols.ols_project.mapper.CreateTestDataMapper;
 import com.ols.ols_project.model.AccepteEntity;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
+import com.ols.ols_project.model.UserOperationLogEntity;
 import com.ols.ols_project.service.CreateTestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
     private CreateTestDataMapper createTestDataMapper;
 
     @Override
-    public void createTestDataForOlsUser() {
+    public void createTestDataForOlsUser(int userIdStart) {
         UserEntity userEntity=new UserEntity();
         Random random = new Random();
         userEntity.setName(GenerateNameOfPerson.randomName(true,3));
@@ -37,9 +38,26 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         userEntity.setPassword(GenerateString.generateString(8));
         userEntity.setSex(Math.random()>0.5?"男":"女");
         userEntity.setEmail(GenerateString.generateNumber(10)+"@qq.com");
+        //2：审核者
         userEntity.setRole(2);
+        //0：待处理
         userEntity.setExt1("0");
         createTestDataMapper.createTestDataForOlsUser(userEntity);
+        createTestDataMapper.createTestDataForOlsUserOperationLog(
+                UserOperationLogEntity.builder()
+                        .user_id(userIdStart)
+                        //0：注册
+                        .type(0)
+                        .time(new Timestamp(
+                        119,
+                        random.nextInt(6)+1,
+                        random.nextInt(28)+1,
+                        random.nextInt(24),
+                        random.nextInt(60),
+                        random.nextInt(60),
+                        random.nextInt(10000000)
+                )).build()
+        );
     }
 
     @Override
