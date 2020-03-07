@@ -4,7 +4,7 @@ import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
-import com.ols.ols_project.model.UserEntityBo;
+import com.ols.ols_project.model.UserSignUp;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,28 +50,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String, Object> getReviewerSignUp(Integer pageNum, Integer pageSize) {
-        List<List<UserEntity>> list = userMapper.getReviewerSignUp((pageNum - 1) * pageSize, pageSize);
+    public HashMap<String, Object> getReviewerSignUp(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize) {
+        List<List<UserSignUp>> list = userMapper.getReviewerSignUp( queryInfo, searchInfo ,(pageNum - 1) * pageSize, pageSize);
         HashMap<String,Object> result=new HashMap<>();
         List<Object> listBo=new ArrayList<>();
         list.get(0).stream().forEach(userEntity -> {
-            UserEntityBo userEntityBo = new UserEntityBo();
-            userEntityBo.setId(userEntity.getId());
-            userEntityBo.setName(userEntity.getName());
-            userEntityBo.setBirthday((userEntity.getBirthday()));
-            userEntityBo.setSex(userEntity.getSex());
-            userEntityBo.setEmail(userEntity.getEmail());
-            userEntityBo.setRole("审核者");
+            UserSignUp userSignUp = new UserSignUp();
+            userSignUp.setId(userEntity.getId());
+            userSignUp.setName(userEntity.getName());
+            userSignUp.setBirthday((userEntity.getBirthday()));
+            userSignUp.setSex(userEntity.getSex());
+            userSignUp.setEmail(userEntity.getEmail());
+            userSignUp.setRole("审核者");
             switch (userEntity.getExt1()){
-                case "0":userEntityBo.setExt1("待处理");break;
-                case "1":userEntityBo.setExt1("通过");break;
-                case "2":userEntityBo.setExt1("不通过");break;
-                default:userEntityBo.setExt1("");break;
+                case "0":userSignUp.setExt1("待处理");break;
+                case "1":userSignUp.setExt1("通过");break;
+                case "2":userSignUp.setExt1("不通过");break;
+                default:userSignUp.setExt1("");break;
             }
-            listBo.add(userEntityBo);
+            userSignUp.setSignUpTime(userEntity.getSignUpTime());
+            listBo.add(userSignUp);
         });
         result.put("total",list.get(1).get(0));
         result.put("userList",listBo);
         return result;
     }
+
+    @Override
+    public int yesAndNoReviewerSignUp(Integer userId, String operation) {
+        return userMapper.yesAndNoReviewerSignUp(userId,operation);
+    }
+
 }
