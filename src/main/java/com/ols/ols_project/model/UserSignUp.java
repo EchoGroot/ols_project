@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * ols_user表的实体类的业务对象
@@ -19,7 +20,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class UserEntityBo {
+public class UserSignUp {
 
     /**
      * 主键
@@ -63,6 +64,11 @@ public class UserEntityBo {
     private Integer points;
 
     /**
+     * 注册时间
+     */
+    private Timestamp signUpTime;
+
+    /**
      * 备用字段1
      * 审核者账号是否批准
      */
@@ -91,7 +97,7 @@ public class UserEntityBo {
      * @param ext2
      * @param ext3
      */
-    public UserEntityBo(Integer id, String name, Date birthday, String sex, String email, String role, Integer points, String ext1, String ext2, String ext3) {
+    public UserSignUp(Integer id, String name, Date birthday, String sex, String email, String role, Integer points, String ext1, String ext2, String ext3) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;

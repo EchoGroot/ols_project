@@ -62,5 +62,10 @@ public interface UserService {
      * @param pageSize
      * @return
      */
-    HashMap<String, Object> getReviewerSignUp(Integer pageNum, Integer pageSize);
+    HashMap<String, Object> getReviewerSignUp(String queryInfo,String searchInfo,Integer pageNum, Integer pageSize);
+
+    /**
+     * 管理员同意或不同意审核者账号注册
+     */
+    int yesAndNoReviewerSignUp(Integer userId,String operation);
 }

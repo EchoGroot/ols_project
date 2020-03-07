@@ -115,7 +115,7 @@ public class UserController {
     }
 
     /**
-     * 查询待批准的审核者注册账号
+     * 查询审核者注册账号
      * @param pageNum
      * @param pageSize
      * @return
@@ -124,12 +124,39 @@ public class UserController {
     @ResponseBody
     public String getReleaseTaskByUserId(
             @RequestParam(value = "page") Integer pageNum,
-            @RequestParam(value = "limit") Integer pageSize
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String  queryInfo,
+            @RequestParam(value = "searchInfo") String  searchInfo
     ){
-        HashMap<String, Object> data = userService.getReviewerSignUp(pageNum, pageSize);
+        System.out.println(queryInfo+searchInfo);
+        HashMap<String, Object> data = userService.getReviewerSignUp(queryInfo,searchInfo,pageNum, pageSize);
         // layui默认数据表格的status为0才显示数据
-        return JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-mm-dd");
+        return JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-MM-dd");
     }
+
+    /**
+     * 管理员同意或不同意审核者账号注册
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
+    @ResponseBody
+    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param){
+        if("yes".equals((String) param.get("operation"))){
+            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userId"),(String) param.get("operation"))){
+                return JSON.toJSONString(new Result("200","同意注册成功"));
+            }
+            return JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
+        }else {
+            if(1==userService.yesAndNoReviewerSignUp((Integer) param.get("userId"),(String) param.get("operation"))){
+                return JSON.toJSONString(new Result("200","不同意注册成功"));
+            }
+            return JSON.toJSONString(new Result("201","不同意注册失败，请刷新页面"));
+        }
+
+    }
+
+
 
 
 

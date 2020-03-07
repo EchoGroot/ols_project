@@ -18,14 +18,15 @@ public class CreateTestDataController {
     private CreateTestDataService createTestDataService;
 
     /**
-     * 创建ols_user表的测试数据
+     * 创建ols_user表和ols_user_operation_log的测试数据
      * @return
      */
     @RequestMapping("createTestDataForOlsUser")
     @ResponseBody
     public String createTestDataForOlsUser(){
-        for (int i=0;i<100;i++){
-            createTestDataService.createTestDataForOlsUser();
+        int userIdStart=11777;
+        for (int i=0;i<567;i++){
+            createTestDataService.createTestDataForOlsUser(++userIdStart);
         }
         return "ok";
     }
