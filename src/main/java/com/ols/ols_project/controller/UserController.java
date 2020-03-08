@@ -1,6 +1,7 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.TaskEntity;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SendEmailBy126 sendEmailBy126;
 
     /**
      * 获取用户信息
@@ -141,14 +146,26 @@ public class UserController {
      */
     @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
     @ResponseBody
-    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param){
+    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) throws MessagingException {
         if("yes".equals((String) param.get("operation"))){
             if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userId"),(String) param.get("operation"))){
+                //给审核者发送邮件提醒
+                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userId"));
+                sendEmailBy126.sendEmail(
+                        userInfo.getEmail()
+                        ,"Ols系统通知"
+                        ,"恭喜您注册的审核者账号通过管理员的批准，可以正常使用了。");
                 return JSON.toJSONString(new Result("200","同意注册成功"));
             }
             return JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
         }else {
             if(1==userService.yesAndNoReviewerSignUp((Integer) param.get("userId"),(String) param.get("operation"))){
+                //给审核者发送邮件提醒
+                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userId"));
+                sendEmailBy126.sendEmail(
+                        userInfo.getEmail()
+                        ,"Ols系统通知"
+                        ,"Sorry!您注册的审核者账号未能通过管理员的批准，请联系Ols管理员。");
                 return JSON.toJSONString(new Result("200","不同意注册成功"));
             }
             return JSON.toJSONString(new Result("201","不同意注册失败，请刷新页面"));

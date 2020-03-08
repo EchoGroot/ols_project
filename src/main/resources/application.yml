@@ -20,16 +20,26 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   #数据库连接池
   type: com.alibaba.druid.pool.DruidDataSource
-  mvc:
-    #配置访问静态资源的地址
-    #static-path-pattern: /static/**
-    #static-path-pattern: /**
-  resources:
-    #配置一个或者多个静态资源路径(文件夹)
-    #static-locations: /static/
-    #static-locations: classpath:/
+
 #mybatis配置
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#邮箱配置
+email:
+  #邮箱账户
+  account: ${email.account:}
+  #第三方代理授权码
+  authorizationCode: ${email.authorizationCode:}
+task:
+  pool:
+    #核心线程池大小
+    corePoolSize: 10
+    #最大线程数
+    maxPoolSize: 20
+    #活跃时间
+    task.pool.keepAliveSeconds: 300
+    #队列容量
+    task.pool.queueCapacity: 20
