@@ -1,13 +1,11 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,6 @@ import java.util.List;
  * @author yuyy
  * @date 20-2-18 下午3:56
  */
-@Slf4j
 @Controller
 @RequestMapping("user")
 public class UserController {
@@ -28,12 +25,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private SendEmailBy126 sendEmailBy126;
-
     /**
      * 获取用户信息
-     * userId：用户ID
+     * id：用户ID
      * @param param
      * @return
      */
@@ -41,21 +35,16 @@ public class UserController {
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
-        log.info("用户ID：{}，获取用户信息",(String) param.get("userId"));
-        String resultStr=null;
         UserEntity userInfoById = userService.getUserInfoById(
-                Integer.parseInt((String)param.get("userId"))
+                Integer.parseInt((String) param.get("id"))
         );
         if(userInfoById == null){
             Result result = new Result("201", "未找到该用户");
-            resultStr= JSON.toJSONString(result);
-        }else{
-            HashMap<String,Object> data=new HashMap<>();
-            data.put("userInfo",userInfoById);
-            resultStr= JSON.toJSONStringWithDateFormat(new Result(data,"200","获取用户信息成功"),"yyyy-MM-dd");
+            return JSON.toJSONString(result);
         }
-        log.info("用户ID：{}，获取用户信息，result：{}",(String) param.get("userId"),resultStr);
-        return resultStr;
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("userInfo",userInfoById);
+        return JSON.toJSONString(new Result(data,"200","获取用户信息成功"));
     }
 
     /**
@@ -66,22 +55,16 @@ public class UserController {
     @RequestMapping(value = "/changePassWord",method = RequestMethod.POST)
     @ResponseBody
     public String changePassWord(@RequestBody HashMap<String,Object> param){
-        log.info("用户ID：{}，更改密码",(String) param.get("id"));
-        String resultStr = null;
         String passWodById = userService.getPassWodById(Integer.parseInt((String) param.get("id")));
         if(passWodById.equals((String) param.get("oldpassword"))){
             if(1==userService.changePassWordById(
                     Integer.parseInt((String) param.get("id")),
                     (String)param.get("newpassword"))){
-                resultStr= JSON.toJSONString(new Result("200","修改密码成功"));
-            }else{
-                resultStr= JSON.toJSONString(new Result("201","修改密码失败"));
+                return JSON.toJSONString(new Result("200","修改密码成功"));
             }
-        }else {
-            resultStr=JSON.toJSONString(new Result("202","修改密码失败，原密码错误"));
+            return JSON.toJSONString(new Result("201","修改密码失败"));
         }
-        log.info("用户ID：{}，更改密码,result:{}",(String) param.get("id"),resultStr);
-        return resultStr;
+        return JSON.toJSONString(new Result("202","修改密码失败，原密码错误"));
     }
 
     /**
@@ -139,70 +122,43 @@ public class UserController {
      */
     @RequestMapping(value = "/getReviewerSignUp",method = RequestMethod.GET)
     @ResponseBody
-    public String getReleaseTaskByUserId(
-            @RequestParam(value = "userId") Integer userId,
+    public String getReviewerSignUp(
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
             @RequestParam(value = "queryInfo") String  queryInfo,
             @RequestParam(value = "searchInfo") String  searchInfo
     ){
-        log.info("管理员ID：{}，查询审核者注册账号，pageNum:{},pageSize:{},queryInfo:{},searchInfo:{}",userId,pageNum,pageSize,queryInfo,searchInfo);
+        System.out.println(queryInfo+searchInfo);
         HashMap<String, Object> data = userService.getReviewerSignUp(queryInfo,searchInfo,pageNum, pageSize);
         // layui默认数据表格的status为0才显示数据
-        String result=JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-MM-dd");
-        log.info("管理员ID：{}，查询审核者注册账号，result:{}",userId,result);
-        return result;
+        return JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-MM-dd");
     }
 
     /**
      * 管理员同意或不同意审核者账号注册
-     * userIdOfSignUp：操作的审核者账号
-     * userId：管理员帐号
-     * operation：操作（同意注册，不同意注册）
      * @param param
      * @return
      */
     @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
     @ResponseBody
-    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) {
-        log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，管理员同意或不同意审核者账号注册"
-                ,(String)param.get("userId")
-                ,(Integer)param.get("userIdOfSignUp")
-                ,(String) param.get("operation")
-        );
-        String resultStr=null;
+    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param){
         if("yes".equals((String) param.get("operation"))){
-            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userIdOfSignUp"),(String) param.get("operation"))){
-                //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
-                sendEmailBy126.sendEmail(
-                        userInfo.getEmail()
-                        ,"Ols系统通知"
-                        ,"恭喜您注册的审核者账号通过管理员的批准，可以正常使用了。");
-                resultStr=JSON.toJSONString(new Result("200","同意注册成功"));
-            }else{
-                resultStr=JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
+            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userId"),(String) param.get("operation"))){
+                return JSON.toJSONString(new Result("200","同意注册成功"));
             }
+            return JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
         }else {
-            if (1 == userService.yesAndNoReviewerSignUp((Integer) param.get("userIdOfSignUp"), (String) param.get("operation"))) {
-                //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
-                sendEmailBy126.sendEmail(
-                        userInfo.getEmail()
-                        , "Ols系统通知"
-                        , "Sorry!您注册的审核者账号未能通过管理员的批准，请联系Ols管理员。");
-
-                resultStr = JSON.toJSONString(new Result("200", "不同意注册成功"));
-            }else{
-                resultStr = JSON.toJSONString(new Result("201", "不同意注册失败，请刷新页面"));
+            if(1==userService.yesAndNoReviewerSignUp((Integer) param.get("userId"),(String) param.get("operation"))){
+                return JSON.toJSONString(new Result("200","不同意注册成功"));
             }
+            return JSON.toJSONString(new Result("201","不同意注册失败，请刷新页面"));
         }
-        log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，result:{}"
-                , (String) param.get("userId")
-                , (Integer) param.get("userIdOfSignUp")
-                , (String) param.get("operation")
-                , resultStr
-        );
-        return resultStr;
+
     }
+
+
+
+
+
+
 }
