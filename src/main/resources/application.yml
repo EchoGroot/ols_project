@@ -43,3 +43,10 @@ task:
     task.pool.keepAliveSeconds: 300
     #队列容量
     task.pool.queueCapacity: 20
+#日志配置
+log:
+  #打包时应换成绝对路径
+  #对于windows系统来说，/home表示当前jar包所在的盘符
+  path: /home/logs
+  level: DEBUG
+  name: Ols_Project

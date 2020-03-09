@@ -7,11 +7,11 @@ import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import java.util.List;
  * @author yuyy
  * @date 20-2-18 下午3:56
  */
+@Slf4j
 @Controller
 @RequestMapping("user")
 public class UserController {
@@ -128,54 +129,69 @@ public class UserController {
     @RequestMapping(value = "/getReviewerSignUp",method = RequestMethod.GET)
     @ResponseBody
     public String getReleaseTaskByUserId(
+            @RequestParam(value = "userId") Integer userId,
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
             @RequestParam(value = "queryInfo") String  queryInfo,
             @RequestParam(value = "searchInfo") String  searchInfo
     ){
-        System.out.println(queryInfo+searchInfo);
+        log.info("管理员ID：{}，查询审核者注册账号，pageNum:{},pageSize:{},queryInfo:{},searchInfo:{}",userId,pageNum,pageSize,queryInfo,searchInfo);
         HashMap<String, Object> data = userService.getReviewerSignUp(queryInfo,searchInfo,pageNum, pageSize);
         // layui默认数据表格的status为0才显示数据
-        return JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-MM-dd");
+        String result=JSON.toJSONStringWithDateFormat(new Result(data,"0","获取待批准的审核者注册账号成功"),"yyyy-MM-dd");
+        log.info("管理员ID：{}，查询审核者注册账号，result:{}",userId,result);
+        return result;
     }
 
     /**
      * 管理员同意或不同意审核者账号注册
+     * userIdOfSignUp：操作的审核者账号
+     * userId：管理员帐号
+     * operation：操作（同意注册，不同意注册）
      * @param param
      * @return
      */
     @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
     @ResponseBody
-    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) throws MessagingException {
+    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) {
+        log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，管理员同意或不同意审核者账号注册"
+                ,(String)param.get("userId")
+                ,(Integer)param.get("userIdOfSignUp")
+                ,(String) param.get("operation")
+        );
+        String resultStr=null;
         if("yes".equals((String) param.get("operation"))){
-            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userId"),(String) param.get("operation"))){
+            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userIdOfSignUp"),(String) param.get("operation"))){
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userId"));
+                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
                         ,"Ols系统通知"
                         ,"恭喜您注册的审核者账号通过管理员的批准，可以正常使用了。");
-                return JSON.toJSONString(new Result("200","同意注册成功"));
+                resultStr=JSON.toJSONString(new Result("200","同意注册成功"));
+            }else{
+                resultStr=JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
             }
-            return JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
         }else {
-            if(1==userService.yesAndNoReviewerSignUp((Integer) param.get("userId"),(String) param.get("operation"))){
+            if (1 == userService.yesAndNoReviewerSignUp((Integer) param.get("userIdOfSignUp"), (String) param.get("operation"))) {
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userId"));
+                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
-                        ,"Ols系统通知"
-                        ,"Sorry!您注册的审核者账号未能通过管理员的批准，请联系Ols管理员。");
-                return JSON.toJSONString(new Result("200","不同意注册成功"));
+                        , "Ols系统通知"
+                        , "Sorry!您注册的审核者账号未能通过管理员的批准，请联系Ols管理员。");
+
+                resultStr = JSON.toJSONString(new Result("200", "不同意注册成功"));
+            }else{
+                resultStr = JSON.toJSONString(new Result("201", "不同意注册失败，请刷新页面"));
             }
-            return JSON.toJSONString(new Result("201","不同意注册失败，请刷新页面"));
         }
-
+        log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，result:{}"
+                , (String) param.get("userId")
+                , (Integer) param.get("userIdOfSignUp")
+                , (String) param.get("operation")
+                , resultStr
+        );
+        return resultStr;
     }
-
-
-
-
-
-
 }

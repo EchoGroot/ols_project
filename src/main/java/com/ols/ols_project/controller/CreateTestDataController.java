@@ -24,8 +24,8 @@ public class CreateTestDataController {
     @RequestMapping("createTestDataForOlsUser")
     @ResponseBody
     public String createTestDataForOlsUser(){
-        int userIdStart=11777;
-        for (int i=0;i<567;i++){
+        int userIdStart=12344;
+        for (int i=0;i<223;i++){
             createTestDataService.createTestDataForOlsUser(++userIdStart);
         }
         return "ok";
@@ -38,7 +38,7 @@ public class CreateTestDataController {
     @RequestMapping("createTestDataForOlsTask")
     @ResponseBody
     public String createTestDataForOlsTask(){
-        for (int i=0;i<1;i++){
+        for (int i=0;i<326;i++){
             createTestDataService.createTestDataForOlsTask();
         }
         return "ok";

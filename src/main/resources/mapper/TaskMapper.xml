@@ -59,4 +59,62 @@
       where
         id=#{accepteId}
     </update>
+
+    <select id="getNotCheckedTask" resultMap="TaskMap">
+        SELECT
+            id,
+            name,
+            url,
+            information,
+            points,
+            state,
+            type,
+            release_time,
+            finish_time,
+            release_user_id,
+            accepte_num,
+            adopt_accepte_id,
+            ext1,
+            ext2,
+            ext3
+        from
+            ols_task
+        where
+            ext2 like '${userId}'
+            and state = 4
+    </select>
+
+    <update id="setNotCheckedTaskForUser">
+        update
+          ols_task
+        set
+          ext2 = '${userId}'
+        where
+          state = 4
+          and ext2 is null
+        limit
+          #{count}
+    </update>
+
+    <resultMap id="TaskMap" type="com.ols.ols_project.model.TaskEntity" >
+        <id column="id" property="id"  />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="information" property="information" />
+        <result column="points" property="points" />
+        <result column="state" property="state" />
+        <result column="type" property="type" />
+        <result column="release_time" property="release_time" />
+        <result column="finish_time" property="finish_time" />
+        <result column="release_user_id" property="release_user_id" />
+        <result column="accepte_num" property="accepte_num" />
+        <result column="adopt_accepte_id" property="adopt_accepte_id" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+    </resultMap>
+
+    <resultMap id="total" type="java.lang.Integer">
+        <result column="total"/>
+    </resultMap>
 </mapper>

@@ -3,14 +3,12 @@ package com.ols.ols_project.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.ols.ols_project.mapper.TaskMapper;
-import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.AccepteEntity;
-import com.ols.ols_project.model.AccepteImageUrl;
-import com.ols.ols_project.model.LabelInfo;
+import com.ols.ols_project.model.*;
 import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,5 +44,42 @@ public class TaskServiceImpl implements TaskService {
             }
         });
         return taskMapper.storeImageLabelInfoByAccepteId(accepteTaskId,JSON.toJSONString(accepteImageUrl));
+    }
+
+    @Override
+    public List<TaskEntityBo> getNotCheckedTask(Integer userId) {
+        List<TaskEntity> entityList = taskMapper.getNotCheckedTask(userId);
+        List<TaskEntityBo> entryListBo=new ArrayList<>();
+        entityList.stream().forEach(
+                taskEntity -> {
+                    String type="";
+                    switch (taskEntity.getType()){
+                        case 0:type ="文档";break;
+                        case 1:type="图片";break;
+                    }
+                    entryListBo.add(
+                            TaskEntityBo.builder()
+                                    .id(taskEntity.getId())
+                                    .name(taskEntity.getName())
+                                    .url(taskEntity.getUrl())
+                                    .information(taskEntity.getInformation())
+                                    .points(taskEntity.getPoints())
+                                    .state("审核中")
+                                    .type(type)
+                                    .release_time(taskEntity.getRelease_time())
+                                    .release_user_id(taskEntity.getRelease_user_id())
+                                    .ext1(taskEntity.getExt1())
+                                    .ext2(taskEntity.getExt2())
+                                    .ext3(taskEntity.getExt3())
+                                    .build()
+                    );
+                }
+        );
+        return entryListBo;
+    }
+
+    @Override
+    public int setNotCheckedTaskForUser(Integer userId, int count) {
+        return taskMapper.setNotCheckedTaskForUser(userId,count);
     }
 }

@@ -1,13 +1,13 @@
 package com.ols.ols_project.common.utils;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.Message.RecipientType;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
@@ -17,6 +17,7 @@ import java.util.Properties;
  * @author yuyy
  * @date 20-3-7 下午9:44
  */
+@Slf4j
 @Component
 public class SendEmailBy126 {
 
@@ -41,7 +42,7 @@ public class SendEmailBy126 {
     }
 
     @Async("myTaskAsyncPool")  //myTaskAsynPool即配置线程池的方法名，此处如果不写自定义线程池的方法名，会使用默认的线程池
-    public void sendEmail(String to , String tittle, String content) throws AddressException, MessagingException {
+    public void sendEmail(String to , String tittle, String content) {
     //1、创建连接对象
     Properties props = new Properties();
     //1.1设置邮件发送的协议
@@ -65,17 +66,47 @@ public class SendEmailBy126 {
     //2、创建邮件对象
     Message message = new MimeMessage( session );
     //2.1设置发件人
-    message.setFrom( new InternetAddress(emailAccount) );
-    //2.2设置收件人
-    message.setRecipient(RecipientType.TO , new InternetAddress( to));
-    //2.3设置抄送者（PS:没有这一条网易会认为这是一条垃圾短信，而发不出去）
-    message.setRecipient(RecipientType.CC , new InternetAddress(emailAccount));
-    //2.4设置邮件的主题
-    message.setSubject(tittle);
-    //2.5设置邮件的内容
-    message.setContent(content, "text/html;charset=utf-8");
+        try {
+            message.setFrom( new InternetAddress(emailAccount) );
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，设置邮件发件人失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
+        //2.2设置收件人
+        try {
+            message.setRecipient(RecipientType.TO , new InternetAddress( to));
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，设置邮件收件人失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
+        //2.3设置抄送者（PS:没有这一条网易会认为这是一条垃圾短信，而发不出去）
+        try {
+            message.setRecipient(RecipientType.CC , new InternetAddress(emailAccount));
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，设置邮件抄送者失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
+        //2.4设置邮件的主题
+        try {
+            message.setSubject(tittle);
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，设置邮件的主题失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
+        //2.5设置邮件的内容
+        try {
+            message.setContent(content, "text/html;charset=utf-8");
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，设置邮件的内容失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
 
-    //3、发送邮件
-    Transport.send(message);
+        //3、发送邮件
+        try {
+            Transport.send(message);
+        } catch (MessagingException e) {
+            log.error("发件人：{}，收件人：{}，邮件主题：{}，邮件内容：{}，发送邮件失败，{}"
+                    ,emailAccount,to,tittle,content,e.toString());
+        }
     }
 }

@@ -1,35 +1,37 @@
-var adminUserId=getQueryVariable('userId');
 $(function () {
+    if(getQueryVariable('isChecked') === '0'){
+
+        $("#queryForm").hide();
+    }
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
 
         var tableIns=table.render({
-            elem: '#userList'
-            , height: '700'
-            , url: '/user/getReviewerSignUp/' //数据接口
-            , page: true //开启分页
-            , limits: [15,30,50,100]
-            , limit: 15
-            , where:{queryInfo:'timeDown',searchInfo:'',userId:adminUserId}
+            elem: '#taskList'
+            , height: '750'
+            , url: '/task/getNotCheckedTask/' //数据接口
+            , page: false //开启分页
+            , method: 'post'
+            , contentType: 'application/json'
+            , where:{userId:getQueryVariable('userId')}
             , parseData: function(res) { //res 即为原始返回的数据
                 return {
                     "code": res.meta.status, //解析接口状态
                     "msg": res.meta.msg, //解析提示文本
                     "count": res.data.total, //解析数据长度
-                    "data": res.data.userList //解析数据列表
+                    "data": res.data.taskList //解析数据列表
                 }
             }
             , cols: [[ //表头
-                {field: 'id', title: '用户ID', align:'center',width: '10%',fixed: 'left', sort: true}
-                , {field: 'name', title: '用户名', align:'center',width: '10%', sort: true}
-                , {field: 'sex', title: '性别', align:'center',width: '10%', sort: true}
-                , {field: 'birthday', title: '出生日期', align:'center',width: '15%', sort: true}
-                , {field: 'email', title: '邮箱', align:'center',width: '15%'}
-                , {field: 'role', title: '角色',align:'center', width: '10%'}
-                , {field: 'signUpTime', title: '注册时间',align:'center', width: '10%', sort: true}
-                , {field: 'ext1', title: '信息', align:'center',width: '10%', sort: true}
+                {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left', sort: true}
+                , {field: 'name', title: '任务名称', align:'center',width: '10%', sort: true}
+                , {field: 'points', title: '任务分值', align:'center',width: '10%', sort: true}
+                , {field: 'state', title: '状态', align:'center',width: '10%'}
+                , {field: 'type', title: '文件类型', align:'center',width: '10%', sort: true}
+                , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
+                , {field: 'release_user_id', title: '发布者编号',align:'center', width: '10%', sort: true}
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]]
 
@@ -169,9 +171,8 @@ function yesReviewerSignUp(userId,operation,tableIns) {
         url:"/user/yesReviewerSignUp",
         contentType: "application/json",
         data:JSON.stringify({
-            "userIdOfSignUp":userId,
-            "operation":operation,
-            "userId":adminUserId
+            "userId":userId,
+            "operation":operation
         }),
         success:function(resultData){
             resultData=JSON.parse(resultData)
@@ -192,34 +193,34 @@ function yesReviewerSignUp(userId,operation,tableIns) {
         }
     });
 }
-// function chooseFunc(userId,operation,tableIns) {
-//     $.ajax({
-//         type: "POST",
-//         url:"/user/yesReviewerSignUp",
-//         contentType: "application/json",
-//         data:JSON.stringify({
-//             "userId":userId,
-//             "operation":operation
-//         }),
-//         success:function(resultData){
-//             resultData=JSON.parse(resultData)
-//             if(resultData.meta.status === "200"){
-//                 layer.msg('操作成功', {
-//                     icon: 1, //绿勾
-//                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
-//                 });
-//                 //这里以搜索为例
-//                 tableIns.reload({});
-//             }else{
-//                 layer.msg('操作失败，请刷新页面', {
-//                     icon: 5, //红色不开心
-//                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
-//                 });
-//
-//             }
-//         }
-//     });
-// }
+function chooseFunc(userId,operation,tableIns) {
+    $.ajax({
+        type: "POST",
+        url:"/user/yesReviewerSignUp",
+        contentType: "application/json",
+        data:JSON.stringify({
+            "userId":userId,
+            "operation":operation
+        }),
+        success:function(resultData){
+            resultData=JSON.parse(resultData)
+            if(resultData.meta.status === "200"){
+                layer.msg('操作成功', {
+                    icon: 1, //绿勾
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                //这里以搜索为例
+                tableIns.reload({});
+            }else{
+                layer.msg('操作失败，请刷新页面', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+
+            }
+        }
+    });
+}
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);

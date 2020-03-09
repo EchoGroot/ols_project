@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ols.ols_project.mapper.UserMapper">
+
+    <!--<resultMap id="total" type="java.lang.Integer">-->
+        <!--<result column="total"/>-->
+    <!--</resultMap>-->
     <select id="getUserInfoById"
             resultType="com.ols.ols_project.model.UserEntity">
         select
@@ -219,7 +223,4 @@
         <result column="ext3" property="ext3" />
     </resultMap>
 
-    <resultMap id="total" type="java.lang.Integer">
-        <result column="total"/>
-    </resultMap>
 </mapper>
