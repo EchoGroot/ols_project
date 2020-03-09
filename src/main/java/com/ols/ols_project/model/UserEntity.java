@@ -58,7 +58,7 @@ public class UserEntity {
     /**
      * 积分
      */
-    private Integer points;
+    private Integer points=0;
 
     /**
      * 备用字段1

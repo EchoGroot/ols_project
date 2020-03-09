@@ -77,10 +77,10 @@
             release_user_id=#{id}
             <choose>
                 <when test="query == 'releasefinish'">
-                    and state != 0
+                    and state = 1
                 </when>
                 <when test="query == 'releasenotfinish'">
-                    and state = 0
+                    and state != 1
                 </when>
             </choose>
         limit

@@ -35,7 +35,11 @@ public class TaskController {
      */
     @RequestMapping("/getImageListByTaskId")
     @ResponseBody
-    public String getImageListByTaskId(@RequestParam("taskId") int taskId){
+    public String getImageListByTaskId(
+            @RequestParam("taskId") int taskId,
+        @RequestParam("userId") int userId
+    ){
+        log.info("用户ID：{}，");
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskImage",taskService.getImageListByTaskId(taskId));
         return JSON.toJSONString(new Result(data,"200","获取任务图片数据成功"));
@@ -48,10 +52,17 @@ public class TaskController {
      */
     @RequestMapping("/getAccepteImageListByAccepteId")
     @ResponseBody
-    public String getAccepteImageListByAccepteId(@RequestParam("accepteId") int accepteId){
+    public String getAccepteImageListByAccepteId(
+            @RequestParam("accepteId") int accepteId,
+            @RequestParam("userId") int userId
+    ){
+        log.info("用户ID：{}，根据接受任务ID获取图片信息（ols_accepte表），接受任务ID：{}",userId,accepteId);
+        String resultStr=null;
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskImage",taskService.getAccepteImageListByAccepteId(accepteId));
-        return JSON.toJSONStringWithDateFormat(new Result(data,"200","获取接受任务图片数据成功"),"yyyy-mm-dd hh:mm:ss");
+        resultStr= JSON.toJSONStringWithDateFormat(new Result(data,"200","获取接受任务图片数据成功"),"yyyy-mm-dd hh:mm:ss");
+        log.info("用户ID：{}，根据接受任务ID获取图片信息（ols_accepte表），接受任务ID：{}，result:{}",userId,accepteId,resultStr);
+        return resultStr;
     }
 
     /**

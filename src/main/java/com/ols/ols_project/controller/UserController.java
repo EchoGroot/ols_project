@@ -33,7 +33,7 @@ public class UserController {
 
     /**
      * 获取用户信息
-     * id：用户ID
+     * userId：用户ID
      * @param param
      * @return
      */
@@ -41,16 +41,21 @@ public class UserController {
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
     @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
+        log.info("用户ID：{}，获取用户信息",(String) param.get("userId"));
+        String resultStr=null;
         UserEntity userInfoById = userService.getUserInfoById(
-                Integer.parseInt((String) param.get("id"))
+                Integer.parseInt((String)param.get("userId"))
         );
         if(userInfoById == null){
             Result result = new Result("201", "未找到该用户");
-            return JSON.toJSONString(result);
+            resultStr= JSON.toJSONString(result);
+        }else{
+            HashMap<String,Object> data=new HashMap<>();
+            data.put("userInfo",userInfoById);
+            resultStr= JSON.toJSONStringWithDateFormat(new Result(data,"200","获取用户信息成功"),"yyyy-MM-dd");
         }
-        HashMap<String,Object> data=new HashMap<>();
-        data.put("userInfo",userInfoById);
-        return JSON.toJSONString(new Result(data,"200","获取用户信息成功"));
+        log.info("用户ID：{}，获取用户信息，result：{}",(String) param.get("userId"),resultStr);
+        return resultStr;
     }
 
     /**
@@ -61,16 +66,22 @@ public class UserController {
     @RequestMapping(value = "/changePassWord",method = RequestMethod.POST)
     @ResponseBody
     public String changePassWord(@RequestBody HashMap<String,Object> param){
+        log.info("用户ID：{}，更改密码",(String) param.get("id"));
+        String resultStr = null;
         String passWodById = userService.getPassWodById(Integer.parseInt((String) param.get("id")));
         if(passWodById.equals((String) param.get("oldpassword"))){
             if(1==userService.changePassWordById(
                     Integer.parseInt((String) param.get("id")),
                     (String)param.get("newpassword"))){
-                return JSON.toJSONString(new Result("200","修改密码成功"));
+                resultStr= JSON.toJSONString(new Result("200","修改密码成功"));
+            }else{
+                resultStr= JSON.toJSONString(new Result("201","修改密码失败"));
             }
-            return JSON.toJSONString(new Result("201","修改密码失败"));
+        }else {
+            resultStr=JSON.toJSONString(new Result("202","修改密码失败，原密码错误"));
         }
-        return JSON.toJSONString(new Result("202","修改密码失败，原密码错误"));
+        log.info("用户ID：{}，更改密码,result:{}",(String) param.get("id"),resultStr);
+        return resultStr;
     }
 
     /**
