@@ -11,3 +11,8 @@ spring:
     url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=UTC&allowMultiQueries=true&useAffectedRows=true
     username: ${mysql.username:}
     password: ${mysql.password:}
+#日志配置
+log:
+  path: /usr/local/logs
+  level: DEBUG
+  name: Ols_Project

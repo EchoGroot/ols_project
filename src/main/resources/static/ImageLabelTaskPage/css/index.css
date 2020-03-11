@@ -1,0 +1,32 @@
+.layui-body{
+    /*background-color: #E6E6E6;*/
+}
+.lookAndLabel {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0;
+    align-items: center;
+}
+.imgContainer {
+    float: left;
+    margin-right: 14px;
+    margin-top: 10px;
+    width: 218px;
+}
+.imgStyle {
+    width: 218px;
+    height: 150px;
+    margin-right: 20px;
+}
+#mainContainer{
+    padding: 10px;
+    bottom: 0px;
+    left: 0px;
+}
+#taskInfoContainer{
+    width: 620px;
+}
+.layui-form-item{
+    margin-bottom: 15px;
+}
+
