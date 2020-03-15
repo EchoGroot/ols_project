@@ -1,6 +1,5 @@
 $(function () {
     if(getQueryVariable('isChecked') === '0'){
-
         $("#queryForm").hide();
     }
     layui.use(['layer', 'form','table'], function() {
@@ -14,7 +13,6 @@ $(function () {
             , url: '/task/getNotCheckedTask/' //数据接口
             , page: false //开启分页
             , method: 'post'
-            , contentType: 'application/json'
             , where:{userId:getQueryVariable('userId')}
             , parseData: function(res) { //res 即为原始返回的数据
                 return {

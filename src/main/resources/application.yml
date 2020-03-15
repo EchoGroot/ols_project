@@ -31,7 +31,7 @@ spring:
     minEvictableIdleTimeMillis: 300000
     validationQuery: SELECT 1 FROM DUAL
     testWhileIdle: true
-    testOnBorrow: false
+    testOnBorrow: true
     testOnReturn: false
     # 打开PSCache，并且指定每个连接上PSCache的大小
     #poolPreparedStatements: true
@@ -49,12 +49,7 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#邮箱配置
-email:
-  #邮箱账户
-  account: ${email.account:}
-  #第三方代理授权码
-  authorizationCode: ${email.authorizationCode:}
+
 task:
   pool:
     #核心线程池大小

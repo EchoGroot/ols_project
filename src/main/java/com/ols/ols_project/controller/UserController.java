@@ -9,7 +9,6 @@ import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ import java.util.List;
  * @date 20-2-18 下午3:56
  */
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
 
@@ -39,7 +38,6 @@ public class UserController {
      */
 
     @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
-    @ResponseBody
     public String getUserInfo(@RequestBody HashMap<String,Object> param){
         log.info("用户ID：{}，获取用户信息",(String) param.get("userId"));
         String resultStr=null;
@@ -64,7 +62,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/changePassWord",method = RequestMethod.POST)
-    @ResponseBody
     public String changePassWord(@RequestBody HashMap<String,Object> param){
         log.info("用户ID：{}，更改密码",(String) param.get("id"));
         String resultStr = null;
@@ -87,13 +84,12 @@ public class UserController {
     /**
      * 获取用户已接受的任务
      * @param id
-     * @param query
+     * @param query 'acceptfinish'：已完成的任务，'acceptnotfinish'：未完成的任务
      * @param pagenum
-     * @param pagesize
+     * @param pagesize 如果等于0，就是全部查询出来，否则就是分页查询
      * @return
      */
     @RequestMapping(value = "/getAcceptTaskByUserId",method = RequestMethod.GET)
-    @ResponseBody
     public String getAcceptTaskByUserId(
             @RequestParam(value = "id") Integer id,
             @RequestParam(value = "query") String query,
@@ -117,7 +113,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getReleaseTaskByUserId",method = RequestMethod.GET)
-    @ResponseBody
     public String getReleaseTaskByUserId(
             @RequestParam(value = "id") Integer id,
             @RequestParam(value = "query") String query,
@@ -138,7 +133,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/getReviewerSignUp",method = RequestMethod.GET)
-    @ResponseBody
     public String getReleaseTaskByUserId(
             @RequestParam(value = "userId") Integer userId,
             @RequestParam(value = "page") Integer pageNum,
@@ -163,7 +157,6 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
-    @ResponseBody
     public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) {
         log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，管理员同意或不同意审核者账号注册"
                 ,(String)param.get("userId")

@@ -37,7 +37,7 @@ public class CreateTestDataController {
     }
 
     /**
-     * 创建ols_accepte表的测试数据
+     * 创建ols_accept表的测试数据
      * @return
      */
     public void createTestDataForOlsAccepte(){

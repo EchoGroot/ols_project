@@ -68,12 +68,12 @@ public class AcceptTask {
     /**
      * 接受者数量
      */
-    private Integer accepte_num;
+    private Integer accept_num;
 
     /**
      * 采纳的接受任务编号
      */
-    private Integer adopt_accepte_id;
+    private Integer adopt_accept_id;
 
     /**
      * 接受任务编号
@@ -98,10 +98,10 @@ public class AcceptTask {
     /**
      * 接受状态
      */
-    private Integer ols_accepte_state;
+    private Integer ols_accept_state;
 
     /**
      * 标注文件路径
      */
-    private String ols_accepte_url;
+    private String ols_accept_url;
 }

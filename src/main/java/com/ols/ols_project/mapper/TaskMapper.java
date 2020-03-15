@@ -14,13 +14,21 @@ import java.util.List;
 public interface TaskMapper {
     String getImageListByTaskId(int taskId);
 
-    AcceptTask getAccepteImageListByAccepteId(int accepteId);
+    AcceptTask getAccepteImageListByAccepteId(int acceptId);
 
-    AccepteEntity getAccepteTaskInfoByAcceptId(int accepteId);
+    AccepteEntity getAccepteTaskInfoByAcceptId(int acceptId);
 
-    int storeImageLabelInfoByAccepteId(int accepteId,String url);
+    int storeImageLabelInfoByAccepteId(int acceptId,String url);
 
     List<TaskEntity> getNotCheckedTask(Integer userId);
 
     int setNotCheckedTaskForUser(Integer userId, int count);
+
+    TaskEntity getTaskInfoByTaskId(int taskId);
+
+    int insAcceptTask(AccepteEntity build);
+
+    int selAcceptNumOfTask(int taskId);
+
+    int updAcceptNumOfTask(int taskId,int acceptNum);
 }

@@ -73,12 +73,12 @@ public class TaskEntityBo {
     /**
      *接受者数量
      */
-    private Integer accepte_num;
+    private Integer accept_num;
 
     /**
      *采纳的接受任务编号
      */
-    private Integer adopt_accepte_id;
+    private Integer adopt_accept_id;
 
     /**
      * 备用字段1

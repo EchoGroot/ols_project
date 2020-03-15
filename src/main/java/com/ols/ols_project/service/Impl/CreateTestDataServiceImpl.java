@@ -150,12 +150,12 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
 
     @Override
     public void createTestDataForOlsAccepte() {
-        AccepteEntity accepteEntity=new AccepteEntity();
+        AccepteEntity acceptEntity=new AccepteEntity();
         Random random = new Random();
         for (int i = 0; i < 1; i++) {
-            accepteEntity.setUser_id(10000);
-            accepteEntity.setTask_id(10128);
-            accepteEntity.setAccept_time(new Timestamp(
+            acceptEntity.setUser_id(10000);
+            acceptEntity.setTask_id(10128);
+            acceptEntity.setAccept_time(new Timestamp(
                     119,
                     random.nextInt(1)+8,
                     random.nextInt(28)+1,
@@ -164,7 +164,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                     random.nextInt(60),
                     random.nextInt(10000000)
             ));
-        accepteEntity.setFinish_time(new Timestamp(
+        acceptEntity.setFinish_time(new Timestamp(
                 119,
                 random.nextInt(1)+10,
                 random.nextInt(28)+1,
@@ -173,8 +173,8 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                 random.nextInt(60),
                 random.nextInt(10000000)
         ));
-            accepteEntity.setState(2);
-            createTestDataMapper.createTestDataForOlsAccepte(accepteEntity);
+            acceptEntity.setState(2);
+            createTestDataMapper.createTestDataForOlsAccepte(acceptEntity);
         }
 
     }

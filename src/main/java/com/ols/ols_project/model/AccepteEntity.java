@@ -5,10 +5,11 @@ import lombok.*;
 import java.sql.Timestamp;
 
 /**
- * ols_accepte表的实体类
+ * ols_accept表的实体类
  * @author yuyy
  * @date 20-2-21 下午12:33
  */
+@Builder
 @Getter
 @Setter
 @ToString

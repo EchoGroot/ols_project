@@ -28,29 +28,35 @@
            ols_task.finish_time as ols_task_finish_time,
            release_time,
            release_user_id,
-           accepte_num,
-           adopt_accepte_id,
-           ols_accepte.id as ols_accept_id,
+           accept_num,
+           adopt_accept_id,
+           ols_accept.id as ols_accept_id,
            user_id,
            accept_time,
-           ols_accepte.finish_time as ols_accept_finish_time,
-           ols_accepte.state as ols_accepte_state,
-           ols_accepte.url as ols_accepte_url
+           ols_accept.finish_time as ols_accept_finish_time,
+           ols_accept.state as ols_accept_stat,
+           ols_accept.url as ols_accept_url
         from
-          ols_task,ols_accepte
+          ols_task,ols_accept
         where
-          ols_task.id = ols_accepte.task_id
-          and ols_accepte.user_id = #{id}
+          ols_task.id = ols_accept.task_id
+          and ols_accept.user_id = #{id}
           <choose>
             <when test="query == 'acceptfinish'">
-                and ols_accepte.state != 0
+                and ols_accept.state != 0
             </when>
             <when test="query == 'acceptnotfinish'">
-                and ols_accepte.state = 0
+                and ols_accept.state = 0
             </when>
           </choose>
-        limit
-          #{start},#{end};
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+
         SELECT FOUND_ROWS() as total;
     </select>
 
@@ -66,8 +72,8 @@
             release_time,
             finish_time,
             release_user_id,
-            accepte_num,
-            adopt_accepte_id,
+            accept_num,
+            adopt_accept_id,
             ext1,
             ext2,
             ext3
@@ -181,14 +187,14 @@
         <result column="ols_task_finish_time" property="ols_task_finish_time" />
         <result column="release_time" property="release_time" />
         <result column="release_user_id" property="release_user_id" />
-        <result column="accepte_num" property="accepte_num" />
-        <result column="adopt_accepte_id" property="adopt_accepte_id" />
+        <result column="accept_num" property="accept_num" />
+        <result column="adopt_accept_id" property="adopt_accept_id" />
         <result column="ols_accept_id" property="ols_accept_id" />
         <result column="user_id" property="user_id" />
         <result column="accept_time" property="accept_time" />
         <result column="ols_accept_finish_time" property="ols_accept_finish_time" />
-        <result column="ols_accepte_state" property="ols_accepte_state" />
-        <result column="ols_accepte_url" property="ols_accepte_url" />
+        <result column="ols_accept_state" property="ols_accept_state" />
+        <result column="ols_accept_url" property="ols_accept_url" />
     </resultMap>
 
     <resultMap id="ReleaseTaskMap" type="com.ols.ols_project.model.TaskEntity" >
@@ -202,8 +208,8 @@
         <result column="release_time" property="release_time" />
         <result column="finish_time" property="finish_time" />
         <result column="release_user_id" property="release_user_id" />
-        <result column="accepte_num" property="accepte_num" />
-        <result column="adopt_accepte_id" property="adopt_accepte_id" />
+        <result column="accept_num" property="accept_num" />
+        <result column="adopt_accept_id" property="adopt_accept_id" />
         <result column="ext1" property="ext1" />
         <result column="ext2" property="ext2" />
         <result column="ext3" property="ext3" />

@@ -192,34 +192,6 @@ function yesReviewerSignUp(userId,operation,tableIns) {
         }
     });
 }
-// function chooseFunc(userId,operation,tableIns) {
-//     $.ajax({
-//         type: "POST",
-//         url:"/user/yesReviewerSignUp",
-//         contentType: "application/json",
-//         data:JSON.stringify({
-//             "userId":userId,
-//             "operation":operation
-//         }),
-//         success:function(resultData){
-//             resultData=JSON.parse(resultData)
-//             if(resultData.meta.status === "200"){
-//                 layer.msg('操作成功', {
-//                     icon: 1, //绿勾
-//                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
-//                 });
-//                 //这里以搜索为例
-//                 tableIns.reload({});
-//             }else{
-//                 layer.msg('操作失败，请刷新页面', {
-//                     icon: 5, //红色不开心
-//                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
-//                 });
-//
-//             }
-//         }
-//     });
-// }
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);

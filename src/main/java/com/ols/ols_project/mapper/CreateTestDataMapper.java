@@ -13,7 +13,7 @@ import com.ols.ols_project.model.UserOperationLogEntity;
 public interface CreateTestDataMapper {
     void createTestDataForOlsUser(UserEntity userEntity);
     void createTestDataForOlsTask(TaskEntity taskEntity);
-    void createTestDataForOlsAccepte(AccepteEntity accepteEntity);
+    void createTestDataForOlsAccepte(AccepteEntity acceptEntity);
 
     void createTestDataForOlsUserOperationLog(UserOperationLogEntity userOperationLogEntity);
 }

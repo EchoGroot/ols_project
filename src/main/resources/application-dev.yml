@@ -16,3 +16,9 @@ log:
   path: /usr/local/logs
   level: DEBUG
   name: Ols_Project
+#邮箱配置
+email:
+  #邮箱账户
+  account: ${email.account:}
+  #第三方代理授权码
+  authorizationCode: ${email.authorizationCode:}

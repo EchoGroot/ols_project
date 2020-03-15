@@ -2,9 +2,15 @@
     padding: 20px;
     background-color: #E6E6E6;
 }
-.btn\+{
-    margin-left: 0px;
-}
-.labelNameContrainer{
+#imageLabelContainer{
     padding: 10px;
+    bottom: 0px;
+}
+#customPositionDiv{
+    margin-left: 20px;
+}
+.imgStyle{
+    position: relative;
+    width: 1600px;
+    height: 800px;
 }

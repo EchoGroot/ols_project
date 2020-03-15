@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/jquery-3.4.1.min.js"></script>
-    <script src="../js/jcanvas.min.js"></script>
+    <script src="/js/jcanvas.js"></script>
     <script src="./js/index.js"></script>
 </head>
 <body class="layui-layout-body close-footer">
@@ -17,7 +17,21 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item"><a href="">清除</a></li>
+            <li class="layui-nav-item">
+                <a id="finish"
+                   href="javascript:void(0);"
+                   onclick="finishFunc()">标注完成</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);"
+                   onclick="revokeFunc()"
+                   id="revoke">撤销</a>
+            </li>
+            <li class="layui-nav-item">
+                <a id="goBack"
+                   href="javascript:void(0);"
+                   onclick="goBackFunc()">返回</a>
+            </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
@@ -27,26 +41,34 @@
                     <dd><a href="./AdminInfo.html">个人资料</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">返回</a></li>
         </ul>
     </div>
-
-    <div class="layui-side layui-bg-black labelNameContrainer">
-        <!--<div class="layui-side-scroll">-->
+    <!--<div id="labelNameContainer" class="layui-side layui-bg-black"></div>-->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <button type="button" class="layui-btn layui-btn-fluid">流体按钮（最大化适应）</button>
-            <button type="button" class="btn+ layui-btn layui-btn-fluid">流体按钮（最大化适应）</button>
-            <button type="button" class="btn+ layui-btn layui-btn-fluid">流体按钮（最大化适应）</button>
-            <button type="button" class="btn+ layui-btn layui-btn-fluid">流体按钮（最大化适应）</button>
-        <!--</div>-->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test" id="labelNameContainer"></ul>
+        </div>
     </div>
-
-
-    <div class="layui-body close-footer" id="iframeContainer">
+    <div id="imageLabelContainer" class="layui-body close-footer">
         <!-- 内容主体区域 -->
-        <canvas id="canvas" width="600" height="300" style="border: 1px solid #000;">
-            <!--<img src="http://yuyy.info/image/ols/IMG_20160421_105909.jpg">-->
-        </canvas>
+        <div id="customPositionDiv">
+            <div style="
+            margin:0 0px ;
+            display:-webkit-box;
+            -webkit-box-align:center;
+            -webkit-box-pack:center;
+          ">
+                <div class="imgStyle">
+                    <img
+                            id="imgDOM" class="imgStyle"
+                    >
+                    <canvas
+                            id="canvas" width="1600" height="800" style="position: absolute; top: 0px; cursor: auto;"
+                    ></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

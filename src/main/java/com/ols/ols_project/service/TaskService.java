@@ -14,11 +14,15 @@ public interface TaskService {
 
     String getImageListByTaskId(int taskId);
 
-    AcceptTask getAccepteImageListByAccepteId(int accepteId);
+    AcceptTask getAccepteImageListByAccepteId(int acceptId);
 
-    int storeImageLabelInfo(int accepteTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
+    int storeImageLabelInfo(int acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
 
     List<TaskEntityBo> getNotCheckedTask(Integer userId);
 
     int setNotCheckedTaskForUser(Integer userId, int count);
+
+    TaskEntityBo getTaskInfoByTaskId(int taskId);
+
+    int acceptTask(int userId, int taskId);
 }

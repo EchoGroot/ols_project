@@ -15,8 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccepteImageUrl {
-//    private AccepteTaskImage taskImage;
-//    private List<Object> taskImage;
     private List<AccepteTaskImageInfo> taskImage;
-//    private Object taskImage;
+    private List<String> labelName;
 }
