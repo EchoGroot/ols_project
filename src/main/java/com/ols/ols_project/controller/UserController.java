@@ -153,21 +153,24 @@ public class UserController {
      * userIdOfSignUp：操作的审核者账号
      * userId：管理员帐号
      * operation：操作（同意注册，不同意注册）
-     * @param param
      * @return
      */
     @RequestMapping(value = "/yesReviewerSignUp",method = RequestMethod.POST)
-    public String yesReleaseTaskByUserId(@RequestBody HashMap<String,Object> param) {
+    public String yesReleaseTaskByUserId(
+            @RequestParam("userId") String userId,
+            @RequestParam("operation") String operation,
+            @RequestParam("adminUserId") String adminUserId
+    ) {
         log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，管理员同意或不同意审核者账号注册"
-                ,(String)param.get("userId")
-                ,(Integer)param.get("userIdOfSignUp")
-                ,(String) param.get("operation")
+                ,adminUserId
+                ,userId
+                ,operation
         );
         String resultStr=null;
-        if("yes".equals((String) param.get("operation"))){
-            if(1==userService.yesAndNoReviewerSignUp((Integer)param.get("userIdOfSignUp"),(String) param.get("operation"))){
+        if("yes".equals(operation)){
+            if(1==userService.yesAndNoReviewerSignUp(Integer.parseInt(userId),operation)){
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
+                UserEntity userInfo = userService.getUserInfoById(Integer.parseInt(userId));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
                         ,"Ols系统通知"
@@ -177,9 +180,9 @@ public class UserController {
                 resultStr=JSON.toJSONString(new Result("201","同意注册失败，请刷新页面"));
             }
         }else {
-            if (1 == userService.yesAndNoReviewerSignUp((Integer) param.get("userIdOfSignUp"), (String) param.get("operation"))) {
+            if (1 == userService.yesAndNoReviewerSignUp(Integer.parseInt(userId), operation)) {
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById((Integer) param.get("userIdOfSignUp"));
+                UserEntity userInfo = userService.getUserInfoById(Integer.parseInt(userId));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
                         , "Ols系统通知"
@@ -191,9 +194,9 @@ public class UserController {
             }
         }
         log.info("管理员ID：{}，操作的审核者账号：{}，操作：{}，result:{}"
-                , (String) param.get("userId")
-                , (Integer) param.get("userIdOfSignUp")
-                , (String) param.get("operation")
+                ,adminUserId
+                ,userId
+                ,operation
                 , resultStr
         );
         return resultStr;

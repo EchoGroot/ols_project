@@ -2,7 +2,7 @@ var imageUrl="http://yuyy.info/image/ols/";
 var userId=getQueryVariable('userId'); //用户ID
 var acceptId=getQueryVariable('acceptId'); //接受任务ID
 var pageType=getQueryVariable('pageType');
-var pageFrom=getQueryVariable('pageFrom');
+var pageFrom=URLencode(getQueryVariable('pageFrom'));
 var taskId=getQueryVariable('taskId'); // 任务ID
 
 var imageExampleList=[]; //标注示例
@@ -33,10 +33,13 @@ $(function () {
         // 获取接受任务的数据
         getAccepteImageList();
     }else if(pageType === 'otherReleasePage'){
-        // 显示举报按钮
-        $("#report").show();
-        // 显示接受任务按钮
-        $("#accept").show();
+        // 不是从审核页面进来的
+        if(pageFrom.indexOf('JudgeTaskPage')===-1){
+            // 显示举报按钮
+            $("#report").show();
+            // 显示接受任务按钮
+            $("#accept").show();
+        }
         // 获取任务数据
         getImageList();
     }else if(pageType === 'personalReleasePage'){
@@ -305,3 +308,32 @@ function acceptFunc() {
 
 //举报
 function reportFunc() {}
+// 返回
+function goBackFunc() {
+    var t=reverseURLencode(pageFrom);
+    window.location.href=reverseURLencode(pageFrom);
+}
+//转义URL里的特殊字符
+function URLencode(sStr) {
+    return sStr.replace(/\%/g,"%25")
+        .replace(/\+/g, '%2B')
+        .replace(/\"/g,'%22')
+        .replace(/\#/g,'%23')
+        .replace(/\'/g, '%27')
+        .replace(/\&/g, '%26')
+        .replace(/\?/g, '%3F')
+        .replace(/\=/g, '%3D')
+        .replace(/\//g,'%2F');
+}
+//逆向转义
+function  reverseURLencode(sStr) {
+    return sStr.replace(/%25/g,"%")
+        .replace(/%2B/g, '+')
+        .replace(/%22/g,'"')
+        .replace(/%23/g,'#')
+        .replace(/%27/g, '\'')
+        .replace(/%26/g, '&')
+        .replace(/%3F/g, '?')
+        .replace(/%3D/g, '=')
+        .replace(/%2F/g,'/');
+}

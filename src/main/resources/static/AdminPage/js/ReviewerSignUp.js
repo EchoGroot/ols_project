@@ -1,10 +1,12 @@
 var adminUserId=getQueryVariable('userId');
 $(function () {
+    // layui初始化
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
 
+        // 表格渲染
         var tableIns=table.render({
             elem: '#userList'
             , height: '700'
@@ -35,21 +37,21 @@ $(function () {
 
         });
 
-
         //监听工具条
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
             if(layEvent === 'yes'){
+                // 允许审核者账号注册
                 yesReviewerSignUp(data.id,'yes',tableIns)
             } else if(layEvent === 'no'){
+                // 拒绝审核者账号注册
                 yesReviewerSignUp(data.id,'no',tableIns)
             }
         });
 
-        //筛选按钮点击时间
+        //筛选按钮点击事件
         $("#searchButton").click(function (e) {
             e.preventDefault();
             console.log($("#chooseSelect").val())
@@ -162,17 +164,17 @@ $(function () {
         })
     });
 
-})
+});
+// 允许或者拒绝审核者账号注册
 function yesReviewerSignUp(userId,operation,tableIns) {
     $.ajax({
         type: "POST",
         url:"/user/yesReviewerSignUp",
-        contentType: "application/json",
-        data:JSON.stringify({
-            "userIdOfSignUp":userId,
+        data:{
+            "userId":userId,
             "operation":operation,
-            "userId":adminUserId
-        }),
+            "adminUserId":adminUserId
+        },
         success:function(resultData){
             resultData=JSON.parse(resultData)
             if(resultData.meta.status === "200"){
@@ -180,18 +182,18 @@ function yesReviewerSignUp(userId,operation,tableIns) {
                     icon: 1, //绿勾
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });
-                //这里以搜索为例
+                // 表格重载
                 tableIns.reload({});
             }else{
                 layer.msg('操作失败，请刷新页面', {
                     icon: 5, //红色不开心
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });
-
             }
         }
     });
 }
+// 获取URL参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);

@@ -9,4 +9,6 @@ public interface CreateTestDataService {
     void createTestDataForOlsUser(int userIdStart);
     void createTestDataForOlsTask();
     void createTestDataForOlsAccepte();
+
+    void createTestDataForOlsJudge(int userId, int taskId);
 }

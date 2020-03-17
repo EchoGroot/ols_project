@@ -1,7 +1,22 @@
-
 <head>
-
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="css/DataAnalysis.css">
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="js/DataAnalysis.js"></script>
+    <script src="/layui/layui.js"></script>
 </head>
 <body>
-
+<body>
+<form id="queryForm" class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select name="" id="" lay-filter="chooseSelect">
+                <option value="2019">2019年</option>
+                <option value="2020">2020年</option>
+            </select>
+        </div>
+    </div>
+</form>
+<div id="main" style="width: 1400px;height:730px;"></div>
 </body>

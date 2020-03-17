@@ -1,8 +1,6 @@
 package com.ols.ols_project.mapper;
 
-import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.AccepteEntity;
-import com.ols.ols_project.model.TaskEntity;
+import com.ols.ols_project.model.*;
 
 import java.util.List;
 
@@ -31,4 +29,10 @@ public interface TaskMapper {
     int selAcceptNumOfTask(int taskId);
 
     int updAcceptNumOfTask(int taskId,int acceptNum);
+
+    int taskPassOrNotPassAudits(int taskId, String operation);
+
+    int insJudge(JudgeEntity judgeEntity);
+
+    List<List<FinishCheckTask>> selFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int start, int end);
 }

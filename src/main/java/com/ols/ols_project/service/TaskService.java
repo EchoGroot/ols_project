@@ -4,6 +4,7 @@ import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.LabelInfo;
 import com.ols.ols_project.model.TaskEntityBo;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,4 +26,8 @@ public interface TaskService {
     TaskEntityBo getTaskInfoByTaskId(int taskId);
 
     int acceptTask(int userId, int taskId);
+
+    int taskPassOrNotPassAudits(int userId, int taskId, String operation,String message);
+
+    HashMap<String, Object> getFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int pageNum, int pageSize);
 }

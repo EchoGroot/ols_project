@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -138,5 +139,44 @@ public class TaskServiceImpl implements TaskService {
         //重新写入该任务的接收人数
         result+=taskMapper.updAcceptNumOfTask(taskId,++acceptNum);
         return result;
+    }
+
+    @Override
+    public int taskPassOrNotPassAudits(int userId, int taskId, String operation,String message) {
+        int count=taskMapper.taskPassOrNotPassAudits(taskId,operation);
+        int ispassed=operation.equals("yes")?1:0;
+        if(count==1){
+            count=taskMapper.insJudge(JudgeEntity.builder()
+                    .user_id(userId)
+                    .task_id(taskId)
+                    .ispassed(ispassed)
+                    .isfirst(1)
+                    .message(message)
+                    .judge_time(new Timestamp(System.currentTimeMillis()))
+                    .build());
+        }
+        return count;
+    }
+
+    @Override
+    public HashMap<String, Object> getFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int pageNum, int pageSize) {
+        List<List<FinishCheckTask>> list = taskMapper.selFinishCheckTaskByUserId(userId,queryInfo, searchInfo, (pageNum - 1) * pageSize, pageSize);
+        List<FinishCheckTaskBo> boList=new ArrayList<>();
+        HashMap<String,Object> resultMap=new HashMap<>();
+        list.get(0).forEach(e->{
+            boList.add(FinishCheckTaskBo.builder()
+                    .taskId(e.getTaskId())
+                    .taskName(e.getTaskName())
+                    .releaseTime(e.getReleaseTime())
+                    .releaseUserName(e.getReleaseUserName())
+                    .judgeId(e.getJudgeId())
+                    .isPassed(e.getIsPassed()==1?"是":"否")
+                    .message(e.getMessage())
+                    .judgeTime(e.getJudgeTime())
+                    .build());
+        });
+        resultMap.put("total",list.get(1).get(0));
+        resultMap.put("taskList",boList);
+        return resultMap;
     }
 }

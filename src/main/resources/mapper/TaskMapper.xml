@@ -165,6 +165,91 @@
           id=#{taskId}
     </update>
 
+    <update id="taskPassOrNotPassAudits">
+        update
+          ols_task
+        set
+          state =
+        <if test="operation == 'yes'">
+            5
+        </if>
+        <if test="operation == 'no'">
+            6
+        </if>
+        where
+          id=#{taskId}
+    </update>
+
+    <insert id="insJudge" parameterType="com.ols.ols_project.model.JudgeEntity">
+        insert into
+          ols_judge(
+              user_id,
+              task_id,
+              ispassed,
+              isfirst,
+              message,
+              judge_time,
+              ext1,
+              ext2,
+              ext3
+            )
+        values
+          (
+            #{user_id},
+            #{task_id},
+            #{ispassed},
+            #{isfirst},
+            #{message},
+            #{judge_time},
+            #{ext1},
+            #{ext2},
+            #{ext3}
+          )
+    </insert>
+
+    <select id="selFinishCheckTaskByUserId" resultMap="finishCheckTaskMap,total">
+        SELECT
+        SQL_CALC_FOUND_ROWS ols_task.id,
+        ols_task.name as task_name,
+        release_time,
+        release_user_id,
+        ols_judge.id as judge_id,
+        user_id,
+        task_id,
+        ispassed,
+        message,
+        judge_time,
+        ols_user.id,
+        ols_user.name as release_user_name
+        from
+        ols_task,ols_judge,ols_user
+        where
+        task_id=ols_task.id
+        and release_user_id=ols_user.id
+        and user_id=#{userId}
+        <if test="searchInfo != ''">
+            and (ols_task.name like '%${searchInfo}%'
+            or ols_user.name like '%${searchInfo}%')
+        </if>
+        <choose>
+            <when test="queryInfo == 'passed'">
+                and ispassed = 1
+            </when>
+            <when test="queryInfo == 'notPassed'">
+                and ispassed = 0
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY judge_time
+        </if>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY judge_time DESC
+        </if>
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
     <resultMap id="TaskMap" type="com.ols.ols_project.model.TaskEntity" >
         <id column="id" property="id"  />
         <result column="name" property="name" />
@@ -181,6 +266,17 @@
         <result column="ext1" property="ext1" />
         <result column="ext2" property="ext2" />
         <result column="ext3" property="ext3" />
+    </resultMap>
+
+    <resultMap id="finishCheckTaskMap" type="com.ols.ols_project.model.FinishCheckTask" >
+        <id column="task_id" property="taskId"  />
+        <result column="task_name" property="taskName" />
+        <result column="release_time" property="releaseTime" />
+        <result column="release_user_name" property="releaseUserName" />
+        <result column="judge_id" property="judgeId" />
+        <result column="ispassed" property="isPassed" />
+        <result column="message" property="message" />
+        <result column="judge_time" property="judgeTime" />
     </resultMap>
 
     <resultMap id="total" type="java.lang.Integer">

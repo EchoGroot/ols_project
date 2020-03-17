@@ -2,6 +2,7 @@ package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ols.ols_project.common.Const.NormalConst;
+import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.LabelInfo;
 import com.ols.ols_project.model.Result;
@@ -34,6 +35,9 @@ public class TaskController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SendEmailBy126 sendEmailBy126;
 
     /**
      * 根据任务ID获取图片信息（ols_task表）
@@ -172,19 +176,77 @@ public class TaskController {
         for(AcceptTask item:acceptTaskByUserId.get(0)){
             if(item.getOls_task_id()==Integer.parseInt(taskId)){
                 resultStr=JSON.toJSONString(new Result("201","该用户已接受此任务"));
-                log.info("普通用户ID：{}，接受任务，任务ID:{}，result：{}",userId,taskId,resultStr);
                 break;
             }
         }
         if(resultStr==null){
             if(2==taskService.acceptTask(Integer.parseInt(userId),Integer.parseInt(taskId))){
                 resultStr=JSON.toJSONString(new Result("200","接受任务成功"));
-                log.info("普通用户ID：{}，接受任务，任务ID:{}，result：{}",userId,taskId,resultStr);
             }else{
                 resultStr=JSON.toJSONString(new Result("202","接受任务失败"));
-                log.info("普通用户ID：{}，接受任务，任务ID:{}，result：{}",userId,taskId,resultStr);
             }
         }
+        log.info("普通用户ID：{}，接受任务，任务ID:{}，result：{}",userId,taskId,resultStr);
         return resultStr;
+    }
+
+    /**
+     * 任务是否通过审核
+     * @param userId
+     * @param taskId
+     * @param operation
+     * @param message
+     * @return
+     */
+    @RequestMapping(value = "/taskPassOrNotPassAudits",method = RequestMethod.POST)
+    public String taskPassOrNotPassAudits(
+            @RequestParam("userId") String userId,
+            @RequestParam("taskId") String taskId,
+            @RequestParam("operation") String operation,
+            @RequestParam("message") String message
+                             ){
+        log.info("审核者ID：{}，任务是否通过审核，任务ID:{}，是否通过：{}，答复信息：{}"
+                ,userId,taskId,operation,message);
+        String resultStr=null;
+        if(1==taskService.taskPassOrNotPassAudits(
+                Integer.parseInt(userId),
+                Integer.parseInt(taskId),
+                operation,
+                message
+                )){
+            resultStr=JSON.toJSONString(new Result("200","操作成功"));
+
+        }else{
+            resultStr=JSON.toJSONString(new Result("201","操作失败，请刷新再试"));
+
+        }
+        log.info("审核者ID：{}，任务是否通过审核，任务ID:{}，是否通过：{}，答复信息：{},result：{}"
+                ,userId,taskId,operation,message,resultStr);
+        return resultStr;
+    }
+
+    /**
+     * 根据审核者id获取已审核的任务
+     * @param pageNum
+     * @param pageSize
+     * @param userId
+     * @param queryInfo 筛选条件
+     * @param searchInfo 搜索关键字（任务名）
+     * @return
+     */
+    @RequestMapping("/getFinishCheckTaskByUserId")
+    public String getFinishCheckTaskByUserId(
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize,
+            @RequestParam("userId") int userId,
+            @RequestParam(value = "queryInfo") String  queryInfo,
+            @RequestParam(value = "searchInfo") String  searchInfo
+    ){
+        log.info("审核者ID：{}，根据审核者id获取已审核的任务，pageNum:{},pageSize:{},queryInfo:{},searchInfo:{}",userId,pageNum,pageSize,queryInfo,searchInfo);
+        HashMap<String, Object> data = taskService.getFinishCheckTaskByUserId(userId,queryInfo,searchInfo,pageNum, pageSize);
+        // layui默认数据表格的status为0才显示数据
+        String result=JSON.toJSONStringWithDateFormat(new Result(data,"0","根据审核者id获取已审核的任务"),"yyyy-MM-dd");
+        log.info("审核者ID：{}，根据审核者id获取已审核的任务，result:{}",userId,result);
+        return result;
     }
 }

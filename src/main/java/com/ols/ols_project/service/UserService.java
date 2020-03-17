@@ -68,4 +68,6 @@ public interface UserService {
      * 管理员同意或不同意审核者账号注册
      */
     int yesAndNoReviewerSignUp(Integer userId,String operation);
+
+
 }

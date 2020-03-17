@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ols.ols_project.mapper.JudgeMapper">
+    <select id="getHistoryByUserId" resultMap="monthAndCountMap">
+        SELECT
+          DATE_FORMAT(judge_time, '%m') as month,
+          count(1) as count
+        FROM
+          ols_judge
+        WHERE
+          user_id = #{userId}
+          and DATE_FORMAT(judge_time, '%Y')=#{year}
+          and ispassed = #{isPassed}
+        GROUP BY
+          DATE_FORMAT(judge_time, '%m');
+    </select>
+
+    <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
+        <id column="month" property="month"  />
+        <result column="count" property="count" />
+    </resultMap>
+</mapper>

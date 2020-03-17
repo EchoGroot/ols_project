@@ -2,7 +2,7 @@ var imageUrl=getQueryVariable("imageUrl");
 var userId=getQueryVariable('userId'); //用户ID
 var acceptId=getQueryVariable('acceptId'); //接受任务ID
 var pageType=getQueryVariable('pageType');
-var pageFrom=getQueryVariable('pageFrom');
+var pageFrom=URLencode(getQueryVariable('pageFrom'));
 var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
 
@@ -378,4 +378,16 @@ function revokeFunc(){
             $('#canvas').removeLayer(labelInfoArray[i].labelInfo.pop().layerName).drawLayers();
         }
     }
+}
+//转义URL里的特殊字符
+function URLencode(sStr) {
+    return sStr.replace(/\%/g,"%25")
+        .replace(/\+/g, '%2B')
+        .replace(/\"/g,'%22')
+        .replace(/\#/g,'%23')
+        .replace(/\'/g, '%27')
+        .replace(/\&/g, '%26')
+        .replace(/\?/g, '%3F')
+        .replace(/\=/g, '%3D')
+        .replace(/\//g,'%2F');
 }
