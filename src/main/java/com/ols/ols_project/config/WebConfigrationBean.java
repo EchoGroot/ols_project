@@ -18,7 +18,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfigrationBean implements WebMvcConfigurer {
 
     /**
      *SpringBoot 2.x要重写该方法，不然css、js、image 等静态资源路径无法访问

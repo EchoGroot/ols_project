@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AcceptTask {
+public class AcceptTaskBo {
     /**
      * 任务编号
      */
@@ -34,12 +34,12 @@ public class AcceptTask {
     /**
      * 状态
      */
-    private Integer taskState;
+    private String taskState;
 
     /**
      * 文件类型
      */
-    private Integer type;
+    private String type;
 
     /**
      * 发布时间
@@ -69,5 +69,5 @@ public class AcceptTask {
     /**
      * 接受状态
      */
-    private Integer acceptState;
+    private String acceptState;
 }

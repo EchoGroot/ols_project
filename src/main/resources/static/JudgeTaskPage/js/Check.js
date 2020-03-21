@@ -14,12 +14,14 @@ $(function () {
         var url='';
         var pageFlag=false;
         var method='';
+        var height=0;
         var where={};
         var cols=null;
         if(isChecked==='0'){
             url='/task/getNotCheckedTask/';
             pageFlag=false;
             method ='post';
+            height =740;
             where={
                 userId:userId
             };
@@ -37,6 +39,7 @@ $(function () {
             url='/task/getFinishCheckTaskByUserId';
             pageFlag=true;
             method ='get';
+            height=700;
             where={
                 userId:userId,
                 queryInfo:'timeDown',
@@ -48,15 +51,15 @@ $(function () {
                 , {field: 'taskId', title: '任务编号', align:'center',width: '10%', sort: true}
                 , {field: 'releaseTime', title: '任务发布时间', align:'center',width: '10%', sort: true}
                 , {field: 'releaseUserName', title: '任务发布者', align:'center',width: '10%', sort: true}
-                , {field: 'isPassed', title: '是否通过审核',align:'center', width: '15%', sort: true}
-                , {field: 'message', title: '审核答复信息',align:'center', width: '10%'}
+                , {field: 'isPassed', title: '是否通过审核',align:'center', width: '10%', sort: true}
+                , {field: 'message', title: '审核答复信息',align:'center', width: '15%'}
                 , {field: 'judgeTime', title: '审核时间',align:'center', width: '10%', sort: true}
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]];
         }
         var tableIns=table.render({
             elem: '#taskList'
-            , height: '700'
+            , height: height
             , url: url //数据接口
             , page: pageFlag //开启分页
             , limits: [15,30,50,100]
@@ -100,78 +103,14 @@ $(function () {
                 }
             }
         });
-
+        // 监听下拉选择框
+        form.on('select(chooseSelectFilter)', function (data) {
+            chooseAndSearch(tableIns);
+        });
         //筛选按钮点击时间
         $("#searchButton").click(function (e) {
             e.preventDefault();
-            console.log($("#chooseSelect").val())
-            switch ($("#chooseSelect").val()) {
-                //只执行搜索
-                case '0':
-                    //表格重载
-                    tableIns.reload({
-                        where:{
-                            queryInfo:'timeDown',
-                            searchInfo:$("#searchInput").val()
-                        },
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                // 通过
-                case '1':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'passed',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                // 不通过
-                case '2':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'notPassed',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                // 时间升序
-                case '3':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'timeUp',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                // 时间降序
-                case '4':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'timeDown',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-            }
+            chooseAndSearch(tableIns);
         })
     });
 
@@ -242,4 +181,74 @@ function noFunc(taskId,tableIns) {
             layer.close(index);
         }
     });
+}
+
+function chooseAndSearch(tableIns) {
+    switch ($("#chooseSelect").val()) {
+        //只执行搜索
+        case '0':
+            //表格重载
+            tableIns.reload({
+                where:{
+                    queryInfo:'timeDown',
+                    searchInfo:$("#searchInput").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            break;
+        // 通过
+        case '1':
+            //表格重载
+            tableIns.reload({
+                where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                    queryInfo: 'passed',
+                    searchInfo:$("#searchInput").val()
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            break;
+        // 不通过
+        case '2':
+            //表格重载
+            tableIns.reload({
+                where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                    queryInfo: 'notPassed',
+                    searchInfo:$("#searchInput").val()
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            break;
+        // 时间升序
+        case '3':
+            //表格重载
+            tableIns.reload({
+                where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                    queryInfo: 'timeUp',
+                    searchInfo:$("#searchInput").val()
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            break;
+        // 时间降序
+        case '4':
+            //表格重载
+            tableIns.reload({
+                where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                    queryInfo: 'timeDown',
+                    searchInfo:$("#searchInput").val()
+                }
+                ,page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+            break;
+    }
 }

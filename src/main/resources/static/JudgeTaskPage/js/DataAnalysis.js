@@ -23,6 +23,7 @@ $(function () {
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
+    var t=window.parent.document.getElementById("iframeMain").contentWindow.location;
     var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);
     if (r != null) return unescape(r[2]);
     return null;

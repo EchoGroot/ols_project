@@ -1,6 +1,6 @@
 package com.ols.ols_project.controller;
 
-import com.ols.ols_project.config.RedisConfig;
+import com.ols.ols_project.config.RedisConfigrationBean;
 import com.ols.ols_project.model.TestUser;
 import com.ols.ols_project.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ public class TestController {
     private TestService testService;
 
     @Autowired
-    private RedisConfig redisConfig;
+    private RedisConfigrationBean redisConfig;
 
-    @RequestMapping("testindex")
+    @GetMapping("testindex")
     public String showIndex(Model model){
         model.addAttribute("msg","ols");
         List<TestUser> users = testService.selAll();
@@ -41,5 +41,11 @@ public class TestController {
         TestUser value = (TestUser)redisTemplate.opsForValue().get("testkey");
         System.out.println(value);
         return "TestIndex";
+    }
+
+    @GetMapping("create500")
+    public String create500(){
+        int n=0/5;
+        return "ok";
     }
 }

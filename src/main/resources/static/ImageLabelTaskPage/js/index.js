@@ -33,8 +33,10 @@ $(function () {
         // 获取接受任务的数据
         getAccepteImageList();
     }else if(pageType === 'otherReleasePage'){
-        // 不是从审核页面进来的
-        if(pageFrom.indexOf('JudgeTaskPage')===-1){
+        // 不是从审核页面，个人发布页面进来的
+        if(pageFrom.indexOf('JudgeTaskPage')===-1
+            &&pageFrom.indexOf('PersonalCenterPag')===-1
+        ){
             // 显示举报按钮
             $("#report").show();
             // 显示接受任务按钮

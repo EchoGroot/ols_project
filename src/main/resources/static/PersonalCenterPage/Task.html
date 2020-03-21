@@ -1,0 +1,42 @@
+<head>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="./css/Task.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="./js/Task.js"></script>
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select id="chooseSelect" lay-filter="chooseSelectFilter">
+                <option value="0">选择筛选条件</option>
+                <option value="1">文档类型</option>
+                <option value="2">图片类型</option>
+                <option id="option1" value="3">审核中</option>
+                <option id="option2" value="4">审核未通过</option>
+                <option id="option3" value="5">审核通过</option>
+                <option value="6">发布时间升序</option>
+                <option value="7">发布时间降序</option>
+                <option value="8">接受者数量升序</option>
+                <option value="9">接受者数量降序</option>
+            </select>
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <input type="text" id="searchInput" name="title" placeholder="输入关键字" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn" id="searchButton">查询</button>
+        </div>
+    </div>
+</form>
+
+<table id="taskList" lay-filter="monitorToolbar"></table>
+<script type="text/html" id="barHandle">
+    <a class="layui-btn layui-btn-sm" lay-event="check">查看</a>
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    {{#  if(d.ext1 !== '0'){ }}
+    <a id="adopt" class="adoptClass layui-btn layui-btn-danger layui-btn-sm" lay-event="no">选择采纳</a>
+    {{#  } }}
+</script>
+</body>

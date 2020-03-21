@@ -3,8 +3,8 @@ package com.ols.ols_project.config;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * DataResource配置类
@@ -14,49 +14,36 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Getter
 @Setter
-@Configuration
-public class DruidDBConfig {
+@Component
+@ConfigurationProperties(prefix = "spring.datasource")
+public class DruidDBConfigrationBean {
 
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
+    private String url;
 
-    @Value("${spring.datasource.username}")
     private String username;
 
-    @Value("${spring.datasource.password}")
     private String password;
 
-    @Value("${spring.datasource.driverClassName}")
     private String driverClassName;
 
-    @Value("${spring.datasource.initialSize}")
     private int initialSize;
 
-    @Value("${spring.datasource.minIdle}")
     private int minIdle;
 
-    @Value("${spring.datasource.maxActive}")
     private int maxActive;
 
-    @Value("${spring.datasource.maxWait}")
     private int maxWait;
 
-    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
     private int timeBetweenEvictionRunsMillis;
 
-    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
     private int minEvictableIdleTimeMillis;
 
-    @Value("${spring.datasource.validationQuery}")
     private String validationQuery;
 
-    @Value("${spring.datasource.testWhileIdle}")
     private boolean testWhileIdle;
 
-    @Value("${spring.datasource.testOnBorrow}")
     private boolean testOnBorrow;
 
-    @Value("${spring.datasource.testOnReturn}")
     private boolean testOnReturn;
 
     /*@Value("${spring.datasource.poolPreparedStatements}")

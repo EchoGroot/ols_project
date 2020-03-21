@@ -12,7 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @date 20-2-9 下午11:36
  */
 @Configuration
-public class RedisConfig {
+public class RedisConfigrationBean {
 
     @Autowired
     private RedisTemplate<Object,Object> redisTemplate;

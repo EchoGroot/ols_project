@@ -5,7 +5,6 @@ import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 import com.ols.ols_project.model.UserSignUp;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**关于用户操作的mapper
@@ -20,9 +19,9 @@ public interface UserMapper {
 
     int changePassWordById(int id,String passWord);
 
-    List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int start, int end);
+    List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int start, int end, String queryInfo, String searchInfo);
 
-    List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int start, int end);
+    List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int start, int end, String queryInfo, String searchInfo);
 
     List<List<UserSignUp>> getReviewerSignUp(String queryInfo, String searchInfo , int start, Integer end);
 

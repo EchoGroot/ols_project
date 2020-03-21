@@ -1,11 +1,8 @@
 package com.ols.ols_project.service;
 
-import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.TaskEntity;
 import com.ols.ols_project.model.UserEntity;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * 关于User的Service
@@ -38,23 +35,15 @@ public interface UserService {
 
     /**
      * 根据id查询已接受的任务
-     * @param id
+     * @param userId
      * @param query
      * @param pageNum
      * @param pageSize
+     * @param queryInfo
+     * @param searchInfo
      * @return
      */
-    List<List<AcceptTask>> getAcceptTaskByUserId(int id, String query, int pageNum, int pageSize);
-
-    /**
-     * 根据id查询已发布的任务
-     * @param id
-     * @param query
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    List<List<TaskEntity>> getReleaseTaskByUserId(int id, String query, int pageNum, int pageSize);
+    HashMap<String,Object> getAcceptTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
 
     /**
      * 查询待批准的审核者注册账号
@@ -69,5 +58,15 @@ public interface UserService {
      */
     int yesAndNoReviewerSignUp(Integer userId,String operation);
 
-
+    /**
+     * 根据id查询已发布的任务
+     * @param userId
+     * @param query
+     * @param pageNum
+     * @param pageSize
+     * @param queryInfo
+     * @param searchInfo
+     * @return
+     */
+    HashMap<String, Object> getReleaseTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
 }

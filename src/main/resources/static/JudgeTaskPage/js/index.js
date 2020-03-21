@@ -3,9 +3,6 @@ var page=getQueryVariable('page');
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     if(page==='notCheck'){
-        var t=$("#notCheckTag a")
-                .attr("href")
-            +'&userId='+userId;
         $("#notCheckTag").attr('class','layui-nav-item layui-this');
         $("#iframeMain").attr("src",$("#notCheckTag a")
             .attr("href")
@@ -36,7 +33,6 @@ $(function () {
 
     $("a").click(function (e) {
         e.preventDefault();
-        var t=$(this).attr("href")+"userId="+userId;
         $("#iframeMain").attr("src",$(this)
             .attr("href")
             +"&userId="+userId

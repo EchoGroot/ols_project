@@ -3,9 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ols.ols_project.mapper.UserMapper">
 
-    <!--<resultMap id="total" type="java.lang.Integer">-->
-        <!--<result column="total"/>-->
-    <!--</resultMap>-->
     <select id="getUserInfoById"
             resultType="com.ols.ols_project.model.UserEntity">
         select
@@ -18,29 +15,26 @@
 
     <select id="getAcceptTaskByUserId" resultMap="AcceptTaskMap,total">
         select
-           SQL_CALC_FOUND_ROWS ols_task.id as ols_task_id,
-           name,
-           ols_task.url as ols_task_url,
-           information,
-           points,
-           ols_task.state as ols_task_state,
+           SQL_CALC_FOUND_ROWS ols_task.id as taskId,
+           ols_task.name as taskName,
+           ols_task.points as points,
+           ols_task.state as taskState,
            type,
-           ols_task.finish_time as ols_task_finish_time,
-           release_time,
-           release_user_id,
-           accept_num,
-           adopt_accept_id,
-           ols_accept.id as ols_accept_id,
-           user_id,
-           accept_time,
-           ols_accept.finish_time as ols_accept_finish_time,
-           ols_accept.state as ols_accept_stat,
-           ols_accept.url as ols_accept_url
+           release_time as releaseTime,
+           ols_user.name as releaseName,
+           accept_num as acceptNum,
+           accept_time as acceptTime,
+           ols_accept.finish_time as finishTime,
+           ols_accept.state as acceptState
         from
-          ols_task,ols_accept
+          ols_task,ols_accept,ols_user
         where
-          ols_task.id = ols_accept.task_id
+          release_user_id=ols_user.id
+          and ols_task.id = ols_accept.task_id
           and ols_accept.user_id = #{id}
+          <if test="searchInfo != ''">
+            and (ols_task.name like '%${searchInfo}%')
+          </if>
           <choose>
             <when test="query == 'acceptfinish'">
                 and ols_accept.state != 0
@@ -49,6 +43,50 @@
                 and ols_accept.state = 0
             </when>
           </choose>
+        <choose>
+            <when test="queryInfo == 'timeUp'">
+                ORDER BY accept_time
+            </when>
+            <when test="queryInfo == 'timeDown'">
+                ORDER BY accept_time DESC
+            </when>
+            <when test="queryInfo == 'doc'">
+                and type=0
+            </when>
+            <when test="queryInfo == 'img'">
+                and type=1
+            </when>
+            <when test="queryInfo == 'pointsUp'">
+                ORDER BY ols_task.points
+            </when>
+            <when test="queryInfo == 'pointsDown'">
+                ORDER BY ols_task.points DESC
+            </when>
+            <when test="queryInfo == 'releaseTimeUp'">
+                ORDER BY release_time
+            </when>
+            <when test="queryInfo == 'releaseTimeDown'">
+                ORDER BY release_time DESC
+            </when>
+            <when test="queryInfo == 'finishTimeUp'">
+                ORDER BY ols_accept.finish_time
+            </when>
+            <when test="queryInfo == 'finishTimeDown'">
+                ORDER BY ols_accept.finish_time DESC
+            </when>
+            <when test="queryInfo == 'finish'">
+                and ols_accept.state=1
+            </when>
+            <when test="queryInfo == 'adopted'">
+                and ols_accept.state=2
+            </when>
+            <when test="queryInfo == 'notAdopted'">
+                and ols_accept.state=3
+            </when>
+            <when test="queryInfo == 'invalid'">
+                and ols_accept.state=4
+            </when>
+        </choose>
         <if test="end != 0">
             limit
             #{start},#{end};
@@ -56,7 +94,6 @@
         <if test="end == 0">
             ;
         </if>
-
         SELECT FOUND_ROWS() as total;
     </select>
 
@@ -81,12 +118,53 @@
             ols_task
         where
             release_user_id=#{id}
+            <if test="searchInfo != ''">
+                and (name like '%${searchInfo}%')
+            </if>
             <choose>
                 <when test="query == 'releasefinish'">
-                    and state = 1
+                    and (state = 1 or state=2 or state=3)
                 </when>
                 <when test="query == 'releasenotfinish'">
-                    and state != 1
+                    and (state = 4 or state=5 or state=6)
+                </when>
+            </choose>
+            <choose>
+                <when test="queryInfo == 'timeUp'">
+                    ORDER BY release_time
+                </when>
+                <when test="queryInfo == 'timeDown'">
+                    ORDER BY release_time DESC
+                </when>
+                <when test="queryInfo == 'doc'">
+                    and type=0
+                </when>
+                <when test="queryInfo == 'img'">
+                    and type=1
+                </when>
+                <when test="queryInfo == 'check'">
+                    and state=4
+                </when>
+                <when test="queryInfo == 'notPassed'">
+                    and state=6
+                </when>
+                <when test="queryInfo == 'passed'">
+                    and state=5
+                </when>
+                <when test="queryInfo == 'finish'">
+                    and state=1
+                </when>
+                <when test="queryInfo == 'delete'">
+                    and state=2
+                </when>
+                <when test="queryInfo == 'disable'">
+                    and state=3
+                </when>
+                <when test="queryInfo == 'acceptNumUp'">
+                    ORDER BY accept_num
+                </when>
+                <when test="queryInfo == 'acceptNumDown'">
+                    ORDER BY accept_num DESC
                 </when>
             </choose>
         limit
@@ -176,26 +254,7 @@
           id = #{userId}
     </update>
 
-    <resultMap id="AcceptTaskMap" type="com.ols.ols_project.model.AcceptTask" >
-        <id column="ols_task_id" property="ols_task_id"  />
-        <result column="name" property="name" />
-        <result column="ols_task_url" property="ols_task_url" />
-        <result column="information" property="information" />
-        <result column="points" property="points" />
-        <result column="ols_task_state" property="ols_task_state" />
-        <result column="type" property="type" />
-        <result column="ols_task_finish_time" property="ols_task_finish_time" />
-        <result column="release_time" property="release_time" />
-        <result column="release_user_id" property="release_user_id" />
-        <result column="accept_num" property="accept_num" />
-        <result column="adopt_accept_id" property="adopt_accept_id" />
-        <result column="ols_accept_id" property="ols_accept_id" />
-        <result column="user_id" property="user_id" />
-        <result column="accept_time" property="accept_time" />
-        <result column="ols_accept_finish_time" property="ols_accept_finish_time" />
-        <result column="ols_accept_state" property="ols_accept_state" />
-        <result column="ols_accept_url" property="ols_accept_url" />
-    </resultMap>
+    <resultMap id="AcceptTaskMap" type="com.ols.ols_project.model.AcceptTask" ></resultMap>
 
     <resultMap id="ReleaseTaskMap" type="com.ols.ols_project.model.TaskEntity" >
         <id column="id" property="id"  />

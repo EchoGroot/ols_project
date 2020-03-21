@@ -3,7 +3,7 @@ package com.ols.ols_project.common.utils;
 import com.ols.ols_project.service.CreateTestDataService;
 import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,7 +24,7 @@ public class CreateTestDataController {
      * 创建ols_user表和ols_user_operation_log的测试数据
      * @return
      */
-    @RequestMapping("createTestDataForOlsUser")
+    @GetMapping("createTestDataForOlsUser")
     public void createTestDataForOlsUser(){
         int userIdStart=12344;
         for (int i=0;i<223;i++){
@@ -36,7 +36,7 @@ public class CreateTestDataController {
      * 创建ols_task表的测试数据
      * @return
      */
-    @RequestMapping("/createTestDataForOlsTask")
+    @GetMapping("/createTestDataForOlsTask")
     public String createTestDataForOlsTask(){
         for (int i=0;i<1200;i++){
             createTestDataService.createTestDataForOlsTask();
@@ -48,7 +48,7 @@ public class CreateTestDataController {
      * 创建ols_task表的测试数据
      * @return
      */
-    @RequestMapping("/createTestDataForOlsJudge")
+    @GetMapping("/createTestDataForOlsJudge")
     public String createTestDataForOlsJudge(){
         for (int i=0;i<1200;i++){
             createTestDataService.createTestDataForOlsJudge(
@@ -63,7 +63,7 @@ public class CreateTestDataController {
      * 创建ols_accept表的测试数据
      * @return
      */
-    @RequestMapping("createTestDataForOlsAccepte")
+    @GetMapping("createTestDataForOlsAccepte")
     public void createTestDataForOlsAccepte(){
         createTestDataService.createTestDataForOlsAccepte();
         for (int i=0;i<25;i++){

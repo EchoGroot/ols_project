@@ -13,16 +13,16 @@ import javax.sql.DataSource;
  * @date 20-3-14 下午11:06
  */
 @Configuration
-public class DruidDBAutoConfig {
+public class DruidDBAutoConfigrationBean {
     @Autowired
-    private DruidDBConfig config;
+    private DruidDBConfigrationBean config;
 
     @Bean     //声明其为Bean实例
     @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
         DruidDataSource datasource = new DruidDataSource();
 
-        datasource.setUrl(config.getDbUrl());
+        datasource.setUrl(config.getUrl());
         datasource.setUsername(config.getUsername());
         datasource.setPassword(config.getPassword());
         datasource.setDriverClassName(config.getDriverClassName());

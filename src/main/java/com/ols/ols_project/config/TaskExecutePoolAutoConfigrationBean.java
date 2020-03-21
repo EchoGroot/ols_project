@@ -16,9 +16,9 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Configuration
 @EnableAsync
-public class TaskExecutePoolAutoConfig {
+public class TaskExecutePoolAutoConfigrationBean {
     @Autowired
-    private TaskThreadPoolConfig config;
+    private TaskThreadPoolConfigrationBean config;
 
     @Bean
     public Executor myTaskAsyncPool() {
