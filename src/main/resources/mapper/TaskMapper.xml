@@ -198,7 +198,7 @@
             )
         values
           (
-            #{id}
+            #{id},
             #{user_id},
             #{task_id},
             #{ispassed},

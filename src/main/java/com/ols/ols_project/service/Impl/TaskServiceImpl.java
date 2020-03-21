@@ -152,6 +152,7 @@ public class TaskServiceImpl implements TaskService {
         int ispassed=operation.equals("yes")?1:0;
         if(count==1){
             count=taskMapper.insJudge(JudgeEntity.builder()
+                    .id(uidGenService.getUid())
                     .user_id(userId)
                     .task_id(taskId)
                     .ispassed(ispassed)
