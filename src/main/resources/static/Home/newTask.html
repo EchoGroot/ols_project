@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在线标注系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="./css/newImageTask.css"></script>
+    <script src="./js/newImageTask.js"></script>
+    <link rel="stylesheet" href="../complain/css/global.css">
+</head>
+<body>
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" href="/">
+            <img src="image/logo1.png" height="50" width="270"/>
+        </a>
+        <ul class="layui-nav fly-nav-user">
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="user/login.html">登入</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="user/reg.html">注册</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="fly-panel fly-column">
+    <div class="layui-container">
+        <ul class="layui-clear">
+            <li class="layui-hide-xs">任务大厅</li>
+            <li class="layui-this"><a href="">提问</a></li>
+            <li><a href="">建议</a></li>
+            <li><a href="">公告</a></li>
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
+
+            <!-- 用户登入后显示 -->
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我接受的任务</a></li>
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我发布的任务</a></li>
+        </ul>
+
+        <div class="fly-column-right layui-hide-xs">
+            <span class="fly-search"><i class="layui-icon"></i></span>
+            <a href="newTask.html" class="layui-btn">发布任务</a>
+        </div>
+        <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+            <a href="newTask.html" class="layui-btn">发布任务</a>
+        </div>
+    </div>
+</div>
+
+<!-提交任务表单 ->
+<form class="layui-form layui-container" action="addImageTask" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">任务名</label>
+        <div class="layui-input-block">
+            <input type="text" name="taskName" id="taskName" required  lay-verify="taskname" placeholder="请填写任务名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item  layui-form-text">
+        <label class="layui-form-label">任务详细信息</label>
+        <div class="layui-input-block">
+            <textarea name="taskDesc" id="taskDesc" placeholder="请输任务详细新洗" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">悬赏积分</label>
+        <div class="layui-input-block">
+            <input type="text" name="rewardPoints" id="rewardPoints" required  lay-verify="rewardpoints" placeholder="请输悬赏积分" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">标注规则（分号“；”隔开）</label>
+        <div class="layui-input-block">
+            <input type="text" name="taskRules" id="taskRules" required  lay-verify="taskrules" placeholder="请输入标注规则" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">图片上传</label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="selectImgs">
+            <i class="layui-icon">&#xe67c;</i>选择图片（最多选择20张，单张图片最大为10M）
+            </button>
+            <button type="button" class="layui-btn" id="uploadImgs">上传图片</button>
+            <button type="button" class="layui-btn" id="cleanImgs"> <i class="fa fa-trash-o fa-lg"></i>清空图片预览</button>
+        </div>
+        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+            预览图：
+            <div class="layui-upload-list" id="previewImgs"></div>
+        </blockquote>
+    </div>
+        
+    <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" type="button" style="width: 800px;" id="btnSubmit">确认发布</button>
+        </div>
+    </div>
+</form>
+
+<div class="fly-footer">
+    <p> 2020 &copy;啦啦啦啦 </p>
+</div>
+
+
+</body>
+</html>
