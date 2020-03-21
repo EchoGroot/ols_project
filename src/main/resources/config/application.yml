@@ -1,7 +1,7 @@
 spring:
   # 选择配置文件（dev：开发环境配置，pro：生产环境配置）
   profiles:
-    　　active: dev
+    active: dev
   redis:
     # 连接超时时间（毫秒）
     timeout: 5000

@@ -3,6 +3,9 @@ package com.ols.ols_project.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.Const.FileTypeEnum;
+import com.ols.ols_project.common.Const.IsPassedEnum;
+import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.*;
 import com.ols.ols_project.service.TaskService;
@@ -34,8 +37,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId) {
-        return  taskMapper.getAccepteImageListByAccepteId(acceptId);
+    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId) { return taskMapper.getAccepteImageListByAccepteId(acceptId);
     }
 
     @Override
@@ -59,11 +61,6 @@ public class TaskServiceImpl implements TaskService {
         List<TaskEntityBo> entryListBo=new ArrayList<>();
         entityList.stream().forEach(
                 taskEntity -> {
-                    String type="";
-                    switch (taskEntity.getType()){
-                        case 0:type ="文档";break;
-                        case 1:type="图片";break;
-                    }
                     entryListBo.add(
                             TaskEntityBo.builder()
                                     .id(taskEntity.getId())
@@ -71,8 +68,8 @@ public class TaskServiceImpl implements TaskService {
                                     .url(taskEntity.getUrl())
                                     .information(taskEntity.getInformation())
                                     .points(taskEntity.getPoints())
-                                    .state("审核中")
-                                    .type(type)
+                                    .state(TaskStateEnum.CHECK.getName())
+                                    .type(FileTypeEnum.getNameByCode(taskEntity.getType()))
                                     .release_time(taskEntity.getRelease_time())
                                     .release_user_id(taskEntity.getRelease_user_id())
                                     .ext1(taskEntity.getExt1())
@@ -176,7 +173,7 @@ public class TaskServiceImpl implements TaskService {
                     .releaseTime(e.getReleaseTime())
                     .releaseUserName(e.getReleaseUserName())
                     .judgeId(e.getJudgeId())
-                    .isPassed(e.getIsPassed()==1?"是":"否")
+                    .isPassed(IsPassedEnum.getNameByCode(e.getIsPassed()))
                     .message(e.getMessage())
                     .judgeTime(e.getJudgeTime())
                     .build());
