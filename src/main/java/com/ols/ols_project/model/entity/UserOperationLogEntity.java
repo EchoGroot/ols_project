@@ -1,4 +1,4 @@
-package com.ols.ols_project.model;
+package com.ols.ols_project.model.entity;
 
 import lombok.*;
 

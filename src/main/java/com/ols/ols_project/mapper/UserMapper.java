@@ -1,8 +1,8 @@
 package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.TaskEntity;
-import com.ols.ols_project.model.UserEntity;
+import com.ols.ols_project.model.entity.TaskEntity;
+import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.UserSignUp;
 
 import java.util.List;

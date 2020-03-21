@@ -4,7 +4,7 @@
 <mapper namespace="com.ols.ols_project.mapper.UserMapper">
 
     <select id="getUserInfoById"
-            resultType="com.ols.ols_project.model.UserEntity">
+            resultType="com.ols.ols_project.model.entity.UserEntity">
         select
           id,name,birthday,sex,email,role,points
         from
@@ -256,7 +256,7 @@
 
     <resultMap id="AcceptTaskMap" type="com.ols.ols_project.model.AcceptTask" ></resultMap>
 
-    <resultMap id="ReleaseTaskMap" type="com.ols.ols_project.model.TaskEntity" >
+    <resultMap id="ReleaseTaskMap" type="com.ols.ols_project.model.entity.TaskEntity" >
         <id column="id" property="id"  />
         <result column="name" property="name" />
         <result column="url" property="url" />

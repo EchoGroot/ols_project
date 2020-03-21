@@ -1,13 +1,13 @@
-package com.ols.ols_project.model;
+package com.ols.ols_project.model.entity;
 
 import lombok.*;
 
 import java.sql.Timestamp;
 
 /**
- * ols_accept表的实体类
+ * ols_judge表的实体类
  * @author yuyy
- * @date 20-2-21 下午12:33
+ * @date 20-3-16 下午4:39
  */
 @Builder
 @Getter
@@ -15,15 +15,14 @@ import java.sql.Timestamp;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccepteEntity {
-
+public class JudgeEntity {
     /**
-     * 接受任务编号
+     * 审核任务编号
      */
     private Long id;
 
     /**
-     * 接受者编号
+     * 审核者编号
      */
     private Long user_id;
 
@@ -33,24 +32,24 @@ public class AccepteEntity {
     private Long task_id;
 
     /**
-     * 接受时间
+     * 是否通过
      */
-    private Timestamp accept_time;
+    private Integer ispassed;
 
     /**
-     * 提交时间
+     * 是否是第一次查看
      */
-    private Timestamp finish_time;
+    private Integer isfirst;
 
     /**
-     * 接受状态
+     * 答复信息
      */
-    private Integer state;
+    private String message;
 
     /**
-     * 标注文件路径
+     * 审核时间
      */
-    private String url;
+    private Timestamp judge_time;
 
     /**
      * 备用字段1

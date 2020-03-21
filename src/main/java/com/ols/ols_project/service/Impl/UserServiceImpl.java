@@ -3,6 +3,8 @@ package com.ols.ols_project.service.Impl;
 import com.ols.ols_project.common.Const.*;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.entity.TaskEntity;
+import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,9 @@
 package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.JudgeEntity;
+import com.ols.ols_project.model.entity.TaskEntity;
 
 import java.util.List;
 

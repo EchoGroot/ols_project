@@ -26,7 +26,7 @@ public enum AcceptStateEnum {
     }
 
     public static String getNameByCode(int code){
-        String name = "roleCode不存在";
+        String name = "";
         AcceptStateEnum[] roleEnums = AcceptStateEnum.values();
         for (AcceptStateEnum roleEnum : roleEnums) {
             if(roleEnum.getCode()==code){

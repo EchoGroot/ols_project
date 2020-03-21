@@ -1,6 +1,6 @@
 package com.ols.ols_project.service;
 
-import com.ols.ols_project.model.UserEntity;
+import com.ols.ols_project.model.entity.UserEntity;
 
 import java.util.HashMap;
 

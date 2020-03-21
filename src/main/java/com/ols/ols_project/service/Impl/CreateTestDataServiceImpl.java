@@ -5,7 +5,7 @@ import com.ols.ols_project.common.utils.GenerateNameOfPerson;
 import com.ols.ols_project.common.utils.GenerateString;
 import com.ols.ols_project.mapper.CreateTestDataMapper;
 import com.ols.ols_project.mapper.TaskMapper;
-import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.entity.*;
 import com.ols.ols_project.service.CreateTestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

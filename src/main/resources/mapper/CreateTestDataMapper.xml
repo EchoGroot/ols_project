@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ols.ols_project.mapper.CreateTestDataMapper">
     <insert id="createTestDataForOlsUser"
-            parameterType="com.ols.ols_project.model.UserEntity">
+            parameterType="com.ols.ols_project.model.entity.UserEntity">
         insert into ols_user
           (name,birthday,password,sex,email,role,points,ext1,ext2,ext3)
         values
@@ -11,7 +11,7 @@
     </insert>
 
     <insert id="createTestDataForOlsTask"
-            parameterType="com.ols.ols_project.model.TaskEntity">
+            parameterType="com.ols.ols_project.model.entity.TaskEntity">
         insert into ols_task
           (
             name,
@@ -43,7 +43,7 @@
     </insert>
 
     <insert id="createTestDataForOlsAccepte"
-            parameterType="com.ols.ols_project.model.AccepteEntity">
+            parameterType="com.ols.ols_project.model.entity.AccepteEntity">
         insert into ols_accept
           (
             user_id,
@@ -70,7 +70,7 @@
           )
     </insert>
 
-    <insert id="createTestDataForOlsUserOperationLog" parameterType="com.ols.ols_project.model.UserOperationLogEntity">
+    <insert id="createTestDataForOlsUserOperationLog" parameterType="com.ols.ols_project.model.entity.UserOperationLogEntity">
         insert into ols_user_operation_log
           (
             id,

@@ -34,7 +34,7 @@
           and ols_accept.id = #{acceptId}
     </select>
 
-    <select id="getAccepteTaskInfoByAcceptId" resultType="com.ols.ols_project.model.AccepteEntity">
+    <select id="getAccepteTaskInfoByAcceptId" resultType="com.ols.ols_project.model.entity.AccepteEntity">
         select
           id,
           user_id,
@@ -97,7 +97,7 @@
           #{count}
     </update>
 
-    <select id="getTaskInfoByTaskId" resultType="com.ols.ols_project.model.TaskEntity">
+    <select id="getTaskInfoByTaskId" resultType="com.ols.ols_project.model.entity.TaskEntity">
         select
           id,
           name,
@@ -120,7 +120,7 @@
           id = #{taskId}
     </select>
 
-    <insert id="insAcceptTask" parameterType="com.ols.ols_project.model.AccepteEntity">
+    <insert id="insAcceptTask" parameterType="com.ols.ols_project.model.entity.AccepteEntity">
         insert into ols_accept
           (
             id,
@@ -182,7 +182,7 @@
           id=#{taskId}
     </update>
 
-    <insert id="insJudge" parameterType="com.ols.ols_project.model.JudgeEntity">
+    <insert id="insJudge" parameterType="com.ols.ols_project.model.entity.JudgeEntity">
         insert into
           ols_judge(
               id,
@@ -254,7 +254,7 @@
         SELECT FOUND_ROWS() as total;
     </select>
 
-    <resultMap id="TaskMap" type="com.ols.ols_project.model.TaskEntity" >
+    <resultMap id="TaskMap" type="com.ols.ols_project.model.entity.TaskEntity" >
         <id column="id" property="id"  />
         <result column="name" property="name" />
         <result column="url" property="url" />
