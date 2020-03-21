@@ -56,14 +56,14 @@ public class TaskController {
      */
     @GetMapping("/getAcceptImageListByAcceptId")
     public String getAcceptImageListByAcceptId(
-            @RequestParam("acceptId") int acceptId,
-            @RequestParam("userId") int userId
+            @RequestParam("acceptId") String acceptId,
+            @RequestParam("userId") String userId
     ){
         log.info("用户ID：{}，根据接受任务ID获取图片信息（ols_accept表），接受任务ID：{}",userId,acceptId);
         String resultStr=null;
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskImage",
-                taskService.getAccepteImageListByAccepteId(acceptId));
+                taskService.getAccepteImageListByAccepteId(Long.parseLong(acceptId)));
         resultStr= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取接受任务图片数据成功"),
                 "yyyy-MM-dd hh:mm:ss");
@@ -85,7 +85,7 @@ public class TaskController {
         String resultStr=null;
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskInfo",
-                taskService.getTaskInfoByTaskId(Integer.parseInt(taskId)));
+                taskService.getTaskInfoByTaskId(Long.parseLong(taskId)));
         resultStr= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取任务数据成功"),
                 "yyyy-MM-dd hh:mm:ss");
@@ -100,8 +100,8 @@ public class TaskController {
      */
     @PostMapping(value = "/storeImageLabelInfo")
     public String storeImageLabelInfo(
-            @RequestParam("userId") int userId,
-            @RequestParam("acceptId") int acceptId,
+            @RequestParam("userId") String userId,
+            @RequestParam("acceptId") String acceptId,
             @RequestParam("imageUrlParam") String imageUrlParam,
             @RequestParam("labelInfo") String labelInfo
 
@@ -115,7 +115,7 @@ public class TaskController {
         String resultStr=null;
         List<LabelInfo> labelInfoList= (List<LabelInfo>)JSON.parse(labelInfo);
         if(1==taskService.storeImageLabelInfo(
-                acceptId,
+                Long.parseLong(acceptId),
                 labelInfoList,
                 imageUrlParam)){
             resultStr= JSON.toJSONString(
@@ -145,14 +145,14 @@ public class TaskController {
         log.info("审核者ID：{}，获取待审核的任务",userId);
         String resultStr=null;
         //第一次查询，查的是已分配给该审核者的
-        List<TaskEntityBo> notCheckedTask = taskService.getNotCheckedTask(Integer.parseInt(userId));
+        List<TaskEntityBo> notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
         if(notCheckedTask.size() < NormalConst.setNotCheckedTaskForUserCount){
             //分配任务给该审核者
             taskService.setNotCheckedTaskForUser(
-                    Integer.parseInt(userId),
+                    Long.parseLong(userId),
                     NormalConst.setNotCheckedTaskForUserCount-notCheckedTask.size());
             //第二次查询
-            notCheckedTask = taskService.getNotCheckedTask(Integer.parseInt(userId));
+            notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
         }
         HashMap<String,Object> data=new HashMap<>();
         data.put("taskList",notCheckedTask);
@@ -178,16 +178,16 @@ public class TaskController {
         String resultStr=null;
         //查询该用户是否已接受此任务
         List<AcceptTaskBo>acceptTaskByUserId=
-                (List<AcceptTaskBo>)userService.getAcceptTaskByUserId(Integer.parseInt(userId),"",0,0,"","").get("taskList");
+                (List<AcceptTaskBo>)userService.getAcceptTaskByUserId(Long.parseLong(userId),"",0,0,"","").get("taskList");
         for(AcceptTaskBo item:acceptTaskByUserId){
-            if(item.getTaskId()==Integer.parseInt(taskId)){
+            if(item.getTaskId()==Long.parseLong(taskId)){
                 resultStr=JSON.toJSONString(
                         new Result("201","该用户已接受此任务"));
                 break;
             }
         }
         if(resultStr==null){
-            if(2==taskService.acceptTask(Integer.parseInt(userId),Integer.parseInt(taskId))){
+            if(2==taskService.acceptTask(Long.parseLong(userId),Long.parseLong(taskId))){
                 resultStr=JSON.toJSONString(
                         new Result("200","接受任务成功"));
             }else{
@@ -218,8 +218,8 @@ public class TaskController {
                 ,userId,taskId,operation,message);
         String resultStr=null;
         if(1==taskService.taskPassOrNotPassAudits(
-                Integer.parseInt(userId),
-                Integer.parseInt(taskId),
+                Long.parseLong(userId),
+                Long.parseLong(taskId),
                 operation,
                 message
                 )){
@@ -247,14 +247,14 @@ public class TaskController {
     public String getFinishCheckTaskByUserId(
             @RequestParam("page") int pageNum,
             @RequestParam("limit") int pageSize,
-            @RequestParam("userId") int userId,
+            @RequestParam("userId") String userId,
             @RequestParam(value = "queryInfo") String  queryInfo,
             @RequestParam(value = "searchInfo") String  searchInfo
     ){
         log.info("审核者ID：{}，根据审核者id获取已审核的任务，pageNum:{},pageSize:{},queryInfo:{},searchInfo:{}",userId,pageNum,pageSize,queryInfo,searchInfo);
         // layui默认数据表格的status为0才显示数据
         String result=JSON.toJSONStringWithDateFormat(
-                new Result(taskService.getFinishCheckTaskByUserId(userId,queryInfo,searchInfo,pageNum, pageSize),"0","根据审核者id获取已审核的任务"),
+                new Result(taskService.getFinishCheckTaskByUserId(Long.parseLong(userId),queryInfo,searchInfo,pageNum, pageSize),"0","根据审核者id获取已审核的任务"),
                 "yyyy-MM-dd");
         log.info("审核者ID：{}，根据审核者id获取已审核的任务，result:{}",userId,result);
         return result;

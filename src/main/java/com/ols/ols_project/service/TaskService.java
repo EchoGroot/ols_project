@@ -13,21 +13,21 @@ import java.util.List;
  */
 public interface TaskService {
 
-    String getImageListByTaskId(int taskId);
+    String getImageListByTaskId(long taskId);
 
-    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(int acceptId);
+    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId);
 
-    int storeImageLabelInfo(int acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
+    int storeImageLabelInfo(long acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
 
-    List<TaskEntityBo> getNotCheckedTask(Integer userId);
+    List<TaskEntityBo> getNotCheckedTask(long userId);
 
-    int setNotCheckedTaskForUser(Integer userId, int count);
+    int setNotCheckedTaskForUser(long userId, int count);
 
-    TaskEntityBo getTaskInfoByTaskId(int taskId);
+    TaskEntityBo getTaskInfoByTaskId(long taskId);
 
-    int acceptTask(int userId, int taskId);
+    int acceptTask(long userId, long taskId);
 
-    int taskPassOrNotPassAudits(int userId, int taskId, String operation,String message);
+    int taskPassOrNotPassAudits(long userId, long taskId, String operation,String message);
 
-    HashMap<String, Object> getFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int pageNum, int pageSize);
+    HashMap<String, Object> getFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int pageNum, int pageSize);
 }

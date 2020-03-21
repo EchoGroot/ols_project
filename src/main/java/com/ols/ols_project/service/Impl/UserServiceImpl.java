@@ -22,22 +22,22 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public UserEntity getUserInfoById(int id) {
+    public UserEntity getUserInfoById(long id) {
         return userMapper.getUserInfoById(id);
     }
 
     @Override
-    public String getPassWodById(int id) {
+    public String getPassWodById(long id) {
         return userMapper.getPassWodById(id);
     }
 
     @Override
-    public int changePassWordById(int id, String passWord) {
+    public int changePassWordById(long id, String passWord) {
         return userMapper.changePassWordById(id,passWord);
     }
 
     @Override
-    public HashMap<String,Object> getAcceptTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
+    public HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
         List<List<AcceptTask>> list = userMapper.getAcceptTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
         List<AcceptTaskBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String, Object> getReleaseTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
+    public HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
         List<List<TaskEntity>> list = userMapper.getReleaseTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
         List<TaskEntityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
@@ -160,7 +160,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int yesAndNoReviewerSignUp(Integer userId, String operation) {
+    public int yesAndNoReviewerSignUp(long userId, String operation) {
         return userMapper.yesAndNoReviewerSignUp(userId,operation);
     }
 

@@ -19,17 +19,17 @@ public class JudgeEntity {
     /**
      * 审核任务编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 审核者编号
      */
-    private Integer user_id;
+    private Long user_id;
 
     /**
      * 任务编号
      */
-    private Integer task_id;
+    private Long task_id;
 
     /**
      * 是否通过

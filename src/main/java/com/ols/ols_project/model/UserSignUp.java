@@ -26,7 +26,7 @@ public class UserSignUp {
      * 主键
      * 用户编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户名
@@ -97,7 +97,7 @@ public class UserSignUp {
      * @param ext2
      * @param ext3
      */
-    public UserSignUp(Integer id, String name, Date birthday, String sex, String email, String role, Integer points, String ext1, String ext2, String ext3) {
+    public UserSignUp(Long id, String name, Date birthday, String sex, String email, String role, Integer points, String ext1, String ext2, String ext3) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;

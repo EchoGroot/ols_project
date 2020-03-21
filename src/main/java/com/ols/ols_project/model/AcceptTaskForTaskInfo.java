@@ -19,7 +19,7 @@ public class AcceptTaskForTaskInfo {
     /**
      * 任务编号
      */
-    private Integer ols_task_id;
+    private Long ols_task_id;
 
     /**
      * 任务名称
@@ -64,7 +64,7 @@ public class AcceptTaskForTaskInfo {
     /**
      * 发布者编号
      */
-    private Integer release_user_id;
+    private Long release_user_id;
 
     /**
      * 接受者数量
@@ -74,17 +74,17 @@ public class AcceptTaskForTaskInfo {
     /**
      * 采纳的接受任务编号
      */
-    private Integer adopt_accept_id;
+    private Long adopt_accept_id;
 
     /**
      * 接受任务编号
      */
-    private Integer ols_accept_id;
+    private Long ols_accept_id;
 
     /**
      * 接受者编号
      */
-    private Integer user_id;
+    private Long user_id;
 
     /**
      * 接受时间

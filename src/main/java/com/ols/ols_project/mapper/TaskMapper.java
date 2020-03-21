@@ -10,29 +10,29 @@ import java.util.List;
  * @date 20-2-24 下午7:10
  */
 public interface TaskMapper {
-    String getImageListByTaskId(int taskId);
+    String getImageListByTaskId(long taskId);
 
-    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(int acceptId);
+    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId);
 
-    AccepteEntity getAccepteTaskInfoByAcceptId(int acceptId);
+    AccepteEntity getAccepteTaskInfoByAcceptId(long acceptId);
 
-    int storeImageLabelInfoByAccepteId(int acceptId,String url);
+    int storeImageLabelInfoByAccepteId(long acceptId,String url);
 
-    List<TaskEntity> getNotCheckedTask(Integer userId);
+    List<TaskEntity> getNotCheckedTask(long userId);
 
-    int setNotCheckedTaskForUser(Integer userId, int count);
+    int setNotCheckedTaskForUser(long userId, int count);
 
-    TaskEntity getTaskInfoByTaskId(int taskId);
+    TaskEntity getTaskInfoByTaskId(long taskId);
 
     int insAcceptTask(AccepteEntity build);
 
-    int selAcceptNumOfTask(int taskId);
+    int selAcceptNumOfTask(long taskId);
 
-    int updAcceptNumOfTask(int taskId,int acceptNum);
+    int updAcceptNumOfTask(long taskId,int acceptNum);
 
-    int taskPassOrNotPassAudits(int taskId, String operation);
+    int taskPassOrNotPassAudits(long taskId, String operation);
 
     int insJudge(JudgeEntity judgeEntity);
 
-    List<List<FinishCheckTask>> selFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int start, int end);
+    List<List<FinishCheckTask>> selFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int start, int end);
 }

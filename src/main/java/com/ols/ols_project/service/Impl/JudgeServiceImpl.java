@@ -19,7 +19,7 @@ public class JudgeServiceImpl implements JudgeService {
     private JudgeMapper judgeMapper;
 
     @Override
-    public int[][] getHistoryByUserId(int userId,int year) {
+    public int[][] getHistoryByUserId(long userId,int year) {
         int[][] resultArr=new int[3][];
 //        获取审核未通过的审核历史
         List<MonthAndCount> list = judgeMapper.getHistoryByUserId(userId, year, 0);

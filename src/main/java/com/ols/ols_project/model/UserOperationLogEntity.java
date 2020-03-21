@@ -20,12 +20,12 @@ public class UserOperationLogEntity {
     /**
      * 编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户编号
      */
-    private Integer user_id;
+    private Long user_id;
 
     /**
      * 类型

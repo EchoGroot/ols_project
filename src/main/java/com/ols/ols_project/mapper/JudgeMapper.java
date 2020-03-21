@@ -9,5 +9,5 @@ import java.util.List;
  * @date 20-3-17 下午5:23
  */
 public interface JudgeMapper {
-    List<MonthAndCount>getHistoryByUserId(int userId,int year,int isPassed);
+    List<MonthAndCount>getHistoryByUserId(long userId,int year,int isPassed);
 }

@@ -6,9 +6,9 @@ package com.ols.ols_project.service;
  * @date 20-2-17 下午4:20
  */
 public interface CreateTestDataService {
-    void createTestDataForOlsUser(int userIdStart);
+    void createTestDataForOlsUser(long userIdStart);
     void createTestDataForOlsTask();
     void createTestDataForOlsAccepte();
 
-    void createTestDataForOlsJudge(int userId, int taskId);
+    void createTestDataForOlsJudge(long userId, long taskId);
 }

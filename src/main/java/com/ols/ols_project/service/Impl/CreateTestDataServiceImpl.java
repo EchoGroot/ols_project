@@ -1,5 +1,6 @@
 package com.ols.ols_project.service.Impl;
 
+import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.utils.GenerateNameOfPerson;
 import com.ols.ols_project.common.utils.GenerateString;
 import com.ols.ols_project.mapper.CreateTestDataMapper;
@@ -27,8 +28,11 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
     @Autowired
     private TaskMapper taskMapper;
 
+    @Autowired
+    private UidGenService uidGenService;
+
     @Override
-    public void createTestDataForOlsUser(int userIdStart) {
+    public void createTestDataForOlsUser(long userIdStart) {
         UserEntity userEntity=new UserEntity();
         Random random = new Random();
         userEntity.setName(GenerateNameOfPerson.randomName(true,3));
@@ -82,7 +86,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                 random.nextInt(60),
                 random.nextInt(10000000)
         ));
-        taskEntity.setRelease_user_id(12567);
+        taskEntity.setRelease_user_id(12567L);
         createTestDataMapper.createTestDataForOlsTask(taskEntity);
     }
 
@@ -91,8 +95,8 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
         AccepteEntity acceptEntity=new AccepteEntity();
         Random random = new Random();
         for (int i = 0; i < 1; i++) {
-            acceptEntity.setUser_id(10000);
-            acceptEntity.setTask_id(10128);
+            acceptEntity.setUser_id(10000L);
+            acceptEntity.setTask_id(10128L);
             acceptEntity.setAccept_time(new Timestamp(
                     119,
                     random.nextInt(1)+8,
@@ -118,7 +122,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
     }
 
     @Override
-    public void createTestDataForOlsJudge(int userId, int taskId) {
+    public void createTestDataForOlsJudge(long userId, long taskId) {
         Random random=new Random();
         String operation =random.nextInt(2)%2==0?"yes":"no";
         taskMapper.taskPassOrNotPassAudits(
@@ -128,6 +132,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
                 ?"恭喜您！您发布的任务（编号"+taskId+"）已通过审核。"
                 :"很抱歉！您发布的任务（编号"+taskId+"）未能通过审核，理由：图片涉嫌违规。";
         taskMapper.insJudge(JudgeEntity.builder()
+                    .id(uidGenService.getUid())
                     .user_id(userId)
                     .task_id(taskId)
                     .ispassed(ispassed)

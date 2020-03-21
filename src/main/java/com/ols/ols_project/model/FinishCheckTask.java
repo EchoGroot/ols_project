@@ -20,7 +20,7 @@ public class FinishCheckTask {
     /**
      * 任务ID
      */
-    private Integer taskId;
+    private Long taskId;
 
     /**
      * 任务名称
@@ -40,7 +40,7 @@ public class FinishCheckTask {
     /**
      * 审核编号
      */
-    private Integer judgeId;
+    private Long judgeId;
 
     /**
      * 是否通过审核

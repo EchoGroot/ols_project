@@ -123,6 +123,7 @@
     <insert id="insAcceptTask" parameterType="com.ols.ols_project.model.AccepteEntity">
         insert into ols_accept
           (
+            id,
             user_id,
             task_id,
             accept_time,
@@ -135,6 +136,7 @@
           )
         values
           (
+            #{id},
             #{user_id},
             #{task_id},
             #{accept_time},
@@ -183,6 +185,7 @@
     <insert id="insJudge" parameterType="com.ols.ols_project.model.JudgeEntity">
         insert into
           ols_judge(
+              id,
               user_id,
               task_id,
               ispassed,
@@ -195,6 +198,7 @@
             )
         values
           (
+            #{id}
             #{user_id},
             #{task_id},
             #{ispassed},

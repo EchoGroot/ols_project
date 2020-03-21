@@ -19,7 +19,7 @@ public class AcceptTask {
     /**
      * 任务编号
      */
-    private Integer taskId;
+    private Long taskId;
 
     /**
      * 任务名称

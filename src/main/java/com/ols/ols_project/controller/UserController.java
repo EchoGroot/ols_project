@@ -39,7 +39,7 @@ public class UserController {
         String resultStr=null;
         if(userId != null){
             UserEntity userInfoById = userService.getUserInfoById(
-                    Integer.parseInt(userId)
+                    Long.parseLong(userId)
             );
             if(userInfoById == null){
                 Result result = new Result("201", "未找到该用户");
@@ -99,7 +99,7 @@ public class UserController {
      */
     @GetMapping(value = "/getAcceptTaskByUserId")
     public String getAcceptTaskByUserId(
-            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "userId") String userId,
             @RequestParam(value = "query") String query,
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
@@ -111,7 +111,7 @@ public class UserController {
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
                         userService.getAcceptTaskByUserId(
-                                userId, query, pageNum , pageSize,queryInfo, searchInfo)
+                                Long.parseLong(userId), query, pageNum , pageSize,queryInfo, searchInfo)
                         ,"0","获取已接受任务成功")
                 ,"yyyy-MM-dd hh:mm:ss");
         log.info("用户ID：{}，获取用户已接受的任务，query：{}，pageNum:{},pageSize:{},queryInfo:{},searchInfo:{},result:{}"
@@ -131,7 +131,7 @@ public class UserController {
      */
     @GetMapping(value = "/getReleaseTaskByUserId")
     public String getReleaseTaskByUserId(
-            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "userId") String userId,
             @RequestParam(value = "query") String query,
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
@@ -143,7 +143,7 @@ public class UserController {
         // layui默认数据表格的status为0才显示数据
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        userService.getReleaseTaskByUserId(userId, query, pageNum, pageSize,queryInfo,searchInfo)
+                        userService.getReleaseTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize,queryInfo,searchInfo)
                         ,"0"
                         ,"获取已发布任务成功")
                 ,"yyyy-MM-dd hh:mm:ss");
@@ -160,7 +160,7 @@ public class UserController {
      */
     @GetMapping(value = "/getReviewerSignUp")
     public String getReleaseTaskByUserId(
-            @RequestParam(value = "userId") Integer userId,
+            @RequestParam(value = "userId") String userId,
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
             @RequestParam(value = "queryInfo") String  queryInfo,
@@ -196,9 +196,9 @@ public class UserController {
         );
         String resultStr=null;
         if("yes".equals(operation)){
-            if(1==userService.yesAndNoReviewerSignUp(Integer.parseInt(userId),operation)){
+            if(1==userService.yesAndNoReviewerSignUp(Long.parseLong(userId),operation)){
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById(Integer.parseInt(userId));
+                UserEntity userInfo = userService.getUserInfoById(Long.parseLong(userId));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
                         ,"Ols系统通知"
@@ -210,9 +210,9 @@ public class UserController {
                         new Result("201","同意注册失败，请刷新页面"));
             }
         }else {
-            if (1 == userService.yesAndNoReviewerSignUp(Integer.parseInt(userId), operation)) {
+            if (1 == userService.yesAndNoReviewerSignUp(Long.parseLong(userId), operation)) {
                 //给审核者发送邮件提醒
-                UserEntity userInfo = userService.getUserInfoById(Integer.parseInt(userId));
+                UserEntity userInfo = userService.getUserInfoById(Long.parseLong(userId));
                 sendEmailBy126.sendEmail(
                         userInfo.getEmail()
                         , "Ols系统通知"

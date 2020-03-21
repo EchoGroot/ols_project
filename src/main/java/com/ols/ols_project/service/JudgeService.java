@@ -5,5 +5,5 @@ package com.ols.ols_project.service;
  * @date 20-3-17 下午5:13
  */
 public interface JudgeService {
-    int[][] getHistoryByUserId(int userId,int year);
+    int[][] getHistoryByUserId(long userId,int year);
 }

@@ -23,7 +23,7 @@ public class UserEntity {
      * 主键
      * 用户编号
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户名
@@ -85,7 +85,7 @@ public class UserEntity {
      * @param role
      * @param points
      */
-    public UserEntity(Integer id, String name, Date birthday, String sex, String email, Integer role, Integer points) {
+    public UserEntity(Long id, String name, Date birthday, String sex, String email, Integer role, Integer points) {
         this.id = id;
         this.name = name;
         this.birthday = birthday;

@@ -2,6 +2,7 @@ package com.ols.ols_project.service.Impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.*;
 import com.ols.ols_project.service.TaskService;
@@ -24,19 +25,21 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
 
+    @Autowired
+    private UidGenService uidGenService;
+
     @Override
-    public String getImageListByTaskId(int taskId) {
+    public String getImageListByTaskId(long taskId) {
         return taskMapper.getImageListByTaskId(taskId);
     }
 
     @Override
-    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(int acceptId) {
-        AcceptTaskForTaskInfo accepteImageListByAccepteId = taskMapper.getAccepteImageListByAccepteId(acceptId);
-        return  accepteImageListByAccepteId;
+    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId) {
+        return  taskMapper.getAccepteImageListByAccepteId(acceptId);
     }
 
     @Override
-    public int storeImageLabelInfo(int acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam) {
+    public int storeImageLabelInfo(long acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam) {
         AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptTaskId);
         AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
         acceptImageUrl.getTaskImage().stream().forEach(e->{
@@ -51,7 +54,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskEntityBo> getNotCheckedTask(Integer userId) {
+    public List<TaskEntityBo> getNotCheckedTask(long userId) {
         List<TaskEntity> entityList = taskMapper.getNotCheckedTask(userId);
         List<TaskEntityBo> entryListBo=new ArrayList<>();
         entityList.stream().forEach(
@@ -83,12 +86,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int setNotCheckedTaskForUser(Integer userId, int count) {
+    public int setNotCheckedTaskForUser(long userId, int count) {
         return taskMapper.setNotCheckedTaskForUser(userId,count);
     }
 
     @Override
-    public TaskEntityBo getTaskInfoByTaskId(int taskId) {
+    public TaskEntityBo getTaskInfoByTaskId(long taskId) {
         TaskEntity taskEntity = taskMapper.getTaskInfoByTaskId(taskId);
         String state=null;
         switch (taskEntity.getState()){
@@ -123,12 +126,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int acceptTask(int userId, int taskId) {
+    public int acceptTask(long userId, long taskId) {
         int result=0;
         //查询任务信息
         TaskEntityBo taskInfoByTaskId = getTaskInfoByTaskId(taskId);
         //写入任务接受表
         result+=taskMapper.insAcceptTask(AccepteEntity.builder()
+                .id(uidGenService.getUid())
                 .task_id(taskInfoByTaskId.getId())
                 .user_id(userId)
                 .accept_time(new Timestamp(System.currentTimeMillis()))
@@ -143,7 +147,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int taskPassOrNotPassAudits(int userId, int taskId, String operation,String message) {
+    public int taskPassOrNotPassAudits(long userId, long taskId, String operation,String message) {
         int count=taskMapper.taskPassOrNotPassAudits(taskId,operation);
         int ispassed=operation.equals("yes")?1:0;
         if(count==1){
@@ -160,7 +164,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public HashMap<String, Object> getFinishCheckTaskByUserId(int userId,String queryInfo, String searchInfo, int pageNum, int pageSize) {
+    public HashMap<String, Object> getFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int pageNum, int pageSize) {
         List<List<FinishCheckTask>> list = taskMapper.selFinishCheckTaskByUserId(userId,queryInfo, searchInfo, (pageNum - 1) * pageSize, pageSize);
         List<FinishCheckTaskBo> boList=new ArrayList<>();
         HashMap<String,Object> resultMap=new HashMap<>();

@@ -39,7 +39,7 @@ public class JudgeController {
         log.info("审核者ID：{}，获取历史审核信息，year:{}",userId,year);
         HashMap<String, Object> data = new HashMap<>();
         data.put("historyList",
-                judgeService.getHistoryByUserId(Integer.parseInt(userId),Integer.parseInt(year)));
+                judgeService.getHistoryByUserId(Long.parseLong(userId),Integer.parseInt(year)));
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取历史审核信息成功"),
                 "yyyy-MM-dd");

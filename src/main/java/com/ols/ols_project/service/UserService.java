@@ -16,14 +16,14 @@ public interface UserService {
      * @param id
      * @return
      */
-    UserEntity getUserInfoById(int id);
+    UserEntity getUserInfoById(long id);
 
     /**
      * 根据用户id查询密码
      * @param id
      * @return
      */
-    String getPassWodById(int id);
+    String getPassWodById(long id);
 
     /**
      * 根据id修改用户密码
@@ -31,7 +31,7 @@ public interface UserService {
      * @param passWord
      * @return
      */
-    int changePassWordById(int id,String passWord);
+    int changePassWordById(long id,String passWord);
 
     /**
      * 根据id查询已接受的任务
@@ -43,7 +43,7 @@ public interface UserService {
      * @param searchInfo
      * @return
      */
-    HashMap<String,Object> getAcceptTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+    HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
 
     /**
      * 查询待批准的审核者注册账号
@@ -56,7 +56,7 @@ public interface UserService {
     /**
      * 管理员同意或不同意审核者账号注册
      */
-    int yesAndNoReviewerSignUp(Integer userId,String operation);
+    int yesAndNoReviewerSignUp(long userId,String operation);
 
     /**
      * 根据id查询已发布的任务
@@ -68,5 +68,5 @@ public interface UserService {
      * @param searchInfo
      * @return
      */
-    HashMap<String, Object> getReleaseTaskByUserId(Integer userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+    HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
 }
