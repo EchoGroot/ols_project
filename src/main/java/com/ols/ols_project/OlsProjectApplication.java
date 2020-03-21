@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * 继承SpringBootServletInitializer是为了打包
  */
 @EnableAsync
-@MapperScan("com.ols.ols_project.mapper")
+@MapperScan({"com.baidu.fsg.uid.worker.dao","com.ols.ols_project.mapper"})
 //解决一个关于freemark的异常
 @SpringBootApplication(exclude = { FreeMarkerAutoConfiguration.class })
 public class OlsProjectApplication extends SpringBootServletInitializer {

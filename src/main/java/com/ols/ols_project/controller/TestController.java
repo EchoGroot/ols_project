@@ -1,5 +1,6 @@
 package com.ols.ols_project.controller;
 
+import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.config.RedisConfigrationBean;
 import com.ols.ols_project.model.TestUser;
 import com.ols.ols_project.service.TestService;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
  */
 @Controller
 public class TestController {
+
+    @Autowired
+    private UidGenService uidGenService;
 
     @Autowired
     private TestService testService;
@@ -44,8 +49,15 @@ public class TestController {
     }
 
     @GetMapping("create500")
+    @ResponseBody
     public String create500(){
         int n=0/5;
         return "ok";
+    }
+
+    @GetMapping("uid")
+    @ResponseBody
+    public String genUid() {
+        return String.valueOf("本次生成的唯一ID号为："+uidGenService.getUid());
     }
 }
