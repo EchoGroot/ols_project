@@ -30,8 +30,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public AcceptTask getAccepteImageListByAccepteId(int acceptId) {
-        return taskMapper.getAccepteImageListByAccepteId(acceptId);
+    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(int acceptId) {
+        AcceptTaskForTaskInfo accepteImageListByAccepteId = taskMapper.getAccepteImageListByAccepteId(acceptId);
+        return  accepteImageListByAccepteId;
     }
 
     @Override

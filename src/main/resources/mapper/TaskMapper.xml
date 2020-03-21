@@ -6,7 +6,7 @@
         select url from ols_task where id = #{taskId}
     </select>
 
-    <select id="getAccepteImageListByAccepteId" resultType="com.ols.ols_project.model.AcceptTask">
+    <select id="getAccepteImageListByAccepteId" resultType="com.ols.ols_project.model.AcceptTaskForTaskInfo">
         select
            ols_task.id as ols_task_id,
            name,

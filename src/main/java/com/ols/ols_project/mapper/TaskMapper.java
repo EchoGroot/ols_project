@@ -12,7 +12,7 @@ import java.util.List;
 public interface TaskMapper {
     String getImageListByTaskId(int taskId);
 
-    AcceptTask getAccepteImageListByAccepteId(int acceptId);
+    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(int acceptId);
 
     AccepteEntity getAccepteTaskInfoByAcceptId(int acceptId);
 
