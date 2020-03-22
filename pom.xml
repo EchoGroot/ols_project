@@ -25,6 +25,11 @@
     </properties>
 
     <dependencies>
+        <!--AOP坐标-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!--ID号生成器-->
         <dependency>
             <groupId>cn.codesheep</groupId>

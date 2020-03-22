@@ -17,7 +17,6 @@ import java.util.HashMap;
  * @author yuyy
  * @date 20-3-17 下午5:08
  */
-@Slf4j
 @RestController
 @RequestMapping("judge")
 public class JudgeController {
@@ -36,14 +35,12 @@ public class JudgeController {
             @RequestParam("year") String year,
             @RequestParam("userId") String userId
             ){
-        log.info("审核者ID：{}，获取历史审核信息，year:{}",userId,year);
         HashMap<String, Object> data = new HashMap<>();
         data.put("historyList",
                 judgeService.getHistoryByUserId(Long.parseLong(userId),Integer.parseInt(year)));
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取历史审核信息成功"),
                 "yyyy-MM-dd");
-        log.info("审核者ID：{}，获取历史审核信息，year:{}，result：{}",userId,year,result);
         return result;
     }
 }

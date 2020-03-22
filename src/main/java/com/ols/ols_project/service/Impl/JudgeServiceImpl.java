@@ -5,6 +5,7 @@ import com.ols.ols_project.model.MonthAndCount;
 import com.ols.ols_project.service.JudgeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * @date 20-3-17 下午5:23
  */
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class JudgeServiceImpl implements JudgeService {
 
     @Autowired

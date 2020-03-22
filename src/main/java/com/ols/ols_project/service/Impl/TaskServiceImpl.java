@@ -27,6 +27,7 @@ import java.util.List;
  * @date 20-2-24 下午7:13
  */
 @Service
+@Transactional(rollbackFor=Exception.class)
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
@@ -187,7 +188,6 @@ public class TaskServiceImpl implements TaskService {
         return resultMap;
     }
 
-    @Transactional
     @Override
     public int submitAcceptTask(long acceptId, long taskId) {
         return taskMapper.updExt1(taskId,Integer.parseInt(taskMapper.getTaskInfoByTaskId(taskId).getExt1())+1)
