@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * 任务相关的service实现类
@@ -30,7 +30,7 @@ import java.util.List;
 @Transactional(rollbackFor=Exception.class)
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
+    @Resource
     private TaskMapper taskMapper;
 
     @Autowired
@@ -192,5 +192,28 @@ public class TaskServiceImpl implements TaskService {
     public int submitAcceptTask(long acceptId, long taskId) {
         return taskMapper.updExt1(taskId,Integer.parseInt(taskMapper.getTaskInfoByTaskId(taskId).getExt1())+1)
                 +taskMapper.updAcceptState(acceptId);
+    }
+
+
+    /**
+     * @author wjp
+     * @date 2020/3/21 下午22:06
+     */
+    @Override
+    public void creatTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
+                          Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId) {
+        TaskEntity taskEntity = new TaskEntity();
+        taskEntity.setId(taskId);
+        taskEntity.setName(taskName);
+        taskEntity.setUrl(taskUrl);
+        taskEntity.setInformation(taskInfo);
+        taskEntity.setPoints(rewardPoints);
+        taskEntity.setState(state);
+        taskEntity.setType(type);
+        taskEntity.setRelease_time(releaseTime);
+        taskEntity.setFinish_time(finishTime);
+        taskEntity.setRelease_user_id(releaseUserId);
+        taskEntity.setAccept_num(acceptNum);
+        taskEntity.setAdopt_accept_id(adoptAcceptId);
     }
 }

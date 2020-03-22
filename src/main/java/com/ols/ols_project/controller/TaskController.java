@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 
@@ -254,5 +255,18 @@ public class TaskController {
                     new Result("201","提交已接受的任务失败"));
         }
         return resultStr;
+    }
+
+    /**
+     * 创建ols_task表的测试数据
+     * @author wjp
+     * @date 2020/3/21 23.30
+     */
+    @PostMapping("/createTask")
+    public String createTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
+                             Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId){
+        taskService.creatTask(taskId,taskName,taskUrl,taskInfo,rewardPoints,5,
+                type,releaseTime,finishTime,releaseUserId,0,0L);//新建任务状态默认5，接受数量默认0
+        return "ok";
     }
 }

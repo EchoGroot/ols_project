@@ -304,4 +304,41 @@
     <resultMap id="total" type="java.lang.Integer">
         <result column="total"/>
     </resultMap>
+
+    <!--
+	    anthour:  王金鹏
+ 	    date:     2020/3/21 22:39
+    -->
+    <insert id="creatTask" parameterType="com.ols.ols_project.model.TaskEntity">
+        insert into ols_task
+        (
+            id,
+            name,
+            url,
+            information,
+            points,
+            state,
+            type,
+            release_time,
+            finish_time,
+            release_user_id,
+            accept_num,
+            adopt_accept_id
+        )
+        values
+        (
+            #{id},
+            #{name},
+            #{url},
+            #{information},
+            #{points},
+            #{state},
+            #{type},
+            #{release_time},
+            #{finish_time},
+            #{release_user_id},
+            #{accept_num},
+            #{adopt_accept_id}
+        )
+    </insert>
 </mapper>

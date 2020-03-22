@@ -5,6 +5,7 @@ import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -42,4 +43,10 @@ public interface TaskMapper {
     int updExt1(long taskId, int ext1);
 
     int updAcceptState(long acceptId);
+
+    /**
+     * @author wjp
+     * @date 2020/3/21 下午9:32
+     */
+    void creatTask(TaskEntity taskEntity);
 }

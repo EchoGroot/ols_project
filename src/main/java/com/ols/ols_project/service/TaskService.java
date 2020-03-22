@@ -1,9 +1,14 @@
 package com.ols.ols_project.service;
 
+import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.AcceptTaskForTaskInfo;
 import com.ols.ols_project.model.LabelInfo;
+import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.TaskEntityBo;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,4 +37,12 @@ public interface TaskService {
     HashMap<String, Object> getFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int pageNum, int pageSize);
 
     int submitAcceptTask(long acceptId, long taskId);
+
+    /**
+     * @author wjp
+     * @date 2020/3/21 下午9:32
+     */
+
+    void creatTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
+                   Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId);
 }
