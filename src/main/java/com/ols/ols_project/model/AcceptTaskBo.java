@@ -22,6 +22,11 @@ public class AcceptTaskBo {
     private Long taskId;
 
     /**
+     * 接受任务编号
+     */
+    private Long acceptId;
+
+    /**
      * 任务名称
      */
     private String taskName;

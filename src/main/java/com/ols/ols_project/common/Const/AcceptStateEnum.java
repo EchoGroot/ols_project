@@ -27,10 +27,10 @@ public enum AcceptStateEnum {
 
     public static String getNameByCode(int code){
         String name = "";
-        AcceptStateEnum[] roleEnums = AcceptStateEnum.values();
-        for (AcceptStateEnum roleEnum : roleEnums) {
-            if(roleEnum.getCode()==code){
-                name =  roleEnum.getName();
+        AcceptStateEnum[] enums = AcceptStateEnum.values();
+        for (AcceptStateEnum enumTemp : enums) {
+            if(enumTemp.getCode()==code){
+                name =  enumTemp.getName();
                 break;
             }
         }
@@ -39,10 +39,10 @@ public enum AcceptStateEnum {
 
     public static Integer getCodeByName(String name){
         Integer code = null;
-        AcceptStateEnum[] roleEnums = AcceptStateEnum.values();
-        for (AcceptStateEnum roleEnum : roleEnums) {
-            if(roleEnum.getName().equals(name)){
-                code =  roleEnum.getCode();
+        AcceptStateEnum[] enums = AcceptStateEnum.values();
+        for (AcceptStateEnum enumTemp : enums) {
+            if(enumTemp.getName().equals(name)){
+                code =  enumTemp.getCode();
                 break;
             }
         }

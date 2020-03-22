@@ -7,12 +7,15 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfigura
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * springboot启动类
  * 继承SpringBootServletInitializer是为了打包
  */
-@EnableAsync
+@EnableAsync //支持并发
+@EnableTransactionManagement //支持事务
+//扫描mapper 前面个是生产uuid的第三方jar包的mapper
 @MapperScan({"com.baidu.fsg.uid.worker.dao","com.ols.ols_project.mapper"})
 //解决一个关于freemark的异常
 @SpringBootApplication(exclude = { FreeMarkerAutoConfiguration.class })

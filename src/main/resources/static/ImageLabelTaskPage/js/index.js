@@ -27,26 +27,36 @@ $(function () {
     $("#report").hide();
     // 隐藏接受任务按钮
     $("#accept").hide();
-    if(pageType==='personalAcceptNotFinishPage' ||
-        pageType==='personalAcceptFinishPage'
-    ) {
-        // 获取接受任务的数据
-        getAccepteImageList();
-    }else if(pageType === 'otherReleasePage'){
-        // 不是从审核页面，个人发布页面进来的
-        if(pageFrom.indexOf('JudgeTaskPage')===-1
-            &&pageFrom.indexOf('PersonalCenterPag')===-1
-        ){
-            // 显示举报按钮
-            $("#report").show();
-            // 显示接受任务按钮
-            $("#accept").show();
-        }
-        // 获取任务数据
-        getImageList();
-    }else if(pageType === 'personalReleasePage'){
-        // 获取任务数据
-        getImageList();
+    // 隐藏提交任务按钮
+    $("#submit").hide();
+    switch (pageType){
+        case 'personalAcceptNotFinishPage':
+            //显示提交任务按钮
+            $("#submit").show();
+            // 获取接受任务的数据
+            getAccepteImageList();
+            break;
+        case 'personalAcceptFinishPage':
+            // 获取接受任务的数据
+            getAccepteImageList();
+            break;
+        case 'otherReleasePage':
+            // 不是从审核页面，个人发布页面进来的
+            if(pageFrom.indexOf('JudgeTaskPage')===-1
+                &&pageFrom.indexOf('PersonalCenterPag')===-1
+            ){
+                // 显示举报按钮
+                $("#report").show();
+                // 显示接受任务按钮
+                $("#accept").show();
+            }
+            // 获取任务数据
+            getImageList();
+            break;
+        case 'personalReleasePage':
+            // 获取任务数据
+            getImageList();
+            break;
     }
 });
 // 获取接受任务数据
@@ -60,7 +70,11 @@ function getAccepteImageList () {
         success: function (resultData) {
             resultData = JSON.parse(resultData);
             if (resultData.meta.status === "200") {
-                var acceptImageList = JSON.parse(resultData.data.taskImage.ols_accept_url)
+                if(pageType.indexOf('Accept')!==-1){
+                    var acceptImageList = JSON.parse(resultData.data.taskImage.ols_accept_url);
+                }else{
+                    var acceptImageList = JSON.parse(resultData.data.taskImage.ols_task_url);
+                }
                 // 将标签名存入本地session
                 window.sessionStorage.setItem(
                     acceptId + 'labelName',
@@ -88,6 +102,7 @@ function getAccepteImageList () {
                         )
                     }
                 }
+                taskId=resultData.data.taskImage.ols_task_id;
                 // 显示任务详情
                 $("#taskName").val(resultData.data.taskImage.name);
                 $("#taskInfo").val(resultData.data.taskImage.information);
@@ -338,4 +353,38 @@ function  reverseURLencode(sStr) {
         .replace(/%3F/g, '?')
         .replace(/%3D/g, '=')
         .replace(/%2F/g,'/');
+}
+
+function submitFunc() {
+    if (imageNotFinishlist.length>0){
+        layer.msg('提交任务失败，有任务未标注', {
+            icon: 5, //红色不开心
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+        });
+        return;
+    }
+    $.ajax({
+        url: '/task/submitAcceptTask',
+        type: "POST",
+        data: {
+            "userId": userId,
+            "taskId": taskId,
+            "acceptId":acceptId
+        },
+        success: function (resultData) {
+            console.log(resultData);
+            resultData = JSON.parse(resultData);
+            if (resultData.meta.status === "200") {
+                layer.msg('提交任务成功', {
+                    icon: 1, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            } else{
+                layer.msg('提交任务失败，请刷新页面再试。', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }
+        }
+    })
 }

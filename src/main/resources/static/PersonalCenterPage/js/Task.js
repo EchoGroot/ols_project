@@ -65,7 +65,7 @@ $(function () {
         }else{
             url='/user/getAcceptTaskByUserId/';
             cols=[[ //表头
-                {field: 'taskId', title: '任务编号', align:'center',width: '7%',fixed: 'left'}
+                {field: 'acceptId', title: '任务编号', align:'center',width: '7%',fixed: 'left'}
                 , {field: 'taskName', title: '任务名称', align:'center',width: '7%'}
                 , {field: 'points', title: '任务分值', align:'center',width: '7%'}
                 , {field: 'taskState', title: '任务状态', align:'center',width: '7%'}
@@ -122,7 +122,7 @@ $(function () {
                 if(page==='releaseTask'){
                     checkFunc(data.id)
                 }else if(page==='acceptTask'){
-                    checkFunc(data.taskId)
+                    checkFunc(data.acceptId)
                 }
             } else if(layEvent === 'adopt'){
 
@@ -489,17 +489,30 @@ function chooesAndSearch(tableIns) {
 }
 function checkFunc(taskId) {
     var page1;
+    var pageType;
+    var idType;
     if(page==='releaseTask' ){
+        idType='taskId';
+        pageType='personalReleasePage';
         if(query==='releasefinish'){
             page1 ='releaseFinishTask';
         }else {
             page1 ='releaseNotFinishTask';
         }
+    }else{
+        idType='acceptId';
+        if(query==='acceptfinish'){
+            page1 ='acceptFinishTask';
+            pageType='personalAcceptFinishPage';
+        }else {
+            page1 ='acceptNotFinishTask';
+            pageType='personalAcceptNotFinishPage';
+        }
     }
     top.location.href="/ImageLabelTaskPage/index.html?" +
         "userId="+userId+
-        "&pageType=otherReleasePage"+
-        "&taskId="+taskId+
+        "&pageType="+pageType+
+        "&"+idType+"="+taskId+
         "&pageFrom=%2FPersonalCenterPage%2Findex.html"
         +"%3FuserId%3D"+userId
         +"%26page%3D"+page1;

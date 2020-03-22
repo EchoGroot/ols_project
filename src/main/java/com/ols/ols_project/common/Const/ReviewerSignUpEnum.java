@@ -25,10 +25,10 @@ public enum ReviewerSignUpEnum {
 
     public static String getNameByCode(int code){
         String name = "";
-        ReviewerSignUpEnum[] roleEnums = ReviewerSignUpEnum.values();
-        for (ReviewerSignUpEnum roleEnum : roleEnums) {
-            if(roleEnum.getCode()==code){
-                name =  roleEnum.getName();
+        ReviewerSignUpEnum[] enums = ReviewerSignUpEnum.values();
+        for (ReviewerSignUpEnum enumTemp : enums) {
+            if(enumTemp.getCode()==code){
+                name =  enumTemp.getName();
                 break;
             }
         }
@@ -37,10 +37,10 @@ public enum ReviewerSignUpEnum {
 
     public static Integer getCodeByName(String name){
         Integer code = null;
-        ReviewerSignUpEnum[] roleEnums = ReviewerSignUpEnum.values();
-        for (ReviewerSignUpEnum roleEnum : roleEnums) {
-            if(roleEnum.getName().equals(name)){
-                code =  roleEnum.getCode();
+        ReviewerSignUpEnum[] enums = ReviewerSignUpEnum.values();
+        for (ReviewerSignUpEnum enumTemp : enums) {
+            if(enumTemp.getName().equals(name)){
+                code =  enumTemp.getCode();
                 break;
             }
         }

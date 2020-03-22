@@ -259,4 +259,28 @@ public class TaskController {
         log.info("审核者ID：{}，根据审核者id获取已审核的任务，result:{}",userId,result);
         return result;
     }
+
+    /**
+     * 提交已接受的任务
+     * @param userId
+     * @param acceptId
+     * @param taskId
+     * @return
+     */
+    @PostMapping(value = "/submitAcceptTask")
+    public String submitAcceptTask(
+            @RequestParam("userId") String userId,
+            @RequestParam("acceptId") String acceptId,
+            @RequestParam("taskId") String taskId
+    ){
+        String resultStr=null;
+        if(2==taskService.submitAcceptTask(Long.parseLong(acceptId),Long.parseLong(taskId))){
+            resultStr= JSON.toJSONString(
+                    new Result("200","提交已接受的任务成功"));
+        }else{
+            resultStr=JSON.toJSONString(
+                    new Result("201","提交已接受的任务失败"));
+        }
+        return resultStr;
+    }
 }

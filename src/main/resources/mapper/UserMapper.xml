@@ -16,6 +16,7 @@
     <select id="getAcceptTaskByUserId" resultMap="AcceptTaskMap,total">
         select
            SQL_CALC_FOUND_ROWS ols_task.id as taskId,
+           ols_accept.id as acceptId,
            ols_task.name as taskName,
            ols_task.points as points,
            ols_task.state as taskState,

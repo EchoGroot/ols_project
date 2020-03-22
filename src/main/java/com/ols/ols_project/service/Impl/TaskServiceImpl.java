@@ -14,6 +14,7 @@ import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -184,5 +185,12 @@ public class TaskServiceImpl implements TaskService {
         resultMap.put("total",list.get(1).get(0));
         resultMap.put("taskList",boList);
         return resultMap;
+    }
+
+    @Transactional
+    @Override
+    public int submitAcceptTask(long acceptId, long taskId) {
+        return taskMapper.updExt1(taskId,Integer.parseInt(taskMapper.getTaskInfoByTaskId(taskId).getExt1())+1)
+                +taskMapper.updAcceptState(acceptId);
     }
 }

@@ -38,4 +38,8 @@ public interface TaskMapper {
     int insJudge(JudgeEntity judgeEntity);
 
     List<List<FinishCheckTask>> selFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int start, int end);
+
+    int updExt1(long taskId, int ext1);
+
+    int updAcceptState(long acceptId);
 }

@@ -155,11 +155,9 @@ CanvasExt1 = {
         var color=that.penColor;
         var penWidth=that.penWidth;
         // 从本地session获取标注信息
-        if(pageType==='otherReleasePage'){
+        if(pageType.indexOf('Release')!==-1){
             var labelInfos=JSON.parse(window.sessionStorage.getItem(taskId+imageUrl));
-        }else if(pageType==='personalAcceptNotFinishPage'
-            || pageType==='personalAcceptFinishPage'
-        ){
+        }else if(pageType.indexOf('Accept')!==-1){
             var labelInfos=JSON.parse(window.sessionStorage.getItem(acceptId+imageUrl));
         }
         for (var i = 0; i < labelInfos.length;i++){
@@ -349,6 +347,7 @@ function finishFunc(){
                     icon: 1, //绿勾
                     time: 1000 //2秒关闭（如果不配置，默认是3秒）
                 });
+                setTimeout(goBackFunc(), 2000);
             }else{
                 layer.msg('操作失败，请刷新页面', {
                     icon: 5, //红色不开心

@@ -28,10 +28,10 @@ public enum TaskStateEnum {
 
     public static String getNameByCode(int code){
         String name = "";
-        TaskStateEnum[] roleEnums = TaskStateEnum.values();
-        for (TaskStateEnum roleEnum : roleEnums) {
-            if(roleEnum.getCode()==code){
-                name =  roleEnum.getName();
+        TaskStateEnum[] enums = TaskStateEnum.values();
+        for (TaskStateEnum enumTemp : enums) {
+            if(enumTemp.getCode()==code){
+                name =  enumTemp.getName();
                 break;
             }
         }
@@ -40,10 +40,10 @@ public enum TaskStateEnum {
 
     public static Integer getCodeByName(String name){
         Integer code = null;
-        TaskStateEnum[] roleEnums = TaskStateEnum.values();
-        for (TaskStateEnum roleEnum : roleEnums) {
-            if(roleEnum.getName().equals(name)){
-                code =  roleEnum.getCode();
+        TaskStateEnum[] enums = TaskStateEnum.values();
+        for (TaskStateEnum enumTemp : enums) {
+            if(enumTemp.getName().equals(name)){
+                code =  enumTemp.getCode();
                 break;
             }
         }

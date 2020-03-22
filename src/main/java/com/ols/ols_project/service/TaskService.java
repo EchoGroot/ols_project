@@ -30,4 +30,6 @@ public interface TaskService {
     int taskPassOrNotPassAudits(long userId, long taskId, String operation,String message);
 
     HashMap<String, Object> getFinishCheckTaskByUserId(long userId,String queryInfo, String searchInfo, int pageNum, int pageSize);
+
+    int submitAcceptTask(long acceptId, long taskId);
 }

@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
                 e->{
                     list1.add(AcceptTaskBo.builder()
                             .taskId(e.getTaskId())
+                            .acceptId(e.getAcceptId())
                             .taskName(e.getTaskName())
                             .points(e.getPoints())
                             .taskState(TaskStateEnum.getNameByCode(e.getTaskState()))

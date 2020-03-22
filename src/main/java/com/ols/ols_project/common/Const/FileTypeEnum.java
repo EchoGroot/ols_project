@@ -24,10 +24,10 @@ public enum FileTypeEnum {
 
     public static String getNameByCode(int code){
         String name = "";
-        RoleEnum[] roleEnums = RoleEnum.values();
-        for (RoleEnum roleEnum : roleEnums) {
-            if(roleEnum.getCode()==code){
-                name =  roleEnum.getName();
+        FileTypeEnum[] enums = FileTypeEnum.values();
+        for (FileTypeEnum enumTemp : enums) {
+            if(enumTemp.getCode()==code){
+                name =  enumTemp.getName();
                 break;
             }
         }
@@ -36,10 +36,10 @@ public enum FileTypeEnum {
 
     public static Integer getCodeByName(String name){
         Integer code = null;
-        RoleEnum[] roleEnums = RoleEnum.values();
-        for (RoleEnum roleEnum : roleEnums) {
-            if(roleEnum.getName().equals(name)){
-                code =  roleEnum.getCode();
+        FileTypeEnum[] enums = FileTypeEnum.values();
+        for (FileTypeEnum enumTemp : enums) {
+            if(enumTemp.getName().equals(name)){
+                code =  enumTemp.getCode();
                 break;
             }
         }
