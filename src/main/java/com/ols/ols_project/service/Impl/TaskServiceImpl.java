@@ -210,10 +210,11 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setPoints(rewardPoints);
         taskEntity.setState(state);
         taskEntity.setType(type);
-        taskEntity.setRelease_time(releaseTime);
-        taskEntity.setFinish_time(finishTime);
+        taskEntity.setRelease_time(new Timestamp(System.currentTimeMillis()));
+        taskEntity.setFinish_time(new Timestamp(System.currentTimeMillis()));
         taskEntity.setRelease_user_id(releaseUserId);
         taskEntity.setAccept_num(acceptNum);
         taskEntity.setAdopt_accept_id(adoptAcceptId);
+        taskMapper.creatTask(taskEntity);
     }
 }

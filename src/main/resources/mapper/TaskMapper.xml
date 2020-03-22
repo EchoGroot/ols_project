@@ -309,7 +309,7 @@
 	    anthour:  王金鹏
  	    date:     2020/3/21 22:39
     -->
-    <insert id="creatTask" parameterType="com.ols.ols_project.model.TaskEntity">
+    <insert id="creatTask" parameterType="com.ols.ols_project.model.entity.TaskEntity">
         insert into ols_task
         (
             id,

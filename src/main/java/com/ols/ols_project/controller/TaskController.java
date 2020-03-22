@@ -264,9 +264,10 @@ public class TaskController {
      */
     @PostMapping("/createTask")
     public String createTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
-                             Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId){
+                             Long releaseUserId){
+
         taskService.creatTask(taskId,taskName,taskUrl,taskInfo,rewardPoints,5,
-                type,releaseTime,finishTime,releaseUserId,0,0L);//新建任务状态默认5，接受数量默认0
+                type,new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),releaseUserId,0,0L);//新建任务状态默认5，接受数量默认0
         return "ok";
     }
 }
