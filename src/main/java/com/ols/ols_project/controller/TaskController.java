@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -281,7 +280,6 @@ public class TaskController {
     }
 
     @PostMapping("uploadImgs")
-    @ResponseBody
     public ImageEntity uplpadImgs(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         //System.out.println("--------****************-------------***************");
         String desFilePath = "";
@@ -301,7 +299,7 @@ public class TaskController {
             String realPath = request.getRealPath("resources/static/Home/image");
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
             // 5.保存
-            desFilePath = realPath + "\\" + newName;
+            desFilePath = realPath + "/" + newName;
             File desFile = new File(desFilePath);
             file.transferTo(desFile);
             System.out.println(desFilePath);
@@ -317,6 +315,7 @@ public class TaskController {
             System.out.println(desFilePath + "图片保存失败");
             return imgResult;
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             imgResult.setCode(1);
             System.out.println(desFilePath + "图片保存失败--IO异常");
             return imgResult;
