@@ -42,7 +42,7 @@ public interface TaskService {
      * @author wjp
      * @date 2020/3/21 下午9:32
      */
-
-    void creatTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
-                   Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId);
+    //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
+    void creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
+                    Long releaseUserId);
 }

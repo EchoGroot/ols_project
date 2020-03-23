@@ -184,22 +184,23 @@ public class TaskServiceImpl implements TaskService {
      * @author wjp
      * @date 2020/3/21 下午22:06
      */
+    //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     @Override
-    public void creatTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
-                          Timestamp releaseTime, Timestamp finishTime, Long releaseUserId, int acceptNum, Long adoptAcceptId) {
+    public void creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
+                          Long releaseUserId) {
         TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setId(taskId);
+        taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
         taskEntity.setName(taskName);
-        taskEntity.setUrl(taskUrl);
+        taskEntity.setUrl("url待写");
         taskEntity.setInformation(taskInfo);
         taskEntity.setPoints(rewardPoints);
-        taskEntity.setState(state);
+        taskEntity.setState(5);//默认类型5 已发布
         taskEntity.setType(type);
         taskEntity.setRelease_time(new Timestamp(System.currentTimeMillis()));
-        taskEntity.setFinish_time(new Timestamp(System.currentTimeMillis()));
+        taskEntity.setFinish_time(null);
         taskEntity.setRelease_user_id(releaseUserId);
-        taskEntity.setAccept_num(acceptNum);
-        taskEntity.setAdopt_accept_id(adoptAcceptId);
+        taskEntity.setAccept_num(0);
+        taskEntity.setAdopt_accept_id(0L);
         taskMapper.creatTask(taskEntity);
     }
 }

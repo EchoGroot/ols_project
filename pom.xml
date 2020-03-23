@@ -56,6 +56,17 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
+        <!-- servlet 依赖 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+
         <!-- Apache 集合工具包 -->
         <dependency>
             <groupId>commons-collections</groupId>

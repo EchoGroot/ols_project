@@ -3,19 +3,22 @@ package com.ols.ols_project.controller;
 import com.alibaba.fastjson.JSON;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
-import com.ols.ols_project.model.AcceptTaskBo;
-import com.ols.ols_project.model.LabelInfo;
-import com.ols.ols_project.model.Result;
-import com.ols.ols_project.model.TaskEntityBo;
+import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 关于任务的Controller
@@ -272,11 +275,51 @@ public class TaskController {
      * @date 2020/3/21 23.30
      */
     @PostMapping("/createTask")
-    public String createTask(Long taskId, String taskName, String taskUrl, String taskInfo, int rewardPoints, int state, int type,
-                             Long releaseUserId){
-
-        taskService.creatTask(taskId,taskName,taskUrl,taskInfo,rewardPoints,5,
-                type,new Timestamp(System.currentTimeMillis()),new Timestamp(System.currentTimeMillis()),releaseUserId,0,0L);//新建任务状态默认5，接受数量默认0
+    public String createTask( String taskName,String taskUrl, String taskInfo, int rewardPoints, int type, Long releaseUserId){
+        taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
         return "ok";
+    }
+
+    @PostMapping("uploadImgs")
+    @ResponseBody
+    public ImageEntity uplpadImgs(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        //System.out.println("--------****************-------------***************");
+        String desFilePath = "";
+        String oriName = "";
+        ImageEntity result = new ImageEntity();
+        Map<String, String> dataMap = new HashMap<>();
+        ImageEntity imgResult = new ImageEntity();
+        try {
+            // 1.获取原文件名
+            oriName = file.getOriginalFilename();
+            // 2.获取原文件图片后缀名extensionName，以最后的.作为截取(.jpg)
+            String extName = oriName.substring(oriName.lastIndexOf("."));
+            // 3.生成自定义的新文件名，这里以UUID.jpg|png|xxx作为格式（可选操作，也可以不自定义新文件名）
+            String uuid = UUID.randomUUID().toString();//生成通用唯一识别码
+            String newName = uuid + extName;
+            // 4.获取要保存的路径文件夹
+            String realPath = request.getRealPath("resources/static/Home/image");
+            //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
+            // 5.保存
+            desFilePath = realPath + "\\" + newName;
+            File desFile = new File(desFilePath);
+            file.transferTo(desFile);
+            System.out.println(desFilePath);
+            // 6.返回保存结果信息
+            result.setCode(0);
+            dataMap = new HashMap<>();
+            dataMap.put("src", "static/Home/image" + newName);
+            result.setData(dataMap);
+            result.setMsg(oriName + "上传成功！");
+            return result;
+        } catch (IllegalStateException e) {
+            imgResult.setCode(1);
+            System.out.println(desFilePath + "图片保存失败");
+            return imgResult;
+        } catch (IOException e) {
+            imgResult.setCode(1);
+            System.out.println(desFilePath + "图片保存失败--IO异常");
+            return imgResult;
+        }
     }
 }

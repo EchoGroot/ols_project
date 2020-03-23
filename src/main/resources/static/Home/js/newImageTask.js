@@ -15,7 +15,7 @@ $(function (){
 
         upload.render({
             elem: '#selectImgs',
-            url: '/upload',
+            url: '/task/uploadImgs',
             multiple: true,
             auto:false,
 //			上传的单个图片大小
@@ -75,7 +75,7 @@ function cleanImgsPreview(){
 }
 
 /**
- * 保存商品
+ * 发布任务
  */
 function releaseTask() {
     $('#btnSubmit').click(function () {
@@ -87,7 +87,7 @@ function releaseTask() {
 
         $.ajax({
             type: "POST",
-            url: "/releaseTask",
+            url: "/createTask",
             data: {
                 taskName: tname,
                 taskDesc: tdesc,

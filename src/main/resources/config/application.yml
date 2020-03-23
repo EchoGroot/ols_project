@@ -1,5 +1,15 @@
 spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
   # 选择配置文件（dev：开发环境配置，pro：生产环境配置）
+  servlet:
+    multipart:
+      enabled: true #默认支持文件上传
+      max-file-size: 10MB #单个文件限制
+      max-request-size: 200MB #请求总文件大小限制
+
   profiles:
     active: dev
   redis:
@@ -60,3 +70,5 @@ task:
     task.pool.keepAliveSeconds: 300
     #队列容量
     task.pool.queueCapacity: 20
+
+
