@@ -2,13 +2,14 @@ package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ols.ols_project.common.Const.NormalConst;
+import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.AcceptTaskBo;
 import com.ols.ols_project.model.LabelInfo;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.TaskEntityBo;
+import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,9 @@ public class TaskController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SendEmailBy126 sendEmailBy126;
 
     /**
      * 不知道这方法还在用没，先注释掉，如果项目正常运行，就删掉这个方法
@@ -200,6 +204,11 @@ public class TaskController {
                 operation,
                 message
                 )){
+            UserEntity userInfo = userService.getUserInfoById(Long.parseLong(userId));
+            sendEmailBy126.sendEmail(
+                    userInfo.getEmail()
+                    ,"Ols系统通知"
+                    ,message);
             resultStr=JSON.toJSONString(new Result("200","操作成功"));
 
         }else{

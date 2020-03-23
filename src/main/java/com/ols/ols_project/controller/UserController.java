@@ -5,7 +5,6 @@ import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

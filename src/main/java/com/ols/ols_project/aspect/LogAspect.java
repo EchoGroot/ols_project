@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LogAspect {
 
     /**
-     * ..表示包及子包 该方法代表controller层的所有方法  TODO 路径需要根据自己项目定义
+     * ..表示包及子包 该方法代表controller层的所有方法
      */
     @Pointcut("execution(public * com.ols.ols_project.controller..*.*(..))")
     public void controllerMethod() {
