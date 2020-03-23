@@ -1,15 +1,18 @@
-var userId=getQueryVariable('userId');
-var page=getQueryVariable('page');
-var query=getQueryVariable('query');
-
+var userId=getQueryVariable('userId'); //用户ID
+var page=getQueryVariable('page'); //页面名称
+var query=getQueryVariable('query'); //查询参数
+//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
+    // 已发布已完成
     if(query==='releasefinish'){
+        // 给下拉选择框赋值
         $("#option1").text('已完成');
         $("#option1").val('10');
         $("#option2").text('已失效');
         $("#option2").val('11');
         $("#option3").text('已删除');
         $("#option3").val('12');
+    // 已发布未完成
     }else if(query==='releasenotfinish'){
         $("#option1").text('审核中');
         $("#option1").val('3');
@@ -17,7 +20,9 @@ $(function () {
         $("#option2").val('4');
         $("#option3").text('审核通过');
         $("#option3").val('5');
+    // 已接受未完成
     }else if(query === "acceptnotfinish"){
+        // 给下拉选择框赋值
         $("#chooseSelect").html(
             '<option value="13">选择筛选条件</option>'+
             '<option value="1">文档类型</option>'+
@@ -29,6 +34,7 @@ $(function () {
             '<option value="18">接收时间升序</option>'+
             '<option value="19">接收时间降序</option>'
         )
+    // 已接受已完成
     }else if(query === "acceptfinish"){
         $("#chooseSelect").html(
             '<option value="13">选择筛选条件</option>'+
@@ -44,11 +50,13 @@ $(function () {
             '<option value="21">提交时间降序</option>'
         )
     }
+    // layui初始化
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
         var url='';
+        // 发布的任务
         if(page==='releaseTask'){
             url='/user/getReleaseTaskByUserId/';
             cols=[[ //表头
@@ -63,6 +71,7 @@ $(function () {
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]];
         }else{
+            // 接受的任务
             url='/user/getAcceptTaskByUserId/';
             cols=[[ //表头
                 {field: 'acceptId', title: '任务编号', align:'center',width: '7%',fixed: 'left'}
@@ -79,6 +88,7 @@ $(function () {
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]];
         }
+        // 渲染表格
         var tableIns=table.render({
             elem: '#taskList'
             , height: 700
@@ -93,6 +103,7 @@ $(function () {
                 queryInfo:'timeDown',
                 searchInfo:''
             }
+            // 渲染表格结束后的回调函数
             , parseData: function(res) { //res 即为原始返回的数据
                 return {
                     "code": res.meta.status, //解析接口状态
@@ -117,15 +128,16 @@ $(function () {
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-
+            // 工具条的点击事件
             if(layEvent === 'check'){
                 if(page==='releaseTask'){
+                    // 查看
                     checkFunc(data.id)
                 }else if(page==='acceptTask'){
                     checkFunc(data.acceptId)
                 }
             } else if(layEvent === 'adopt'){
-
+                // 采纳
             }
         });
         //筛选按钮点击时间
@@ -136,7 +148,7 @@ $(function () {
     });
 
 });
-
+// 获取URL里的参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
@@ -144,7 +156,7 @@ function getQueryVariable(name) {
     if (r != null) return unescape(r[2]);
     return null;
 }
-
+// 筛选个搜索
 function chooesAndSearch(tableIns) {
     switch ($("#chooseSelect").val()) {
         //只执行搜索
@@ -487,6 +499,7 @@ function chooesAndSearch(tableIns) {
             break;
     }
 }
+// 查看任务
 function checkFunc(taskId) {
     var page1;
     var pageType;

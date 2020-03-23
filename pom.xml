@@ -22,9 +22,21 @@
         <druid.version>1.1.21</druid.version>
         <spring-boot-devtools.version>2.2.3.RELEASE</spring-boot-devtools.version>
         <spring-boot-starter-data-redis.version>2.2.3.RELEASE</spring-boot-starter-data-redis.version>
+        <spring-context-support.version>5.2.3.RELEASE</spring-context-support.version>
+        <id-spring-boot-starter.version>1.0.0</id-spring-boot-starter.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <mail.version>1.5.0-b01</mail.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
     </properties>
 
     <dependencies>
+        <!--添加定时任务坐标-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring-context-support.version}</version>
+        </dependency>
         <!--AOP坐标-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -34,7 +46,7 @@
         <dependency>
             <groupId>cn.codesheep</groupId>
             <artifactId>id-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <version>${id-spring-boot-starter.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/lib/id-spring-boot-starter-1.0.0.jar</systemPath>
         </dependency>
@@ -44,27 +56,26 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
-
-        <!-- Apache Commons -->
+        <!-- Apache 集合工具包 -->
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.2.2</version>
+            <version>${commons-collections.version}</version>
         </dependency>
 
+        <!-- Apache 语言工具包（字符串工具类） -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <version>${commons-lang.version}</version>
         </dependency>
 
         <!--Java邮件API-->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.5.0-b01</version>
+            <version>${mail.version}</version>
         </dependency>
-
 
         <!--Json工具-->
         <dependency>
@@ -131,7 +142,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
 

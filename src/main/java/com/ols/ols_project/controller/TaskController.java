@@ -205,6 +205,7 @@ public class TaskController {
                 message
                 )){
             UserEntity userInfo = userService.getUserInfoById(Long.parseLong(userId));
+            //发送邮件通知
             sendEmailBy126.sendEmail(
                     userInfo.getEmail()
                     ,"Ols系统通知"
@@ -213,7 +214,6 @@ public class TaskController {
 
         }else{
             resultStr=JSON.toJSONString(new Result("201","操作失败，请刷新再试"));
-
         }
         return resultStr;
     }

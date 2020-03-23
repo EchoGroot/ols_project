@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfigura
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * springboot启动类
  * 继承SpringBootServletInitializer是为了打包
  */
+@EnableScheduling   //启用定时器
 @EnableAsync //支持并发
 @EnableTransactionManagement //支持事务
 //扫描mapper 前面个是生产uuid的第三方jar包的mapper
@@ -25,6 +27,11 @@ public class OlsProjectApplication extends SpringBootServletInitializer {
         SpringApplication.run(OlsProjectApplication.class, args);
     }
 
+    /**
+     * 打包需要
+     * @param application
+     * @return
+     */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(OlsProjectApplication.class);

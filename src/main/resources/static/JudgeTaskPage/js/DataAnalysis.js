@@ -3,11 +3,11 @@ var option; //echar使用
 var yes=[]; //审核通过
 var no=[]; //审核未通过
 var yesAndNo=[]; //总数量
-
+//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
-
+    // layui初始化
     layui.use('form', function() {
         var form = layui.form;
         // 监听下拉选择框

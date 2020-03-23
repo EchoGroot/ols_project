@@ -1,8 +1,8 @@
-var imageUrl="http://yuyy.info/image/ols/";
+var imageUrl="http://yuyy.info/image/ols/"; //图片URL的前缀
 var userId=getQueryVariable('userId'); //用户ID
 var acceptId=getQueryVariable('acceptId'); //接受任务ID
-var pageType=getQueryVariable('pageType');
-var pageFrom=URLencode(getQueryVariable('pageFrom'));
+var pageType=getQueryVariable('pageType');  //页面类型
+var pageFrom=URLencode(getQueryVariable('pageFrom')); //从那个页面跳转来的（返回时使用）
 var taskId=getQueryVariable('taskId'); // 任务ID
 
 var imageExampleList=[]; //标注示例
@@ -354,7 +354,7 @@ function  reverseURLencode(sStr) {
         .replace(/%3D/g, '=')
         .replace(/%2F/g,'/');
 }
-
+// 提交任务
 function submitFunc() {
     if (imageNotFinishlist.length>0){
         layer.msg('提交任务失败，有任务未标注', {

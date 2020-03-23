@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * DataResource配置类
+ * 数据库连接池配置属性类
  * @author yuyy
  * @date 20-3-10 下午1:56
  */

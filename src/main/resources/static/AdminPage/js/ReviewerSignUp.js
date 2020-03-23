@@ -1,4 +1,6 @@
-var adminUserId=getQueryVariable('userId');
+var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
+
+//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
@@ -42,6 +44,7 @@ $(function () {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
+            // 工具条的点击事件
             if(layEvent === 'yes'){
                 // 允许审核者账号注册
                 yesReviewerSignUp(data.id,'yes',tableIns)
@@ -53,8 +56,9 @@ $(function () {
 
         //筛选按钮点击事件
         $("#searchButton").click(function (e) {
+            // 阻止a标签的默认行为
             e.preventDefault();
-            console.log($("#chooseSelect").val())
+            // 根据下拉选择框的值来判断
             switch ($("#chooseSelect").val()) {
                 //只执行搜索
                 case '0':

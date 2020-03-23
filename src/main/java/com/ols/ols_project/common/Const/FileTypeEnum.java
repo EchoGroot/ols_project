@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * 用户角色枚举类
+ * 文件类型枚举类
  * @author yuyy
  * @date 20-3-21 下午5:21
  */

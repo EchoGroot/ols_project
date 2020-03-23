@@ -17,9 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 任务相关的service实现类
@@ -95,30 +96,14 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskEntityBo getTaskInfoByTaskId(long taskId) {
         TaskEntity taskEntity = taskMapper.getTaskInfoByTaskId(taskId);
-        String state=null;
-        switch (taskEntity.getState()){
-            case 1:state="已完成";break;
-            case 2:state="已删除";break;
-            case 3:state="已失效";break;
-            case 4:state="审核中";break;
-            case 5:state="已发布";break;
-            case 6:state="未通过审核";break;
-            default :state="";break;
-        }
-        String type=null;
-        switch (taskEntity.getType()){
-            case 0:type ="文档";break;
-            case 1:type="图片";break;
-            default :type="";break;
-        }
         return TaskEntityBo.builder()
                 .id(taskEntity.getId())
                 .name(taskEntity.getName())
                 .url(taskEntity.getUrl())
                 .information(taskEntity.getInformation())
                 .points(taskEntity.getPoints())
-                .state(state)
-                .type(type)
+                .state(TaskStateEnum.getNameByCode(taskEntity.getState()))
+                .type(TaskStateEnum.getNameByCode(taskEntity.getType()))
                 .release_time(taskEntity.getRelease_time())
                 .release_user_id(taskEntity.getRelease_user_id())
                 .ext1(taskEntity.getExt1())

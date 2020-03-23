@@ -11,11 +11,10 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
+ * web请求配置类
  * @author yuyy
  * @date 20-3-5 下午4:33
  */
-
-
 @Configuration
 @EnableWebMvc
 public class WebConfigrationBean implements WebMvcConfigurer {
@@ -35,6 +34,7 @@ public class WebConfigrationBean implements WebMvcConfigurer {
 
     /**
      * 设置Controller返回数据编码
+     * 防止中文乱码
      * @param converters
      */
     @Override

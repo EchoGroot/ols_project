@@ -1,8 +1,10 @@
-var userId=getQueryVariable('userId');
-
+var userId=getQueryVariable('userId'); //用户ID
+//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
+    // 加载用户个人信息
     loadUserInfo();
 });
+// 加载个人用户信息
 function loadUserInfo(){
     $.ajax({
         type: "GET",

@@ -1,16 +1,16 @@
-var imageUrl=getQueryVariable("imageUrl");
+var imageUrl=getQueryVariable("imageUrl"); // 图片URL
 var userId=getQueryVariable('userId'); //用户ID
 var acceptId=getQueryVariable('acceptId'); //接受任务ID
-var pageType=getQueryVariable('pageType');
-var pageFrom=URLencode(getQueryVariable('pageFrom'));
+var pageType=getQueryVariable('pageType');  //当前页面类型
+var pageFrom=URLencode(getQueryVariable('pageFrom')); //从那个页面跳转来的（返回时使用）
 var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
 
-var imageWidth=0;
-var imageHeight=0;
-var labelName='';
-var labelInfoArray=[];
-var firstLabelName='';
+var imageWidth=0;   //原始图片宽度
+var imageHeight=0;  //原始图片高度
+var labelName='';   //标签名
+var labelInfoArray=[];  //标注信息
+var firstLabelName='';  //当前展示的标签名对应的标注信息
 
 $(function () {
     //layui组件
@@ -35,8 +35,6 @@ $(function () {
         // 隐藏标注完成按钮
         $("#finish").hide();
     }
-
-
 });
 
 // 图层上画框功能

@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 创建线程池
+ * 线程池配置类
  * @author yuyy
  * @date 20-3-8 下午2:20
  */

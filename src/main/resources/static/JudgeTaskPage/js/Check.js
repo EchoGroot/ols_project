@@ -1,11 +1,13 @@
-var userId=getQueryVariable('userId');
-var page=getQueryVariable('page');
-var isChecked=getQueryVariable('isChecked');
-
+var userId=getQueryVariable('userId'); //用户ID
+var page=getQueryVariable('page'); //页面名称
+var isChecked=getQueryVariable('isChecked'); //是否审核完成
+//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     if(getQueryVariable('isChecked') === '0'){
+        // 隐藏下拉选择框和搜索
         $("#queryForm").hide();
     }
+    // layui初始化
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
@@ -57,6 +59,7 @@ $(function () {
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]];
         }
+        // 渲染表格
         var tableIns=table.render({
             elem: '#taskList'
             , height: height
@@ -75,6 +78,7 @@ $(function () {
                 }
             }
             , cols: cols
+            // 渲染完成的回调函数
             ,done: function(res, curr, count){
                 if(page==='finishCheck'){
                     $(".layui-btn-normal").hide();
@@ -84,17 +88,20 @@ $(function () {
 
         });
 
-
         //监听工具条
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
 
+            // 工具条的点击事件
+            // 通过审核
             if(layEvent === 'yes'){
                 taskPassOrNotPassAuditsFunc(data.id,'yes',tableIns,'恭喜您！您发布的任务（编号'+data.id+'）已通过审核。')
+            // 未通过审核
             } else if(layEvent === 'no'){
                 noFunc(data.id,tableIns);
+            // 查看
             }else if(layEvent === 'check'){
                 if(page==='finishCheck'){
                     checkFunc(data.taskId)
@@ -115,6 +122,7 @@ $(function () {
     });
 
 });
+// 提交是否通过审核
 function taskPassOrNotPassAuditsFunc(taskId,operation,tableIns,message) {
     console.log(taskId+operation);
     $.ajax({
@@ -145,7 +153,7 @@ function taskPassOrNotPassAuditsFunc(taskId,operation,tableIns,message) {
         }
     });
 }
-
+// 获取iframe的URL参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
@@ -153,7 +161,7 @@ function getQueryVariable(name) {
     if (r != null) return unescape(r[2]);
     return null;
 }
-
+// 查看
 function checkFunc(taskId) {
     top.location.href="/ImageLabelTaskPage/index.html?" +
         "userId="+userId+
@@ -163,7 +171,9 @@ function checkFunc(taskId) {
             +"%3FuserId%3D"+userId
             +"%26page%3D"+page;
 }
+// 未通过审核
 function noFunc(taskId,tableIns) {
+    // 打开弹窗
     layer.open({
 //formType: 2,//这里依然指定类型是多行文本框，但是在下面content中也可绑定多行文本框
         title: '请输入驳回理由',
@@ -182,7 +192,7 @@ function noFunc(taskId,tableIns) {
         }
     });
 }
-
+// 筛选和搜索
 function chooseAndSearch(tableIns) {
     switch ($("#chooseSelect").val()) {
         //只执行搜索

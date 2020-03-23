@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Primary;
 import javax.sql.DataSource;
 
 /**
+ * 数据库连接池配置
  * @author yuyy
  * @date 20-3-14 下午11:06
  */

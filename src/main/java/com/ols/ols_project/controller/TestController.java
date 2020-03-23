@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * 测试项目基础功能（连接MySQL，redis）
+ * 测试
  * @author yuyy
  * @date 20-2-9 下午8:18
  */
@@ -31,6 +31,11 @@ public class TestController {
     @Autowired
     private RedisConfigrationBean redisConfig;
 
+    /**
+     * 测试项目基础功能（连接MySQL，redis）
+     * @param model
+     * @return
+     */
     @GetMapping("testindex")
     public String showIndex(Model model){
         model.addAttribute("msg","ols");
@@ -48,13 +53,22 @@ public class TestController {
         return "TestIndex";
     }
 
+    /**
+     * 测试500错误页面
+     * @return
+     */
     @GetMapping("create500")
     @ResponseBody
     public String create500(){
         int n=0/5;
+        System.out.println(n);
         return "ok";
     }
 
+    /**
+     * 测试生成uuid
+     * @return
+     */
     @GetMapping("uid")
     @ResponseBody
     public String genUid() {
