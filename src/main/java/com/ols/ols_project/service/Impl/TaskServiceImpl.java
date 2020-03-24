@@ -195,9 +195,9 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
         taskEntity.setName(taskName);
-        taskUrl.substring(1,taskUrl.length()-1);//字符串掐头尾的“ " ”
+        //taskUrl.substring(1,taskUrl.length()-1);//字符串掐头尾的“ " ”
         //taskUrl.replace("\\","");
-        org.apache.commons.lang.StringUtils.remove(taskUrl,'\\');
+        //org.apache.commons.lang.StringUtils.remove(taskUrl,'\\');
         System.out.println(taskUrl);
         taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);

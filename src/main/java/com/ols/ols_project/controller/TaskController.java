@@ -282,8 +282,7 @@ public class TaskController {
 
     @PostMapping("/creatTaskUrl")
     public String creatTaskUrl(String lableName, String originalImage){
-        String str = JSON.toJSONString(taskService.creatTaskUrl(lableName,originalImage));
-        return str;
+        return taskService.creatTaskUrl(lableName,originalImage);
     }
 
     @PostMapping("uploadImgs")
