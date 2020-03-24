@@ -9,6 +9,12 @@ import java.util.HashMap;
  * @author yuyy
  * @date 20-2-19 下午2:18
  */
+
+/**
+ * 修改邮箱
+ * @author sf
+ * @date 20-3-23
+ */
 public interface UserService {
 
     /**
@@ -69,4 +75,12 @@ public interface UserService {
      * @return
      */
     HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+
+    /**
+     * 根据id修改邮箱
+     * @param userId
+     * @param Email
+     * @return
+     */
+    int changeEmailById(long userId,String Email);
 }

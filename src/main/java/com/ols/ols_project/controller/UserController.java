@@ -15,6 +15,12 @@ import java.util.HashMap;
  * @author yuyy
  * @date 20-2-18 下午3:56
  */
+
+/**
+ * 更改邮箱
+ * @author sf
+ * @date 20-3-23
+ */
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -205,5 +211,20 @@ public class UserController {
             }
         }
         return resultStr;
+    }
+
+    /**
+     * 更改邮箱
+     * @param userId
+     * @param email
+     * @return
+     */
+    @PostMapping(value = "/changeEmail")
+    public String changeEmail(@RequestParam("userId") String userId,
+                              @RequestParam("email") String email){
+        //System.out.println(userId);
+        //System.out.println(email);
+        userService.changeEmailById(Long.parseLong(userId),email);
+        return "200";
     }
 }

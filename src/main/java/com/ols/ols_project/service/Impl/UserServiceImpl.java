@@ -22,6 +22,12 @@ import java.util.List;
  * @author yuyy
  * @date 20-2-19 下午2:20
  */
+
+/**
+ *修改邮箱
+ * @author sf
+ * @date 20-3-23
+ */
 @Service
 @Transactional(rollbackFor=Exception.class)
 public class UserServiceImpl implements UserService {
@@ -125,6 +131,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int yesAndNoReviewerSignUp(long userId, String operation) {
         return userMapper.yesAndNoReviewerSignUp(userId,operation);
+    }
+
+
+    @Override
+    public int changeEmailById(long userId, String email) {
+        return userMapper.changeEmailById(userId,email);
     }
 
 

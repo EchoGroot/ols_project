@@ -4,6 +4,7 @@ import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.UserSignUp;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,12 +20,14 @@ public interface UserMapper {
 
     int changePassWordById(long id,String passWord);
 
-    List<List<AcceptTask>> getAcceptTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo);
+    List<List<AcceptTask>> getAcceptTaskByUserId(long id, String query, int start, int end, String queryInfo,String searchInfo);
 
     List<List<TaskEntity>> getReleaseTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo);
 
     List<List<UserSignUp>> getReviewerSignUp(String queryInfo, String searchInfo , int start, Integer end);
 
     int yesAndNoReviewerSignUp(long userId,String operation);
+
+    int changeEmailById(long userId,String email);
 
 }

@@ -289,4 +289,13 @@
         <result column="ext3" property="ext3" />
     </resultMap>
 
+    <update id="changeEmailById">
+        update
+          ols_user
+        set
+          email=#{email}
+        where
+          id=#{userId}
+    </update>
+
 </mapper>
