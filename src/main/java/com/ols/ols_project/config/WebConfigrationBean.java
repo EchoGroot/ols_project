@@ -30,6 +30,7 @@ public class WebConfigrationBean implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/public/");
+                //.addResourceLocations("file:/static/");
     }
 
     /**

@@ -66,7 +66,6 @@ public class LogAspect {
             }
             requestLog.append(paramNames[paramLength - 1]).append("=").append(JSONObject.toJSONString(paramValues[paramLength - 1])).append("]");
         }
-
         log.info(requestLog.toString());
     }
 

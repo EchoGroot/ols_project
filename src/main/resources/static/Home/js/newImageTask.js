@@ -6,9 +6,9 @@
 var success=0;
 var fail=0;
 var imgurls="";
+var imgsName = new Array();
 
 $(function (){
-    var imgsName="";
     layui.use(['upload','layer'],function() {
         var upload = layui.upload;
         var layer=layui.layer;
@@ -26,7 +26,7 @@ $(function (){
             field:'file',
             bindAction: '#uploadImgs',
             before: function(obj) {
-                //预读本地文件示例，不支持ie8
+                //预读本地文件示例
                 obj.preview(function(index, file, result) {
                     $('#previewImgs').append('<img src="' + result
                         + '" alt="' + file.name
@@ -35,13 +35,16 @@ $(function (){
             },
             done: function(res, index, upload) {
                 //每个图片上传结束的回调，成功的话，就把新图片的名字保存起来，作为数据提交
-                console.log(res.code);
-                if(res.code=="1"){
+                console.log(res);
+                if(res.meta.status=="1"){
                     fail++;
                 }else{
                     success++;
-                    imgurls=imgurls+""+res.data.src+",";
-                    $('#imgUrls').val(imgurls);
+                    //imgurls=imgurls+""+res.data.src+",";
+                    imgsName.length++;
+                    imgsName[imgsName.length-1]=res.data.imgName;
+                    console.log(imgsName);
+                    //$('#imgUrls').val(imgurls);
                 }
             },
             allDone:function(obj){
@@ -69,6 +72,7 @@ function cleanImgsPreview(){
     $("#cleanImgs").click(function(){
         success=0;
         fail=0;
+        imgsName.length=0;
         $('#previewImgs').html("");
         $('#imgUrls').val("");
     });
@@ -82,26 +86,40 @@ function releaseTask() {
         var tname = $("#taskName").val();
         var tdesc = $("#taskDesc").val();
         var rpoints = $("#rewardPoints").val();
-        var trules = $("#taskRules").val();
-        var ius = $("#imgUrls").val();
+        //var lname = $("#lableName").val();
+        var lname = new Array("漏水","裂缝");
 
+        console.log(lname.toString());
         $.ajax({
             type: "POST",
-            url: "/createTask",
+            url: "/task/creatTaskUrl",
             data: {
-                taskName: tname,
-                taskDesc: tdesc,
-                rewardPoints:rpoints,
-                taskRules:trules,
-                imgUrls: ius,
+                lableName: lname.toString(),
+                originalImage: imgsName.toString(),
             },
-            success: function (msg) {
-                if (msg == "1") {
-                    alert("保存成功");
-                } else {
-                    alert("保存失败");
-                }
+            success: function (resultData) {
+                console.log(resultData.toString());
+                $.ajax({
+                    type: "POST",
+                    url: "/task/createTask",
+                    data: {
+                        taskName: tname,
+                        taskInfo: tdesc,
+                        rewardPoints:rpoints,
+                        type:1,
+                        taskUrl: resultData.toString(),
+                        //releaseUserId: rId,  //发布者ID
+                        releaseUserId: 1011,
+                    },
+                    success: function (msg) {
+                        /*if (msg == "1") {
+                            alert("保存成功");
+                        } else {
+                            alert("保存失败");
+                        }*/
+                    }
+                });
             }
-        });
+        })
     });
 }

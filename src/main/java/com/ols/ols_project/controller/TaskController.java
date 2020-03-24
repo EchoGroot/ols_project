@@ -1,6 +1,7 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.*;
@@ -279,14 +280,16 @@ public class TaskController {
         return "ok";
     }
 
+    @PostMapping("/creatTaskUrl")
+    public String creatTaskUrl(String lableName, String originalImage){
+        String str = JSON.toJSONString(taskService.creatTaskUrl(lableName,originalImage));
+        return str;
+    }
+
     @PostMapping("uploadImgs")
-    public ImageEntity uplpadImgs(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        //System.out.println("--------****************-------------***************");
+    public String uplpadImgs(@RequestParam("file") MultipartFile file) {
         String desFilePath = "";
         String oriName = "";
-        ImageEntity result = new ImageEntity();
-        Map<String, String> dataMap = new HashMap<>();
-        ImageEntity imgResult = new ImageEntity();
         try {
             // 1.获取原文件名
             oriName = file.getOriginalFilename();
@@ -295,30 +298,27 @@ public class TaskController {
             // 3.生成自定义的新文件名，这里以UUID.jpg|png|xxx作为格式（可选操作，也可以不自定义新文件名）
             String uuid = UUID.randomUUID().toString();//生成通用唯一识别码
             String newName = uuid + extName;
-            // 4.获取要保存的路径文件夹
-            String realPath = request.getRealPath("resources/static/Home/image");
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
-            // 5.保存
-            desFilePath = realPath + "/" + newName;
+            // 4.保存绝对路径
+            desFilePath = "G:\\images\\" + newName;
             File desFile = new File(desFilePath);
             file.transferTo(desFile);
-            System.out.println(desFilePath);
             // 6.返回保存结果信息
-            result.setCode(0);
-            dataMap = new HashMap<>();
+            HashMap<String,Object> dataMap=new HashMap<>();
             dataMap.put("src", "static/Home/image" + newName);
-            result.setData(dataMap);
-            result.setMsg(oriName + "上传成功！");
-            return result;
+            dataMap.put("imgName", newName);
+            Result result = new Result(dataMap,"0","上传成功");
+            System.out.println(desFilePath+"图片保存成功");
+            return JSON.toJSONString(result);
         } catch (IllegalStateException e) {
-            imgResult.setCode(1);
+            Result result = new Result("1","图片保存失败");
             System.out.println(desFilePath + "图片保存失败");
-            return imgResult;
+            return JSON.toJSONString(result);
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            imgResult.setCode(1);
+            Result result = new Result("1","图片保存失败--IO异常");
             System.out.println(desFilePath + "图片保存失败--IO异常");
-            return imgResult;
+            return JSON.toJSONString(result);
         }
     }
 }

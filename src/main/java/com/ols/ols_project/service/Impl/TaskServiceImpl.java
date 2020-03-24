@@ -1,8 +1,11 @@
 package com.ols.ols_project.service.Impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baidu.fsg.uid.service.UidGenService;
+import com.mysql.cj.util.StringUtils;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -191,7 +195,11 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
         taskEntity.setName(taskName);
-        taskEntity.setUrl("url待写");
+        taskUrl.substring(1,taskUrl.length()-1);//字符串掐头尾的“ " ”
+        //taskUrl.replace("\\","");
+        org.apache.commons.lang.StringUtils.remove(taskUrl,'\\');
+        System.out.println(taskUrl);
+        taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);
         taskEntity.setPoints(rewardPoints);
         taskEntity.setState(5);//默认类型5 已发布
@@ -200,7 +208,31 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setFinish_time(null);
         taskEntity.setRelease_user_id(releaseUserId);
         taskEntity.setAccept_num(0);
-        taskEntity.setAdopt_accept_id(0L);
+        taskEntity.setAdopt_accept_id(null);
         taskMapper.creatTask(taskEntity);
+    }
+
+    @Override
+    public String creatTaskUrl(String lableName,String originalImage) {
+        System.out.println("/*************创建URL******************/");
+
+        String [] lableName1= lableName.split(",");
+        String [] originalImage1 = originalImage.split(",");
+
+        JSONObject taskUrl = new JSONObject();
+        taskUrl.put("lableName",lableName1);
+        JSONArray taskImage = new JSONArray();
+        for (int i = 0; i < originalImage1.length; i++) {
+            JSONObject imgInfo = new JSONObject();
+            imgInfo.put("isExample",false);
+            imgInfo.put("isLabeled",false);
+            JSONArray lableInfo =new JSONArray();//lableInfo也遍历添加数据
+            //for (int j = 0; j < lableName1.length; j++)
+            imgInfo.put("lableInfo",lableInfo);
+            imgInfo.put("originalImage",originalImage1[i]);
+            taskImage.add(imgInfo);//遍历添加
+        }
+        taskUrl.put("taskImage",taskImage);
+        return taskUrl.toJSONString();
     }
 }
