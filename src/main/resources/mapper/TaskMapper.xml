@@ -341,4 +341,65 @@
             #{adopt_accept_id}
         )
     </insert>
+    <select id="getAllTask" resultMap="TaskMap,total">
+        select
+            SQL_CALC_FOUND_ROWS id,
+            name,
+            url,
+            information,
+            points,
+            state,
+            type,
+            finish_time,
+            release_time,
+            release_user_id,
+            accept_num,
+            adopt_accept_id,
+            ext1,
+            ext2,
+            ext3
+        from
+            ols_task
+        where
+            1=1
+            <if test="searchInfo != ''">
+                and (ols_task.name like '%${searchInfo}%')
+            </if>
+            <choose>
+                <when test="query == 'undereview'">
+                   and ols_task.state = 4
+                </when>
+                <when test="query == 'needlable'">
+                    and ols_task.state = 5
+                </when>
+            </choose>
+            <choose>
+                <when test="queryInfo == 'doc'">
+                    and type=0
+                </when>
+                <when test="queryInfo == 'img'">
+                    and type=1
+                </when>
+                <when test="queryInfo == 'pointsUp'">
+                    ORDER BY ols_task.points
+                </when>
+                <when test="queryInfo == 'pointsDown'">
+                    ORDER BY ols_task.points DESC
+                </when>
+                <when test="queryInfo == 'releaseTimeUp'">
+                    ORDER BY release_time
+                </when>
+                <when test="queryInfo == 'releaseTimeDown'">
+                    ORDER BY release_time DESC
+                </when>
+            </choose>
+            <if test="end != 0">
+                limit
+                #{start},#{end};
+            </if>
+            <if test="end == 0">
+            ;
+            </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
 </mapper>

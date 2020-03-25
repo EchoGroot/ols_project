@@ -46,5 +46,8 @@ public interface TaskService {
     //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     void creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
                     Long releaseUserId);
+
     String creatTaskUrl(String lableName, String originalImage);
+
+    HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
 }

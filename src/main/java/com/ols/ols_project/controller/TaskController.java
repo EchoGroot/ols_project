@@ -320,4 +320,18 @@ public class TaskController {
             return JSON.toJSONString(result);
         }
     }
+    @GetMapping("/getAllTask")
+    public String getAllTask(@RequestParam(value = "query") String query,
+                             @RequestParam(value = "page") Integer pageNum,
+                             @RequestParam(value = "limit") Integer pageSize,
+                             @RequestParam(value = "queryInfo") String queryInfo,
+                             @RequestParam(value = "searchInfo") String searchInfo){
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(
+                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo)
+                        ,"0"
+                        ,"获取所有任务成功")
+                ,"yyyy-MM-dd hh:mm:ss");
+        return result;
+    }
 }

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/jquery-3.4.1.js"></script>
+    <script src="./css/Home.css"></script>
+    <script src="./js/Home.js"></script>
     <link rel="stylesheet" href="../complain/css/global.css">
 </head>
 <body>
@@ -39,7 +41,7 @@
 <div class="fly-panel fly-column">
     <div class="layui-container">
         <ul class="layui-clear">
-            <li class="layui-hide-xs">任务大厅</li>
+            <li class="layui-hide-xs"><a href="" >任务大厅</a></li>
             <li class="layui-this"><a href="">提问</a></li>
             <li><a href="">建议</a></li>
             <li><a href="">公告</a></li>
@@ -51,7 +53,6 @@
         </ul>
 
         <div class="fly-column-right layui-hide-xs">
-            <span class="fly-search"><i class="layui-icon"></i></span>
             <a href="newTask.html" class="layui-btn">发布任务</a>
         </div>
         <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
@@ -64,22 +65,28 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8">
             <div class="fly-panel" style="margin-bottom: 0;">
-
-                <div class="fly-panel-title fly-filter">
-                    <a href="" class="layui-this">综合</a>
-                    <span class="fly-mid"></span>
-                    <a href="">未结</a>
-                    <span class="fly-mid"></span>
-                    <a href="">已结</a>
-                    <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
-            <span class="fly-mid"></span>
-            <a href="">按热度</a>
-          </span>
+                <div>
+                    <form class="layui-form" action="">
+                        <div class="fly-panel-title fly-filter">
+                            <a href="" class="layui-this" id="queryReleasedTask">综合</a>
+                            <span class="fly-mid"></span>
+                            <a href="" id="queryImgTask">图片任务</a>
+                            <span class="fly-mid"></span>
+                            <a href="" id="queryTxtTask">文本任务</a>
+                            <span class="fly-mid"></span>
+                            <a href="" id="queryAdoptedTask">已采纳任务</a>
+                            <span class="fly-filter-right layui-hide-xs">
+                                <a class="layui-input-block layui-input-inline">
+                                    <input type="text" id="searchInput" name="title" placeholder="输入关键字" autocomplete="off" class="layui-input">
+                                </a>
+                                <span class="fly-search"><i class="layui-icon"></i></span>
+                                <a href="" class="layui-this">按最新</a>
+                                <span class="fly-mid"></span>
+                                <a href="">按热度</a>
+                            </span>
+                        </div>
+                    </form>
                 </div>
-                    </li>
-                </ul>
-
             </div>
         </div>
         <div class="layui-col-md4">

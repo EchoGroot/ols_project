@@ -235,4 +235,34 @@ public class TaskServiceImpl implements TaskService {
         taskUrl.put("taskImage",taskImage);
         return taskUrl.toJSONString();
     }
+
+    @Override
+    public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
+        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
+        List<TaskEntityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(TaskEntityBo.builder()
+                            .id(e.getId())
+                            .name(e.getName())
+                            .information(e.getInformation())
+                            .points(e.getPoints())
+                            .state(TaskStateEnum.getNameByCode(e.getState()))
+                            .type(FileTypeEnum.getNameByCode(e.getType()))
+                            .release_time(e.getRelease_time())
+                            .finish_time(e.getFinish_time())
+                            .accept_num(e.getAccept_num())
+                            .adopt_accept_id(e.getAdopt_accept_id())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .build());
+                }
+        );
+        data.put("taskList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
+
+
 }

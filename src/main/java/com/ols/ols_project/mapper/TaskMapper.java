@@ -49,4 +49,5 @@ public interface TaskMapper {
      * @date 2020/3/21 下午9:32
      */
     void creatTask(TaskEntity taskEntity);
+    List<List<TaskEntity>> getAllTask(String query, int start, int end, String queryInfo,String searchInfo);
 }
