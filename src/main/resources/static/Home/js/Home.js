@@ -1,15 +1,15 @@
 var query="needlable"; //查询参数
+var url='/task/getAllTask'
 $(function () {
+
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
         var url='';
+        console.log("1");
         // 发布的任务
-        $("#queryReleasedTask").click(function () {
-            url='/task/getAllTask';
-        })
         cols=[[ //表头
             {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
             , {field: 'name', title: '任务名称', align:'center',width: '10%'}
@@ -18,13 +18,13 @@ $(function () {
             , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
             , {field: 'accept_num', title: '接受者数量',align:'center', width: '10%', sort: true}
             , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
-            , {title: '操作', align:'center',toolbar: '#barHandle'}
+            //, {title: '操作', align:'center',toolbar: '#barHandle'}
         ]];
-
+        console.log("2");
         // 渲染表格
-        var tableIns=table.render({
+        table.render({
             elem: '#taskList'
-            ,height: 700
+            , height: 700
             , url: url //数据接口
             , page: true //开启分页
             , limits: [15,30,50,100]
@@ -34,7 +34,16 @@ $(function () {
                 query:query,
                 queryInfo:'timeDown',
                 searchInfo:''
-            }
+            },cols: [[ //表头
+                {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
+                , {field: 'name', title: '任务名称', align:'center',width: '10%'}
+                , {field: 'points', title: '任务分值', align:'center',width: '10%', sort: true}
+                , {field: 'type', title: '文件类型', align:'center',width: '10%', sort: true}
+                , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
+                , {field: 'accept_num', title: '接受者数量',align:'center', width: '10%', sort: true}
+                , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
+                //, {title: '操作', align:'center',toolbar: '#barHandle'}
+            ]]
             // 渲染表格结束后的回调函数
             , parseData: function(res) { //res 即为原始返回的数据
                 return {
@@ -52,6 +61,7 @@ $(function () {
             }
 
         });
+        console.log("3");
         //监听工具条
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
@@ -77,6 +87,7 @@ $(function () {
 
 });
 
+/*
 // 筛选个搜索
 function chooesAndSearch(tableIns) {
     switch ($("#chooseSelect").val()) {
@@ -126,4 +137,4 @@ function checkFunc(taskId) {
         "&pageFrom=%2FPersonalCenterPage%2Findex.html"
         +"%3FuserId%3D"+userId
         +"%26page%3D"+page1;
-}
+}*/
