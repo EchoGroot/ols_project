@@ -14,6 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 日志切面类
@@ -55,16 +56,27 @@ public class LogAspect {
 
         // 处理请求参数
         String[] paramNames = ((MethodSignature) signature).getParameterNames();
+//        Object[] args = joinPoint.getArgs();
+//        Stream<?> stream = ArrayUtils.isEmpty(args) ? Stream.empty() : Arrays.stream(args);
+//        List<Object> logArgs = stream
+//                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+//                .collect(Collectors.toList());
+        //过滤后序列化无异常
         Object[] paramValues = joinPoint.getArgs();
         int paramLength = null == paramNames ? 0 : paramNames.length;
         if (paramLength == 0) {
             requestLog.append("请求参数 = {} ");
         } else {
             requestLog.append("请求参数 = [");
-            for (int i = 0; i < paramLength - 1; i++) {
-                requestLog.append(paramNames[i]).append("=").append(JSONObject.toJSONString(paramValues[i])).append(",");
+            for (int i = 0; i < paramLength ; i++) {
+                if(paramValues[i] instanceof HttpServletRequest||paramValues[i] instanceof HttpServletResponse) continue;
+                requestLog.append(paramNames[i]).append("=").append(JSONObject.toJSONString(paramValues[i]));
+                if(i!=paramLength-1){
+                    requestLog.append(",");
+                }else{
+                    requestLog.append("]");
+                }
             }
-            requestLog.append(paramNames[paramLength - 1]).append("=").append(JSONObject.toJSONString(paramValues[paramLength - 1])).append("]");
         }
         log.info(requestLog.toString());
     }

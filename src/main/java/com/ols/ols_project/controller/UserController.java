@@ -15,12 +15,6 @@ import java.util.HashMap;
  * @author yuyy
  * @date 20-2-18 下午3:56
  */
-
-/**
- * 更改邮箱
- * @author sf
- * @date 20-3-23
- */
 @RestController
 @RequestMapping("user")
 public class UserController {
