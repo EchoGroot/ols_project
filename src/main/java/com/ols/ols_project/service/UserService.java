@@ -83,4 +83,12 @@ public interface UserService {
      * @return
      */
     int changeEmailById(long userId,String Email);
+
+    /**
+     * 登录
+     * @param userName
+     * @param passWord
+     * @return
+     */
+    Long login(String userName,String passWord);
 }

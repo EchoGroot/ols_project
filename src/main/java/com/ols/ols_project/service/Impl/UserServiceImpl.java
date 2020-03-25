@@ -139,6 +139,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.changeEmailById(userId,email);
     }
 
-
+    @Override
+    public Long login(String userName,String passWord){
+        return userMapper.login(userName,passWord);
+    }
 
 }

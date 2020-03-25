@@ -30,4 +30,6 @@ public interface UserMapper {
 
     int changeEmailById(long userId,String email);
 
+    Long login(String userName,String passWord);
+
 }

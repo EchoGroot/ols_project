@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="js/login.js"></script>
+</head>
+<body>
+    <form  class="layui-form" action="">
+        <div class="layui-form-item usernameDiv">
+                <label class="layui-form-label layui-icon layui-icon-username"
+                       style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="userName" type="text" name="title" lay-verify="required" placeholder="用户名"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-password"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="userPassword" type="text" name="title" lay-verify="required" placeholder="密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-vercode"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="code" type="text" name="title" lay-verify="required" placeholder="验证码"
+                       autocomplete="off" class="layui-input" size="10">
+            </div>
+            <input id="codeCard" name="title" class="codecard"  type="button">
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-inline rpdiv">
+                <input type="checkbox" title="记住密码" lay-skin="primary" checked>
+            </div>
+        </div>
+        <div class="layui-input-block loginDiv">
+            <button id="loginBtn" class="layui-btn login-btn">登录</button>
+        </div>
+        <div class="layui-form-item ">
+                <a href="" class="forgetPassword">忘记密码？</a>
+                <a href="" class="register">立即注册</a>
+        </div>
+    </form>
+</body>
+
+</html>

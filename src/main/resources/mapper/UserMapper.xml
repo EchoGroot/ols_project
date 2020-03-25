@@ -298,4 +298,8 @@
           id=#{userId}
     </update>
 
+    <select id="login" resultType="Long">
+        select id from ols_user where name=#{userName}and password=#{passWord}
+    </select>
+
 </mapper>
