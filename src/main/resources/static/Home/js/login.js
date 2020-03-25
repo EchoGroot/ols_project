@@ -75,7 +75,6 @@ function login() {
             "passWord":passWord
         },
         success:function(resultData){
-            alert(1);
             resultData=JSON.parse(resultData);
             if(resultData.meta.status === "205"){
                 layer.msg('操作失败，请刷新页面', {
@@ -86,13 +85,13 @@ function login() {
                 layer.msg('登录成功');
                 var page=null;
                 switch ((resultData.meta.status)) {
-                    case 200:page="PersonalCenterPage";
+                    case "200":page="PersonalCenterPage";
                             break;
-                    case 201:page="AdminPage";
+                    case "201":page="AdminPage";
                             break;
-                    case 202:page="JudgeTaskPage";
+                    case "202":page="JudgeTaskPage";
                 }
-                window.location.href = "http://127.0.0.1:8080/"+page+"/index.html?" +resultData.data.userId;
+                window.location.href = "http://127.0.0.1:8080/"+page+"/index.html?userId=" +resultData.data.userId;
             }
         }
     })
