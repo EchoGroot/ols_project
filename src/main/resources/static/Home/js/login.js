@@ -83,16 +83,8 @@ function login() {
                 });
             }else{
                 layer.msg('登录成功');
-                var page=null;
-                switch ((resultData.meta.status)) {
-                    case "200":page="PersonalCenterPage";
-                            break;
-                    case "201":page="AdminPage";
-                            break;
-                    case "202":page="JudgeTaskPage";
-                }
-                alert(resultData.data.userId);
-                window.location.href = "http://127.0.0.1:8080/"+page+"/index.html?userId=" +resultData.data.userId;
+
+                window.location.href = resultData.data.url;
             }
         }
     })
