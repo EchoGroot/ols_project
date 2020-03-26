@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.ols.ols_project.common.utils.Cache;
 import com.baidu.fsg.uid.service.UidGenService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
@@ -243,7 +244,7 @@ public class UserController {
      */
     @GetMapping(value = "/login")
     public String login(@RequestParam("userName") String userName,
-                        @RequestParam("passWord") String passWord) {
+                        @RequestParam("passWord") String passWord,HttpServletRequest request) {
         String resultStr = null;
         Long id = userService.login(userName, passWord);
         if (id == null) {
@@ -251,12 +252,21 @@ public class UserController {
             resultStr = JSON.toJSONString(result);
         } else {
             UserEntity userInfoById = userService.getUserInfoById(id);
+            String url="http://127.0.0.1:8080/";
+            String page=null;
+            switch (userInfoById.getRole()){
+                case 0:page="PersonalCenterPage";break;
+                case 1:page="AdminPage";break;
+                case 2:page="JudgeTaskPage";
+            }
+            url=url+page+"/index.html?userId="+id;
             HashMap<String, Object> data = new HashMap<>();
-            data.put("userId", id);
+            data.put("url", url);
             if(userInfoById.getRole()==0){
                 //普通用户
                 resultStr = JSON.toJSONString(
                         new Result(data, "200", "登录成功！"));
+                request.getSession().setAttribute("userId",Long.toString(id));//session存数据
             }else{
                 if(userInfoById.getRole()==1){
                     //系统管理员
