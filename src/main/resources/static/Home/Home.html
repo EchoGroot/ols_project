@@ -68,25 +68,26 @@
                 <div>
                     <form class="layui-form" action="">
                         <div class="fly-panel-title fly-filter">
-                            <a href="" class="layui-this" id="queryReleasedTask">综合</a>
+                            <a class="layui-this" id="queryReleasedTask">综合</a>
                             <span class="fly-mid"></span>
-                            <a href="" id="queryImgTask">图片任务</a>
+                            <a id="queryImgTask">图片任务</a>
                             <span class="fly-mid"></span>
-                            <a href="" id="queryTxtTask">文本任务</a>
+                            <a id="queryTxtTask">文本任务</a>
                             <span class="fly-mid"></span>
-                            <a href="" id="queryAdoptedTask">已采纳任务</a>
+                            <a id="queryAdoptedTask">已采纳任务</a>
                             <span class="fly-filter-right layui-hide-xs">
                                 <a class="layui-input-block layui-input-inline">
                                     <input type="text" id="searchInput" name="title" placeholder="输入关键字" autocomplete="off" class="layui-input">
                                 </a>
-                                <span class="fly-search"><i class="layui-icon"></i></span>
-                                <a href="" class="layui-this">按最新</a>
-                                <span class="fly-mid"></span>
-                                <a href="">按热度</a>
+                                <span class="fly-search" id="searchButton"><i class="layui-icon"></i></span>
                             </span>
                         </div>
                     </form>
-                    <table id="taskList" lay-filter="monitorToolbar"></table>
+                    <table id="taskList" lay-filter="monitorToolbar">
+                        <script type="text/html" id="barHandle">
+                            <a class="layui-btn layui-btn-sm" lay-event="check">查看</a>
+                        </script>
+                    </table>
                 </div>
             </div>
         </div>

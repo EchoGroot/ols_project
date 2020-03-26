@@ -1,14 +1,14 @@
-var query="needlable"; //查询参数
+var userId=getQueryVariable('userId'); //用户ID
+var page=getQueryVariable('page'); //页面名称
+var query=getQueryVariable('query'); //查询参数
+//var query="needlable"; //默认查询参数  主页面点击已采纳后 变更
 var url='/task/getAllTask'
 $(function () {
-
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
-        var url='';
-        console.log("1");
         // 发布的任务
         cols=[[ //表头
             {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
@@ -18,11 +18,10 @@ $(function () {
             , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
             , {field: 'accept_num', title: '接受者数量',align:'center', width: '10%', sort: true}
             , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
-            //, {title: '操作', align:'center',toolbar: '#barHandle'}
+            , {title: '操作', align:'center',toolbar: '#barHandle'}
         ]];
-        console.log("2");
         // 渲染表格
-        table.render({
+        var tableIns=table.render({
             elem: '#taskList'
             , height: 700
             , url: url //数据接口
@@ -30,20 +29,14 @@ $(function () {
             , limits: [15,30,50,100]
             , limit: 15
             , method: 'get'
+            , autoSort: false
             , where:{
-                query:query,
-                queryInfo:'timeDown',
-                searchInfo:''
-            },cols: [[ //表头
-                {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
-                , {field: 'name', title: '任务名称', align:'center',width: '10%'}
-                , {field: 'points', title: '任务分值', align:'center',width: '10%', sort: true}
-                , {field: 'type', title: '文件类型', align:'center',width: '10%', sort: true}
-                , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
-                , {field: 'accept_num', title: '接受者数量',align:'center', width: '10%', sort: true}
-                , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
-                //, {title: '操作', align:'center',toolbar: '#barHandle'}
-            ]]
+                query:'needlable',
+                queryInfo:'',
+                searchInfo:'',
+                field:'',
+                order:''
+            }
             // 渲染表格结束后的回调函数
             , parseData: function(res) { //res 即为原始返回的数据
                 return {
@@ -61,39 +54,35 @@ $(function () {
             }
 
         });
-        console.log("3");
         //监听工具条
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             // 工具条的点击事件
-            if(layEvent === 'check'){
-                if(page==='releaseTask'){
-                    // 查看
-                    checkFunc(data.id)
-                }else if(page==='acceptTask'){
-                    checkFunc(data.acceptId)
-                }
-            } else if(layEvent === 'adopt'){
-                // 采纳
-            }
+            checkFunc(data.id);
         });
-        //筛选按钮点击时间
-        $("#searchButton").click(function (e) {
-            e.preventDefault();
-            chooesAndSearch(tableIns);
-        })
-    });
+        table.on('sort(monitorToolbar)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //监听排序
+            console.log(obj.field); //当前排序的字段名
+            console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+            console.log(this) //当前排序的 th 对象*/;
+            tableIns.reload({
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+                ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field,
+                    order: obj.type
+                },page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
 
-});
-
-/*
-// 筛选个搜索
-function chooesAndSearch(tableIns) {
-    switch ($("#chooseSelect").val()) {
-        //只执行搜索
-        case '0':
-            //表格重载
+        });
+        $("#queryReleasedTask").click(function () {
+            $("#searchInput").val('');
+            $("#queryReleasedTask").attr('class',"layui-this");
+            $("#queryImgTask").attr('class',"");
+            $("#queryTxtTask").attr('class',"");
+            $("#queryAdoptedTask").attr('class',"");
             tableIns.reload({
                 where:{
                     queryInfo:'timeDown',
@@ -103,38 +92,97 @@ function chooesAndSearch(tableIns) {
                     curr: 1 //重新从第 1 页开始
                 }
             });
-            break;
-        // 文档类型
-    }
+        })
+        $("#queryImgTask").click(function () {
+            $("#searchInput").val('');
+            $("#queryReleasedTask").attr('class',"");
+            $("#queryImgTask").attr('class',"layui-this");
+            $("#queryTxtTask").attr('class',"");
+            $("#queryAdoptedTask").attr('class',"");
+            tableIns.reload({
+                where:{
+                    queryInfo:'img',
+                    searchInfo:$("#searchInput").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+        $("#queryTxtTask").click(function () {
+            $("#searchInput").val('');
+            $("#queryReleasedTask").attr('class',"");
+            $("#queryImgTask").attr('class',"");
+            $("#queryTxtTask").attr('class',"layui-this");
+            $("#queryAdoptedTask").attr('class',"");
+            tableIns.reload({
+                where:{
+                    queryInfo:'doc',
+                    searchInfo:$("#searchInput").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+        $("#queryAdoptedTask").click(function () {
+            $("#searchInput").val('');
+            $("#queryReleasedTask").attr('class',"");
+            $("#queryImgTask").attr('class',"");
+            $("#queryTxtTask").attr('class',"");
+            $("#queryAdoptedTask").attr('class',"layui-this");
+            tableIns.reload({
+                where:{
+                    query:'undereview',
+                    queryInfo:'timeDown',
+                    searchInfo:$("#searchInput").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+        //搜索按钮点击事件
+        $("#searchButton").click(function () {
+            tableIns.reload({
+                where:{
+                    queryInfo:'timeDown',
+                    searchInfo:$("#searchInput").val()
+                },
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                }
+            });
+        })
+    });
+});
+function getQueryVariable(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);//一个界面
+    //var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);//嵌套界面
+    if (r != null) return unescape(r[2]);
+    return null;
 }
+
 // 查看任务
 function checkFunc(taskId) {
-    var page1;
-    var pageType;
-    var idType;
-    if(page==='releaseTask' ){
-        idType='taskId';
-        pageType='personalReleasePage';
-        if(query==='releasefinish'){
-            page1 ='releaseFinishTask';
-        }else {
-            page1 ='releaseNotFinishTask';
-        }
-    }else{
-        idType='acceptId';
-        if(query==='acceptfinish'){
-            page1 ='acceptFinishTask';
-            pageType='personalAcceptFinishPage';
-        }else {
-            page1 ='acceptNotFinishTask';
-            pageType='personalAcceptNotFinishPage';
-        }
-    }
+    //判断传递userId为空时，接受任务按钮转登录，登录完后返回本页面并在地址栏添加userId参数..丢给杨哥做.这里可以为空
     top.location.href="/ImageLabelTaskPage/index.html?" +
         "userId="+userId+
-        "&pageType="+pageType+
-        "&"+idType+"="+taskId+
-        "&pageFrom=%2FPersonalCenterPage%2Findex.html"
+        "&pageType="+'otherReleasePage'+
+        "&"+'taskId'+"="+taskId+
+        "&pageFrom="+URLencode('/Home/Home.html')
         +"%3FuserId%3D"+userId
-        +"%26page%3D"+page1;
-}*/
+        +"%26page%3D"+'releaseNotFinishTask';
+}
+function URLencode(sStr) {
+    return sStr.replace(/\%/g,"%25")
+        .replace(/\+/g, '%2B')
+        .replace(/\"/g,'%22')
+        .replace(/\#/g,'%23')
+        .replace(/\'/g, '%27')
+        .replace(/\&/g, '%26')
+        .replace(/\?/g, '%3F')
+        .replace(/\=/g, '%3D')
+        .replace(/\//g,'%2F');
+}

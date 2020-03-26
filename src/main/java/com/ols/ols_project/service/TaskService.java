@@ -49,5 +49,6 @@ public interface TaskService {
 
     String creatTaskUrl(String lableName, String originalImage);
 
-    HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+    HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
+                                       String queryInfo, String searchInfo,String field,String order);
 }

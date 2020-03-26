@@ -325,10 +325,12 @@ public class TaskController {
                              @RequestParam(value = "page") Integer pageNum,
                              @RequestParam(value = "limit") Integer pageSize,
                              @RequestParam(value = "queryInfo") String queryInfo,
-                             @RequestParam(value = "searchInfo") String searchInfo){
+                             @RequestParam(value = "searchInfo") String searchInfo,
+                             @RequestParam(value = "field") String field,
+                             @RequestParam(value = "order") String order){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo)
+                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo,field,order)
                         ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss");

@@ -380,17 +380,38 @@
                 <when test="queryInfo == 'img'">
                     and type=1
                 </when>
-                <when test="queryInfo == 'pointsUp'">
-                    ORDER BY ols_task.points
+                <when test="queryInfo == ''">
                 </when>
-                <when test="queryInfo == 'pointsDown'">
-                    ORDER BY ols_task.points DESC
-                </when>
-                <when test="queryInfo == 'releaseTimeUp'">
+            </choose>
+            <choose>
+                <when test="field == ''">
                     ORDER BY release_time
                 </when>
-                <when test="queryInfo == 'releaseTimeDown'">
-                    ORDER BY release_time DESC
+                <when test="field == 'points'">
+                    ORDER BY points
+                </when>
+                <when test="field == 'type'">
+                    ORDER BY type
+                </when>
+                <when test="field == 'release_time'">
+                    ORDER BY release_time
+                </when>
+                <when test="field == 'accept_num'">
+                    ORDER BY accept_num
+                </when>
+                <when test="field == 'ext1'">
+                    ORDER BY ext1
+                </when>
+            </choose>
+            <choose>
+                <when test="order == 'desc'">
+                    DESC
+                </when>
+                <when test="order == ''">
+                    DESC
+                </when>
+                <when test="order == 'ass'">
+                    ASC
                 </when>
             </choose>
             <if test="end != 0">

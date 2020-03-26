@@ -237,8 +237,9 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
-        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
+    public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
+                                              String queryInfo, String searchInfo,String field,String order) {
+        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,field,order);
         List<TaskEntityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
