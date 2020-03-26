@@ -50,4 +50,5 @@ public interface TaskMapper {
      */
     void creatTask(TaskEntity taskEntity);
     List<List<TaskEntity>> getAllTask(String query, int start, int end, String queryInfo,String searchInfo,String field,String order);
+    void clickNum(long taskId);
 }

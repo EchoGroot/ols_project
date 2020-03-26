@@ -113,8 +113,8 @@ $(function () {
             console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
             console.log(this);//当前排序的 th 对象*/;
             console.log(page);
-            if(page == null){
-                tableIns2.reload({
+            if(page != ''){
+                tableIns.reload({
                     initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
                     ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                         field: obj.field,
@@ -124,7 +124,7 @@ $(function () {
                     }
                 });
             }else {
-                tableIns.reload({
+                tableIns2.reload({
                     initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
                     ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                         field: obj.field,

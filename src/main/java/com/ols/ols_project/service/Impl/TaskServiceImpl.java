@@ -195,10 +195,6 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
         taskEntity.setName(taskName);
-        //taskUrl.substring(1,taskUrl.length()-1);//字符串掐头尾的“ " ”
-        //taskUrl.replace("\\","");
-        //org.apache.commons.lang.StringUtils.remove(taskUrl,'\\');
-        System.out.println(taskUrl);
         taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);
         taskEntity.setPoints(rewardPoints);
@@ -209,6 +205,9 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setRelease_user_id(releaseUserId);
         taskEntity.setAccept_num(0);
         taskEntity.setAdopt_accept_id(null);
+        taskEntity.setExt1("0");
+        taskEntity.setExt2("0");
+        taskEntity.setExt3("0");
         taskMapper.creatTask(taskEntity);
     }
 
@@ -264,6 +263,9 @@ public class TaskServiceImpl implements TaskService {
         data.put("total",list.get(1).get(0));
         return data;
     }
-
+    @Override
+    public void clickNum(long taskId){
+        taskMapper.clickNum(taskId);
+    }
 
 }
