@@ -366,11 +366,11 @@
                 and (ols_task.name like '%${searchInfo}%')
             </if>
             <choose>
-                <when test="query == 'undereview'">
-                   and ols_task.state = 4
-                </when>
                 <when test="query == 'needlable'">
                     and ols_task.state = 5
+                </when>
+                <when test="query == 'adopted'">
+                    and ols_task.state = 1
                 </when>
             </choose>
             <choose>
@@ -399,8 +399,14 @@
                 <when test="field == 'accept_num'">
                     ORDER BY accept_num
                 </when>
+                <when test="field == 'finish_time'">
+                    ORDER BY finish_time
+                </when>
                 <when test="field == 'ext1'">
                     ORDER BY ext1
+                </when>
+                <when test="field == 'finish_time'">
+                    ORDER BY finish_time
                 </when>
             </choose>
             <choose>
