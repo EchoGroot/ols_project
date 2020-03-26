@@ -32,4 +32,8 @@ public interface UserMapper {
 
     Long login(String userName,String passWord);
 
+    Long checkUserName(String userName);
+
+    int userRegister(UserEntity user);
+
 }

@@ -144,4 +144,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.login(userName,passWord);
     }
 
+    @Override
+    public Long checkUserName(String userName){
+        return userMapper.checkUserName(userName);
+    }
+
+    @Override
+    public int userRegister(UserEntity user){return userMapper.userRegister(user);}
+
 }

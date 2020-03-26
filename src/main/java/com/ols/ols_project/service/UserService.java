@@ -91,4 +91,18 @@ public interface UserService {
      * @return
      */
     Long login(String userName,String passWord);
+
+    /**
+     * 检查用户名是否重复
+     * @param userName
+     * @return
+     */
+    Long checkUserName(String userName);
+
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
+    int userRegister(UserEntity user);
 }

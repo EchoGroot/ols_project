@@ -7,6 +7,8 @@ import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.ols.ols_project.common.utils.Cache;
+import com.baidu.fsg.uid.service.UidGenService;
 
 import java.util.HashMap;
 
@@ -24,6 +26,10 @@ public class UserController {
 
     @Autowired
     private SendEmailBy126 sendEmailBy126;
+
+    @Autowired
+    private UidGenService uidGenService;
+
 
     /**
      * 获取用户信息
@@ -229,6 +235,12 @@ public class UserController {
         return "200";
     }
 
+    /**
+     * 登录
+     * @param userName
+     * @param passWord
+     * @return
+     */
     @GetMapping(value = "/login")
     public String login(@RequestParam("userName") String userName,
                         @RequestParam("passWord") String passWord) {
@@ -261,7 +273,105 @@ public class UserController {
         }
         return resultStr;
     }
+
+    /**
+     * 验证用户名是否重复
+     * @param userName
+     * @return
+     */
+    @PostMapping(value = "/checkUserName")
+    public String checkUserName(@RequestParam("userName") String userName) {
+        String resultStr = null;
+        Long id = userService.checkUserName(userName);
+        if (id == null) {
+            Result result = new Result("200", "用户名不存在！");
+            resultStr = JSON.toJSONString(result);
+        } else {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "用户名已存在"));
+
+        }
+        return resultStr;
+    }
+
+    /**
+     * 向注册用户发送验证码
+     * @param email
+     * @return
+     */
+    @PostMapping(value = "/sendEmail")
+    public String sendEmail(@RequestParam("email")String email) {
+        String resultStr = null;
+        //给注册用户发送验证码
+        try {
+            String code = (System.currentTimeMillis() + "").substring(7);
+            //将验证码存入缓存
+            Cache.put(email, code, 60000);
+            sendEmailBy126.sendEmail(
+                    email
+                    , "Ols系统通知"
+                    , "欢迎注册成为Ols用户！您的注册验证码为：" + code);
+
+            resultStr = JSON.toJSONString(
+                    new Result("200", "已成功发送验证码！"));
+
+        }catch (Exception e){
+            resultStr=JSON.toJSONString(
+                    new Result("201", "验证码发送异常！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 检查用户输入的验证码是否正确
+     * @param email
+     * @param inputcode
+     * @return
+     */
+    @PostMapping(value = "/verifyCode")
+    public String verifyCode(@RequestParam("email")String email,@RequestParam("inputcode")String inputcode) {
+        String resultStr = null;
+        String code = (String) Cache.get(email);
+        if (code != null && code.equals(inputcode)) {
+            Result result = new Result("200", "验证码正确！");
+            resultStr = JSON.toJSONString(result);
+        }else {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "验证码错误！"));
+
+        }
+        return resultStr;
+    }
+
+    @PostMapping(value = "/userRegister")
+    public String userRegister(UserEntity user){
+        String resultStr = null;
+        Long id=uidGenService.getUid();
+        user.setId(id);
+        if(user.getRole()==0){
+            user.setExt1(null);
+        }else{
+            user.setExt1("0");
+        }
+        if(user!=null&&userService.getUserInfoById(id)==null){
+            userService.userRegister(user);
+            if(userService.getUserInfoById(id)!=null){
+                resultStr = JSON.toJSONString(
+                        new Result("200", "注册成功！"));
+            }else{
+                resultStr = JSON.toJSONString(
+                        new Result("201", "注册失败！"));
+            }
+        }else{
+            resultStr = JSON.toJSONString(
+                    new Result("202", "出错！"));
+        }
+        return resultStr;
+    }
+
 }
+
+
 
 
 

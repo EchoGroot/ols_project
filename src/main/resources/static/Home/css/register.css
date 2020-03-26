@@ -1,13 +1,13 @@
 .layui-form{
-    width: 400px;
-    height: 320px;
+    width: 450px;
+    height: 510px;
     background-color:#e7e7e7;
     margin: auto;
     position: absolute;
     top: 0;right: 0;left: 0;bottom: 0;
 }
 .layui-form-label{
-    width: 80px;
+    width: 100px;
 }
 .layui-form-item{
     margin-top: 8px;
@@ -15,20 +15,12 @@
 .usernameDiv{
     padding-top: 40px;
 }
-.rpdiv{
-    margin-left: 70px;
-}
-.login-btn{
+.register-btn{
     width: 150px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
-.loginDiv{
+.registerDiv{
     margin: 0 auto; text-align: center
-}
-.forgetPassword{
-    margin-top: 15px;
-    margin-left: 70px;
-    font-size: 15px;
 }
 .register{
     margin-top: 15px;
@@ -36,6 +28,10 @@
     font-size: 15px;
 }
 .codecard{
-    font-size: 20px;
-    font-style: oblique;
+    font-size: 15px;
+    width: 100px;
+    height: 35px;
+}
+.loginUrl{
+    margin-left: 310px;
 }

@@ -91,6 +91,7 @@ function login() {
                             break;
                     case "202":page="JudgeTaskPage";
                 }
+                alert(resultData.data.userId);
                 window.location.href = "http://127.0.0.1:8080/"+page+"/index.html?userId=" +resultData.data.userId;
             }
         }

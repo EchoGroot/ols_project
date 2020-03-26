@@ -3,6 +3,9 @@ var userId=getQueryVariable('userId'); //用户ID
 $(function () {
     // 加载用户个人信息
     loadUserInfo();
+    layui.use(['layer'], function () {
+        var layer = layui.layer;
+    });
 });
 // 加载个人用户信息
 function loadUserInfo(){

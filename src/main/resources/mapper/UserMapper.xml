@@ -302,4 +302,13 @@
         select id from ols_user where name=#{userName}and password=#{passWord}
     </select>
 
+    <select id="checkUserName" resultType="Long">
+        select id from ols_user where name=#{userName}
+    </select>
+    
+    <insert id="userRegister">
+        insert into ols_user values(#{id},#{name},#{birthday},#{password},
+			#{sex},#{email},#{role},0,#{ext1},null,null)
+    </insert>
+
 </mapper>
