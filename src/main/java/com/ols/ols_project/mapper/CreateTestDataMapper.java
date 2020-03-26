@@ -1,9 +1,9 @@
 package com.ols.ols_project.mapper;
 
-import com.ols.ols_project.model.AccepteEntity;
-import com.ols.ols_project.model.TaskEntity;
-import com.ols.ols_project.model.UserEntity;
-import com.ols.ols_project.model.UserOperationLogEntity;
+import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.TaskEntity;
+import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 
 /**
  * 向数据库添加测试数据的Mapper
@@ -13,7 +13,7 @@ import com.ols.ols_project.model.UserOperationLogEntity;
 public interface CreateTestDataMapper {
     void createTestDataForOlsUser(UserEntity userEntity);
     void createTestDataForOlsTask(TaskEntity taskEntity);
-    void createTestDataForOlsAccepte(AccepteEntity accepteEntity);
+    void createTestDataForOlsAccepte(AccepteEntity acceptEntity);
 
     void createTestDataForOlsUserOperationLog(UserOperationLogEntity userOperationLogEntity);
 }

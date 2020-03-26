@@ -14,6 +14,7 @@ import java.util.Properties;
 
 
 /**
+ * 发送邮件
  * @author yuyy
  * @date 20-3-7 下午9:44
  */

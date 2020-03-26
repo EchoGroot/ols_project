@@ -12,28 +12,24 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AcceptTask {
     /**
      * 任务编号
      */
-    private Integer ols_task_id;
+    private Long taskId;
+
+    /**
+     * 接受任务编号
+     */
+    private Long acceptId;
 
     /**
      * 任务名称
      */
-    private String name;
-
-    /**
-     * 原始文件路径
-     */
-    private String ols_task_url;
-
-    /**
-     * 详细信息
-     */
-    private String information;
+    private String taskName;
 
     /**
      * 任务分值
@@ -43,7 +39,7 @@ public class AcceptTask {
     /**
      * 状态
      */
-    private Integer ols_task_state;
+    private Integer taskState;
 
     /**
      * 文件类型
@@ -51,57 +47,32 @@ public class AcceptTask {
     private Integer type;
 
     /**
-     * 完成时间
-     */
-    private Timestamp ols_task_finish_time;
-
-    /**
      * 发布时间
      */
-    private Timestamp release_time;
+    private Timestamp releaseTime;
 
     /**
-     * 发布者编号
+     * 发布者名称
      */
-    private Integer release_user_id;
+    private String releaseName;
 
     /**
      * 接受者数量
      */
-    private Integer accepte_num;
-
-    /**
-     * 采纳的接受任务编号
-     */
-    private Integer adopt_accepte_id;
-
-    /**
-     * 接受任务编号
-     */
-    private Integer ols_accept_id;
-
-    /**
-     * 接受者编号
-     */
-    private Integer user_id;
+    private Integer acceptNum;
 
     /**
      * 接受时间
      */
-    private Timestamp accept_time;
+    private Timestamp acceptTime;
 
     /**
      * 提交时间
      */
-    private Timestamp ols_accept_finish_time;
+    private Timestamp finishTime;
 
     /**
      * 接受状态
      */
-    private Integer ols_accepte_state;
-
-    /**
-     * 标注文件路径
-     */
-    private String ols_accepte_url;
+    private Integer acceptState;
 }

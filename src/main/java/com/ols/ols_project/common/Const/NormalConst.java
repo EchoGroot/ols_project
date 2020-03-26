@@ -10,5 +10,5 @@ public class NormalConst {
     /**
      * 分配给审核者的待审核任务数量
      */
-    public static final Integer setNotCheckedTaskForUserCount=18;
+    public static final Integer setNotCheckedTaskForUserCount=17;
 }

@@ -23,7 +23,7 @@ public class TaskEntityBo {
      * 任务编号
      * 主键
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 名称
@@ -68,17 +68,17 @@ public class TaskEntityBo {
     /**
      *发布者编号
      */
-    private Integer release_user_id;
+    private Long release_user_id;
 
     /**
      *接受者数量
      */
-    private Integer accepte_num;
+    private Integer accept_num;
 
     /**
      *采纳的接受任务编号
      */
-    private Integer adopt_accepte_id;
+    private Long adopt_accept_id;
 
     /**
      * 备用字段1

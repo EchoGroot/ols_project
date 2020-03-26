@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>任务详情</title>
+        <link rel="shortcut icon" href="../favicon.ico" rel="external nofollow" rel="external nofollow" />
+        <link rel="stylesheet" href="../layui/css/layui.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="../layui/layui.js"></script>
+        <script src="../js/jquery-3.4.1.js"></script>
+        <script src="js/index.js"></script>
+    </head>
+    <body class="layui-layout-body close-footer">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <div class="layui-logo">OLS 任务详情</div>
+                <!-- 头部区域（可配合layui已有的水平导航） -->
+                <ul class="layui-nav layui-layout-right">
+                    <li class="layui-nav-item">
+                        <a id="submit"
+                           href="javascript:void(0);"
+                           onclick="submitFunc()">提交任务</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="accept"
+                           href="javascript:void(0);"
+                           onclick="acceptFunc()">接受任务</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="report"
+                           href="javascript:void(0);"
+                           onclick="reportFunc()">举报任务</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a id="goBack"
+                           href="javascript:void(0);"
+                           onclick="goBackFunc()">返回</a>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                            测试管理员
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="./AdminInfo.html">个人资料</a></dd>
+                            <dd><a href="">注销</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <div class="layui-body close-footer" id="mainContainer">
+                <!-- 内容主体区域 -->
+                    <!-- 任务详情 -->
+                <form class="layui-form" action="">
+                    <div class="layui-form-item ">
+                        <label class="layui-form-label layui-input-inline">任务名称</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="taskName" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label layui-input-inline">任务分值</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="taskPoints" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-input-inline">发布时间</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="releaseTime" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label layui-input-inline">接受时间</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="acceptTime" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label layui-input-inline">任务详情</label>
+                        <div id="taskInfoContainer" class="layui-input-block layui-input-inline">
+                            <textarea id="taskInfo" readonly="true" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div id="exampleDivContainer">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                        <legend>标注示例</legend>
+                    </fieldset>
+                    <div class="layui-input-inline">
+                        <div id="exampleDiv">
+                        </div>
+                    </div>
+                </div>
+                <div id="notFinishDivContainer">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                        <legend>待标注</legend>
+                    </fieldset>
+                    <div class="layui-input-inline">
+                        <div id="notFinishDiv">
+                        </div>
+                    </div>
+                </div>
+                <div id="finishDivContainer">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                        <legend>已标注</legend>
+                    </fieldset>
+                    <div class="layui-input-inline">
+                        <div id="finishDiv">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

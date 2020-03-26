@@ -18,7 +18,7 @@ public class AcceptTaskForData {
     /**
      * 任务编号
      */
-    private Integer ols_task_id;
+    private Long ols_task_id;
 
     /**
      * 任务名称
@@ -63,27 +63,27 @@ public class AcceptTaskForData {
     /**
      * 发布者编号
      */
-    private Integer release_user_id;
+    private Long release_user_id;
 
     /**
      * 接受者数量
      */
-    private Integer accepte_num;
+    private Integer accept_num;
 
     /**
      * 采纳的接受任务编号
      */
-    private Integer adopt_accepte_id;
+    private Long adopt_accept_id;
 
     /**
      * 接受任务编号
      */
-    private Integer ols_accept_id;
+    private Long ols_accept_id;
 
     /**
      * 接受者编号
      */
-    private Integer user_id;
+    private Long user_id;
 
     /**
      * 接受时间
@@ -98,10 +98,10 @@ public class AcceptTaskForData {
     /**
      * 接受状态
      */
-    private Integer ols_accepte_state;
+    private Integer ols_accept_state;
 
     /**
      * 标注文件路径
      */
-    private String ols_accepte_url;
+    private String ols_accept_url;
 }

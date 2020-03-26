@@ -20,6 +20,7 @@ import java.util.List;
 public class AccepteTaskImageInfo {
     private String originalImage;
     private Boolean isLabeled;
+    private Boolean isExample;
     @JSONField(serialzeFeatures= {SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullListAsEmpty})
     private List<LabelInfo> labeledInfo;
 }
