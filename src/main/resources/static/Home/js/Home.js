@@ -103,7 +103,14 @@ $(function () {
         table.on('tool(monitorToolbar)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            // 工具条的点击事件
+            // 工具条的点击事件 点击量+1 并跳转详情页面
+            $.ajax({
+                type: "post",
+                url:"/task/clickNumPlus",
+                data:{
+                    taskId:data.id
+                }
+            })
             checkFunc(data.id);
         });
         //监听表头 用来排序

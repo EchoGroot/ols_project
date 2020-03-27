@@ -336,9 +336,13 @@ public class TaskController {
                 ,"yyyy-MM-dd hh:mm:ss");
         return result;
     }
-    @PostMapping("/clickNum")
-    public String clickNum(@RequestParam(value = "taskId") long taskId){
-        taskService.clickNum(taskId);
+    @PostMapping("/clickNumPlus")
+    public String clickNumPlus(@RequestParam(value = "taskId") long taskId){
+        taskService.clickNumPlus(taskId);
         return "点击量+1！";
+    }
+    @GetMapping("/getClickNum")
+    public String getClickNum(){
+        return JSON.toJSONString(taskService.getClickNum());
     }
 }

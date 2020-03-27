@@ -52,5 +52,6 @@ public interface TaskService {
     HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
                                        String queryInfo, String searchInfo,String field,String order);
 
-    void clickNum(long taskId);
+    void clickNumPlus(long taskId);
+    List<TaskEntity> getClickNum();
 }

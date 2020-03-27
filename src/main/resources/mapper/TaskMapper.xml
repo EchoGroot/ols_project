@@ -435,7 +435,7 @@
             </if>
         SELECT FOUND_ROWS() as total;
     </select>
-    <update id="clickNum">
+    <update id="clickNumPlus">
         update
             ols_task
         set
@@ -443,4 +443,14 @@
         where
             id=#{taskId}
     </update>
+    <select id="getClickNum" resultType="com.ols.ols_project.model.entity.TaskEntity">
+        SELECT id,
+               name,
+               ext3
+        FROM
+             ols_task
+        ORDER BY
+                 ext3 DESC
+                 LIMIT 10;
+    </select>
 </mapper>

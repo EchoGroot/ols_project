@@ -207,7 +207,7 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setAdopt_accept_id(null);
         taskEntity.setExt1("0");
         taskEntity.setExt2("0");
-        taskEntity.setExt3("0");
+        taskEntity.setExt3(0);
         taskMapper.creatTask(taskEntity);
     }
 
@@ -256,6 +256,7 @@ public class TaskServiceImpl implements TaskService {
                             .adopt_accept_id(e.getAdopt_accept_id())
                             .ext1(e.getExt1())
                             .ext2(e.getExt2())
+                            .ext3(e.getExt3())
                             .build());
                 }
         );
@@ -264,8 +265,12 @@ public class TaskServiceImpl implements TaskService {
         return data;
     }
     @Override
-    public void clickNum(long taskId){
-        taskMapper.clickNum(taskId);
+    public void clickNumPlus(long taskId){
+        taskMapper.clickNumPlus(taskId);
     }
-
+    @Override
+    public List<TaskEntity> getClickNum(){
+        List<TaskEntity> list = taskMapper.getClickNum();
+        return list;
+    }
 }
