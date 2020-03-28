@@ -311,4 +311,12 @@
 			#{sex},#{email},#{role},0,#{ext1},null,null)
     </insert>
 
+    <select id="getEmailByName" resultType="String">
+        select email from ols_user where name=#{userName}
+    </select>
+
+    <update id="changePasswordByName">
+        update ols_user set password=#{password} where name=#{userName}
+    </update>
+
 </mapper>

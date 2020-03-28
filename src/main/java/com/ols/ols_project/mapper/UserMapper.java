@@ -36,4 +36,8 @@ public interface UserMapper {
 
     int userRegister(UserEntity user);
 
+    String getEmailByName(String userName);
+
+    int changePasswordByName(String userName,String password);
+
 }

@@ -27,7 +27,7 @@
 }
 .forgetPassword{
     margin-top: 15px;
-    margin-left: 70px;
+    margin-left: 50px;
     font-size: 15px;
 }
 .register{
@@ -38,4 +38,17 @@
 .codecard{
     font-size: 20px;
     font-style: oblique;
+}
+.codeCard1{
+    font-size: 15px;
+    width: 100px;
+    height: 35px;
+}
+.forgetPasswordDiv{
+    width: 430px;
+    height: 230px;
+    background-color: #FFFFFF;
+    margin: auto;
+    position: absolute;
+    top: 0;right: 0;left: 0;bottom: 0;
 }

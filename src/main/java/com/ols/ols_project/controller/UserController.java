@@ -230,10 +230,17 @@ public class UserController {
     @PostMapping(value = "/changeEmail")
     public String changeEmail(@RequestParam("userId") String userId,
                               @RequestParam("email") String email) {
-        //System.out.println(userId);
-        //System.out.println(email);
-        userService.changeEmailById(Long.parseLong(userId), email);
-        return "200";
+        String resultStr = null;
+        try {
+            userService.changeEmailById(Long.parseLong(userId), email);
+            resultStr = JSON.toJSONString(
+                    new Result("200", "修改密码成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "修改密码失败！"));
+
+        }
+        return resultStr;
     }
 
     /**
@@ -320,7 +327,7 @@ public class UserController {
             sendEmailBy126.sendEmail(
                     email
                     , "Ols系统通知"
-                    , "欢迎注册成为Ols用户！您的注册验证码为：" + code);
+                    , "欢迎使用Ols系统！您的验证码为：" + code);
 
             resultStr = JSON.toJSONString(
                     new Result("200", "已成功发送验证码！"));
@@ -353,6 +360,11 @@ public class UserController {
         return resultStr;
     }
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
     @PostMapping(value = "/userRegister")
     public String userRegister(UserEntity user){
         String resultStr = null;
@@ -375,6 +387,49 @@ public class UserController {
         }else{
             resultStr = JSON.toJSONString(
                     new Result("202", "出错！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 根据用户名获取邮箱
+     * @param userName
+     * @return
+     */
+    @PostMapping(value = "/getEmailByName")
+    public String getEmailByName(@RequestParam("userName")String userName){
+        String resultStr = null;
+        String email = userService.getEmailByName(userName);
+        if (email == null) {
+            Result result = new Result("201", "用户不存在！");
+            resultStr = JSON.toJSONString(result);
+        } else {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("email",email);
+            resultStr = JSON.toJSONString(
+                    new Result(data,"200", "获取邮箱成功！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 忘记密码根据用户名修改密码
+     * @param userName
+     * @param password
+     * @return
+     */
+    @PostMapping(value = "/changePasswordByName")
+    public String changePasswordByName(@RequestParam("userName")String userName,
+                                       @RequestParam("password")String password) {
+        String resultStr = null;
+        try {
+            userService.changePasswordByName(userName, password);
+            resultStr = JSON.toJSONString(
+                    new Result("200", "修改密码成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "修改密码失败！"));
+
         }
         return resultStr;
     }

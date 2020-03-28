@@ -117,6 +117,7 @@ function verifyCode() {
     }
     return true;
 }
+//发送邮箱验证码
 function sendEmail() {
     var email=$("#email").val();
     $.ajax({
@@ -139,6 +140,7 @@ function sendEmail() {
     });
     setTime();
 }
+//注册
 function userRegister() {
     var name=$("#userName").val();
     var birthday=$("#birthday").val();
@@ -161,9 +163,8 @@ function userRegister() {
             resultData = JSON.parse(resultData);
             if (resultData.meta.status === "200") {
                 if(role=="0"){
-                    layer.alert('注册成功！立即登录',{
-                        icon:1
-                    })
+                    layer.msg('注册成功!即将登录..');
+                    login();
                 }else{
                     layer.alert('等待管理员审核！',{
                         icon:1
@@ -182,4 +183,29 @@ function userRegister() {
             });
         }
     });
+}
+function login(){
+    var name=$("#userName").val();
+    var password=$("#userPassword2").val();
+    $.ajax({
+        type: "get",
+        url:"/user/login",
+        data:{
+            "userName":name,
+            "passWord":password
+        },
+        success:function(resultData){
+            resultData=JSON.parse(resultData);
+            if(resultData.meta.status === "205"){
+                layer.msg('操作失败，请刷新页面', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }else{
+                window.location.href = resultData.data.url;
+            }
+        }
+
+    })
+
 }

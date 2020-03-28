@@ -152,4 +152,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int userRegister(UserEntity user){return userMapper.userRegister(user);}
 
+    @Override
+    public String getEmailByName(String userName){return userMapper.getEmailByName(userName);}
+
+    @Override
+    public int changePasswordByName(String userName,String password){return userMapper.changePasswordByName(userName,password);}
+
 }

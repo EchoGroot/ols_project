@@ -105,4 +105,18 @@ public interface UserService {
      * @return
      */
     int userRegister(UserEntity user);
+
+    /**
+     * 根据用户名获取邮箱
+     * @param userName
+     * @return
+     */
+    String getEmailByName(String userName);
+
+    /**
+     * 修改密码
+     * @param userName
+     * @return
+     */
+    int changePasswordByName(String userName,String password);
 }
