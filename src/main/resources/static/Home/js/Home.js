@@ -231,6 +231,7 @@ $(function () {
             }
         })
     });
+    judgeLogin();
 });
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -272,4 +273,59 @@ function URLencode(sStr) {
         .replace(/\?/g, '%3F')
         .replace(/\=/g, '%3D')
         .replace(/\//g,'%2F');
+}
+
+//判断是否登录
+function judgeLogin() {
+    if(userId!=null){
+        $.ajax({
+            url: '/user/judgeLogin',
+            type: "GET",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                resultData = JSON.parse(resultData);
+                if(resultData.meta.status === "200"){
+                    var name=null;
+                    $.ajax({
+                        url: "/user/getUserInfo",
+                        type: "get",
+                        data: {
+                            userId: userId
+                        },
+                        success: function (resultData) {
+                            resultData = JSON.parse(resultData);
+                            if (resultData.meta.status === "200") {
+                                name = resultData.data.userInfo.name;
+                                var div2=document.getElementById("logoff");
+                                div2.style.display="none";
+                                var div1=document.getElementById("login");
+                                div1.style.display="block";
+                                var div3=document.getElementById("logindiv");
+                                div3.style.display="block";
+                                var li1=document.getElementById("acceptli");
+                                li1.style.display="block";
+                                var li2=document.getElementById("releaseli");
+                                li2.style.display="block";
+                                var a=document.getElementById("userName");
+                                a.innerText=name;
+                                a.href="http://127.0.0.1:8080/PersonalCenterPage/index.html?userId="+userId;
+
+                            }
+                        }
+                    });
+
+                }else{
+                    window.location.href='/Home/Home.html';
+                }
+
+            }
+        })
+    }
+}
+//注销
+function cancel() {
+    sessionStorage.clear();   //清除所有session值
+    window.location.href='/Home/Home.html';
 }

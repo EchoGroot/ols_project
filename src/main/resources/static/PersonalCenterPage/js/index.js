@@ -59,6 +59,7 @@ $(function () {
     layui.use('element', function(){
         var element = layui.element;
     });
+    judgeLogin();
 });
 // 获取URL里的参数
 function getQueryVariable(name) {
@@ -67,3 +68,41 @@ function getQueryVariable(name) {
     if (r != null) return unescape(r[2]);
     return null;
 };
+//判断是否登录
+function judgeLogin() {
+    if(userId!=null){
+        $.ajax({
+            url: '/user/judgeLogin',
+            type: "GET",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                resultData = JSON.parse(resultData);
+                if(resultData.meta.status === "200"){
+                    var name=null;
+                    $.ajax({
+                        url: "/user/getUserInfo",
+                        type: "get",
+                        data: {
+                            userId: userId
+                        },
+                        success: function (resultData) {
+                            resultData = JSON.parse(resultData);
+                            if (resultData.meta.status === "200") {
+                                name = resultData.data.userInfo.name;
+                                var a=document.getElementById("userName");
+                                a.innerText=name;
+                            }
+                        }
+                    });
+
+                }else{
+                    window.location.href='/Home/Home.html';
+                }
+
+            }
+        })
+    }
+
+}

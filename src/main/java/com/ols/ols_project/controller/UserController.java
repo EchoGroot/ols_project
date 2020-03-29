@@ -263,11 +263,11 @@ public class UserController {
             String url="http://127.0.0.1:8080/";
             String page=null;
             switch (userInfoById.getRole()){
-                case 0:page="PersonalCenterPage";break;
-                case 1:page="AdminPage";break;
-                case 2:page="JudgeTaskPage";
+                case 0:page="Home/Home.html";break;
+                case 1:page="AdminPage/index.html";break;
+                case 2:page="JudgeTaskPage/index.html";
             }
-            url=url+page+"/index.html?userId="+id;
+            url=url+page+"?userId="+id;
             HashMap<String, Object> data = new HashMap<>();
             data.put("url", url);
             data.put("userId",Long.toString(id));
@@ -446,6 +446,9 @@ public class UserController {
     public String judgeLogin(@RequestParam("userId") String userId,
                              HttpServletRequest httpServletRequest){
         String userId1 = (String)httpServletRequest.getSession().getAttribute("userId");
+        if(userId==null||userId1==null){
+            return JSONObject.toJSONString(new Result("201", "当前用户未登陆"));
+        }
         if(!userId.equals(userId1)){
             return JSONObject.toJSONString(new Result("201", "当前用户未登陆"));
         }

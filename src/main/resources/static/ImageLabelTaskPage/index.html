@@ -29,7 +29,7 @@
                     <li class="layui-nav-item">
                         <a id="report"
                            href="javascript:void(0);"
-                           onclick="reportFunc()">举报任务</a>
+                           onclick="judgeLogin('reportFunc')">举报任务</a>
                     </li>
                     <li class="layui-nav-item">
                         <a id="goBack"
@@ -37,9 +37,9 @@
                            onclick="goBackFunc()">返回</a>
                     </li>
                     <li class="layui-nav-item">
-                        <a href="javascript:;">
+                        <a href="javascript:;" id="userName">
                             <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                            测试管理员
+                            用户
                         </a>
                         <dl class="layui-nav-child">
                             <dd><a href="./AdminInfo.html">个人资料</a></dd>

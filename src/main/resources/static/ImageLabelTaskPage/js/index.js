@@ -304,9 +304,31 @@ function judgeLogin(func) {
         success: function (resultData) {
             resultData = JSON.parse(resultData);
             if(resultData.meta.status === "200"){
+                var name=null;
+                $.ajax({
+                    url: "/user/getUserInfo",
+                    type: "get",
+                    data: {
+                        userId: userId
+                    },
+                    success: function (resultData) {
+                        resultData = JSON.parse(resultData);
+                        if (resultData.meta.status === "200") {
+                            name = resultData.data.userInfo.name;
+                            var a=document.getElementById("userName");
+                            a.innerText=name;
+
+                        }
+                    }
+                });
                 if(func==='acceptFunc'){
                     acceptFunc();
+                }else{
+                    if(func==='reportFunc'){
+                        reportFunc();
+                    }
                 }
+
             }
             if (resultData.meta.status === "201") {
                 layer.msg('请先登录', {
