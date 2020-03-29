@@ -276,8 +276,15 @@ public class TaskController {
      */
     @PostMapping("/createTask")
     public String createTask( String taskName,String taskUrl, String taskInfo, int rewardPoints, int type, Long releaseUserId){
-        taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
-        return "ok";
+        String resultStr;
+        taskService.deductRewardPoints(rewardPoints,releaseUserId);
+        if(taskService.deductRewardPoints(rewardPoints,releaseUserId)==1){
+            taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
+            resultStr = JSON.toJSONString(new Result("1","积分扣除成功"));
+        }else{
+            resultStr = JSON.toJSONString(new Result("0","积分不足！发布失败"));
+        }
+        return resultStr;
     }
 
     @PostMapping("/creatTaskUrl")

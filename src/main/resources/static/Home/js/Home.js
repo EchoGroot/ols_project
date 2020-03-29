@@ -245,7 +245,7 @@ function getQueryVariable(name) {
 // 查看任务
 function checkFunc(taskId) {
     //判断传递userId为空时，接受任务按钮转登录，登录完后返回本页面并在地址栏添加userId参数..丢给杨哥做.这里可以为空
-    if(userId == null){
+    if(userId == ""){
 
     }
     if(query == 'needlable'){

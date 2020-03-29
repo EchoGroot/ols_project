@@ -99,6 +99,7 @@ function releaseTask() {
             },
             success: function (resultData) {
                 console.log(resultData.toString());
+                //url成功获取 提交表单进行数据交互
                 $.ajax({
                     type: "POST",
                     url: "/task/createTask",
@@ -109,14 +110,21 @@ function releaseTask() {
                         type:1,
                         taskUrl: resultData.toString(),
                         //releaseUserId: rId,  //发布者ID
-                        releaseUserId: 1011,
+                        releaseUserId: 12567,
                     },
                     success: function (msg) {
-                        /*if (msg == "1") {
-                            alert("保存成功");
+                        alert(msg.meta.msg);
+                        if (msg.meta.status == "1") {
+                            //成功跳转界面
+                            top.location.href="/ImageLabelTaskPage/index.html?" +
+                                "userId="+userId+
+                                "&pageType="+'otherReleasePage'+
+                                "&"+'taskId'+"="+taskId+
+                                "&pageFrom="+URLencode('/Home/Home.html')
+                                +"%3FuserId%3D"+userId
+                                +"%26page%3D"+'releaseNotFinishTask';
                         } else {
-                            alert("保存失败");
-                        }*/
+                        }
                     }
                 });
             }

@@ -49,6 +49,7 @@ public interface TaskMapper {
      * @date 2020/3/21 下午9:32
      */
     void creatTask(TaskEntity taskEntity);
+    void setPoints(int points,long release_user_id);
     List<List<TaskEntity>> getAllTask(String query, int start, int end, String queryInfo,String searchInfo,String field,String order);
     void clickNumPlus(long taskId);
     List<TaskEntity> getClickNum();

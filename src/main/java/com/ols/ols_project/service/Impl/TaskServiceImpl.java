@@ -10,6 +10,7 @@ import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.TaskMapper;
+import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
@@ -37,6 +38,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Resource
     private TaskMapper taskMapper;
+    @Resource
+    private UserMapper userMapper;
 
     @Autowired
     private UidGenService uidGenService;
@@ -209,6 +212,17 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setExt2("0");
         taskEntity.setExt3(0);
         taskMapper.creatTask(taskEntity);
+    }
+
+    @Override
+    public int deductRewardPoints(int rewardPoints,long releaseUserId){
+        if(rewardPoints<=userMapper.getPoints(releaseUserId)){
+            int resultPoints = userMapper.getPoints(releaseUserId)-rewardPoints;
+            userMapper.setPoints(resultPoints,releaseUserId);
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     @Override

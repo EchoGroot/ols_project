@@ -46,6 +46,7 @@ public interface TaskService {
     //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     void creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
                     Long releaseUserId);
+    int deductRewardPoints(int rewardPoints,long releaseUserId);
 
     String creatTaskUrl(String lableName, String originalImage);
 

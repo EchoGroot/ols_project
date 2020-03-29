@@ -40,4 +40,8 @@ public interface UserMapper {
 
     int changePasswordByName(String userName,String password);
 
+    int getPoints(long userId);
+
+    int setPoints(int points,long userId);
+
 }
