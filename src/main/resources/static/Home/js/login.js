@@ -60,7 +60,7 @@ function login() {
             icon: 5, //红色不开心
             time: 2000 //2秒关闭（如果不配置，默认是3秒）
         });
-        return false;
+        // return false;
     }
     $.ajax({
         type: "get",
@@ -78,8 +78,15 @@ function login() {
                 });
             }else{
                 layer.msg('登录成功');
-
-                window.location.href = resultData.data.url;
+                window.setTimeout(function () {
+                    if(window.sessionStorage.getItem('gotoUrl')!==null){
+                        var url=window.sessionStorage.getItem('gotoUrl');
+                        window.sessionStorage.setItem('userId',resultData.data.userId);
+                        window.location.href=url;
+                    }else{
+                        window.location.href = resultData.data.url;
+                    }
+                },2000);
             }
         }
     })

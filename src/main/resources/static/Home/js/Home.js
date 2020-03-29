@@ -235,8 +235,10 @@ $(function () {
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);//一个界面
-    //var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);//嵌套界面
-    if (r != null) return unescape(r[2]);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem('userId')){
+        return window.sessionStorage.getItem('userId');
+    }
     return null;
 }
 

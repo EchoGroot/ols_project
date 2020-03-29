@@ -236,7 +236,10 @@ function loadImageList(domId,imageList) {
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem('userId')){
+        return window.sessionStorage.getItem('userId');
+    }
     return null;
 }
 // 获取任务信息
@@ -290,7 +293,36 @@ function getImageList() {
         }
     })
 }
-
+//判断是否登录
+function judgeLogin(func) {
+    $.ajax({
+        url: '/user/judgeLogin',
+        type: "GET",
+        data: {
+            "userId": userId
+        },
+        success: function (resultData) {
+            resultData = JSON.parse(resultData);
+            if(resultData.meta.status === "200"){
+                if(func==='acceptFunc'){
+                    acceptFunc();
+                }
+            }
+            if (resultData.meta.status === "201") {
+                layer.msg('请先登录', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                // 将当前网址存入本地session
+                window.sessionStorage.setItem(
+                    'gotoUrl',window.location.href
+                );
+                // 跳转到登录页面
+                window.location.href='/Home/login.html';
+            }
+        }
+    })
+}
 //接受任务
 function acceptFunc() {
     $.ajax({

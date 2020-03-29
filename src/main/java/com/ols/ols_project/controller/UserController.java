@@ -259,7 +259,7 @@ public class UserController {
             resultStr = JSON.toJSONString(result);
         } else {
             UserEntity userInfoById = userService.getUserInfoById(id);
-            String url="http://127.0.0.1:8080/";
+            String url="/";
             String page=null;
             switch (userInfoById.getRole()){
                 case 0:page="PersonalCenterPage";break;
@@ -269,11 +269,12 @@ public class UserController {
             url=url+page+"/index.html?userId="+id;
             HashMap<String, Object> data = new HashMap<>();
             data.put("url", url);
+            data.put("userId",Long.toString(id));
+            request.getSession().setAttribute("userId",Long.toString(id));//session存数据
             if(userInfoById.getRole()==0){
                 //普通用户
                 resultStr = JSON.toJSONString(
                         new Result(data, "200", "登录成功！"));
-                request.getSession().setAttribute("userId",Long.toString(id));//session存数据
             }else{
                 if(userInfoById.getRole()==1){
                     //系统管理员
@@ -434,6 +435,21 @@ public class UserController {
         return resultStr;
     }
 
+    /**
+     * 判断账号是否登录
+     * @param userId
+     * @param httpServletRequest
+     * @return
+     */
+    @GetMapping("/judgeLogin")
+    public String judgeLogin(@RequestParam("userId") String userId,
+                             HttpServletRequest httpServletRequest){
+        String userId1 = (String)httpServletRequest.getSession().getAttribute("userId");
+        if(!userId.equals(userId1)){
+            return JSONObject.toJSONString(new Result("201", "当前用户未登陆"));
+        }
+        return JSONObject.toJSONString(new Result("200", "当前用户已登陆"));
+    }
 }
 
 

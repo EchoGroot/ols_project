@@ -1,6 +1,6 @@
-var userId=getQueryVariable('userId'); //用户ID
-var page=getQueryVariable('page'); //页面名称
-var query=getQueryVariable('query'); //查询参数
+var userId=getIframeQueryVariable('userId'); //用户ID
+var page=getIframeQueryVariable('page'); //页面名称
+var query=getIframeQueryVariable('query'); //查询参数
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // 已发布已完成
@@ -149,7 +149,7 @@ $(function () {
 
 });
 // 获取URL里的参数
-function getQueryVariable(name) {
+function getIframeQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
     var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);
