@@ -60,7 +60,7 @@ function login() {
             icon: 5, //红色不开心
             time: 2000 //2秒关闭（如果不配置，默认是3秒）
         });
-        // return false;
+         return false;
     }
     $.ajax({
         type: "get",
