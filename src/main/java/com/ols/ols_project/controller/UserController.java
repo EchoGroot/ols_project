@@ -260,7 +260,7 @@ public class UserController {
             resultStr = JSON.toJSONString(result);
         } else {
             UserEntity userInfoById = userService.getUserInfoById(id);
-            String url="/";
+            String url="http://127.0.0.1:8080/";
             String page=null;
             switch (userInfoById.getRole()){
                 case 0:page="PersonalCenterPage";break;
@@ -451,6 +451,33 @@ public class UserController {
         }
         return JSONObject.toJSONString(new Result("200", "当前用户已登陆"));
     }
+
+    /**
+     * 获取所有用户
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @param queryInfo
+     * @param searchInfo
+     * @return
+     */
+    @GetMapping(value = "/getUserSignUp")
+    public String getUserSignUp(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo
+    ) {
+        HashMap<String, Object> data = userService.getUserSignUp(queryInfo, searchInfo, pageNum, pageSize);
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(data, "0", "获取所有用户账号成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+
 }
 
 

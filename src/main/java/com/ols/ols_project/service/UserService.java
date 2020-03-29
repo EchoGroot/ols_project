@@ -119,4 +119,14 @@ public interface UserService {
      * @return
      */
     int changePasswordByName(String userName,String password);
+
+    /**
+     * 查询所有用户
+     * @param queryInfo
+     * @param searchInfo
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    HashMap<String, Object> getUserSignUp(String queryInfo,String searchInfo,Integer pageNum, Integer pageSize);
 }

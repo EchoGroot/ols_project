@@ -337,4 +337,54 @@
         update ols_user set password=#{password} where name=#{userName}
     </update>
 
+
+    <select id="getUserSignUp" resultMap="UserMap,total">
+        SELECT
+        SQL_CALC_FOUND_ROWS ols_user.id,
+        name,
+        birthday,
+        sex,
+        email,
+        role,
+        points,
+        ols_user.ext1,
+        ols_user.ext2,
+        ols_user.ext3,
+        ols_user_operation_log.time as signUpTime
+        from
+        ols_user,ols_user_operation_log
+        where
+        ols_user_operation_log.user_id=ols_user.id
+        and ols_user_operation_log.type=0
+        <if test="searchInfo != ''">
+            and name like '%${searchInfo}%'
+        </if>
+        <choose>
+            <when test="queryInfo == 'user'">
+                and ols_user.role=0
+            </when>
+            <when test="queryInfo == 'reviewer'">
+                and ols_user.role=2
+            </when>
+            <when test="queryInfo == 'admin'">
+                and ols_user.role=1
+            </when>
+            <when test="queryInfo == 'man'">
+                and ols_user.sex like '男'
+            </when>
+            <when test="queryInfo == 'woman'">
+                and ols_user.sex like '女'
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY signUpTime
+        </if>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY signUpTime DESC
+        </if>
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
 </mapper>

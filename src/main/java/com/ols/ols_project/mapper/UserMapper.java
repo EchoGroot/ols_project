@@ -40,6 +40,8 @@ public interface UserMapper {
 
     int changePasswordByName(String userName,String password);
 
+    List<List<UserSignUp>> getUserSignUp(String queryInfo, String searchInfo , int start, Integer end);
+
     int getPoints(long userId);
 
     int setPoints(int points,long userId);
