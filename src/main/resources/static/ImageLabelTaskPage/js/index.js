@@ -1,3 +1,4 @@
+var imageThumbUrl="http://yuyy.info/image/ols/thumb/"; //图片URL的前缀
 var imageUrl="http://yuyy.info/image/ols/"; //图片URL的前缀
 var userId=getQueryVariable('userId'); //用户ID
 var acceptId=getQueryVariable('acceptId'); //接受任务ID
@@ -135,7 +136,7 @@ function loadImageList(domId,imageList) {
             for (var i = 0; i < imageList.length; i++){
                 shtml +=
                     '<div class="imgContainer">\n'
-                    +'    <img class="imgStyle" src="'+imageUrl+imageList[i].originalImage+'" alt="">\n'
+                    +'    <img class="imgStyle" src="'+imageThumbUrl+imageList[i].originalImage+'" alt="">\n'
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/ImageLabelPage/index.html'
                     +'?imageUrl='+imageUrl+imageList[i].originalImage
@@ -160,7 +161,7 @@ function loadImageList(domId,imageList) {
             for (var i = 0; i < imageList.length; i++){
                 shtml +=
                     '<div class="imgContainer">\n'
-                    +'    <img class="imgStyle" src="'+imageUrl+imageList[i].originalImage+'" alt="">\n'
+                    +'    <img class="imgStyle" src="'+imageThumbUrl+imageList[i].originalImage+'" alt="">\n'
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/ImageLabelPage/index.html'
                     +'?imageUrl='+imageUrl+imageList[i].originalImage
@@ -197,7 +198,7 @@ function loadImageList(domId,imageList) {
             for (var i = 0; i < imageList.length; i++){
                 shtml +=
                     '<div class="imgContainer">\n'
-                    +'    <img class="imgStyle" src="'+imageUrl+imageList[i].originalImage+'" alt="">\n'
+                    +'    <img class="imgStyle" src="'+imageThumbUrl+imageList[i].originalImage+'" alt="">\n'
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/ImageLabelPage/index.html'
                     +'?imageUrl='+imageUrl+imageList[i].originalImage

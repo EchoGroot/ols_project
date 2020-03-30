@@ -310,7 +310,7 @@ function judgeLogin() {
                                 li2.style.display="block";
                                 var a=document.getElementById("userName");
                                 a.innerText=name;
-                                a.href="/PersonalCenterPage/index.html?userId="+userId;
+                                a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
 
                             }
                         }
@@ -318,6 +318,7 @@ function judgeLogin() {
 
                 }else{
                     //window.location.href='/Home/Home.html';
+                    sessionStorage.clear();   //清除所有session值
                 }
 
             }

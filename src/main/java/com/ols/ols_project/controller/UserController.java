@@ -265,7 +265,7 @@ public class UserController {
             resultStr = JSON.toJSONString(result);
         } else {
             UserEntity userInfoById = userService.getUserInfoById(id);
-            String url="http://127.0.0.1:8080/";
+            String url="/";
             String page=null;
             switch (userInfoById.getRole()){
                 case 0:page="Home/Home.html";break;
