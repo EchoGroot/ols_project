@@ -340,7 +340,9 @@ function judgeLogin(func) {
                     'gotoUrl',window.location.href
                 );
                 // 跳转到登录页面
-                window.location.href='/Home/login.html';
+                window.setTimeout(function () {
+                    window.location.href='/Home/login.html';
+                }, 2000);
             }
         }
     })

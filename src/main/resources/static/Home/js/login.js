@@ -81,7 +81,6 @@ function login() {
                 window.setTimeout(function () {
                     if(window.sessionStorage.getItem('gotoUrl')!==null){
                         var url=window.sessionStorage.getItem('gotoUrl');
-                        alert(url);
                         window.sessionStorage.setItem('userId',resultData.data.userId);
                         window.location.href=url;
                     }else{

@@ -2,14 +2,15 @@ package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.utils.Cache;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.ols.ols_project.common.utils.Cache;
-import com.baidu.fsg.uid.service.UidGenService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -116,7 +117,9 @@ public class UserController {
                         userService.getAcceptTaskByUserId(
                                 Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
                         , "0", "获取已接受任务成功")
-                , "yyyy-MM-dd hh:mm:ss");
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 
@@ -146,7 +149,9 @@ public class UserController {
                         userService.getReleaseTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
                         , "0"
                         , "获取已发布任务成功")
-                , "yyyy-MM-dd hh:mm:ss");
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 

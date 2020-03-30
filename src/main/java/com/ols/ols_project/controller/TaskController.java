@@ -1,10 +1,12 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
-import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.AcceptTaskBo;
+import com.ols.ols_project.model.LabelInfo;
+import com.ols.ols_project.model.Result;
+import com.ols.ols_project.model.TaskEntityBo;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
@@ -12,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
