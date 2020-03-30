@@ -317,7 +317,7 @@ function judgeLogin() {
                     });
 
                 }else{
-                    window.location.href='/Home/Home.html';
+                    //window.location.href='/Home/Home.html';
                 }
 
             }
