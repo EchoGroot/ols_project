@@ -193,7 +193,7 @@ public class TaskServiceImpl implements TaskService {
      */
     //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     @Override
-    public void creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
+    public String creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
                           Long releaseUserId) {
         TaskEntity taskEntity = new TaskEntity();
         taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
@@ -212,6 +212,7 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setExt2("0");
         taskEntity.setExt3(0);
         taskMapper.creatTask(taskEntity);
+        return Long.toString(uidGenService.getUid());
     }
 
     @Override

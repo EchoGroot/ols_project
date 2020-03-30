@@ -44,7 +44,7 @@ public interface TaskService {
      * @date 2020/3/21 下午9:32
      */
     //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
-    void creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
+    String creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
                     Long releaseUserId);
     int deductRewardPoints(int rewardPoints,long releaseUserId);
 

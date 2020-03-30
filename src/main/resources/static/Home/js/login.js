@@ -81,8 +81,11 @@ function login() {
                 window.setTimeout(function () {
                     if(window.sessionStorage.getItem('gotoUrl')!==null){
                         var url=window.sessionStorage.getItem('gotoUrl');
+                        //登陆后更改地址栏userId参数
+                        var newurl=changeURLArg(url,'userId',resultData.data.userId);
                         window.sessionStorage.setItem('userId',resultData.data.userId);
-                        window.location.href=url;
+                        window.location.href=newurl;
+                        sessionStorage.removeItem('gotoUrl');//gotoUrl session用完后要释放掉
                     }else{
                         window.location.href = resultData.data.url;
                     }
@@ -262,5 +265,22 @@ function getEmail(){
     if(name!=null||name!=""){
         getEmailByName(name);
     }
+}
+//定义替换url指定参数的方法
+function changeURLArg(url,arg,arg_val){
+    var pattern=arg+'=([^&]*)';
+    var replaceText=arg+'='+arg_val;
+    if(url.match(pattern)){
+        var tmp='/('+ arg+'=)([^&]*)/gi';
+        tmp=url.replace(eval(tmp),replaceText);
+        return tmp;
+    }else{
+        if(url.match('[\?]')){
+            return url+'&'+replaceText;
+        }else{
+            return url+'?'+replaceText;
+        }
+    }
+    return url+'\n'+arg+'\n'+arg_val;
 }
 

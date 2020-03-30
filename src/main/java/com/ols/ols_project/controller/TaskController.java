@@ -1,6 +1,7 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.AcceptTaskBo;
@@ -39,6 +40,9 @@ public class TaskController {
 
     @Autowired
     private SendEmailBy126 sendEmailBy126;
+
+    @Autowired
+    private UidGenService uidGenService;
 
     /**
      * 不知道这方法还在用没，先注释掉，如果项目正常运行，就删掉这个方法
@@ -278,10 +282,11 @@ public class TaskController {
     @PostMapping("/createTask")
     public String createTask( String taskName,String taskUrl, String taskInfo, int rewardPoints, int type, Long releaseUserId){
         String resultStr;
-        taskService.deductRewardPoints(rewardPoints,releaseUserId);
         if(taskService.deductRewardPoints(rewardPoints,releaseUserId)==1){
-            taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
-            resultStr = JSON.toJSONString(new Result("1","积分扣除成功"));
+            String result = taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
+            HashMap<String,Object> data = new HashMap();
+            data.put("taskId",result);
+            resultStr = JSON.toJSONString(new Result(data,"1","积分扣除成功"));
         }else{
             resultStr = JSON.toJSONString(new Result("0","积分不足！发布失败"));
         }
@@ -304,7 +309,8 @@ public class TaskController {
             // 2.获取原文件图片后缀名extensionName，以最后的.作为截取(.jpg)
             String extName = oriName.substring(oriName.lastIndexOf("."));
             // 3.生成自定义的新文件名，这里以UUID.jpg|png|xxx作为格式（可选操作，也可以不自定义新文件名）
-            String uuid = UUID.randomUUID().toString();//生成通用唯一识别码
+            //String uuid = UUID.randomUUID().toString();
+            long uuid = uidGenService.getUid();//生成通用唯一识别码
             String newName = uuid + extName;
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
             // 4.保存绝对路径

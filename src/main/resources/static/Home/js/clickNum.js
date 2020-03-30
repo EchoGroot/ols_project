@@ -14,7 +14,6 @@ $(function () {
                     if (i != 0) {
                         str = str + "<br>";
                     }
-                    console.log(FxDATA[i]);
                     //分别表示排行榜的热度颜色 排行榜的点击数量 当前热度排行的名称
                     str = str + "<span class='layui-badge-dot layui-bg-" + PhRdColor[i] + "'></span> <span class='layui-badge-rim'>" + FxDATA[i].ext3 + "</span> <a id='rankBtn"+i+"' name='"+FxDATA[i].id+"' >" + FxDATA[i].name + "</a>";
                 }

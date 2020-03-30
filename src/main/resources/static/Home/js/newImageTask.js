@@ -8,6 +8,11 @@ var fail=0;
 var imgurls="";
 var imgsName = new Array();
 
+var userId=getQueryVariable('userId'); //用户ID
+//var page=getQueryVariable('page'); //页面名称
+var page = 'releaseNotFinishTask';
+var query=getQueryVariable('query');
+
 $(function (){
     layui.use(['upload','layer'],function() {
         var upload = layui.upload;
@@ -110,24 +115,47 @@ function releaseTask() {
                         type:1,
                         taskUrl: resultData.toString(),
                         //releaseUserId: rId,  //发布者ID
-                        releaseUserId: 12567,
+                        releaseUserId: userId,
                     },
                     success: function (msg) {
-                        alert(msg.meta.msg);
+                        msg=JSON.parse(msg);
                         if (msg.meta.status == "1") {
+                            alert(msg.meta.msg);
                             //成功跳转界面
                             top.location.href="/ImageLabelTaskPage/index.html?" +
                                 "userId="+userId+
                                 "&pageType="+'otherReleasePage'+
-                                "&"+'taskId'+"="+taskId+
+                                "&"+'taskId'+"="+msg.data.taskId+
                                 "&pageFrom="+URLencode('/Home/Home.html')
                                 +"%3FuserId%3D"+userId
                                 +"%26page%3D"+'releaseNotFinishTask';
-                        } else {
+                        } else if (msg.meta.status == "0") {
+                            alert(msg.meta.msg);
                         }
                     }
                 });
             }
         })
     });
+}
+//获取URL参数
+function getQueryVariable(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);//一个界面
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
+    }
+    return null;
+}
+function URLencode(sStr) {
+    return sStr.replace(/\%/g,"%25")
+        .replace(/\+/g, '%2B')
+        .replace(/\"/g,'%22')
+        .replace(/\#/g,'%23')
+        .replace(/\'/g, '%27')
+        .replace(/\&/g, '%26')
+        .replace(/\?/g, '%3F')
+        .replace(/\=/g, '%3D')
+        .replace(/\//g,'%2F');
 }

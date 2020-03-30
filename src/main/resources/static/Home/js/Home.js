@@ -232,7 +232,36 @@ $(function () {
         })
     });
     judgeLogin();
+    $("#newTaskBtn").click(function () {
+        if(userId!=null){
+            $.ajax({
+                url: '/user/judgeLogin',
+                type: "GET",
+                data: {
+                    "userId": userId
+                },
+                success: function (resultData) {
+                    resultData = JSON.parse(resultData);
+                    if(resultData.meta.status === "200"){
+                        window.location.href='/Home/newTask.html?'+"userId="+userId;
+                    }else{
+                        window.sessionStorage.setItem(
+                            'gotoUrl','/Home/newTask.html?'+"userId="
+                        );
+                        window.location.href='/Home/login.html';//登陆完了直接跳转新任务
+                    }
+                }
+            })
+        }
+        else {
+            window.sessionStorage.setItem(
+                'gotoUrl','/Home/newTask.html?'+"userId="
+            );
+            window.location.href='/Home/login.html';//登陆完了直接跳转新任务
+        }
+    })
 });
+//获取URL参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);//一个界面
@@ -302,8 +331,6 @@ function judgeLogin() {
                                 div2.style.display="none";
                                 var div1=document.getElementById("login");
                                 div1.style.display="block";
-                                var div3=document.getElementById("logindiv");
-                                div3.style.display="block";
                                 var li1=document.getElementById("acceptli");
                                 li1.style.display="block";
                                 var li2=document.getElementById("releaseli");
