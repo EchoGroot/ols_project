@@ -237,8 +237,8 @@ function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);//一个界面
     if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
-    if(null!==window.sessionStorage.getItem('userId')){
-        return window.sessionStorage.getItem('userId');
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
     }
     return null;
 }
@@ -310,7 +310,7 @@ function judgeLogin() {
                                 li2.style.display="block";
                                 var a=document.getElementById("userName");
                                 a.innerText=name;
-                                a.href="http://127.0.0.1:8080/PersonalCenterPage/index.html?userId="+userId;
+                                a.href="/PersonalCenterPage/index.html?userId="+userId;
 
                             }
                         }

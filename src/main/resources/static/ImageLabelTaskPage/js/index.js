@@ -237,8 +237,8 @@ function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
     if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
-    if(null!==window.sessionStorage.getItem('userId')){
-        return window.sessionStorage.getItem('userId');
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
     }
     return null;
 }
@@ -342,7 +342,7 @@ function judgeLogin(func) {
                 // 跳转到登录页面
                 window.setTimeout(function () {
                     window.location.href='/Home/login.html';
-                }, 2000);
+                }, 1000);
             }
         }
     })

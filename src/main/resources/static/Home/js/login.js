@@ -86,7 +86,7 @@ function login() {
                     }else{
                         window.location.href = resultData.data.url;
                     }
-                },2000);
+                },1000);
             }
         }
     })

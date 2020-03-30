@@ -38,13 +38,14 @@ function loadUserInfo(){
 }
 // 获取iframe的URL参数
 function getQueryVariable(name) {
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == name){return pair[1];}
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    // var r = window.location.search.substr(1).match(reg);
+    var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
     }
-    return(false);
+    return null;
 }
 //修改邮箱
 function changeEmail(){
