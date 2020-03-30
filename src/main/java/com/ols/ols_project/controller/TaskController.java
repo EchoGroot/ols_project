@@ -10,6 +10,7 @@ import com.ols.ols_project.model.TaskEntityBo;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -135,11 +136,11 @@ public class TaskController {
         String resultStr=null;
         //第一次查询，查的是已分配给该审核者的
         List<TaskEntityBo> notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
-        if(notCheckedTask.size() < NormalConst.setNotCheckedTaskForUserCount){
+        if(notCheckedTask.size() < NormalConst.SET_NOT_CHECKED_TASK_FOR_USER_COUNT){
             //分配任务给该审核者
             taskService.setNotCheckedTaskForUser(
                     Long.parseLong(userId),
-                    NormalConst.setNotCheckedTaskForUserCount-notCheckedTask.size());
+                    NormalConst.SET_NOT_CHECKED_TASK_FOR_USER_COUNT-notCheckedTask.size());
             //第二次查询
             notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
         }
@@ -294,7 +295,8 @@ public class TaskController {
 
     @PostMapping("uploadImgs")
     public String uplpadImgs(@RequestParam("file") MultipartFile file) {
-        String desFilePath = "";
+        String desFilePath = "G:\\images\\";
+        String thumbFilePath = "G:\\images\\thumb\\";
         String oriName = "";
         try {
             // 1.获取原文件名
@@ -306,9 +308,12 @@ public class TaskController {
             String newName = uuid + extName;
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
             // 4.保存绝对路径
-            desFilePath = "G:\\images\\" + newName;
+            desFilePath += newName;
             File desFile = new File(desFilePath);
             file.transferTo(desFile);
+            // 5.产生缩略图
+            thumbFilePath += newName;
+            Thumbnails.of(desFilePath).size(NormalConst.THUMB_WIDTH, NormalConst.THUMB_HEIGHT).keepAspectRatio(false).toFile(thumbFilePath);
             // 6.返回保存结果信息
             HashMap<String,Object> dataMap=new HashMap<>();
             dataMap.put("src", "static/Home/image" + newName);
