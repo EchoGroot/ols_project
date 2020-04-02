@@ -197,7 +197,8 @@ public class TaskServiceImpl implements TaskService {
     public String creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
                           Long releaseUserId) {
         TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
+        long taskId = uidGenService.getUid();
+        taskEntity.setId(taskId);//"taskId自动生成"
         taskEntity.setName(taskName);
         taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);
@@ -213,7 +214,7 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setExt2("0");
         taskEntity.setExt3(0);
         taskMapper.creatTask(taskEntity);
-        return Long.toString(uidGenService.getUid());
+        return Long.toString(taskId);
     }
 
     @Override
@@ -248,7 +249,8 @@ public class TaskServiceImpl implements TaskService {
             taskImage.add(imgInfo);//遍历添加
         }
         taskUrl.put("taskImage",taskImage);
-        return taskUrl.toJSONString(SerializerFeature.WriteNonStringValueAsString);
+        //return taskUrl.toJSONString();
+        return JSON.toJSONString(taskUrl,SerializerFeature.WriteNonStringValueAsString);
     }
 
     @Override
