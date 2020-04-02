@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.mysql.cj.util.StringUtils;
 import com.ols.ols_project.common.Const.FileTypeEnum;
@@ -247,7 +248,7 @@ public class TaskServiceImpl implements TaskService {
             taskImage.add(imgInfo);//遍历添加
         }
         taskUrl.put("taskImage",taskImage);
-        return taskUrl.toJSONString();
+        return taskUrl.toJSONString(SerializerFeature.WriteNonStringValueAsString);
     }
 
     @Override

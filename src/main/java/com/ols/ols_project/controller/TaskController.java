@@ -1,6 +1,7 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
@@ -355,7 +356,8 @@ public class TaskController {
                         taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo,field,order)
                         ,"0"
                         ,"获取所有任务成功")
-                ,"yyyy-MM-dd hh:mm:ss");
+                ,"yyyy-MM-dd hh:mm:ss"
+                ,SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
     @PostMapping("/clickNumPlus")
