@@ -13,6 +13,7 @@ import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * 关于任务的Controller
@@ -43,6 +43,12 @@ public class TaskController {
 
     @Autowired
     private UidGenService uidGenService;
+
+    @Value("${image.fileFath}")
+    private String desFilePath;
+
+    @Value("${image.thumbFilePath}")
+    private String thumbFilePath;
 
     /**
      * 不知道这方法还在用没，先注释掉，如果项目正常运行，就删掉这个方法
@@ -300,8 +306,6 @@ public class TaskController {
 
     @PostMapping("uploadImgs")
     public String uplpadImgs(@RequestParam("file") MultipartFile file) {
-        String desFilePath = "G:\\images\\";
-        String thumbFilePath = "G:\\images\\thumb\\";
         String oriName = "";
         try {
             // 1.获取原文件名

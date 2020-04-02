@@ -13,12 +13,12 @@ public class NormalConst {
     public static final Integer SET_NOT_CHECKED_TASK_FOR_USER_COUNT=17;
 
     /**
-     * 缩略图的宽度，单位像素px
+     * 任务详情缩略图的宽度，单位像素px
      */
     public static final Integer THUMB_WIDTH=218;
 
     /**
-     * 缩略图的高度，单位像素px
+     * 任务详情缩略图的高度，单位像素px
      */
     public static final Integer THUMB_HEIGHT=150;
 }
