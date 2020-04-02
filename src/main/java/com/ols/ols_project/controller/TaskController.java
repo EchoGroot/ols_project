@@ -368,6 +368,6 @@ public class TaskController {
     }
     @GetMapping("/getClickNum")
     public String getClickNum(){
-        return JSON.toJSONString(taskService.getClickNum());
+        return JSON.toJSONString(taskService.getClickNum(),SerializerFeature.WriteNonStringValueAsString);
     }
 }
