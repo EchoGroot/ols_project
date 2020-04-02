@@ -326,7 +326,7 @@ public class TaskController {
             Thumbnails.of(desFilePath).size(NormalConst.THUMB_WIDTH, NormalConst.THUMB_HEIGHT).keepAspectRatio(false).toFile(thumbFilePath);
             // 6.返回保存结果信息
             HashMap<String,Object> dataMap=new HashMap<>();
-            dataMap.put("src", "static/Home/image" + newName);
+            dataMap.put("src", "/图片保存的绝对路径地址/" + newName);
             dataMap.put("imgName", newName);
             Result result = new Result(dataMap,"0","上传成功");
             System.out.println(desFilePath+"图片保存成功");

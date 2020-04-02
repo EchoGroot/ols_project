@@ -7,33 +7,34 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/jquery-3.4.1.js"></script>
-    <script src="./css/newImageTask.css"></script>
     <script src="./js/newImageTask.js"></script>
     <link rel="stylesheet" href="../complain/css/global.css">
 </head>
 <body>
 <div class="fly-header layui-bg-black">
     <div class="layui-container">
-        <a class="fly-logo" href="/">
+        <a class="fly-logo" href="/Home/Home.html">
             <img src="image/logo1.png" height="50" width="270"/>
         </a>
         <ul class="layui-nav fly-nav-user">
             <!-- 未登入的状态 -->
-            <li class="layui-nav-item">
-                <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="user/login.html">登入</a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="user/reg.html">注册</a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs">
-                <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs">
-                <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
-            </li>
+            <div id="logoff">
+                <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" href="./login.html"></a></li>
+                <li class="layui-nav-item"><a href="./login.html">登入</a></li>
+                <li class="layui-nav-item"><a href="./register.html">注册</a></li>
+                <li class="layui-nav-item layui-hide-xs">
+                    <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs">
+                    <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
+                </li>
+            </div>
+            <!--登入后的状态-->
+            <div id="login" style="display: none">
+                <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" ></a></li>
+                <li class="layui-nav-item"><a href=" " id="userName"></a></li>
+                <li class="layui-nav-item"><a href="javascript:cancel()" id="">注销</a></li>
+            </div>
         </ul>
     </div>
 </div>
@@ -41,15 +42,16 @@
 <div class="fly-panel fly-column">
     <div class="layui-container">
         <ul class="layui-clear">
-            <li class="layui-hide-xs">任务大厅</li>
-            <li class="layui-this"><a href="">提问</a></li>
-            <li><a href="">建议</a></li>
-            <li><a href="">公告</a></li>
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
-
+            <li class="layui-hide-xs layui-show-md-inline-block layui-this"><a href="" >任务大厅</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block"><a href="">提问</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block"><a href="">建议</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block"><a href="">公告</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block"><span class="fly-mid"></span></li>
             <!-- 用户登入后显示 -->
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我接受的任务</a></li>
-            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block">我发布的任务</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block" >
+                <a style="visibility:hidden" id="acceptli">我接受的任务</a></li>
+            <li class="layui-hide-xs layui-show-md-inline-block">
+                <a style="visibility:hidden" id="releaseli">我发布的任务</a></li>
         </ul>
     </div>
 </div>

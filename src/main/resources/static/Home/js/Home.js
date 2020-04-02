@@ -225,9 +225,14 @@ $(function () {
     });
     judgeLogin();
     $("#newTaskBtn").click(function () {
-        gotoUrlByJudege('/Home/newTask.html?' + "userId=")
+        gotoUrlByJudege("/Home/newTask.html?userId="+userId)
     });
-
+    $("#acceptli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    })
+    $("#releaseli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    })
 })
 //跳转页面要求已登陆状态的使用此方法
 function gotoUrlByJudege(str) { //str为目的跳转地址
@@ -241,10 +246,10 @@ function gotoUrlByJudege(str) { //str为目的跳转地址
             success: function (resultData) {
                 resultData = JSON.parse(resultData);
                 if(resultData.meta.status === "200"){
-                    window.location.href=str+userId;
+                    window.location.href=str;
                 }else{
                     window.sessionStorage.setItem(
-                        'gotoUrl',str  //str1 2 3
+                        'gotoUrl',str
                     );
                     window.location.href='/Home/login.html';
                 }

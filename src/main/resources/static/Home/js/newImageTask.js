@@ -35,7 +35,7 @@ $(function (){
                 obj.preview(function(index, file, result) {
                     $('#previewImgs').append('<img src="' + result
                         + '" alt="' + file.name
-                        +'"height="92px" width="92px" class="layui-upload-img uploadImgPreView">')
+                        +'"height="92px" width="92px" class="layui-upload-img" style="margin-right: 2px">')
                 });
             },
             done: function(res, index, upload) {
@@ -45,11 +45,9 @@ $(function (){
                     fail++;
                 }else{
                     success++;
-                    //imgurls=imgurls+""+res.data.src+",";
                     imgsName.length++;
                     imgsName[imgsName.length-1]=res.data.imgName;
                     console.log(imgsName);
-                    //$('#imgUrls').val(imgurls);
                 }
             },
             allDone:function(obj){
@@ -61,7 +59,7 @@ $(function (){
         });
 
     });
-
+    judgeLogin();
     //清空预览图片
     cleanImgsPreview();
     //保存商品
@@ -114,7 +112,6 @@ function releaseTask() {
                         rewardPoints:rpoints,
                         type:1,
                         taskUrl: resultData.toString(),
-                        //releaseUserId: rId,  //发布者ID
                         releaseUserId: userId,
                     },
                     success: function (msg) {
@@ -158,4 +155,58 @@ function URLencode(sStr) {
         .replace(/\?/g, '%3F')
         .replace(/\=/g, '%3D')
         .replace(/\//g,'%2F');
+}
+//判断是否登录
+function judgeLogin() {
+    if(userId!=null){
+        $.ajax({
+            url: '/user/judgeLogin',
+            type: "GET",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                resultData = JSON.parse(resultData);
+                if(resultData.meta.status === "200"){
+                    var name=null;
+                    $.ajax({
+                        url: "/user/getUserInfo",
+                        type: "get",
+                        data: {
+                            userId: userId
+                        },
+                        success: function (resultData) {
+                            resultData = JSON.parse(resultData);
+                            if (resultData.meta.status === "200") {
+                                name = resultData.data.userInfo.name;
+                                var div2=document.getElementById("logoff");
+                                div2.style.display="none";
+                                var div1=document.getElementById("login");
+                                div1.style.display="block";
+                                var li1=document.getElementById("acceptli");
+                                li1.style.visibility="visible";
+                                var li2=document.getElementById("releaseli");
+                                li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
+                                var a=document.getElementById("userName");
+                                a.innerText=name;
+                                a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
+
+                            }
+                        }
+                    });
+
+                }else{
+                    sessionStorage.clear();   //清除所有session值
+                    window.location.href='/Home/Home.html';
+
+                }
+
+            }
+        })
+    }
+}
+//注销
+function cancel() {
+    sessionStorage.clear();   //清除所有session值
+    window.location.href='/Home/Home.html';
 }
