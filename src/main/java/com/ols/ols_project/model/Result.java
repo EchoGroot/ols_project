@@ -24,7 +24,7 @@ public class Result {
     }
 
     /**
-     * 失败的时候 没有data
+     * 没有data
      * @param status
      * @param msg
      */

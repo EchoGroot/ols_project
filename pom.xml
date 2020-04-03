@@ -68,9 +68,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-
-
-
         <!-- Apache 集合工具包 -->
         <dependency>
             <groupId>commons-collections</groupId>
@@ -78,7 +75,7 @@
             <version>${commons-collections.version}</version>
         </dependency>
 
-
+        <!-- Apache 文件上传 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -211,6 +208,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--添加第三方本地jar包到项目-->
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
@@ -218,12 +216,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <!--修改mybatis mapper.xml里的参数由默认的param1，param2修改成mapper接口里的参数名-->
                 <configuration>
                     <compilerArgument>-parameters</compilerArgument>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <!--将第三方本地jar包打进war包-->
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources/lib</directory>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
