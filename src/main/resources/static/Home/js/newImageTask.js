@@ -7,6 +7,7 @@ var success=0;
 var fail=0;
 var imgurls="";
 var imgsName = new Array();
+var lableName= new Array();
 
 var userId=getQueryVariable('userId'); //用户ID
 //var page=getQueryVariable('page'); //页面名称
@@ -64,7 +65,41 @@ $(function (){
     cleanImgsPreview();
     //保存商品
     releaseTask();
+
+    $("#addTag").click(function () {
+        var stateJudge = true;
+        if($("#lableName").val() == ""){
+            alert("标注规则不可为空!");
+        }else {
+            for(i=0;i<lableName.length;i++){
+                if(lableName[i] == $("#lableName").val()){
+                    stateJudge = false;
+                    break;
+                }
+            }
+            if(stateJudge == true){
+                lableName.push($("#lableName").val());
+                var str = "<button type='button' class='layui-btn' value='"+$("#lableName").val()+"' onclick='removeThis(this)'>"+$("#lableName").val()+"</button>"
+                $("#TagViews").append(str);
+                $("#lableName").val("");
+                console.log(lableName);
+            }else {
+                alert("此规则已存在！");
+            }
+        }
+    })
 });
+
+function removeThis(btn) {
+    btn.remove();  //删除btn元素
+    for(var i=0;i<lableName.length;i++){  //删除数组元素
+        if(lableName[i]===btn.value){
+            lableName.splice(i,1);//从下标为i的元素开始，连续删除1个元素
+            i--;//因为删除下标为i的元素后，该位置又被新的元素所占据，所以要重新检测该位置
+        }
+    }
+}
+
 
 /**
  * 清空预览的图片及其对应的成功失败数
@@ -89,15 +124,11 @@ function releaseTask() {
         var tname = $("#taskName").val();
         var tdesc = $("#taskDesc").val();
         var rpoints = $("#rewardPoints").val();
-        //var lname = $("#lableName").val();
-        var lname = new Array("漏水","裂缝");
-
-        console.log(lname.toString());
         $.ajax({
             type: "POST",
             url: "/task/creatTaskUrl",
             data: {
-                lableName: lname.toString(),
+                lableName: lableName.toString(),
                 originalImage: imgsName.toString(),
             },
             success: function (resultData) {

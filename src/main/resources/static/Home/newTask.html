@@ -5,6 +5,7 @@
     <title>在线标注系统</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="./css/newTask.css">
     <script src="../layui/layui.js"></script>
     <script src="../js/jquery-3.4.1.js"></script>
     <script src="./js/newImageTask.js"></script>
@@ -67,7 +68,7 @@
     <div class="layui-form-item  layui-form-text">
         <label class="layui-form-label">任务详细信息</label>
         <div class="layui-input-block">
-            <textarea name="taskDesc" id="taskDesc" placeholder="请输任务详细新洗" class="layui-textarea"></textarea>
+            <textarea name="taskDesc" id="taskDesc" placeholder="请输任务详细新情" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
@@ -77,9 +78,14 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">标注规则（分号“；”隔开）</label>
+        <label class="layui-form-label">标注规则</label>
         <div class="layui-input-block">
-            <input type="text" name="lableName" id="lableName" required  lay-verify="lablename" placeholder="请输入标注规则" autocomplete="off" class="layui-input">
+            <input type="text" name="lableName" id="lableName" required  lay-verify="lablename" placeholder="请输入标注规则" autocomplete="off" class="layui-input" style="width:20%">
+            <a id="addTag" class="layui-btn" style="border-radius:6px;">
+                <span class="glyphicon glyphicon-plus glyphicon glyphicon-plus glyphicon-plus-button" aria-hidden="true"></span>添加规则
+            </a>
+        </div>
+        <div class="layui-btn-container" id="TagViews">
         </div>
     </div>
 
