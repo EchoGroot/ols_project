@@ -23,9 +23,11 @@ $(function () {
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
-    var t=window.parent.document.getElementById("iframeMain").contentWindow.location;
     var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);
-    if (r != null) return unescape(r[2]);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
+    }
     return null;
 }
 // 加载图表数据

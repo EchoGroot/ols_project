@@ -212,7 +212,10 @@ function drawPen1(){
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
+    }
     return null;
 }
 // 加载图片
@@ -345,7 +348,9 @@ function finishFunc(){
                     icon: 1, //绿勾
                     time: 1000 //2秒关闭（如果不配置，默认是3秒）
                 });
-                setTimeout(goBackFunc(), 2000);
+                window.setTimeout(function () {
+                    goBackFunc();
+                }, 1000);
             }else{
                 layer.msg('操作失败，请刷新页面', {
                     icon: 5, //红色不开心

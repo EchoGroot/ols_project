@@ -42,11 +42,65 @@ $(function () {
             +"&userId="+userId
         );
     });
+    judgeLogin();
 });
 // 获取URL里的参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
-    if (r != null) return unescape(r[2]);
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
+    }
     return null;
+}
+
+//判断是否登录
+function judgeLogin() {
+    if(userId==null){
+        layer.msg('请先登录', {
+            icon: 5, //红色不开心
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+        });
+
+        // 跳转到登录页面
+        window.location.href='/Home/login.html';
+    }
+    $.ajax({
+        url: '/user/judgeLogin',
+        type: "GET",
+        data: {
+            "userId": userId
+        },
+        success: function (resultData) {
+            resultData = JSON.parse(resultData);
+            if(resultData.meta.status === "200"){
+                var name=null;
+                $.ajax({
+                    url: "/user/getUserInfo",
+                    type: "get",
+                    data: {
+                        userId: userId
+                    },
+                    success: function (resultData) {
+                        resultData = JSON.parse(resultData);
+                        if (resultData.meta.status === "200") {
+                            name = resultData.data.userInfo.name;
+                            var a=document.getElementById("reviewerName");
+                            a.innerText=name;
+                        }
+                    }
+                });
+
+            }
+            if (resultData.meta.status === "201") {
+                layer.msg('请先登录', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                // 跳转到登录页面
+                window.location.href='/Home/login.html';
+            }
+        }
+    })
 }

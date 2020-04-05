@@ -1,3 +1,37 @@
-<div>
-    <h1>UserManage</h1>
-</div>
+<head>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="./css/UserManage.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="./js/UserManage.js"></script>
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select id="chooseSelect">
+                <option value="0">选择筛选条件</option>
+                <option value="1">普通用户</option>
+                <option value="2">审核者</option>
+                <option value="3">管理员</option>
+                <option value="4">性别男</option>
+                <option value="5">性别女</option>
+                <option value="6">注册时间升序</option>
+                <option value="7">注册时间降序</option>
+            </select>
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <input type="text" id="searchInput" name="title" placeholder="输入用户名" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn" id="searchButton">查询</button>
+        </div>
+    </div>
+</form>
+<table id="userList" lay-filter="monitorToolbar"></table>
+<script type="text/html" id="barHandle">
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    <a class="layui-btn layui-btn-sm" lay-event="log">查看操作日志</a>
+    <a id="no" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete">删除用户</a>
+</script>
+</body>

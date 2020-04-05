@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.mysql.cj.util.StringUtils;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.TaskMapper;
+import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
@@ -37,6 +39,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Resource
     private TaskMapper taskMapper;
+    @Resource
+    private UserMapper userMapper;
 
     @Autowired
     private UidGenService uidGenService;
@@ -190,15 +194,12 @@ public class TaskServiceImpl implements TaskService {
      */
     //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     @Override
-    public void creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
+    public String creatTask(String taskName,String taskUrl, String taskInfo, int rewardPoints, int type,
                           Long releaseUserId) {
         TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setId(uidGenService.getUid());//"taskId自动生成"
+        long taskId = uidGenService.getUid();
+        taskEntity.setId(taskId);//"taskId自动生成"
         taskEntity.setName(taskName);
-        //taskUrl.substring(1,taskUrl.length()-1);//字符串掐头尾的“ " ”
-        //taskUrl.replace("\\","");
-        //org.apache.commons.lang.StringUtils.remove(taskUrl,'\\');
-        System.out.println(taskUrl);
         taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);
         taskEntity.setPoints(rewardPoints);
@@ -209,7 +210,22 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setRelease_user_id(releaseUserId);
         taskEntity.setAccept_num(0);
         taskEntity.setAdopt_accept_id(null);
+        taskEntity.setExt1("0");
+        taskEntity.setExt2("0");
+        taskEntity.setExt3(0);
         taskMapper.creatTask(taskEntity);
+        return Long.toString(taskId);
+    }
+
+    @Override
+    public int deductRewardPoints(int rewardPoints,long releaseUserId){
+        if(rewardPoints<=userMapper.getPoints(releaseUserId)){
+            int resultPoints = userMapper.getPoints(releaseUserId)-rewardPoints;
+            userMapper.setPoints(resultPoints,releaseUserId);
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
     @Override
@@ -233,7 +249,8 @@ public class TaskServiceImpl implements TaskService {
             taskImage.add(imgInfo);//遍历添加
         }
         taskUrl.put("taskImage",taskImage);
-        return taskUrl.toJSONString();
+        //return taskUrl.toJSONString();
+        return JSON.toJSONString(taskUrl,SerializerFeature.WriteNonStringValueAsString);
     }
 
     @Override
@@ -257,6 +274,7 @@ public class TaskServiceImpl implements TaskService {
                             .adopt_accept_id(e.getAdopt_accept_id())
                             .ext1(e.getExt1())
                             .ext2(e.getExt2())
+                            .ext3(e.getExt3())
                             .build());
                 }
         );
@@ -264,6 +282,13 @@ public class TaskServiceImpl implements TaskService {
         data.put("total",list.get(1).get(0));
         return data;
     }
-
-
+    @Override
+    public void clickNumPlus(long taskId){
+        taskMapper.clickNumPlus(taskId);
+    }
+    @Override
+    public List<TaskEntity> getClickNum(){
+        List<TaskEntity> list = taskMapper.getClickNum();
+        return list;
+    }
 }

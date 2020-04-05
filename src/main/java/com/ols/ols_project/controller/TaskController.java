@@ -1,24 +1,28 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.SendEmailBy126;
-import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.AcceptTaskBo;
+import com.ols.ols_project.model.LabelInfo;
+import com.ols.ols_project.model.Result;
+import com.ols.ols_project.model.TaskEntityBo;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * 关于任务的Controller
@@ -38,6 +42,15 @@ public class TaskController {
 
     @Autowired
     private SendEmailBy126 sendEmailBy126;
+
+    @Autowired
+    private UidGenService uidGenService;
+
+    @Value("${image.fileFath}")
+    private String desFilePath;
+
+    @Value("${image.thumbFilePath}")
+    private String thumbFilePath;
 
     /**
      * 不知道这方法还在用没，先注释掉，如果项目正常运行，就删掉这个方法
@@ -135,11 +148,11 @@ public class TaskController {
         String resultStr=null;
         //第一次查询，查的是已分配给该审核者的
         List<TaskEntityBo> notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
-        if(notCheckedTask.size() < NormalConst.setNotCheckedTaskForUserCount){
+        if(notCheckedTask.size() < NormalConst.SET_NOT_CHECKED_TASK_FOR_USER_COUNT){
             //分配任务给该审核者
             taskService.setNotCheckedTaskForUser(
                     Long.parseLong(userId),
-                    NormalConst.setNotCheckedTaskForUserCount-notCheckedTask.size());
+                    NormalConst.SET_NOT_CHECKED_TASK_FOR_USER_COUNT-notCheckedTask.size());
             //第二次查询
             notCheckedTask = taskService.getNotCheckedTask(Long.parseLong(userId));
         }
@@ -276,8 +289,16 @@ public class TaskController {
      */
     @PostMapping("/createTask")
     public String createTask( String taskName,String taskUrl, String taskInfo, int rewardPoints, int type, Long releaseUserId){
-        taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
-        return "ok";
+        String resultStr;
+        if(taskService.deductRewardPoints(rewardPoints,releaseUserId)==1){
+            String result = taskService.creatTask(taskName,taskUrl,taskInfo,rewardPoints, type,releaseUserId);
+            HashMap<String,Object> data = new HashMap();
+            data.put("taskId",result);
+            resultStr = JSON.toJSONString(new Result(data,"1","积分扣除成功"));
+        }else{
+            resultStr = JSON.toJSONString(new Result("0","积分不足！发布失败"));
+        }
+        return resultStr;
     }
 
     @PostMapping("/creatTaskUrl")
@@ -287,7 +308,6 @@ public class TaskController {
 
     @PostMapping("uploadImgs")
     public String uplpadImgs(@RequestParam("file") MultipartFile file) {
-        String desFilePath = "";
         String oriName = "";
         try {
             // 1.获取原文件名
@@ -295,16 +315,20 @@ public class TaskController {
             // 2.获取原文件图片后缀名extensionName，以最后的.作为截取(.jpg)
             String extName = oriName.substring(oriName.lastIndexOf("."));
             // 3.生成自定义的新文件名，这里以UUID.jpg|png|xxx作为格式（可选操作，也可以不自定义新文件名）
-            String uuid = UUID.randomUUID().toString();//生成通用唯一识别码
+            //String uuid = UUID.randomUUID().toString();
+            long uuid = uidGenService.getUid();//生成通用唯一识别码
             String newName = uuid + extName;
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
             // 4.保存绝对路径
-            desFilePath = "G:\\images\\" + newName;
+            desFilePath += newName;
             File desFile = new File(desFilePath);
             file.transferTo(desFile);
+            // 5.产生缩略图
+            thumbFilePath += newName;
+            Thumbnails.of(desFilePath).size(NormalConst.THUMB_WIDTH, NormalConst.THUMB_HEIGHT).keepAspectRatio(false).toFile(thumbFilePath);
             // 6.返回保存结果信息
             HashMap<String,Object> dataMap=new HashMap<>();
-            dataMap.put("src", "static/Home/image" + newName);
+            dataMap.put("src", "/图片保存的绝对路径地址/" + newName);
             dataMap.put("imgName", newName);
             Result result = new Result(dataMap,"0","上传成功");
             System.out.println(desFilePath+"图片保存成功");
@@ -333,7 +357,17 @@ public class TaskController {
                         taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo,field,order)
                         ,"0"
                         ,"获取所有任务成功")
-                ,"yyyy-MM-dd hh:mm:ss");
+                ,"yyyy-MM-dd hh:mm:ss"
+                ,SerializerFeature.WriteNonStringValueAsString);
         return result;
+    }
+    @PostMapping("/clickNumPlus")
+    public String clickNumPlus(@RequestParam(value = "taskId") long taskId){
+        taskService.clickNumPlus(taskId);
+        return "点击量+1！";
+    }
+    @GetMapping("/getClickNum")
+    public String getClickNum(){
+        return JSON.toJSONString(taskService.getClickNum(),SerializerFeature.WriteNonStringValueAsString);
     }
 }

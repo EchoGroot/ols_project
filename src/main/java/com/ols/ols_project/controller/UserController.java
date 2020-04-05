@@ -1,6 +1,10 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.utils.Cache;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
@@ -8,6 +12,7 @@ import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
@@ -24,6 +29,10 @@ public class UserController {
 
     @Autowired
     private SendEmailBy126 sendEmailBy126;
+
+    @Autowired
+    private UidGenService uidGenService;
+
 
     /**
      * 获取用户信息
@@ -108,7 +117,9 @@ public class UserController {
                         userService.getAcceptTaskByUserId(
                                 Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
                         , "0", "获取已接受任务成功")
-                , "yyyy-MM-dd hh:mm:ss");
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 
@@ -138,7 +149,9 @@ public class UserController {
                         userService.getReleaseTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
                         , "0"
                         , "获取已发布任务成功")
-                , "yyyy-MM-dd hh:mm:ss");
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 
@@ -223,15 +236,28 @@ public class UserController {
     @PostMapping(value = "/changeEmail")
     public String changeEmail(@RequestParam("userId") String userId,
                               @RequestParam("email") String email) {
-        //System.out.println(userId);
-        //System.out.println(email);
-        userService.changeEmailById(Long.parseLong(userId), email);
-        return "200";
+        String resultStr = null;
+        try {
+            userService.changeEmailById(Long.parseLong(userId), email);
+            resultStr = JSON.toJSONString(
+                    new Result("200", "修改密码成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "修改密码失败！"));
+
+        }
+        return resultStr;
     }
 
+    /**
+     * 登录
+     * @param userName
+     * @param passWord
+     * @return
+     */
     @GetMapping(value = "/login")
     public String login(@RequestParam("userName") String userName,
-                        @RequestParam("passWord") String passWord) {
+                        @RequestParam("passWord") String passWord,HttpServletRequest request) {
         String resultStr = null;
         Long id = userService.login(userName, passWord);
         if (id == null) {
@@ -239,8 +265,18 @@ public class UserController {
             resultStr = JSON.toJSONString(result);
         } else {
             UserEntity userInfoById = userService.getUserInfoById(id);
+            String url="/";
+            String page=null;
+            switch (userInfoById.getRole()){
+                case 0:page="Home/Home.html";break;
+                case 1:page="AdminPage/index.html";break;
+                case 2:page="JudgeTaskPage/index.html";
+            }
+            url=url+page+"?userId="+id;
             HashMap<String, Object> data = new HashMap<>();
-            data.put("userId", id);
+            data.put("url", url);
+            data.put("userId",Long.toString(id));
+            request.getSession().setAttribute("userId",Long.toString(id));//session存数据
             if(userInfoById.getRole()==0){
                 //普通用户
                 resultStr = JSON.toJSONString(
@@ -261,7 +297,198 @@ public class UserController {
         }
         return resultStr;
     }
+
+    /**
+     * 验证用户名是否重复
+     * @param userName
+     * @return
+     */
+    @PostMapping(value = "/checkUserName")
+    public String checkUserName(@RequestParam("userName") String userName) {
+        String resultStr = null;
+        Long id = userService.checkUserName(userName);
+        if (id == null) {
+            Result result = new Result("200", "用户名不存在！");
+            resultStr = JSON.toJSONString(result);
+        } else {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "用户名已存在"));
+
+        }
+        return resultStr;
+    }
+
+    /**
+     * 向注册用户发送验证码
+     * @param email
+     * @return
+     */
+    @PostMapping(value = "/sendEmail")
+    public String sendEmail(@RequestParam("email")String email) {
+        String resultStr = null;
+        //给注册用户发送验证码
+        try {
+            String code = (System.currentTimeMillis() + "").substring(7);
+            //将验证码存入缓存
+            Cache.put(email, code, 60000);
+            sendEmailBy126.sendEmail(
+                    email
+                    , "Ols系统通知"
+                    , "欢迎使用Ols系统！您的验证码为：" + code);
+
+            resultStr = JSON.toJSONString(
+                    new Result("200", "已成功发送验证码！"));
+
+        }catch (Exception e){
+            resultStr=JSON.toJSONString(
+                    new Result("201", "验证码发送异常！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 检查用户输入的验证码是否正确
+     * @param email
+     * @param inputcode
+     * @return
+     */
+    @PostMapping(value = "/verifyCode")
+    public String verifyCode(@RequestParam("email")String email,@RequestParam("inputcode")String inputcode) {
+        String resultStr = null;
+        String code = (String) Cache.get(email);
+        if (code != null && code.equals(inputcode)) {
+            Result result = new Result("200", "验证码正确！");
+            resultStr = JSON.toJSONString(result);
+        }else {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "验证码错误！"));
+
+        }
+        return resultStr;
+    }
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/userRegister")
+    public String userRegister(UserEntity user){
+        String resultStr = null;
+        Long id=uidGenService.getUid();
+        user.setId(id);
+        if(user.getRole()==0){
+            user.setExt1(null);
+        }else{
+            user.setExt1("0");
+        }
+        if(user!=null&&userService.getUserInfoById(id)==null){
+            userService.userRegister(user);
+            if(userService.getUserInfoById(id)!=null){
+                resultStr = JSON.toJSONString(
+                        new Result("200", "注册成功！"));
+            }else{
+                resultStr = JSON.toJSONString(
+                        new Result("201", "注册失败！"));
+            }
+        }else{
+            resultStr = JSON.toJSONString(
+                    new Result("202", "出错！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 根据用户名获取邮箱
+     * @param userName
+     * @return
+     */
+    @PostMapping(value = "/getEmailByName")
+    public String getEmailByName(@RequestParam("userName")String userName){
+        String resultStr = null;
+        String email = userService.getEmailByName(userName);
+        if (email == null) {
+            Result result = new Result("201", "用户不存在！");
+            resultStr = JSON.toJSONString(result);
+        } else {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("email",email);
+            resultStr = JSON.toJSONString(
+                    new Result(data,"200", "获取邮箱成功！"));
+        }
+        return resultStr;
+    }
+
+    /**
+     * 忘记密码根据用户名修改密码
+     * @param userName
+     * @param password
+     * @return
+     */
+    @PostMapping(value = "/changePasswordByName")
+    public String changePasswordByName(@RequestParam("userName")String userName,
+                                       @RequestParam("password")String password) {
+        String resultStr = null;
+        try {
+            userService.changePasswordByName(userName, password);
+            resultStr = JSON.toJSONString(
+                    new Result("200", "修改密码成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "修改密码失败！"));
+
+        }
+        return resultStr;
+    }
+
+    /**
+     * 判断账号是否登录
+     * @param userId
+     * @param httpServletRequest
+     * @return
+     */
+    @GetMapping("/judgeLogin")
+    public String judgeLogin(@RequestParam("userId") String userId,
+                             HttpServletRequest httpServletRequest){
+        String userId1 = (String)httpServletRequest.getSession().getAttribute("userId");
+        if(userId==null||userId1==null){
+            return JSONObject.toJSONString(new Result("201", "当前用户未登陆"));
+        }
+        if(!userId.equals(userId1)){
+            return JSONObject.toJSONString(new Result("201", "当前用户未登陆"));
+        }
+        return JSONObject.toJSONString(new Result("200", "当前用户已登陆"));
+    }
+
+    /**
+     * 获取所有用户
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @param queryInfo
+     * @param searchInfo
+     * @return
+     */
+    @GetMapping(value = "/getUserSignUp")
+    public String getUserSignUp(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo
+    ) {
+        HashMap<String, Object> data = userService.getUserSignUp(queryInfo, searchInfo, pageNum, pageSize);
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(data, "0", "获取所有用户账号成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+
 }
+
+
 
 
 

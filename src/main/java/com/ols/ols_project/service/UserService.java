@@ -91,4 +91,42 @@ public interface UserService {
      * @return
      */
     Long login(String userName,String passWord);
+
+    /**
+     * 检查用户名是否重复
+     * @param userName
+     * @return
+     */
+    Long checkUserName(String userName);
+
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
+    int userRegister(UserEntity user);
+
+    /**
+     * 根据用户名获取邮箱
+     * @param userName
+     * @return
+     */
+    String getEmailByName(String userName);
+
+    /**
+     * 修改密码
+     * @param userName
+     * @return
+     */
+    int changePasswordByName(String userName,String password);
+
+    /**
+     * 查询所有用户
+     * @param queryInfo
+     * @param searchInfo
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    HashMap<String, Object> getUserSignUp(String queryInfo,String searchInfo,Integer pageNum, Integer pageSize);
 }

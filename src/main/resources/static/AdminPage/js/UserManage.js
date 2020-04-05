@@ -1,6 +1,4 @@
 var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
-
-//入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
@@ -12,7 +10,7 @@ $(function () {
         var tableIns=table.render({
             elem: '#userList'
             , height: '700'
-            , url: '/user/getReviewerSignUp/' //数据接口
+            , url: '/user/getUserSignUp/' //数据接口
             , page: true //开启分页
             , limits: [15,30,50,100]
             , limit: 15
@@ -33,8 +31,8 @@ $(function () {
                 , {field: 'email', title: '邮箱', align:'center',width: '15%'}
                 , {field: 'role', title: '角色',align:'center', width: '10%'}
                 , {field: 'signUpTime', title: '注册时间',align:'center', width: '10%', sort: true}
-                , {field: 'ext1', title: '信息', align:'center',width: '10%', sort: true}
-                , {title: '操作', align:'center',toolbar: '#barHandle'}
+                , {field: 'points', title: '积分', align:'center',width: '10%', sort: true}
+                , {title: '操作日志', align:'center',toolbar: '#barHandle'}
             ]]
 
         });
@@ -45,12 +43,12 @@ $(function () {
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
             // 工具条的点击事件
-            if(layEvent === 'yes'){
-                // 允许审核者账号注册
-                yesReviewerSignUp(data.id,'yes',tableIns)
+            if(layEvent === 'log'){
+                // 查看用户操作日志
+                // yesReviewerSignUp(data.id,'yes',tableIns)
             } else if(layEvent === 'no'){
                 // 拒绝审核者账号注册
-                yesReviewerSignUp(data.id,'no',tableIns)
+                //yesReviewerSignUp(data.id,'no',tableIns)
             }
         });
 
@@ -73,12 +71,12 @@ $(function () {
                         }
                     });
                     break;
-                //待处理
+                //普通用户
                 case '1':
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'notHandled',
+                            queryInfo: 'user',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -86,12 +84,12 @@ $(function () {
                         }
                     });
                     break;
-                // 通过
+                // 审核者
                 case '2':
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'passed',
+                            queryInfo: 'reviewer',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -99,12 +97,12 @@ $(function () {
                         }
                     });
                     break;
-                // 不通过
+                // 管理者
                 case '3':
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'notPassed',
+                            queryInfo: 'admin',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -130,7 +128,7 @@ $(function () {
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'wuman',
+                            queryInfo: 'woman',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {

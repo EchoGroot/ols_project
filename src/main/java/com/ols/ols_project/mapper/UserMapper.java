@@ -32,4 +32,18 @@ public interface UserMapper {
 
     Long login(String userName,String passWord);
 
+    Long checkUserName(String userName);
+
+    int userRegister(UserEntity user);
+
+    String getEmailByName(String userName);
+
+    int changePasswordByName(String userName,String password);
+
+    List<List<UserSignUp>> getUserSignUp(String queryInfo, String searchInfo , int start, Integer end);
+
+    int getPoints(long userId);
+
+    int setPoints(int points,long userId);
+
 }

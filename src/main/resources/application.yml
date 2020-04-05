@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: dev
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -10,8 +12,6 @@ spring:
       max-file-size: 10MB #单个文件限制
       max-request-size: 200MB #请求总文件大小限制
 
-  profiles:
-    active: dev
   redis:
     # 连接超时时间（毫秒）
     timeout: 5000

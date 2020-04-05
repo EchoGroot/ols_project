@@ -144,4 +144,40 @@ public class UserServiceImpl implements UserService {
         return userMapper.login(userName,passWord);
     }
 
+    @Override
+    public Long checkUserName(String userName){
+        return userMapper.checkUserName(userName);
+    }
+
+    @Override
+    public int userRegister(UserEntity user){return userMapper.userRegister(user);}
+
+    @Override
+    public String getEmailByName(String userName){return userMapper.getEmailByName(userName);}
+
+    @Override
+    public int changePasswordByName(String userName,String password){return userMapper.changePasswordByName(userName,password);}
+
+    @Override
+    public HashMap<String, Object> getUserSignUp(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize) {
+        List<List<UserSignUp>> list = userMapper.getUserSignUp( queryInfo, searchInfo ,(pageNum - 1) * pageSize, pageSize);
+        HashMap<String,Object> result=new HashMap<>();
+        List<Object> listBo=new ArrayList<>();
+        list.get(0).stream().forEach(userEntity -> {
+            listBo.add(UserSignUp.builder()
+                    .id(userEntity.getId())
+                    .name(userEntity.getName())
+                    .birthday(userEntity.getBirthday())
+                    .sex(userEntity.getSex())
+                    .points(userEntity.getPoints())
+                    .email(userEntity.getEmail())
+                    .role(RoleEnum.getNameByCode(Integer.parseInt(userEntity.getRole())))
+                    .signUpTime(userEntity.getSignUpTime())
+                    .build());
+        });
+        result.put("total",list.get(1).get(0));
+        result.put("userList",listBo);
+        return result;
+    }
+
 }

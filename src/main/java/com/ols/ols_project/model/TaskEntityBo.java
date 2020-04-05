@@ -93,5 +93,5 @@ public class TaskEntityBo {
     /**
      * 备用字段3
      */
-    private String ext3;
+    private int ext3;
 }

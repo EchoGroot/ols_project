@@ -15,7 +15,7 @@
     <description>Online labeling system project</description>
 
     <properties>
-        <fastjson.version>1.2.62</fastjson.version>
+        <fastjson.version>1.2.60</fastjson.version>
         <java.version>1.8</java.version>
         <mybatis.version>2.1.1</mybatis.version>
         <mysql.version>8.0.18</mysql.version>
@@ -31,14 +31,18 @@
     </properties>
 
     <dependencies>
+        <!--图片处理-->
         <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.11</version>
+        </dependency>
 
+        <!--文件上传-->
+        <dependency>
             <groupId>commons-fileupload</groupId>
-
             <artifactId>commons-fileupload</artifactId>
-
             <version>1.3</version>
-
         </dependency>
         <!--添加定时任务坐标-->
         <dependency>
@@ -64,9 +68,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
-
-
-
         <!-- Apache 集合工具包 -->
         <dependency>
             <groupId>commons-collections</groupId>
@@ -74,7 +75,7 @@
             <version>${commons-collections.version}</version>
         </dependency>
 
-
+        <!-- Apache 文件上传 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -148,7 +149,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- 打包时移除嵌入式tomcat插件 -->
+             <!--打包时移除嵌入式tomcat插件-->
             <!--<exclusions>-->
                 <!--<exclusion>-->
                     <!--<groupId>org.springframework.boot</groupId>-->
@@ -207,6 +208,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--添加第三方本地jar包到项目-->
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
@@ -214,12 +216,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <!--修改mybatis mapper.xml里的参数由默认的param1，param2修改成mapper接口里的参数名-->
                 <configuration>
                     <compilerArgument>-parameters</compilerArgument>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <!--将第三方本地jar包打进war包-->
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/resources/lib</directory>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>

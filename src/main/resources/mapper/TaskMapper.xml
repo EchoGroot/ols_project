@@ -323,7 +323,10 @@
             finish_time,
             release_user_id,
             accept_num,
-            adopt_accept_id
+            adopt_accept_id,
+            ext1,
+            ext2,
+            ext3
         )
         values
         (
@@ -338,7 +341,10 @@
             #{finish_time},
             #{release_user_id},
             #{accept_num},
-            #{adopt_accept_id}
+            #{adopt_accept_id},
+            #{ext1},
+            #{ext2},
+            #{ext3}
         )
     </insert>
     <select id="getAllTask" resultMap="TaskMap,total">
@@ -428,5 +434,23 @@
             ;
             </if>
         SELECT FOUND_ROWS() as total;
+    </select>
+    <update id="clickNumPlus">
+        update
+            ols_task
+        set
+            ext3=ext3+1
+        where
+            id=#{taskId}
+    </update>
+    <select id="getClickNum" resultType="com.ols.ols_project.model.entity.TaskEntity">
+        SELECT id,
+               name,
+               ext3
+        FROM
+             ols_task
+        ORDER BY
+                 ext3 DESC
+                 LIMIT 10;
     </select>
 </mapper>

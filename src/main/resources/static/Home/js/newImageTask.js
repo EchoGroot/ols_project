@@ -7,6 +7,12 @@ var success=0;
 var fail=0;
 var imgurls="";
 var imgsName = new Array();
+var lableName= new Array();
+
+var userId=getQueryVariable('userId'); //用户ID
+//var page=getQueryVariable('page'); //页面名称
+var page = 'releaseNotFinishTask';
+var query=getQueryVariable('query');
 
 $(function (){
     layui.use(['upload','layer'],function() {
@@ -30,7 +36,7 @@ $(function (){
                 obj.preview(function(index, file, result) {
                     $('#previewImgs').append('<img src="' + result
                         + '" alt="' + file.name
-                        +'"height="92px" width="92px" class="layui-upload-img uploadImgPreView">')
+                        +'"height="92px" width="92px" class="layui-upload-img" style="margin-right: 2px">')
                 });
             },
             done: function(res, index, upload) {
@@ -40,11 +46,9 @@ $(function (){
                     fail++;
                 }else{
                     success++;
-                    //imgurls=imgurls+""+res.data.src+",";
                     imgsName.length++;
                     imgsName[imgsName.length-1]=res.data.imgName;
                     console.log(imgsName);
-                    //$('#imgUrls').val(imgurls);
                 }
             },
             allDone:function(obj){
@@ -56,12 +60,46 @@ $(function (){
         });
 
     });
-
+    judgeLogin();
     //清空预览图片
     cleanImgsPreview();
     //保存商品
     releaseTask();
+
+    $("#addTag").click(function () {
+        var stateJudge = true;
+        if($("#lableName").val() == ""){
+            alert("标注规则不可为空!");
+        }else {
+            for(i=0;i<lableName.length;i++){
+                if(lableName[i] == $("#lableName").val()){
+                    stateJudge = false;
+                    break;
+                }
+            }
+            if(stateJudge == true){
+                lableName.push($("#lableName").val());
+                var str = "<button type='button' class='layui-btn' value='"+$("#lableName").val()+"' onclick='removeThis(this)'>"+$("#lableName").val()+"</button>"
+                $("#TagViews").append(str);
+                $("#lableName").val("");
+                console.log(lableName);
+            }else {
+                alert("此规则已存在！");
+            }
+        }
+    })
 });
+
+function removeThis(btn) {
+    btn.remove();  //删除btn元素
+    for(var i=0;i<lableName.length;i++){  //删除数组元素
+        if(lableName[i]===btn.value){
+            lableName.splice(i,1);//从下标为i的元素开始，连续删除1个元素
+            i--;//因为删除下标为i的元素后，该位置又被新的元素所占据，所以要重新检测该位置
+        }
+    }
+}
+
 
 /**
  * 清空预览的图片及其对应的成功失败数
@@ -86,19 +124,16 @@ function releaseTask() {
         var tname = $("#taskName").val();
         var tdesc = $("#taskDesc").val();
         var rpoints = $("#rewardPoints").val();
-        //var lname = $("#lableName").val();
-        var lname = new Array("漏水","裂缝");
-
-        console.log(lname.toString());
         $.ajax({
             type: "POST",
             url: "/task/creatTaskUrl",
             data: {
-                lableName: lname.toString(),
+                lableName: lableName.toString(),
                 originalImage: imgsName.toString(),
             },
             success: function (resultData) {
                 console.log(resultData.toString());
+                //url成功获取 提交表单进行数据交互
                 $.ajax({
                     type: "POST",
                     url: "/task/createTask",
@@ -108,18 +143,101 @@ function releaseTask() {
                         rewardPoints:rpoints,
                         type:1,
                         taskUrl: resultData.toString(),
-                        //releaseUserId: rId,  //发布者ID
-                        releaseUserId: 1011,
+                        releaseUserId: userId,
                     },
                     success: function (msg) {
-                        /*if (msg == "1") {
-                            alert("保存成功");
-                        } else {
-                            alert("保存失败");
-                        }*/
+                        msg=JSON.parse(msg);
+                        if (msg.meta.status == "1") {
+                            alert(msg.meta.msg);
+                            //成功跳转界面
+                            top.location.href="/ImageLabelTaskPage/index.html?" +
+                                "userId="+userId+
+                                "&pageType="+'otherReleasePage'+
+                                "&"+'taskId'+"="+msg.data.taskId+
+                                "&pageFrom="+URLencode('/Home/Home.html')
+                                +"%3FuserId%3D"+userId
+                                +"%26page%3D"+'releaseNotFinishTask';
+                        } else if (msg.meta.status == "0") {
+                            alert(msg.meta.msg);
+                        }
                     }
                 });
             }
         })
     });
+}
+//获取URL参数
+function getQueryVariable(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);//一个界面
+    if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
+    if(null!==window.sessionStorage.getItem(name)){
+        return window.sessionStorage.getItem(name);
+    }
+    return null;
+}
+function URLencode(sStr) {
+    return sStr.replace(/\%/g,"%25")
+        .replace(/\+/g, '%2B')
+        .replace(/\"/g,'%22')
+        .replace(/\#/g,'%23')
+        .replace(/\'/g, '%27')
+        .replace(/\&/g, '%26')
+        .replace(/\?/g, '%3F')
+        .replace(/\=/g, '%3D')
+        .replace(/\//g,'%2F');
+}
+//判断是否登录
+function judgeLogin() {
+    if(userId!=null){
+        $.ajax({
+            url: '/user/judgeLogin',
+            type: "GET",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                resultData = JSON.parse(resultData);
+                if(resultData.meta.status === "200"){
+                    var name=null;
+                    $.ajax({
+                        url: "/user/getUserInfo",
+                        type: "get",
+                        data: {
+                            userId: userId
+                        },
+                        success: function (resultData) {
+                            resultData = JSON.parse(resultData);
+                            if (resultData.meta.status === "200") {
+                                name = resultData.data.userInfo.name;
+                                var div2=document.getElementById("logoff");
+                                div2.style.display="none";
+                                var div1=document.getElementById("login");
+                                div1.style.display="block";
+                                var li1=document.getElementById("acceptli");
+                                li1.style.visibility="visible";
+                                var li2=document.getElementById("releaseli");
+                                li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
+                                var a=document.getElementById("userName");
+                                a.innerText=name;
+                                a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
+
+                            }
+                        }
+                    });
+
+                }else{
+                    sessionStorage.clear();   //清除所有session值
+                    window.location.href='/Home/Home.html';
+
+                }
+
+            }
+        })
+    }
+}
+//注销
+function cancel() {
+    sessionStorage.clear();   //清除所有session值
+    window.location.href='/Home/Home.html';
 }
