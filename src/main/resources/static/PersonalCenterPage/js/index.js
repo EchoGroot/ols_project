@@ -107,5 +107,9 @@ function judgeLogin() {
             }
         })
     }
-
+}
+function goBackFunc() {
+    window.location.href = "/Home/Home.html"+
+        "?userId="+userId
+    ;
 }
