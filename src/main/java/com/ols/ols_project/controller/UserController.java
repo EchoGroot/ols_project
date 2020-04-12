@@ -180,7 +180,8 @@ public class UserController {
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(data, "0", "获取待批准的审核者注册账号成功"),
-                "yyyy-MM-dd");
+                "yyyy-MM-dd",
+                SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
 

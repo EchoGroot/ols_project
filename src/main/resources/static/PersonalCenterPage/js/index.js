@@ -113,3 +113,22 @@ function goBackFunc() {
         "?userId="+userId
     ;
 }
+//注销
+function cancel() {
+    $.ajax({
+        url:"/user/cancel",
+        type:"get",
+        success:function (resultData) {
+            resultData = JSON.parse(resultData);
+            if (resultData.meta.status === "200") {
+                sessionStorage.clear();   //清除所有session值
+                window.location.href='/Home/Home.html';
+            }else{
+                layer.msg('操作失败!', {
+                    icon: 5, //红色不开心
+                });
+            }
+        }
+    })
+
+}
