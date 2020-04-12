@@ -1,6 +1,63 @@
 <head>
-
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/PersonalInfo.css">
+    <script src="../layui/layui.js"></script>
+    <script src="../layui/layui.all.js"></script>
+    <script src="../js/jquery-3.4.1.js"></script>
+    <script src="js/PersonalInfo.js"></script>
 </head>
 <body>
-    <h1>PersonalInfo</h1>
+<form class="layui-form" action="">
+    <div class="layui-form-item ">
+        <label class="layui-form-label layui-input-inline">用户名</label>
+        <div class="layui-input-block layui-input-inline">
+            <input id="userName" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item ">
+        <label class="layui-form-label layui-input-inline">性别</label>
+        <div class="layui-input-block layui-input-inline">
+            <input id="sex" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label layui-input-inline">出生日期</label>
+        <div class="layui-input-block layui-input-inline">
+            <input id="birthday" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label layui-input-inline">邮箱</label>
+        <div class="layui-input-block layui-input-inline">
+            <input id="email" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+        <a href="javascript:changeEmail()" class="layui-icon layui-icon-edit" style="font-size: 30px;"></a>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label layui-input-inline">角色</label>
+        <div class="layui-input-block layui-input-inline">
+            <input id="role" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label layui-input-inline">积分</label>
+        <div id="taskInfoContainer" class="layui-input-inline">
+            <input id="points" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</form>
+<div class="layui-input-block layui-form" id="emailInfo"
+     lay-filter="changeEmail" style="display: none">
+    <form class="layui-form"  lay-filter="emailForm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" required  lay-verify="required" id="email2" placeholder="请输入邮箱">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 </body>

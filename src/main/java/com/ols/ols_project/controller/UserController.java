@@ -304,9 +304,21 @@ public class UserController {
                     userService.userLoginTime(userLog);
                 }else{
                     //审核者
-                    resultStr=JSON.toJSONString(
-                            new Result(data, "202", "登录成功！"));
-                    userService.userLoginTime(userLog);
+                    String ext1=userInfoById.getExt1();
+                    if(ext1.equals("0")){
+                        resultStr=JSON.toJSONString(
+                                new Result(data, "203", "账号审核中！"));
+                    }else{
+                        if(ext1.equals("1")){
+                            resultStr=JSON.toJSONString(
+                                    new Result(data, "202", "登录成功！"));
+                            userService.userLoginTime(userLog);
+                        }else{
+                            resultStr=JSON.toJSONString(
+                                    new Result(data, "204", "该账号未通过审核！"));
+                        }
+                    }
+
                 }
             }
 
