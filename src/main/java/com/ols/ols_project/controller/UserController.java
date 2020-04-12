@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
@@ -506,6 +507,24 @@ public class UserController {
                 "yyyy-MM-dd",
                 SerializerFeature.WriteNonStringValueAsString);
         return result;
+    }
+
+    @GetMapping(value="/cancel")
+    public String cancel(HttpServletRequest httpServletRequest){
+        String resultStr = null;
+        try {
+            Enumeration em = httpServletRequest.getSession().getAttributeNames();
+            while(em.hasMoreElements()){
+                httpServletRequest.getSession().removeAttribute(em.nextElement().toString());
+            }
+            resultStr = JSON.toJSONString(
+                    new Result("200", "清除session成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "清除session失败！"));
+
+        }
+        return resultStr;
     }
 
 
