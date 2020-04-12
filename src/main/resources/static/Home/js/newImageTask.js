@@ -88,6 +88,13 @@ $(function (){
             }
         }
     })
+
+    $("#acceptli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    })
+    $("#releaseli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    })
 });
 
 function removeThis(btn) {
@@ -100,6 +107,35 @@ function removeThis(btn) {
     }
 }
 
+//跳转页面要求已登陆状态的使用此方法
+function gotoUrlByJudege(str) { //str为目的跳转地址
+    if(userId!=null){
+        $.ajax({
+            url: '/user/judgeLogin',
+            type: "GET",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                resultData = JSON.parse(resultData);
+                if(resultData.meta.status === "200"){
+                    window.location.href=str;
+                }else{
+                    window.sessionStorage.setItem(
+                        'gotoUrl',str
+                    );
+                    window.location.href='/Home/login.html';
+                }
+            }
+        })
+    }
+    else {
+        window.sessionStorage.setItem(
+            'gotoUrl',str
+        );
+        window.location.href='/Home/login.html';//登陆完了直接跳转新任务
+    }
+}
 
 /**
  * 清空预览的图片及其对应的成功失败数

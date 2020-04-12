@@ -57,6 +57,10 @@ $(function () {
         case 'personalReleasePage':
             // 获取任务数据
             getImageList();
+
+            //判断本人登录 判断任务状态是否为 1 已完成
+            //$("#download").show();
+
             break;
     }
 });
@@ -376,6 +380,20 @@ function acceptFunc() {
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });
             }
+        }
+    })
+}
+
+//下载
+function downloadFunc(address) {
+    $.ajax({
+        url: '/task/getDownLoadAddress',
+        type: "GET",
+        data: {
+            "taskId": taskId
+        },
+        success: function (resultData) {
+            //将返回值data的lableInfo以文本形式保存到本地 url则请求下载
         }
     })
 }

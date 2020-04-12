@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -293,5 +294,19 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskEntity> getClickNum(){
         List<TaskEntity> list = taskMapper.getClickNum();
         return list;
+    }
+    @Override
+    public JSONArray getFileNameByTaskId(long taskId){
+        JSONArray fileNameArray = new JSONArray();//定义要返回的ImageName数组
+        String url = taskMapper.getImageListByTaskId(taskId);//获取图片url
+        //从url中截取图片名,返回数组
+        JSONObject urlJson = JSONObject.parseObject(url);//将url转json对象
+        JSONArray taskFileArray = JSONArray.parseArray(urlJson.getString("taskImage"));//获取taskImage数组
+        for(int i=0;i<taskFileArray.size();i++)
+        {
+            JSONObject taskImage = JSONObject.parseObject(taskFileArray.get(i).toString());//获取taskImage数组的每个对象
+            fileNameArray.add(taskImage.getString("originalImage"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
+        }
+        return fileNameArray;
     }
 }

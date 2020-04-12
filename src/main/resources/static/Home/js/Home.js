@@ -184,7 +184,7 @@ $(function () {
 
         $("#queryAdoptedTask").click(function () {
             paramConfig();
-            page = '';
+            page = 'releaseFinishTask';
             $("#queryAdoptedTask").attr('class', "layui-this");
             tableIns2.reload({
                 where: {
