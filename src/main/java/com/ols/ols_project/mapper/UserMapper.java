@@ -4,6 +4,7 @@ import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.UserSignUp;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -34,7 +35,11 @@ public interface UserMapper {
 
     Long checkUserName(String userName);
 
+    int userLoginTime(UserOperationLogEntity userLog);
+
     int userRegister(UserEntity user);
+
+    int userRegisterTime(UserOperationLogEntity userLog);
 
     String getEmailByName(String userName);
 

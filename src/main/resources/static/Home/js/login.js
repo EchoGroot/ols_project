@@ -4,10 +4,20 @@ $(function () {
     layui.use('form', function(){
         var form = layui.form;
         // 登录事件
-        form.on('submit(login)', function(data){
-            login();
-            return false;
+        $("#loginBtn").click(function () {
+            form.on('submit(login)', function(data){
+                login();
+                return false;
+            });
         });
+        //按enter登录
+        document.onkeydown= function (e) {
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which;
+            if (code == 13) {
+                $("#loginBtn").click();
+            }
+        }
 
         form.on('submit(code)', function(data){
             if(validate()){
@@ -72,24 +82,36 @@ function login() {
         success:function(resultData){
             resultData=JSON.parse(resultData);
             if(resultData.meta.status === "205"){
-                layer.msg('操作失败，请刷新页面', {
+                layer.msg('账号或密码错误！', {
                     icon: 5, //红色不开心
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });
             }else{
-                layer.msg('登录成功');
-                window.setTimeout(function () {
-                    if(window.sessionStorage.getItem('gotoUrl')!==null){
-                        var url=window.sessionStorage.getItem('gotoUrl');
-                        //登陆后更改地址栏userId参数
-                        var newurl=changeURLArg(url,'userId',resultData.data.userId);
-                        window.sessionStorage.setItem('userId',resultData.data.userId);
-                        window.location.href=newurl;
-                        sessionStorage.removeItem('gotoUrl');//gotoUrl session用完后要释放掉
+                if(resultData.meta.status === "203"){
+                    layer.msg('账号审核中！', {
+                        icon: 5, //红色不开心
+                    });
+                }else{
+                    if(resultData.meta.status === "204"){
+                        layer.msg('该账号未通过审核！', {
+                            icon: 5, //红色不开心
+                        });
                     }else{
-                        window.location.href = resultData.data.url;
+                        layer.msg('登录成功');
+                        window.setTimeout(function () {
+                            if(window.sessionStorage.getItem('gotoUrl')!==null){
+                                var url=window.sessionStorage.getItem('gotoUrl');
+                                //登陆后更改地址栏userId参数
+                                var newurl=changeURLArg(url,'userId',resultData.data.userId);
+                                window.sessionStorage.setItem('userId',resultData.data.userId);
+                                window.location.href=newurl;
+                                sessionStorage.removeItem('gotoUrl');//gotoUrl session用完后要释放掉
+                            }else{
+                                window.location.href = resultData.data.url;
+                            }
+                        },1000);
                     }
-                },1000);
+                }
+
             }
         }
     })

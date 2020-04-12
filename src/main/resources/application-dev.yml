@@ -8,7 +8,7 @@ spring:
     password: ${redis.password:}
   #MySQL配置
   datasource:
-    url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=UTC&allowMultiQueries=true&useAffectedRows=true
+    url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
     username: ${mysql.username:}
     password: ${mysql.password:}
 #日志配置

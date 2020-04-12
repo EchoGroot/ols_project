@@ -8,11 +8,17 @@ import com.ols.ols_project.common.utils.Cache;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
@@ -174,7 +180,8 @@ public class UserController {
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(data, "0", "获取待批准的审核者注册账号成功"),
-                "yyyy-MM-dd");
+                "yyyy-MM-dd",
+                SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
 
@@ -268,28 +275,51 @@ public class UserController {
             String url="/";
             String page=null;
             switch (userInfoById.getRole()){
-                case 0:page="Home/Home.html";break;
-                case 1:page="AdminPage/index.html";break;
-                case 2:page="JudgeTaskPage/index.html";
+                case 0:page="Home/Home.html?userId=";break;
+                case 1:page="AdminPage/index.html?userId=";break;
+                //case 2:page="JudgeTaskPage/index.html?page=notCheck&userId=";
+                case 2:page="JudgeTaskPage/index.html?userId=";
             }
-            url=url+page+"?userId="+id;
+            url=url+page+id;
             HashMap<String, Object> data = new HashMap<>();
             data.put("url", url);
             data.put("userId",Long.toString(id));
             request.getSession().setAttribute("userId",Long.toString(id));//session存数据
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(id);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
             if(userInfoById.getRole()==0){
                 //普通用户
                 resultStr = JSON.toJSONString(
                         new Result(data, "200", "登录成功！"));
+                userService.userLoginTime(userLog);
             }else{
                 if(userInfoById.getRole()==1){
                     //系统管理员
                     resultStr=JSON.toJSONString(
                             new Result(data, "201", "登录成功！"));
+                    userService.userLoginTime(userLog);
                 }else{
                     //审核者
-                    resultStr=JSON.toJSONString(
-                            new Result(data, "202", "登录成功！"));
+                    String ext1=userInfoById.getExt1();
+                    if(ext1.equals("0")){
+                        resultStr=JSON.toJSONString(
+                                new Result(data, "203", "账号审核中！"));
+                    }else{
+                        if(ext1.equals("1")){
+                            resultStr=JSON.toJSONString(
+                                    new Result(data, "202", "登录成功！"));
+                            userService.userLoginTime(userLog);
+                        }else{
+                            resultStr=JSON.toJSONString(
+                                    new Result(data, "204", "该账号未通过审核！"));
+                        }
+                    }
+
                 }
             }
 
@@ -387,6 +417,13 @@ public class UserController {
             if(userService.getUserInfoById(id)!=null){
                 resultStr = JSON.toJSONString(
                         new Result("200", "注册成功！"));
+                UserOperationLogEntity userLog=new UserOperationLogEntity();
+                userLog.setId(uidGenService.getUid());
+                userLog.setUser_id(user.getId());
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date=new Date();
+                userLog.setTime(Timestamp.valueOf(df.format(date)));
+                userService.userRegisterTime(userLog);
             }else{
                 resultStr = JSON.toJSONString(
                         new Result("201", "注册失败！"));
@@ -481,8 +518,27 @@ public class UserController {
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(data, "0", "获取所有用户账号成功"),
-                "yyyy-MM-dd");
+                "yyyy-MM-dd",
+                SerializerFeature.WriteNonStringValueAsString);
         return result;
+    }
+
+    @GetMapping(value="/cancel")
+    public String cancel(HttpServletRequest httpServletRequest){
+        String resultStr = null;
+        try {
+            Enumeration em = httpServletRequest.getSession().getAttributeNames();
+            while(em.hasMoreElements()){
+                httpServletRequest.getSession().removeAttribute(em.nextElement().toString());
+            }
+            resultStr = JSON.toJSONString(
+                    new Result("200", "清除session成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "清除session失败！"));
+
+        }
+        return resultStr;
     }
 
 

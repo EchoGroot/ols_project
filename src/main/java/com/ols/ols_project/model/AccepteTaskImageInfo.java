@@ -4,6 +4,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.*;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 /**
@@ -17,6 +21,14 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "taskImage")
+@XmlType(propOrder = {
+        "originalImage",
+        "isLabeled",
+        "isExample",
+        "labeledInfo"
+})
 public class AccepteTaskImageInfo {
     private String originalImage;
     private Boolean isLabeled;

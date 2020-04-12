@@ -1,6 +1,7 @@
 package com.ols.ols_project.service;
 
 import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 
 import java.util.HashMap;
 
@@ -100,11 +101,25 @@ public interface UserService {
     Long checkUserName(String userName);
 
     /**
+     * 用户登录时间
+     * @param userLog
+     * @return
+     */
+    int userLoginTime(UserOperationLogEntity userLog);
+
+    /**
      * 用户注册
      * @param user
      * @return
      */
     int userRegister(UserEntity user);
+
+    /**
+     * 用户注册时间
+     * @param userLog
+     * @return
+     */
+    int userRegisterTime(UserOperationLogEntity userLog);
 
     /**
      * 根据用户名获取邮箱

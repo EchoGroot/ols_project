@@ -2,7 +2,7 @@ var userId=getQueryVariable('userId'); //用户ID
 var page=getQueryVariable('page'); //页面名称
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
-    if(page==='notCheck'){
+    /*if(page==='notCheck'){
         // 添加选中效果
         $("#notCheckTag").attr('class','layui-nav-item layui-this');
         // 设置iframe的src属性
@@ -28,7 +28,9 @@ $(function () {
             .attr("href")
             +'&userId='+userId
         );
-    }
+    }*/
+    //初始化iframe
+    $("#iframeMain").attr("src",'./Check.html?a=1&isChecked=0&page=notCheck&userId='+userId);
     // layui初始化
     layui.use('element', function(){
         var element = layui.element;
@@ -39,7 +41,7 @@ $(function () {
         e.preventDefault();
         $("#iframeMain").attr("src",$(this)
             .attr("href")
-            +"&userId="+userId
+            +"?userId="+userId
         );
     });
     judgeLogin();
@@ -103,4 +105,23 @@ function judgeLogin() {
             }
         }
     })
+}
+//注销
+function cancel() {
+    $.ajax({
+        url:"/user/cancel",
+        type:"get",
+        success:function (resultData) {
+            resultData = JSON.parse(resultData);
+            if (resultData.meta.status === "200") {
+                sessionStorage.clear();   //清除所有session值
+                window.location.href='/Home/login.html';
+            }else{
+                layer.msg('操作失败!', {
+                    icon: 5, //红色不开心
+                });
+            }
+        }
+    })
+
 }

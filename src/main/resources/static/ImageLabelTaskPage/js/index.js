@@ -384,7 +384,6 @@ function acceptFunc() {
 function reportFunc() {}
 // 返回
 function goBackFunc() {
-    var t=reverseURLencode(pageFrom);
     window.location.href=reverseURLencode(pageFrom);
 }
 //转义URL里的特殊字符
