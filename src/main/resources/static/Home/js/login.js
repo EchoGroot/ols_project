@@ -4,10 +4,20 @@ $(function () {
     layui.use('form', function(){
         var form = layui.form;
         // 登录事件
-        form.on('submit(login)', function(data){
-            login();
-            return false;
+        $("#loginBtn").click(function () {
+            form.on('submit(login)', function(data){
+                login();
+                return false;
+            });
         });
+        //按enter登录
+        document.onkeydown= function (e) {
+            var theEvent = window.event || e;
+            var code = theEvent.keyCode || theEvent.which;
+            if (code == 13) {
+                $("#loginBtn").click();
+            }
+        }
 
         form.on('submit(code)', function(data){
             if(validate()){
