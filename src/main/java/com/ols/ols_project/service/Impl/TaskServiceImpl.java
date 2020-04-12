@@ -6,10 +6,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
-import com.mysql.cj.util.StringUtils;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
+import com.ols.ols_project.common.utils.XMLUtil;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
@@ -17,12 +17,12 @@ import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.service.TaskService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ import java.util.List;
  * @date 20-2-24 下午7:13
  */
 @Service
+@Slf4j
 @Transactional(rollbackFor=Exception.class)
 public class TaskServiceImpl implements TaskService {
 
@@ -66,6 +67,8 @@ public class TaskServiceImpl implements TaskService {
                 return;
             }
         });
+        //转xml测试
+        log.debug(XMLUtil.convertToXml(acceptImageUrl));
         return taskMapper.storeImageLabelInfoByAccepteId(acceptTaskId,JSON.toJSONString(acceptImageUrl));
     }
 
