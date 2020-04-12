@@ -268,11 +268,11 @@ public class UserController {
             String url="/";
             String page=null;
             switch (userInfoById.getRole()){
-                case 0:page="Home/Home.html";break;
-                case 1:page="AdminPage/index.html";break;
-                case 2:page="JudgeTaskPage/index.html";
+                case 0:page="Home/Home.html?userId=";break;
+                case 1:page="AdminPage/index.html?userId=";break;
+                case 2:page="JudgeTaskPage/index.html?page=notCheck&userId=";
             }
-            url=url+page+"?userId="+id;
+            url=url+page+id;
             HashMap<String, Object> data = new HashMap<>();
             data.put("url", url);
             data.put("userId",Long.toString(id));
