@@ -101,6 +101,13 @@ public interface UserService {
     Long checkUserName(String userName);
 
     /**
+     * 用户登录时间
+     * @param userLog
+     * @return
+     */
+    int userLoginTime(UserOperationLogEntity userLog);
+
+    /**
      * 用户注册
      * @param user
      * @return

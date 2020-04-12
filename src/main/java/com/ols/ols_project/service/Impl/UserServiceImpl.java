@@ -151,6 +151,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int userLoginTime(UserOperationLogEntity userLog){return userMapper.userLoginTime(userLog);}
+
+    @Override
     public int userRegister(UserEntity user){return userMapper.userRegister(user);}
 
     @Override

@@ -35,6 +35,8 @@ public interface UserMapper {
 
     Long checkUserName(String userName);
 
+    int userLoginTime(UserOperationLogEntity userLog);
+
     int userRegister(UserEntity user);
 
     int userRegisterTime(UserOperationLogEntity userLog);

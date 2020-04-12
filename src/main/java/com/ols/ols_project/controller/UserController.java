@@ -282,19 +282,29 @@ public class UserController {
             data.put("url", url);
             data.put("userId",Long.toString(id));
             request.getSession().setAttribute("userId",Long.toString(id));//session存数据
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(id);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
             if(userInfoById.getRole()==0){
                 //普通用户
                 resultStr = JSON.toJSONString(
                         new Result(data, "200", "登录成功！"));
+                userService.userLoginTime(userLog);
             }else{
                 if(userInfoById.getRole()==1){
                     //系统管理员
                     resultStr=JSON.toJSONString(
                             new Result(data, "201", "登录成功！"));
+                    userService.userLoginTime(userLog);
                 }else{
                     //审核者
                     resultStr=JSON.toJSONString(
                             new Result(data, "202", "登录成功！"));
+                    userService.userLoginTime(userLog);
                 }
             }
 

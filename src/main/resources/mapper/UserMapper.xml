@@ -323,7 +323,11 @@
     <select id="checkUserName" resultType="Long">
         select id from ols_user where name=#{userName}
     </select>
-    
+
+    <insert id="userLoginTime">
+        insert into ols_user_operation_log values(#{id},#{user_id},1,null,#{time},null,null,null)
+    </insert>
+
     <insert id="userRegister">
         insert into ols_user values(#{id},#{name},#{birthday},#{password},
 			#{sex},#{email},#{role},0,#{ext1},null,null)
