@@ -317,7 +317,7 @@
     </update>
 
     <select id="login" resultType="Long">
-        select id from ols_user where name=#{userName}and password=#{passWord}
+        select id from ols_user where (name=#{userName} or email=#{userName})and password=#{passWord}
     </select>
 
     <select id="checkUserName" resultType="Long">
