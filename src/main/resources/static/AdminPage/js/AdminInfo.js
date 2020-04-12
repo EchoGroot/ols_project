@@ -38,12 +38,17 @@ function loadUserInfo(){
 }
 // 获取iframe的URL参数
 function getQueryVariable(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    /*var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     // var r = window.location.search.substr(1).match(reg);
     var r = window.parent.document.getElementById("iframeMain").contentWindow.location.search.match(reg);
     if (r != null&&unescape(r[2])!=='null') return unescape(r[2]);
     if(null!==window.sessionStorage.getItem(name)){
         return window.sessionStorage.getItem(name);
+    }*/
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = decodeURI(window.location.search).substr(1).match(reg);
+    if (r != null){
+        return unescape(r[2]);
     }
     return null;
 }

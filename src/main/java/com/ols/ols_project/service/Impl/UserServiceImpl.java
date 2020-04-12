@@ -8,6 +8,7 @@ import com.ols.ols_project.model.TaskEntityBo;
 import com.ols.ols_project.model.UserSignUp;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -151,6 +152,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int userRegister(UserEntity user){return userMapper.userRegister(user);}
+
+    @Override
+    public int userRegisterTime(UserOperationLogEntity userLog){return userMapper.userRegisterTime(userLog);}
 
     @Override
     public String getEmailByName(String userName){return userMapper.getEmailByName(userName);}

@@ -8,11 +8,16 @@ import com.ols.ols_project.common.utils.Cache;
 import com.ols.ols_project.common.utils.SendEmailBy126;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -387,6 +392,13 @@ public class UserController {
             if(userService.getUserInfoById(id)!=null){
                 resultStr = JSON.toJSONString(
                         new Result("200", "注册成功！"));
+                UserOperationLogEntity userLog=new UserOperationLogEntity();
+                userLog.setId(uidGenService.getUid());
+                userLog.setUser_id(user.getId());
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date=new Date();
+                userLog.setTime(Timestamp.valueOf(df.format(date)));
+                userService.userRegisterTime(userLog);
             }else{
                 resultStr = JSON.toJSONString(
                         new Result("201", "注册失败！"));
@@ -481,7 +493,8 @@ public class UserController {
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(data, "0", "获取所有用户账号成功"),
-                "yyyy-MM-dd");
+                "yyyy-MM-dd",
+                SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
 

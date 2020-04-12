@@ -329,6 +329,10 @@
 			#{sex},#{email},#{role},0,#{ext1},null,null)
     </insert>
 
+    <insert id="userRegisterTime">
+        insert into ols_user_operation_log values(#{id},#{user_id},0,null,#{time},null,null,null)
+    </insert>
+
     <select id="getEmailByName" resultType="String">
         select email from ols_user where name=#{userName}
     </select>
