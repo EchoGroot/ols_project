@@ -7,7 +7,7 @@ var success=0;
 var fail=0;
 var imgurls="";
 var imgsName = new Array();
-var lableName= new Array();
+var labelName= new Array();
 
 var userId=getQueryVariable('userId'); //用户ID
 //var page=getQueryVariable('page'); //页面名称
@@ -68,21 +68,21 @@ $(function (){
 
     $("#addTag").click(function () {
         var stateJudge = true;
-        if($("#lableName").val() == ""){
+        if($("#labelName").val() == ""){
             alert("标注规则不可为空!");
         }else {
-            for(i=0;i<lableName.length;i++){
-                if(lableName[i] == $("#lableName").val()){
+            for(i=0;i<labelName.length;i++){
+                if(labelName[i] == $("#labelName").val()){
                     stateJudge = false;
                     break;
                 }
             }
             if(stateJudge == true){
-                lableName.push($("#lableName").val());
-                var str = "<button type='button' class='layui-btn' value='"+$("#lableName").val()+"' onclick='removeThis(this)'>"+$("#lableName").val()+"</button>"
+                labelName.push($("#labelName").val());
+                var str = "<button type='button' class='layui-btn' value='"+$("#labelName").val()+"' onclick='removeThis(this)'>"+$("#labelName").val()+"</button>"
                 $("#TagViews").append(str);
-                $("#lableName").val("");
-                console.log(lableName);
+                $("#labelName").val("");
+                console.log(labelName);
             }else {
                 alert("此规则已存在！");
             }
@@ -99,9 +99,9 @@ $(function (){
 
 function removeThis(btn) {
     btn.remove();  //删除btn元素
-    for(var i=0;i<lableName.length;i++){  //删除数组元素
-        if(lableName[i]===btn.value){
-            lableName.splice(i,1);//从下标为i的元素开始，连续删除1个元素
+    for(var i=0;i<labelName.length;i++){  //删除数组元素
+        if(labelName[i]===btn.value){
+            labelName.splice(i,1);//从下标为i的元素开始，连续删除1个元素
             i--;//因为删除下标为i的元素后，该位置又被新的元素所占据，所以要重新检测该位置
         }
     }
@@ -164,7 +164,7 @@ function releaseTask() {
             type: "POST",
             url: "/task/creatTaskUrl",
             data: {
-                lableName: lableName.toString(),
+                labelName: labelName.toString(),
                 originalImage: imgsName.toString(),
             },
             success: function (resultData) {

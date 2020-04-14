@@ -313,8 +313,8 @@ public class TaskController {
     }
 
     @PostMapping("/creatTaskUrl")
-    public String creatTaskUrl(String lableName, String originalImage){
-        return taskService.creatTaskUrl(lableName,originalImage);
+    public String creatTaskUrl(String labelName, String originalImage){
+        return taskService.creatTaskUrl(labelName,originalImage);
     }
 
     @PostMapping("uploadImgs")
@@ -360,12 +360,13 @@ public class TaskController {
                              @RequestParam(value = "page") Integer pageNum,
                              @RequestParam(value = "limit") Integer pageSize,
                              @RequestParam(value = "queryInfo") String queryInfo,
+                             @RequestParam(value = "searchType") String searchType,
                              @RequestParam(value = "searchInfo") String searchInfo,
                              @RequestParam(value = "field") String field,
                              @RequestParam(value = "order") String order){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo,field,order)
+                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
                         ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
@@ -393,7 +394,7 @@ public class TaskController {
         //返回图片地址  标注信息
         HashMap<String,Object> data=new HashMap<>();
         data.put("url", fileAddress);
-        data.put("lableInfo",taskService.getImageListByTaskId(taskId));
+        data.put("labelInfo",taskService.getImageListByTaskId(taskId));
         Result result = new Result(data,"0","下载信息成功获取");
         return JSON.toJSONString(result);
     }
@@ -420,8 +421,8 @@ public class TaskController {
         //将采纳的标注信息以xml格式也加入打包文件中
         AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptId);
         AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
-        FileUtils.saveAsFileWriter(XMLUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"lableInfo.xml");
-        //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"lableInfo.xml");
+        FileUtils.saveAsFileWriter(XMLUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
+        //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
 
         FileOutputStream zip = new FileOutputStream(new File(fileAllTemp.getPath()+".zip"));
         ZipUtils.toZip(fileAllTemp.getPath(),zip,true);

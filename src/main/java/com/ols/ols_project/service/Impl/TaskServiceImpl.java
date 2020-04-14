@@ -233,22 +233,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public String creatTaskUrl(String lableName,String originalImage) {
+    public String creatTaskUrl(String labelName,String originalImage) {
         System.out.println("/*************创建URL******************/");
 
-        String [] lableName1= lableName.split(",");
+        String [] labelName1= labelName.split(",");
         String [] originalImage1 = originalImage.split(",");
 
         JSONObject taskUrl = new JSONObject();
-        taskUrl.put("lableName",lableName1);
+        taskUrl.put("labelName",labelName1);
         JSONArray taskImage = new JSONArray();
         for (int i = 0; i < originalImage1.length; i++) {
             JSONObject imgInfo = new JSONObject();
             imgInfo.put("isExample",false);
             imgInfo.put("isLabeled",false);
-            JSONArray lableInfo =new JSONArray();//lableInfo也遍历添加数据
-            //for (int j = 0; j < lableName1.length; j++)
-            imgInfo.put("lableInfo",lableInfo);
+            JSONArray labelInfo =new JSONArray();//labelInfo也遍历添加数据
+            //for (int j = 0; j < labelName1.length; j++)
+            imgInfo.put("labelInfo",labelInfo);
             imgInfo.put("originalImage",originalImage1[i]);
             taskImage.add(imgInfo);//遍历添加
         }
@@ -259,8 +259,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
-                                              String queryInfo, String searchInfo,String field,String order) {
-        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,field,order);
+                                              String queryInfo, String searchType,String searchInfo,String field,String order) {
+        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo,searchType,searchInfo,field,order);
         List<TaskEntityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
