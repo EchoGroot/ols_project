@@ -4,13 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 //关于举报信息的controller
 @RestController
 @RequestMapping("message")
 public class MessageController {
-    MessageService messageService;
+    @Autowired
+    private MessageService messageService;
     //发布举报信息
     @GetMapping("/createMessage")
     public String createMessage(@RequestParam("userId") String userId,@RequestParam("taskId") String taskId,@RequestParam("Message") String Message){

@@ -51,4 +51,6 @@ public interface UserMapper {
 
     int setPoints(int points,long userId);
 
+    int insmessage();
+
 }

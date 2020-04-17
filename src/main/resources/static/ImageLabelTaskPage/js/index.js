@@ -460,3 +460,7 @@ function submitFunc() {
         }
     })
 }
+//举报任务
+function reportFunc(){
+    window.location.href='/complain/html/complain.html?userId='+userId+'&taskId='+taskId;
+}

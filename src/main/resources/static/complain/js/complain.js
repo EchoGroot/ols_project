@@ -2,8 +2,6 @@
 var userId=getQueryVariable('userId'); //用户ID
 var taskId=getQueryVariable('taskId'); // 任务ID
 
-
-
 $(function () {
     //layui初始化
     layui.use(['layer','form'],function () {
@@ -12,7 +10,7 @@ $(function () {
     })
     $("#submitBtn").click(function () {
         //
-        var message="举报理由："+$("#Complain").text()+"/n详情描述："+$("#L_content").text();
+        var message="举报理由："+$("#Complain").val()+"/详情描述："+$("#L_content").val();
         $.ajax({
             url: '/message/createMessage',
             type: "GET",
@@ -111,3 +109,5 @@ function getQueryVariable(name) {
     }
     return null;
 }
+//举报任务
+
