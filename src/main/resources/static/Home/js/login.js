@@ -121,7 +121,7 @@ function changePassword(){
     layer.open({
         type:1
         ,title:"修改密码"
-        ,area:['450px','350px']
+        ,area:['480px','350px']
         ,content:$("#forgetPassword"),
         shade:0,
         btn: ['确定修改', '取消']

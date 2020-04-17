@@ -1,15 +1,18 @@
 package com.ols.ols_project.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.NormalConst;
+import com.ols.ols_project.common.utils.FileUtils;
 import com.ols.ols_project.common.utils.SendEmailBy126;
-import com.ols.ols_project.model.AcceptTaskBo;
-import com.ols.ols_project.model.LabelInfo;
-import com.ols.ols_project.model.Result;
-import com.ols.ols_project.model.TaskEntityBo;
+import com.ols.ols_project.common.utils.XMLUtil;
+import com.ols.ols_project.common.utils.ZipUtils;
+import com.ols.ols_project.mapper.TaskMapper;
+import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
@@ -19,10 +22,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.nio.file.Files.copy;
 
 /**
  * 关于任务的Controller
@@ -33,6 +42,8 @@ import java.util.List;
 @RestController
 @RequestMapping("task")
 public class TaskController {
+    @Autowired
+    private TaskMapper taskMapper;
 
     @Autowired
     private TaskService taskService;
@@ -302,8 +313,8 @@ public class TaskController {
     }
 
     @PostMapping("/creatTaskUrl")
-    public String creatTaskUrl(String lableName, String originalImage){
-        return taskService.creatTaskUrl(lableName,originalImage);
+    public String creatTaskUrl(String labelName, String originalImage){
+        return taskService.creatTaskUrl(labelName,originalImage);
     }
 
     @PostMapping("uploadImgs")
@@ -349,12 +360,13 @@ public class TaskController {
                              @RequestParam(value = "page") Integer pageNum,
                              @RequestParam(value = "limit") Integer pageSize,
                              @RequestParam(value = "queryInfo") String queryInfo,
+                             @RequestParam(value = "searchType") String searchType,
                              @RequestParam(value = "searchInfo") String searchInfo,
                              @RequestParam(value = "field") String field,
                              @RequestParam(value = "order") String order){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchInfo,field,order)
+                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
                         ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
@@ -369,5 +381,72 @@ public class TaskController {
     @GetMapping("/getClickNum")
     public String getClickNum(){
         return JSON.toJSONString(taskService.getClickNum(),SerializerFeature.WriteNonStringValueAsString);
+    }
+    //弃用
+    @GetMapping("/getDownLoadAddress")
+    public String getDownLoadAddress(@RequestParam(value = "taskId") long taskId){
+        JSONArray fileNameArray = taskService.getFileNameByTaskId(taskId);
+        List fileAddress =  new ArrayList<>();
+        String url = "http://yuyy.info/image/ols/";
+        for(int i=0;i<fileNameArray.size();i++){
+            fileAddress.add(url+fileNameArray.get(i));
+        }
+        //返回图片地址  标注信息
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("url", fileAddress);
+        data.put("labelInfo",taskService.getImageListByTaskId(taskId));
+        Result result = new Result(data,"0","下载信息成功获取");
+        return JSON.toJSONString(result);
+    }
+    @GetMapping("/downloadFinishedTask")
+    public void downloadFT(@RequestParam(value = "taskId") long taskId,
+                           @RequestParam(value = "acceptId") long acceptId,
+                           HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        JSONArray fileNameArray = taskService.getFileNameByTaskId(taskId);
+        String path = "G:\\images\\";
+        //String path = "http:\\\\yuyy.info\\image\\ols\\";//linux 路径有点问题
+        //新建临时文件夹用于打包所有要下载的问文件 若已存在，则先删除再创建
+        File fileAllTemp = new File(path+taskId);
+        if (fileAllTemp.exists()) {
+            FileUtils.deleteFile(fileAllTemp);//遍历删除文件夹及其子内容
+            fileAllTemp.mkdirs();
+        }else {
+            fileAllTemp.mkdirs();
+        }
+        for(int i=0;i<fileNameArray.size();i++){
+            File fromFile = new File(path+fileNameArray.get(i));//找到文件
+            File toFile = new File(path+taskId+"\\"+fileNameArray.get(i));//目标文件地址 用于将要打包的文件放在一起
+            copy(fromFile.toPath(),toFile.toPath());//将源文件复制进临时文件夹  用于打包
+        }
+        //将采纳的标注信息以xml格式也加入打包文件中
+        AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptId);
+        AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
+        FileUtils.saveAsFileWriter(XMLUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
+        //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
+
+        FileOutputStream zip = new FileOutputStream(new File(fileAllTemp.getPath()+".zip"));
+        ZipUtils.toZip(fileAllTemp.getPath(),zip,true);
+
+        File zipFile = new File(fileAllTemp.getPath()+".zip");//选中压缩文件
+        if(zipFile.exists())
+        {
+            response.setContentType("application/x-msdownload"); //设置响应类型,此处为下载类型
+            response.setHeader("Content-Disposition", "attachment;filename=\""+taskId+".zip\"");//以附件的形式打开
+            InputStream inputStream = new FileInputStream(zipFile);
+            ServletOutputStream outputStream = response.getOutputStream();
+            byte b[] = new byte[1024];
+            int n;
+            while((n = inputStream.read(b)) != -1)
+            {
+                outputStream.write(b,0,n);
+            }
+            outputStream.close();
+            inputStream.close();
+        }else{
+            request.setAttribute("result", "文件不存在！下载失败！");
+            //request.getRequestDispatcher("/fildeOp.jsp").forward(request, response);
+        }
+        FileUtils.deleteFile(fileAllTemp);//临时文件夹用完删除
+        zipFile.delete();//临时压缩包用后删除
     }
 }

@@ -369,14 +369,41 @@
         where
             1=1
             <if test="searchInfo != ''">
-                and (ols_task.name like '%${searchInfo}%')
+                <choose>
+                    <when test="searchType == ''">
+                        and (ols_task.name like '%${searchInfo}%')
+                    </when>
+                    <when test="searchType == 'id'">
+                        and (ols_task.id like '%${searchInfo}%')
+                    </when>
+                    <when test="searchType == 'name'">
+                        and (ols_task.name like '%${searchInfo}%')
+                    </when>
+                    <when test="searchType == 'release_user_id'">
+                        and (ols_task.release_user_id like '%${searchInfo}%')
+                    </when>
+                    <when test="searchType == 'ext2'">
+                        and (ols_task.ext2 like '%${searchInfo}%')
+                    </when>
+                </choose>
             </if>
             <choose>
-                <when test="query == 'needlable'">
-                    and ols_task.state = 5
-                </when>
                 <when test="query == 'adopted'">
                     and ols_task.state = 1
+                </when>
+                <when test="query == 'expired'">
+                    and ols_task.state = 3
+                </when>
+                <when test="query == 'underreview'">
+                    and ols_task.state = 4
+                </when>
+                <when test="query == 'needlabel'">
+                    and ols_task.state = 5
+                </when>
+                <when test="query == 'failedreview'">
+                    and ols_task.state = 6
+                </when>
+                <when test="query == ''">
                 </when>
             </choose>
             <choose>
@@ -408,11 +435,23 @@
                 <when test="field == 'finish_time'">
                     ORDER BY finish_time
                 </when>
+                <when test="field == 'release_user_id'">
+                    ORDER BY release_user_id
+                </when>
+                <when test="field == 'accept_num'">
+                    ORDER BY accept_num
+                </when>
+                <when test="field == 'adopt_accept_id'">
+                    ORDER BY adopt_accept_id
+                </when>
                 <when test="field == 'ext1'">
                     ORDER BY ext1
                 </when>
-                <when test="field == 'finish_time'">
-                    ORDER BY finish_time
+                <when test="field == 'ext2'">
+                    ORDER BY ext2
+                </when>
+                <when test="field == 'ext3'">
+                    ORDER BY ext3
                 </when>
             </choose>
             <choose>

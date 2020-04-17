@@ -24,6 +24,8 @@ $(function () {
     $("#notFinishDivContainer").hide();
     // 隐藏已标注区域
     $("#finishDivContainer").hide();
+    //隐藏下载按钮
+    $("#download").hide();
     // 隐藏举报按钮
     $("#report").hide();
     // 隐藏接受任务按钮
@@ -57,6 +59,8 @@ $(function () {
         case 'personalReleasePage':
             // 获取任务数据
             getImageList();
+            //判断本人登录 判断任务状态是否为 1 已完成
+            $("#download").show();
             break;
     }
 });
@@ -313,23 +317,21 @@ function judgeLogin(func) {
                         userId: userId
                     },
                     success: function (resultData) {
-                        resultData = JSON.parse(resultData);
+                        /*resultData = JSON.parse(resultData);
                         if (resultData.meta.status === "200") {
                             name = resultData.data.userInfo.name;
                             var a=document.getElementById("userName");
                             a.innerText=name;
-
-                        }
+                        }*/
                     }
                 });
                 if(func==='acceptFunc'){
                     acceptFunc();
-                }else{
-                    if(func==='reportFunc'){
-                        reportFunc();
-                    }
+                }else if(func==='reportFunc'){
+                    reportFunc();
+                }else if(func=='downloadFunc'){
+                    downloadFunc();
                 }
-
             }
             if (resultData.meta.status === "201") {
                 layer.msg('请先登录', {
@@ -378,6 +380,20 @@ function acceptFunc() {
             }
         }
     })
+}
+
+//下载
+function downloadFunc() {
+    window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+10003+"&acceptId="+10077);
+    //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId+"&acceptId="+acceptId);
+
+    /*$.ajax({
+        url: '/task/downloadFinishedTask',
+        type: "GET",
+        data: {
+            "taskId": taskId
+        }
+    })*/
 }
 
 //举报

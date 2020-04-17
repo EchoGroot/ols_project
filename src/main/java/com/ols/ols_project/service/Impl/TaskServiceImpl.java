@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -232,22 +233,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public String creatTaskUrl(String lableName,String originalImage) {
+    public String creatTaskUrl(String labelName,String originalImage) {
         System.out.println("/*************创建URL******************/");
 
-        String [] lableName1= lableName.split(",");
+        String [] labelName1= labelName.split(",");
         String [] originalImage1 = originalImage.split(",");
 
         JSONObject taskUrl = new JSONObject();
-        taskUrl.put("lableName",lableName1);
+        taskUrl.put("labelName",labelName1);
         JSONArray taskImage = new JSONArray();
         for (int i = 0; i < originalImage1.length; i++) {
             JSONObject imgInfo = new JSONObject();
             imgInfo.put("isExample",false);
             imgInfo.put("isLabeled",false);
-            JSONArray lableInfo =new JSONArray();//lableInfo也遍历添加数据
-            //for (int j = 0; j < lableName1.length; j++)
-            imgInfo.put("lableInfo",lableInfo);
+            JSONArray labelInfo =new JSONArray();//labelInfo也遍历添加数据
+            //for (int j = 0; j < labelName1.length; j++)
+            imgInfo.put("labelInfo",labelInfo);
             imgInfo.put("originalImage",originalImage1[i]);
             taskImage.add(imgInfo);//遍历添加
         }
@@ -258,8 +259,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
-                                              String queryInfo, String searchInfo,String field,String order) {
-        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,field,order);
+                                              String queryInfo, String searchType,String searchInfo,String field,String order) {
+        List<List<TaskEntity>> list = taskMapper.getAllTask(query, (pageNum - 1) * pageSize, pageSize,queryInfo,searchType,searchInfo,field,order);
         List<TaskEntityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
@@ -293,5 +294,19 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskEntity> getClickNum(){
         List<TaskEntity> list = taskMapper.getClickNum();
         return list;
+    }
+    @Override
+    public JSONArray getFileNameByTaskId(long taskId){
+        JSONArray fileNameArray = new JSONArray();//定义要返回的ImageName数组
+        String url = taskMapper.getImageListByTaskId(taskId);//获取图片url
+        //从url中截取图片名,返回数组
+        JSONObject urlJson = JSONObject.parseObject(url);//将url转json对象
+        JSONArray taskFileArray = JSONArray.parseArray(urlJson.getString("taskImage"));//获取taskImage数组
+        for(int i=0;i<taskFileArray.size();i++)
+        {
+            JSONObject taskImage = JSONObject.parseObject(taskFileArray.get(i).toString());//获取taskImage数组的每个对象
+            fileNameArray.add(taskImage.getString("originalImage"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
+        }
+        return fileNameArray;
     }
 }

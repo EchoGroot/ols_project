@@ -1,8 +1,8 @@
 var userId=getQueryVariable('userId'); //用户ID
 //var page=getQueryVariable('page'); //页面名称
 var page = 'releaseNotFinishTask';
-var query=getQueryVariable('query'); //查询参数  needlable和adopted两种
-//var query="needlable"; //默认查询参数  主页面点击已采纳后 变更
+var query=getQueryVariable('query'); //查询参数  needlabel和adopted两种
+//var query="needlabel"; //默认查询参数  主页面点击已采纳后 变更
 /************点击进入查看已采纳任务列表后，page变更，进入只能查看界面 有无userId均可********************/
 var url='/task/getAllTask'
 $(function () {
@@ -35,6 +35,7 @@ $(function () {
             , where: {
                 query: 'adopted',
                 queryInfo: '',
+                searchType:'',
                 searchInfo: '',
                 field: '',
                 order: ''
@@ -74,8 +75,9 @@ $(function () {
             , method: 'get'
             , autoSort: false
             , where: {
-                query: 'needlable',
+                query: 'needlabel',
                 queryInfo: '',
+                searchType:'',
                 searchInfo: '',
                 field: '',
                 order: ''
@@ -147,7 +149,7 @@ $(function () {
             $("#queryReleasedTask").attr('class', "layui-this");
             tableIns.reload({
                 where: {
-                    query: 'needlable',
+                    query: 'needlabel',
                     queryInfo: '',
                     searchInfo: '',
                     field: '',
@@ -160,7 +162,7 @@ $(function () {
             $("#queryImgTask").attr('class', "layui-this");
             tableIns.reload({
                 where: {
-                    query: 'needlable',
+                    query: 'needlabel',
                     queryInfo: 'img',
                     searchInfo: '',
                     field: '',
@@ -173,7 +175,7 @@ $(function () {
             $("#queryTxtTask").attr('class', "layui-this");
             tableIns.reload({
                 where: {
-                    query: 'needlable',
+                    query: 'needlabel',
                     queryInfo: 'doc',
                     searchInfo: '',
                     field: '',
@@ -184,7 +186,7 @@ $(function () {
 
         $("#queryAdoptedTask").click(function () {
             paramConfig();
-            page = '';
+            page = 'releaseFinishTask';
             $("#queryAdoptedTask").attr('class', "layui-this");
             tableIns2.reload({
                 where: {
@@ -290,7 +292,7 @@ function checkFunc(taskId) {
     if(userId == ""){
 
     }
-    if(query == 'needlable'){
+    if(query == 'needlabel'){
 
     }
     else if(query =='adopted'){

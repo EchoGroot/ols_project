@@ -43,16 +43,16 @@ public interface TaskService {
      * @author wjp
      * @date 2020/3/21 下午9:32
      */
-    //String taskUrl, int state,Timestamp releaseTime, Timestamp finishTime,int acceptNum, Long adoptAcceptId
     String creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
                     Long releaseUserId);
     int deductRewardPoints(int rewardPoints,long releaseUserId);
 
-    String creatTaskUrl(String lableName, String originalImage);
+    String creatTaskUrl(String labelName, String originalImage);
 
     HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
-                                       String queryInfo, String searchInfo,String field,String order);
+                                       String queryInfo,String searchType, String searchInfo,String field,String order);
 
     void clickNumPlus(long taskId);
     List<TaskEntity> getClickNum();
+    JSONArray getFileNameByTaskId(long taskId);
 }
