@@ -19,7 +19,7 @@
     <select id="getAllMessage" resultMap="MessageMap,Total">
         select
         SQL_CALC_FOUND_ROWS id,
-        user _id,
+        user_id,
         task_id,
         message,
         ishandled,
@@ -49,9 +49,7 @@
         <result column="ext3" property="ext3" />
         <result column="create_time" property="create_time" />
     </resultMap>
-
     <resultMap id="Total" type="java.lang.Integer">
         <result column="total"/>
     </resultMap>
-
 </mapper>

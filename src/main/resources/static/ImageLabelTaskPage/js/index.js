@@ -396,8 +396,7 @@ function downloadFunc() {
     })*/
 }
 
-//举报
-function reportFunc() {}
+
 // 返回
 function goBackFunc() {
     window.location.href=reverseURLencode(pageFrom);
@@ -462,5 +461,5 @@ function submitFunc() {
 }
 //举报任务
 function reportFunc(){
-    window.location.href='/complain/html/complain.html?userId='+userId+'&taskId='+taskId;
+    window.location.href='/complain/html/complain.html?userId='+userId+'&taskId='+taskId
 }

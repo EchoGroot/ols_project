@@ -1,10 +1,7 @@
 package com.ols.ols_project.service.Impl;
 
 import com.baidu.fsg.uid.service.UidGenService;
-import com.ols.ols_project.common.Const.FileTypeEnum;
-import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.MessageMapper;
-import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.MessageEnityBo;
 import com.ols.ols_project.model.entity.MessageEntity;
 import com.ols.ols_project.service.MessageService;
@@ -12,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin2.message.Message;
+
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
