@@ -12,7 +12,7 @@ import java.io.*;
  * @author Steven
  *
  */
-public class XMLUtil {
+public class XmlUtil {
     /**
      * 将对象直接转换成String类型的 XML输出
      *

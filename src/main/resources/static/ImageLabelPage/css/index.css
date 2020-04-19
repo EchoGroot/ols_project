@@ -1,3 +1,6 @@
+.colorDiv{
+    height: 5px;
+}
 .layui-body{
     padding: 20px;
     background-color: #E6E6E6;
@@ -11,6 +14,11 @@
 }
 .imgStyle{
     position: relative;
-    width: 1600px;
+    width: 1450px;
     height: 800px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }

@@ -9,7 +9,7 @@ import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
-import com.ols.ols_project.common.utils.XMLUtil;
+import com.ols.ols_project.common.utils.XmlUtil;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.awt.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
             }
         });
         //转xml测试
-        log.debug(XMLUtil.convertToXml(acceptImageUrl));
+        log.debug(XmlUtil.convertToXml(acceptImageUrl));
         return taskMapper.storeImageLabelInfoByAccepteId(acceptTaskId,JSON.toJSONString(acceptImageUrl));
     }
 

@@ -8,7 +8,7 @@ import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.Const.NormalConst;
 import com.ols.ols_project.common.utils.FileUtils;
 import com.ols.ols_project.common.utils.SendEmailBy126;
-import com.ols.ols_project.common.utils.XMLUtil;
+import com.ols.ols_project.common.utils.XmlUtil;
 import com.ols.ols_project.common.utils.ZipUtils;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.*;
@@ -403,7 +403,7 @@ public class TaskController {
                            @RequestParam(value = "acceptId") long acceptId,
                            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONArray fileNameArray = taskService.getFileNameByTaskId(taskId);
-        String path = "G:\\images\\";
+        String path = desFilePath;
         //String path = "http:\\\\yuyy.info\\image\\ols\\";//linux 路径有点问题
         //新建临时文件夹用于打包所有要下载的问文件 若已存在，则先删除再创建
         File fileAllTemp = new File(path+taskId);
@@ -421,7 +421,7 @@ public class TaskController {
         //将采纳的标注信息以xml格式也加入打包文件中
         AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptId);
         AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
-        FileUtils.saveAsFileWriter(XMLUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
+        FileUtils.saveAsFileWriter(XmlUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
         //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
 
         FileOutputStream zip = new FileOutputStream(new File(fileAllTemp.getPath()+".zip"));

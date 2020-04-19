@@ -17,6 +17,11 @@
     width: 218px;
     height: 150px;
     margin-right: 20px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 #mainContainer{
     padding: 10px;

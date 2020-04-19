@@ -11,6 +11,20 @@ var imageHeight=0;  //原始图片高度
 var labelName='';   //标签名
 var labelInfoArray=[];  //标注信息
 var firstLabelName='';  //当前展示的标签名对应的标注信息
+var colorArray=[ //颜色数组
+    '#33A02B',
+    '#F9001B',
+    '#00978B',
+    '#FFB200',
+    '#99CF17',
+    '#96017E',
+    '#FE4D01',
+    '#0950A0',
+    '#FFD900',
+    '#3E007D',
+    '#FF7F00',
+    '#0F3193'
+];
 
 $(function () {
     //layui组件
@@ -24,25 +38,14 @@ $(function () {
     imageRender();
     // 从本地session中取出该图片的标注信息
     labelNameRender();
-    if(operation ==='write'){
-        // 允许在图层上画框
-        drawPen();
-        // 显示xy坐标线
-        xyLine();
-    }else{
-        // 隐藏撤销按钮
-        $("#revoke").hide();
-        // 隐藏标注完成按钮
-        $("#finish").hide();
-    }
+
 });
 
 // 图层上画框功能
 CanvasExt = {
-    drawRect:function(canvasId,penColor,strokeWidth){
+    drawRect:function(canvasId,strokeWidth){
         var that=this;
-        // 画笔颜色
-        that.penColor=penColor;
+
         // 画笔宽度
         that.penWidth=strokeWidth;
         // 获取指定canvas图层
@@ -57,16 +60,25 @@ CanvasExt = {
         var y=0;
         //鼠标点击按下事件，画图准备
         canvas.onmousedown=function(e){
+            // 画笔颜色
+            var color='';
+            for (var i = 0; i <labelInfoArray.length;i++ ) {
+                // 找到对应的标签名
+                if (labelInfoArray[i].labelName === firstLabelName) {
+                    color=colorArray[i];
+                }
+            }
             canvasTop=$("#"+canvasId).offset().top;
             canvasLeft=$("#"+canvasId).offset().left-0.5;
-            //设置画笔颜色和宽度
-            var color=that.penColor;
+            //设置画笔宽度
             var penWidth=that.penWidth;
-            layerIndex++;
+            if(x==0&&y==0){
+                x = e.clientX-canvasLeft;
+                y = e.clientY-canvasTop;
+                layerIndex++;
+            }
             layerName='layer';
             layerName+=layerIndex;
-            x = e.clientX-canvasLeft;
-            y = e.clientY-canvasTop;
             // 向canvas图层添加标注框
             $("#"+canvasId).addLayer({
                 // 绘画的图形为矩形
@@ -105,11 +117,28 @@ CanvasExt = {
         };
         // 鼠标松开后执行
         canvas.onmouseup=function(e){
-            var color=that.penColor;
+            var color='';
             var penWidth=that.penWidth;
             canvas.onmousemove=null;
             width = e.clientX-canvasLeft-x;
             height = e.clientY-canvasTop-y;
+            for (var i = 0; i <labelInfoArray.length;i++ ){
+                // 找到对应的标签名
+                if(labelInfoArray[i].labelName===firstLabelName){
+                    color=colorArray[i];
+                    // 添加到该标签名对应的数组
+                    labelInfoArray[i].labelInfo.push(
+                        {
+                            layerName:layerName,
+                            startX : x/1450*imageWidth,
+                            startY : y/800*imageHeight,
+                            endX : (x+width)/1450*imageWidth,
+                            endY : (y+height)/800*imageHeight
+                        }
+                    );
+                    break;
+                }
+            }
             $("#"+canvasId).removeLayer(layerName);
             $("#"+canvasId).addLayer({
                 type: 'rectangle',
@@ -121,36 +150,21 @@ CanvasExt = {
                 width: width,
                 height: height
             });
-            for (var i = 0; i <labelInfoArray.length;i++ ){
-                // 找到对应的标签名
-                if(labelInfoArray[i].labelName===firstLabelName){
-                    // 添加到该标签名对应的数组
-                    labelInfoArray[i].labelInfo.push(
-                        {
-                            layerName:layerName,
-                            startX : x/1600*imageWidth,
-                            startY : y/800*imageHeight,
-                            endX : (x+width)/1600*imageWidth,
-                            endY : (y+height)/800*imageHeight
-                        }
-                    );
-                    break;
-                }
-            }
             $("#"+canvasId).drawLayers();
             $("#"+canvasId).saveCanvas();
+            x=0;
+            y=0;
         }
     }
 };
 // 主动画图
 CanvasExt1 = {
-    drawRect:function(canvasId,penColor,strokeWidth){
+    drawRect:function(canvasId,strokeWidth){
         var that=this;
-        that.penColor=penColor;
         that.penWidth=strokeWidth;
         var layerIndex=0;
         var layerName="layer";
-        var color=that.penColor;
+        var color='';
         var penWidth=that.penWidth;
         // 从本地session获取标注信息
         if(pageType.indexOf('Release')!==-1){
@@ -164,12 +178,13 @@ CanvasExt1 = {
             layerName+=layerIndex;
             for (var j = 0; j < labelInfoArray.length;j++){
                 if(labelInfoArray[j].labelName ===labelInfos[i].name){
+                    color=colorArray[j];
                     // 将标注信息根据标签名添加到对应的数组
                     labelInfoArray[j].labelInfo.push({
                         layerName:layerName,
-                        startX : labelInfos[i].x/imageWidth*1600,
+                        startX : labelInfos[i].x/imageWidth*1450,
                         startY : labelInfos[i].y/imageHeight*800,
-                        endX : labelInfos[i].ex/imageWidth*1600,
+                        endX : labelInfos[i].ex/imageWidth*1450,
                         endY : labelInfos[i].ey/imageHeight*800
                     });
                     break;
@@ -182,9 +197,9 @@ CanvasExt1 = {
                 strokeWidth: penWidth,
                 name:layerName,
                 fromCenter: false,
-                x: labelInfos[i].x/imageWidth*1600,
+                x: labelInfos[i].x/imageWidth*1450,
                 y: labelInfos[i].y/imageHeight*800,
-                width: (labelInfos[i].ex-labelInfos[i].x)/imageWidth*1600,
+                width: (labelInfos[i].ex-labelInfos[i].x)/imageWidth*1450,
                 height: (labelInfos[i].ey-labelInfos[i].y)/imageHeight*800
             });
             // 画图
@@ -193,20 +208,19 @@ CanvasExt1 = {
             $("#"+canvasId).saveCanvas();
         }
         // 只显示第一个标签名对应的标注信息
-        labelNameClick(labelInfoArray[0].labelName)
+        //labelNameClick(labelInfoArray[0].labelName)
+        showAll();
     }
 };
 // 默认画图准备
 function drawPen(){
-    var color = "green";
     var width = 2;
-    CanvasExt.drawRect("canvas",color,width);
+    CanvasExt.drawRect("canvas",width);
 }
 // 主动画图准备
 function drawPen1(){
-    var color = "green";
     var width = 2;
-    CanvasExt1.drawRect("canvas",color,width);
+    CanvasExt1.drawRect("canvas",width);
 }
 // 从URL中获取参数
 function getQueryVariable(name) {
@@ -228,6 +242,17 @@ function imageRender() {
         if(operation === 'read'){
             drawPen1();
         }
+        if(operation ==='write'){
+            // 允许在图层上画框
+            drawPen();
+            // 显示xy坐标线
+            xyLine();
+        }else{
+            // 隐藏撤销按钮
+            $("#revoke").hide();
+            // 隐藏标注完成按钮
+            $("#finish").hide();
+        }
     };
 }
 // 加载标签名
@@ -243,12 +268,21 @@ function labelNameRender() {
     }
     if(labelName !== null && labelName!== ''){
         firstLabelName=labelName[0];
-        var shtml ='<li class="layui-nav-item layui-this" onclick="labelNameClick('+'\''+labelName[0]+'\''+')"><a href="javascript:;">'+ labelName[0]+'</a></li>';
-        labelInfoArray.push({labelName:labelName[0],labelInfo:[]});
-        for (var i = 1; i < labelName.length; i++){
-            shtml +='<li class="layui-nav-item" onclick="labelNameClick('+'\''+labelName[i]+'\''+')"><a href="javascript:;">'+ labelName[i]+'</a></li>';
-            labelInfoArray.push({labelName:labelName[i],labelInfo:[]});
+        if(operation==='write'){
+            var shtml ='<li class="layui-nav-item layui-this" onclick="labelNameClick('+'\''+labelName[0]+'\''+')"><a href="javascript:;">'+ labelName[0]+'</a><div class="colorDiv" style="background-color: '+colorArray[0]+'"></div></li>';
+            labelInfoArray.push({labelName:labelName[0],labelInfo:[]});
+            for (var i = 1; i < labelName.length; i++){
+                shtml +='<li class="layui-nav-item" onclick="labelNameClick('+'\''+labelName[i]+'\''+')"><a href="javascript:;">'+ labelName[i]+'</a><div class="colorDiv" style="background-color: '+colorArray[i]+'"></div></li>';
+                labelInfoArray.push({labelName:labelName[i],labelInfo:[]});
+            }
+        }else{
+            var shtml ='<li class="layui-nav-item layui-this" onclick="showAll()"><a href="javascript:;">查看全部</a></li>';
+            for (var i = 0; i < labelName.length; i++){
+                shtml +='<li class="layui-nav-item" onclick="labelNameClick('+'\''+labelName[i]+'\''+')"><a href="javascript:;">'+ labelName[i]+'</a><div class="colorDiv" style="background-color: '+colorArray[i]+'"></div></li>';
+                labelInfoArray.push({labelName:labelName[i],labelInfo:[]});
+            }
         }
+
         $("#labelNameContainer").html(shtml);
     }
 }
@@ -270,6 +304,17 @@ function labelNameClick(bt) {
                     visible: true // set to true instead to show the layer again
                 }).drawLayers();
             }
+        }
+    }
+}
+// 显示全部标注信息
+function showAll() {
+    for (var i = 0; i < labelInfoArray.length; i++) {
+        for (var j = 0; j <labelInfoArray[i].labelInfo.length;j++){
+            // 显示图层
+            $('#canvas').setLayer(labelInfoArray[i].labelInfo[j].layerName, {
+                visible: true // set to true instead to show the layer again
+            }).drawLayers();
         }
     }
 }
@@ -330,6 +375,13 @@ function finishFunc(){
             })
         }
     }
+    if(labelInfo.length===0){
+        layer.msg('请先标注', {
+            icon: 5, //红色不开心
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+        });
+        return;
+    }
     var data ={
             "userId":userId,
             "acceptId":acceptId,
@@ -370,14 +422,15 @@ function goBackFunc(){
             "&taskId="+taskId+
             "&pageFrom="+pageFrom;
 }
-
 //撤销按钮的点击事件
 function revokeFunc(){
     for (var i = 0; i < labelInfoArray.length; i++) {
         // 找到此时的标签名
         if(labelInfoArray[i].labelName===firstLabelName){
-            // 在该标签名对应的数组中移除最后个标注信息，并移除对应的canvas图层
-            $('#canvas').removeLayer(labelInfoArray[i].labelInfo.pop().layerName).drawLayers();
+            if(labelInfoArray[i].labelInfo.length>0){
+                // 在该标签名对应的数组中移除最后个标注信息，并移除对应的canvas图层
+                $('#canvas').removeLayer(labelInfoArray[i].labelInfo.pop().layerName).drawLayers();
+            }
         }
     }
 }
