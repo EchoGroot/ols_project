@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -252,7 +253,6 @@ public class TaskServiceImpl implements TaskService {
             taskImage.add(imgInfo);//遍历添加
         }
         taskUrl.put("taskImage",taskImage);
-        //return taskUrl.toJSONString();
         return JSON.toJSONString(taskUrl,SerializerFeature.WriteNonStringValueAsString);
     }
 
@@ -273,6 +273,7 @@ public class TaskServiceImpl implements TaskService {
                             .type(FileTypeEnum.getNameByCode(e.getType()))
                             .release_time(e.getRelease_time())
                             .finish_time(e.getFinish_time())
+                            .release_user_id(e.getRelease_user_id())
                             .accept_num(e.getAccept_num())
                             .adopt_accept_id(e.getAdopt_accept_id())
                             .ext1(e.getExt1())
@@ -307,5 +308,18 @@ public class TaskServiceImpl implements TaskService {
             fileNameArray.add(taskImage.getString("originalImage"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
         }
         return fileNameArray;
+    }
+    //管理员删除任务文件时使用    ！！慎用 会使任务获取不到源图片文件
+    @Override
+    public void delImgFileByTaskId(long taskId){
+        //删文件
+        JSONArray fileNameArray = getFileNameByTaskId(taskId);
+        String path = "G:\\images\\";
+        for(int i=0;i<fileNameArray.size();i++){
+            File fromFile = new File(path+fileNameArray.get(i));//找到文件
+            if (fromFile.exists()) {
+                fromFile.delete();//遍历删除文件夹及其子内容
+            }
+        }
     }
 }

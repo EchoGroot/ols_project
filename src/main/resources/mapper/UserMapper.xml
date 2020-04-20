@@ -45,17 +45,21 @@
             </when>
           </choose>
         <choose>
+            <when test="taskType == ''">
+            </when>
+            <when test="taskType == 'doc'">
+                and type= 0
+            </when>
+            <when test="taskType == 'img'">
+                and type= 1
+            </when>
+        </choose>
+        <choose>
             <when test="queryInfo == 'timeUp'">
                 ORDER BY accept_time
             </when>
             <when test="queryInfo == 'timeDown'">
                 ORDER BY accept_time DESC
-            </when>
-            <when test="queryInfo == 'doc'">
-                and type=0
-            </when>
-            <when test="queryInfo == 'img'">
-                and type=1
             </when>
             <when test="queryInfo == 'pointsUp'">
                 ORDER BY ols_task.points
@@ -131,17 +135,21 @@
                 </when>
             </choose>
             <choose>
+                <when test="taskType == ''">
+                </when>
+                <when test="taskType == 'doc'">
+                    and type= 0
+                </when>
+                <when test="taskType == 'img'">
+                    and type= 1
+                </when>
+            </choose>
+            <choose>
                 <when test="queryInfo == 'timeUp'">
                     ORDER BY release_time
                 </when>
                 <when test="queryInfo == 'timeDown'">
                     ORDER BY release_time DESC
-                </when>
-                <when test="queryInfo == 'doc'">
-                    and type=0
-                </when>
-                <when test="queryInfo == 'img'">
-                    and type=1
                 </when>
                 <when test="queryInfo == 'check'">
                     and state=4

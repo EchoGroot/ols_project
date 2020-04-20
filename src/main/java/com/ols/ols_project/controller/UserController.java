@@ -116,12 +116,13 @@ public class UserController {
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
             @RequestParam(value = "queryInfo") String queryInfo,
-            @RequestParam(value = "searchInfo") String searchInfo
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "taskType") String taskType
     ) {
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(
                         userService.getAcceptTaskByUserId(
-                                Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
+                                Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,taskType)
                         , "0", "获取已接受任务成功")
                 , "yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString
@@ -147,12 +148,13 @@ public class UserController {
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize,
             @RequestParam(value = "queryInfo") String queryInfo,
-            @RequestParam(value = "searchInfo") String searchInfo
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "taskType") String taskType
     ) {
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(
-                        userService.getReleaseTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo)
+                        userService.getReleaseTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,taskType)
                         , "0"
                         , "获取已发布任务成功")
                 , "yyyy-MM-dd hh:mm:ss"

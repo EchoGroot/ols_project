@@ -50,7 +50,7 @@ public interface UserService {
      * @param searchInfo
      * @return
      */
-    HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+    HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String taskType);
 
     /**
      * 查询待批准的审核者注册账号
@@ -75,7 +75,7 @@ public interface UserService {
      * @param searchInfo
      * @return
      */
-    HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo);
+    HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String taskType);
 
     /**
      * 根据id修改邮箱

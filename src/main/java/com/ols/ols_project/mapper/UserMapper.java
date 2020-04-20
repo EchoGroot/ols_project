@@ -21,9 +21,9 @@ public interface UserMapper {
 
     int changePassWordById(long id,String passWord);
 
-    List<List<AcceptTask>> getAcceptTaskByUserId(long id, String query, int start, int end, String queryInfo,String searchInfo);
+    List<List<AcceptTask>> getAcceptTaskByUserId(long id, String query, int start, int end, String queryInfo,String searchInfo,String taskType);
 
-    List<List<TaskEntity>> getReleaseTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo);
+    List<List<TaskEntity>> getReleaseTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo,String taskType);
 
     List<List<UserSignUp>> getReviewerSignUp(String queryInfo, String searchInfo , int start, Integer end);
 

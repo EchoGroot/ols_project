@@ -37,20 +37,34 @@
                 <div class="layui-side-scroll">
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                        <li class="layui-nav-item layui-this"><a href="./TaskManage.html">任务管理</a></li>
-                        <li class="layui-nav-item"><a href="./UserManage.html">用户管理</a></li>
+                        <!--<li class="layui-nav-item layui-this"><a href="./TaskManage.html?">任务管理</a></li>-->
+                        <li class="layui-nav-item">
+                            <a class="" href="javascript:void(0)">图片任务管理</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="./TaskManage.html?queryInfo=img&">图片任务管理</a></dd>
+                                <dd><a href="./ReportingInfomation.html?">图片任务举报信息</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item">
+                            <a class="" href="javascript:void(0)">文本任务管理</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="./TaskManage.html?queryInfo=doc&">文本任务管理</a></dd>
+                                <dd><a href="./ReportingInfomation.html?">文本任务举报信息</a></dd>
+                            </dl>
+                        </li>
+                        <li class="layui-nav-item"><a href="./UserManage.html?">用户管理</a></li>
                         <!--取消抽屉菜单自动展开-->
                         <li class="layui-nav-item">
                             <a class="" href="javascript:void(0)">消息管理</a>
                             <dl class="layui-nav-child">
-                                <dd><a href="./ReportingInfomation.html">举报信息</a></dd>
-                                <dd><a href="./SystemMessage.html">系统信息</a></dd>
+                                <dd><a href="./ReportingInfomation.html?">举报信息</a></dd>
+                                <dd><a href="./SystemMessage.html?">系统信息</a></dd>
                             </dl>
                         </li>
-                        <li class="layui-nav-item"><a href="ReviewerSignUp.html">审核者注册申请</a></li>
-                        <li class="layui-nav-item"><a href="UserStatistics.html">用户统计分析</a></li>
-                        <li class="layui-nav-item"><a href="RewardAndPunishment.html">奖惩信息</a></li>
-                        <li class="layui-nav-item"><a href="DataBackupManagement.html">数据备份管理</a></li>
+                        <li class="layui-nav-item"><a href="ReviewerSignUp.html?">审核者注册申请</a></li>
+                        <li class="layui-nav-item"><a href="UserStatistics.html?">用户统计分析</a></li>
+                        <li class="layui-nav-item"><a href="RewardAndPunishment.html?">奖惩信息</a></li>
+                        <li class="layui-nav-item"><a href="DataBackupManagement.html?">数据备份管理</a></li>
                     </ul>
                 </div>
             </div>

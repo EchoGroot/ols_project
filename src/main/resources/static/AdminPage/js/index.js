@@ -15,9 +15,8 @@ $(function () {
         //阻止a标签的默认行为
         e.preventDefault();
         // 给iframe的src属性赋值
-        $("#iframeMain").attr("src",$(this).attr("href")+'?userId='+userId);
+        $("#iframeMain").attr("src",$(this).attr("href")+'userId='+userId);
     });
-
     judgeLogin();
 });
 

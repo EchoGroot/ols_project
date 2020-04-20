@@ -189,7 +189,7 @@ public class TaskController {
         String resultStr=null;
         //查询该用户是否已接受此任务
         List<AcceptTaskBo>acceptTaskByUserId=
-                (List<AcceptTaskBo>)userService.getAcceptTaskByUserId(Long.parseLong(userId),"",0,0,"","").get("taskList");
+                (List<AcceptTaskBo>)userService.getAcceptTaskByUserId(Long.parseLong(userId),"",0,0,"","","").get("taskList");
         for(AcceptTaskBo item:acceptTaskByUserId){
             if(item.getTaskId()==Long.parseLong(taskId)){
                 resultStr=JSON.toJSONString(

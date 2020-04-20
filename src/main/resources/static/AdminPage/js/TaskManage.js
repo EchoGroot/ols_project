@@ -1,4 +1,5 @@
 var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
+var queryInfo= getQueryVariable('queryInfo'); 
 $(function () {
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
@@ -17,7 +18,7 @@ $(function () {
             , autoSort: false
             , where:{
                 query: '',
-                queryInfo: '',
+                queryInfo: queryInfo,
                 searchType:'',
                 searchInfo: '',
                 field: '',
@@ -178,7 +179,7 @@ $(function () {
             }
         });
         //监听任务类型下拉框
-        form.on('select(taskType)', function(data){
+        /*form.on('select(taskType)', function(data){
             $("#searchInput").val("");
             switch (data.value) {
                 //所有文件类型
@@ -221,7 +222,7 @@ $(function () {
                     });
                     break;
             }
-        });
+        });*/
         //监听搜索类型
         var searchType='';
         form.on('select(searchType)', function(data){

@@ -1,6 +1,7 @@
 var userId=getIframeQueryVariable('userId'); //用户ID
 var page=getIframeQueryVariable('page'); //页面名称
 var query=getIframeQueryVariable('query'); //查询参数
+var taskType=getIframeQueryVariable('taskType');//文件类型
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // 已发布已完成
@@ -25,8 +26,6 @@ $(function () {
         // 给下拉选择框赋值
         $("#chooseSelect").html(
             '<option value="13">选择筛选条件</option>'+
-            '<option value="1">文档类型</option>'+
-            '<option value="2">图片类型</option>'+
             '<option value="14">任务分值升序</option>'+
             '<option value="15">任务分值降序</option>'+
             '<option value="16">发布时间升序</option>'+
@@ -38,8 +37,6 @@ $(function () {
     }else if(query === "acceptfinish"){
         $("#chooseSelect").html(
             '<option value="13">选择筛选条件</option>'+
-            '<option value="1">文档类型</option>'+
-            '<option value="2">图片类型</option>'+
             '<option value="22">已提交</option>'+
             '<option value="23">已采纳</option>'+
             '<option value="24">未采纳</option>'+
@@ -101,7 +98,8 @@ $(function () {
                 userId:userId,
                 query:query,
                 queryInfo:'timeDown',
-                searchInfo:''
+                searchInfo:'',
+                taskType:taskType
             }
             // 渲染表格结束后的回调函数
             , parseData: function(res) { //res 即为原始返回的数据
@@ -172,7 +170,7 @@ function chooesAndSearch(tableIns) {
                 }
             });
             break;
-        // 文档类型
+        /*// 文档类型
         case '1':
             //表格重载
             tableIns.reload({
@@ -197,7 +195,7 @@ function chooesAndSearch(tableIns) {
                     curr: 1 //重新从第 1 页开始
                 }
             });
-            break;
+            break;*/
         // 审核中
         case '3':
             //表格重载

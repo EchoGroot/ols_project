@@ -3,8 +3,8 @@ var page=getQueryVariable('page'); //页面名称
 
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
-    // 添加a=1参数是为了正确匹配iframe的URL参数
-    $("#personalInfo a,#acceptFinishTask a,#acceptNotFinishTask a,#releaseFinishTask a,#releaseNotFinishTask a").click(function (e) {
+    // 添加a=1参数是为了正确匹配iframe的URL参数 #acceptFinishTask a,#acceptNotFinishTask a,#releaseFinishTask a,#releaseNotFinishTask a,
+    $("#personalInfo a,#acceptFinishImgTask a,#acceptNotFinishImgTask a,#releaseFinishImgTask a,#releaseNotFinishImgTask a,#acceptFinishTxtTask a,#acceptNotFinishTxtTask a,#releaseFinishTxtTask a,#releaseNotFinishTxtTask a").click(function (e) {
         // 阻止a标签的默认行为
         e.preventDefault();
         // 给iframe的src属性赋值，显示对应的html
@@ -31,7 +31,7 @@ $(function () {
             +'&userId='+userId
         );
     // 已接受未完成
-    }else if(page ==='acceptNotFinishTask'){
+    }/*else if(page ==='acceptNotFinishTask'){
         $("#acceptTask").attr('class','layui-nav-item layui-nav-itemed');
         $("#acceptNotFinishTask").attr('class','layui-this');
         $("#iframeMain").attr("src",$("#acceptNotFinishTask a")
@@ -54,7 +54,7 @@ $(function () {
                 .attr("href")
             +'&userId='+userId
         );
-    }
+    }*/
     // layui初始化
     layui.use('element', function(){
         var element = layui.element;

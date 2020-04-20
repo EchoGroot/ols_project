@@ -55,4 +55,5 @@ public interface TaskService {
     void clickNumPlus(long taskId);
     List<TaskEntity> getClickNum();
     JSONArray getFileNameByTaskId(long taskId);
+    void delImgFileByTaskId(long taskId);
 }

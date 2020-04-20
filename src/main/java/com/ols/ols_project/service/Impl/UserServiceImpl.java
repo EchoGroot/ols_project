@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
-        List<List<AcceptTask>> list = userMapper.getAcceptTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
+    public HashMap<String,Object> getAcceptTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String taskType) {
+        List<List<AcceptTask>> list = userMapper.getAcceptTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,taskType);
         List<AcceptTaskBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
@@ -80,8 +80,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo) {
-        List<List<TaskEntity>> list = userMapper.getReleaseTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo);
+    public HashMap<String, Object> getReleaseTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String taskType) {
+        List<List<TaskEntity>> list = userMapper.getReleaseTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,taskType);
         List<TaskEntityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(

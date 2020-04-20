@@ -38,7 +38,7 @@
                     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                     <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                         <li id="personalInfo" class="layui-nav-item"><a href="./PersonalInfo.html?a=1&page=personalInfo">个人信息</a></li>
-                        <li id="acceptTask" class="layui-nav-item">
+                        <!--<li id="acceptTask" class="layui-nav-item">
                             <a class="" href="javascript:void (0);">接受的任务</a>
                             <dl class="layui-nav-child">
                                 <dd id="acceptFinishTask"><a href="./Task.html?a=1&page=acceptTask&query=acceptfinish">已完成</a></dd>
@@ -50,6 +50,44 @@
                             <dl class="layui-nav-child">
                                 <dd id="releaseFinishTask"><a href="./Task.html?a=1&page=releaseTask&query=releasefinish">已完成</a></dd>
                                 <dd id="releaseNotFinishTask"><a href="./Task.html?a=1&page=releaseTask&query=releasenotfinish">未完成</a></dd>
+                            </dl>
+                        </li>-->
+                        <li id="imgTask" class="layui-nav-item">
+                            <a class="" href="javascript:void (0);">图片任务</a>
+                            <dl class="layui-nav-child">
+                                <dd id="acceptImgTask">
+                                    <a  class="" href="javascript:void (0);">接受的图片任务</a>
+                                    <dl class="layui-nav-child">
+                                        <dd id="acceptFinishImgTask"><a href="./Task.html?a=1&page=acceptTask&query=acceptfinish&taskType=img">已完成</a></dd>
+                                        <dd id="acceptNotFinishImgTask"><a href="./Task.html?a=1&page=acceptTask&query=acceptnotfinish&taskType=img">未完成</a></dd>
+                                    </dl>
+                                </dd>
+                                <dd id="releaseImgTask">
+                                    <a  class="" href="javascript:void (0);">发布的的图片任务</a>
+                                    <dl class="layui-nav-child">
+                                        <dd id="releaseFinishImgTask"><a href="./Task.html?a=1&page=releaseTask&query=releasefinish&taskType=img">已完成</a></dd>
+                                        <dd id="releaseNotFinishImgTask"><a href="./Task.html?a=1&page=releaseTask&query=releasenotfinish&taskType=img">未完成</a></dd>
+                                    </dl>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li id="txtTask" class="layui-nav-item">
+                            <a class="" href="javascript:void (0);">文本任务</a>
+                            <dl class="layui-nav-child">
+                                <dd id="acceptTxtTask">
+                                    <a  class="" href="javascript:void (0);">接受的文本任务</a>
+                                    <dl class="layui-nav-child">
+                                        <dd id="acceptFinishTxtTask"><a href="./Task.html?a=1&page=acceptTask&query=acceptfinish&taskType=doc">已完成</a></dd>
+                                        <dd id="acceptNotFinishTxtTask"><a href="./Task.html?a=1&page=acceptTask&query=acceptnotfinish&taskType=doc">未完成</a></dd>
+                                    </dl>
+                                </dd>
+                                <dd id="releaseTxtTask">
+                                    <a  class="" href   ="javascript:void (0);">发布的的文本任务</a>
+                                    <dl class="layui-nav-child">
+                                        <dd id="releaseFinishTxtTask"><a href="./Task.html?a=1&page=releaseTask&query=releasefinish&taskType=doc">已完成</a></dd>
+                                        <dd id="releaseNotFinishTxtTask"><a href="./Task.html?a=1&page=releaseTask&query=releasenotfinish&taskType=doc">未完成</a></dd>
+                                    </dl>
+                                </dd>
                             </dl>
                         </li>
                     </ul>
