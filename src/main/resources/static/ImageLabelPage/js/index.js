@@ -14,16 +14,16 @@ var firstLabelName='';  //当前展示的标签名对应的标注信息
 var colorArray=[ //颜色数组
     '#33A02B',
     '#F9001B',
-    '#00978B',
-    '#FFB200',
-    '#99CF17',
     '#96017E',
+    '#FFB200',
+    '#0F3193',
+    '#99CF17',
     '#FE4D01',
-    '#0950A0',
-    '#FFD900',
     '#3E007D',
+    '#FFD900',
+    '#0950A0',
     '#FF7F00',
-    '#0F3193'
+    '#00978B'
 ];
 
 $(function () {
@@ -126,30 +126,34 @@ CanvasExt = {
                 // 找到对应的标签名
                 if(labelInfoArray[i].labelName===firstLabelName){
                     color=colorArray[i];
-                    // 添加到该标签名对应的数组
-                    labelInfoArray[i].labelInfo.push(
-                        {
-                            layerName:layerName,
-                            startX : x/1450*imageWidth,
-                            startY : y/800*imageHeight,
-                            endX : (x+width)/1450*imageWidth,
-                            endY : (y+height)/800*imageHeight
-                        }
-                    );
-                    break;
+                    if(width !=0&&height !=0){
+                        // 添加到该标签名对应的数组
+                        labelInfoArray[i].labelInfo.push(
+                            {
+                                layerName:layerName,
+                                startX : x/1450*imageWidth,
+                                startY : y/800*imageHeight,
+                                endX : (x+width)/1450*imageWidth,
+                                endY : (y+height)/800*imageHeight
+                            }
+                        );
+                        break;
+                    }
                 }
             }
             $("#"+canvasId).removeLayer(layerName);
-            $("#"+canvasId).addLayer({
-                type: 'rectangle',
-                strokeStyle: color,
-                strokeWidth: penWidth,
-                name:layerName,
-                fromCenter: false,
-                x: x, y: y,
-                width: width,
-                height: height
-            });
+            if(width !=0&&height !=0){
+                $("#"+canvasId).addLayer({
+                    type: 'rectangle',
+                    strokeStyle: color,
+                    strokeWidth: penWidth,
+                    name:layerName,
+                    fromCenter: false,
+                    x: x, y: y,
+                    width: width,
+                    height: height
+                });
+            }
             $("#"+canvasId).drawLayers();
             $("#"+canvasId).saveCanvas();
             x=0;
