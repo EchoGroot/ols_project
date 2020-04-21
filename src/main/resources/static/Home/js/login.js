@@ -98,11 +98,12 @@ function login() {
                     }else{
                         layer.msg('登录成功');
                         window.setTimeout(function () {
+                            window.sessionStorage.setItem('userId',resultData.data.userId);  //登录成功保存一个登录ID session ？
                             if(window.sessionStorage.getItem('gotoUrl')!==null){
                                 var url=window.sessionStorage.getItem('gotoUrl');
                                 //登陆后更改地址栏userId参数
                                 var newurl=changeURLArg(url,'userId',resultData.data.userId);
-                                window.sessionStorage.setItem('userId',resultData.data.userId);
+                                //window.sessionStorage.setItem('userId',resultData.data.userId);
                                 window.location.href=newurl;
                                 sessionStorage.removeItem('gotoUrl');//gotoUrl session用完后要释放掉
                             }else{

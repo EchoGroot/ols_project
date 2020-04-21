@@ -47,6 +47,7 @@ public interface TaskService {
                     Long releaseUserId);
     int deductRewardPoints(int rewardPoints,long releaseUserId);
 
+    int awardPoints(int rewardPoints,long releaseUserId);
     String creatTaskUrl(String labelName, String originalImage);
 
     HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,

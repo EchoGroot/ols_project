@@ -320,6 +320,8 @@ public class TaskController {
     @PostMapping("uploadImgs")
     public String uplpadImgs(@RequestParam("file") MultipartFile file) {
         String oriName = "";
+        String staticPath=desFilePath;
+        String thumbPath = thumbFilePath;
         try {
             // 1.获取原文件名
             oriName = file.getOriginalFilename();
@@ -331,27 +333,27 @@ public class TaskController {
             String newName = uuid + extName;
             //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
             // 4.保存绝对路径
-            desFilePath += newName;
-            File desFile = new File(desFilePath);
+            staticPath += newName;
+            File desFile = new File(staticPath);
             file.transferTo(desFile);
             // 5.产生缩略图
-            thumbFilePath += newName;
-            Thumbnails.of(desFilePath).size(NormalConst.THUMB_WIDTH, NormalConst.THUMB_HEIGHT).keepAspectRatio(false).toFile(thumbFilePath);
+            thumbPath += newName;
+            Thumbnails.of(staticPath).size(NormalConst.THUMB_WIDTH, NormalConst.THUMB_HEIGHT).keepAspectRatio(false).toFile(thumbPath);
             // 6.返回保存结果信息
             HashMap<String,Object> dataMap=new HashMap<>();
             dataMap.put("src", "/图片保存的绝对路径地址/" + newName);
             dataMap.put("imgName", newName);
             Result result = new Result(dataMap,"0","上传成功");
-            System.out.println(desFilePath+"图片保存成功");
+            System.out.println(staticPath+"图片保存成功");
             return JSON.toJSONString(result);
         } catch (IllegalStateException e) {
             Result result = new Result("1","图片保存失败");
-            System.out.println(desFilePath + "图片保存失败");
+            System.out.println(staticPath + "图片保存失败");
             return JSON.toJSONString(result);
         } catch (IOException e) {
             System.out.println(e.getMessage());
             Result result = new Result("1","图片保存失败--IO异常");
-            System.out.println(desFilePath + "图片保存失败--IO异常");
+            System.out.println(staticPath + "图片保存失败--IO异常");
             return JSON.toJSONString(result);
         }
     }

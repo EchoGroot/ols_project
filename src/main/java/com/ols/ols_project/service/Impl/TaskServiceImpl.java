@@ -231,6 +231,12 @@ public class TaskServiceImpl implements TaskService {
             return 0;
         }
     }
+    @Override
+    public int awardPoints(int rewardPoints,long releaseUserId){
+        int resultPoints = userMapper.getPoints(releaseUserId)+rewardPoints;
+        userMapper.setPoints(resultPoints,releaseUserId);
+        return 0;
+    }
 
     @Override
     public String creatTaskUrl(String labelName,String originalImage) {
