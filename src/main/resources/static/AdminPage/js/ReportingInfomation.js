@@ -14,6 +14,7 @@ $(function () {
             , page: true //开启分页
             , limits: [15,30,50,100]
             , limit: 15
+            , where:{queryInfo:'timeDown',searchInfo:''}
             , parseData: function(res) { //res 即为原始返回的数据
                 console.log(res)
                 return {
@@ -40,8 +41,94 @@ $(function () {
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
         });
 
-
+        //筛选按钮点击事件
+        //监听下拉框change事件 layui不支持jQuery的change事件 用form.on('select(test)', function(data){})监听
+        form.on('select(chooseSelect)', function(data){
+            $("#searchInput").val("");
+            switch (data.value) {
+                //默认所有举报信息
+                case '0':
+                    //表格重载
+                    tableIns.reload({
+                        where:{
+                            queryInfo:'timeDown',
+                            searchInfo:$("#searchInput").val()
+                        },
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    break;
+                //已处理
+                case '1':
+                    //表格重载
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                            queryInfo: 'isHandled',
+                            searchInfo:$("#searchInput").val()
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    break;
+                // 未处理
+                case '2':
+                    //表格重载
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                            queryInfo: 'noHandled',
+                            searchInfo:$("#searchInput").val()
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    break;
+                // 时间升序
+                case '3':
+                    //表格重载
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                            queryInfo: 'timeUp',
+                            searchInfo:$("#searchInput").val()
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    break;
+                // 时间降序
+                case '4':
+                    //表格重载
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                            queryInfo: 'timeDown',
+                            searchInfo:$("#searchInput").val()
+                        }
+                        ,page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
+                    break;
+            }
+        })
     });
+
+    //监听搜索按钮点击事件
+    $("#searchButton").click(function () {
+        tableIns.reload({
+            where: {
+                queryInfo:'user_id',
+                searchInfo: $("#searchInput").val(),
+
+            },
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    })
+
 });
 // 获取URL参数
 function getQueryVariable(name) {

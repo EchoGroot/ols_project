@@ -10,7 +10,7 @@ $(function () {
     })
     $("#submitBtn").click(function () {
         //
-        var message="举报理由："+$("#Complain").val()+"/详情描述："+$("#L_content").val();
+        var message="举报理由："+$("#Complain").val()+"/n详情描述："+$("#L_content").val();
         $.ajax({
             url: '/message/createMessage',
             type: "GET",

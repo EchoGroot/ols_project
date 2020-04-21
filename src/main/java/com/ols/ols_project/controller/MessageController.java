@@ -24,11 +24,13 @@ public class MessageController {
     @GetMapping("/getAllMessage")
     public String getAllMessage(
                                 @RequestParam(value = "page") Integer pageNum,
-                                @RequestParam(value = "limit") Integer pageSize
+                                @RequestParam(value = "limit") Integer pageSize,
+                                @RequestParam(value = "queryInfo") String queryInfo,
+                                @RequestParam(value = "searchInfo") String searchInfo
                                 ){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        messageService.getAllMessage( pageNum, pageSize)
+                        messageService.getAllMessage( queryInfo, searchInfo ,pageNum, pageSize)
                         ,"0"
                         ,"获取所有举报信息成功")
                 ,"yyyy-MM-dd hh:mm:ss"

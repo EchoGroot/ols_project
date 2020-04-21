@@ -31,7 +31,29 @@
         create_time
         from
         ols_message
-        order by create_time desc
+
+        <if test="searchInfo != ''">
+            and user_id like '%${searchInfo}%'
+        </if>
+
+        <choose>
+            <when test="queryInfo == 'noHandled'">
+                and ishandled like '0'
+            </when>
+            <when test="queryInfo == 'isHandled'">
+                and ishandled like '1'
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY create_time
+        </if>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY create_time DESC
+        </if>
+
+
+
+
         limit
           #{start},#{end};
       SELECT FOUND_ROWS() as total;

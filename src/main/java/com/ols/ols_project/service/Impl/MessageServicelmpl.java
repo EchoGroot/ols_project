@@ -46,8 +46,8 @@ public class MessageServicelmpl implements MessageService {
     }
 
     @Override
-    public HashMap<String, Object> getAllMessage(Integer pageNum, Integer pageSize) {
-        List<List<MessageEntity>> list = messageMapper.getAllMessage( (pageNum - 1) * pageSize, pageSize);
+    public HashMap<String, Object> getAllMessage(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize) {
+        List<List<MessageEntity>> list = messageMapper.getAllMessage(queryInfo, searchInfo , (pageNum - 1) * pageSize, pageSize);
         List<MessageEnityBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(

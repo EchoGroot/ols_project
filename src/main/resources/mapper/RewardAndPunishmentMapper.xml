@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ols.ols_project.mapper.RewardAndPunishmentMapper">
+    <!--
+    发布惩罚信息 赵莎
+    -->
+    <insert id="CreateMessage">
+        insert into ols_reward_and_punishment
+        (id,type,user_id,information,ext1,ext2,create_time)
+            value (#{id},#{type},#{user_id},#{information},
+            #{ext1},#{ext2},#{create_time})
+    </insert>
+    <!--
+    查询奖惩信息 赵莎
+    -->
+    <select id="getAllMessage" resultMap="RewardAndPunishmentMap,Total">
+        select
+        SQL_CALC_FOUND_ROWS id,
+        user_id,
+        type,
+        information,
+        ext1,
+        ext2,
+        create_time
+        from
+        ols_reward_and_punishment
+        ORDER BY create_time DESC
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+    <resultMap id="RewardAndPunishmentMap" type="com.ols.ols_project.model.entity.RewardAndPunishmentEnity" >
+        <id column="id" property="id"  />
+        <result column="user_id" property="user_id" />
+        <result column="information" property="information" />
+        <result column="type" property="type" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="create_time" property="create_time" />
+    </resultMap>
+    <!--<resultMap id="Total" type="java.lang.Integer">-->
+        <!--<result column="total"/>-->
+    <!--</resultMap>-->
+
+    <update id="subpunishment">
+        update
+        ols_reward_and_punishment
+        set
+        state =
+        <if test="operation == 'yes'">
+            5
+        </if>
+        <if test="operation == 'no'">
+            6
+        </if>
+        where
+        id=#{userId}
+    </update>
+
+</mapper>

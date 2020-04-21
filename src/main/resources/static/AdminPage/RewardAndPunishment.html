@@ -1,3 +1,37 @@
-<div>
-    <h1>RewardAndPunishment</h1>
-</div>
+<head>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="css/ReviewerSignUp.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="js/RewardAndPunishment.js"></script>
+    <script src="../layui/layui.js"></script>
+
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select id="chooseSelect">
+                <option value="0">选择筛选条件</option>
+                <option value="1">奖励</option>
+                <option value="2">惩罚</option>
+                <option value="3">举报时间升序</option>
+                <option value="4">举报时间降序</option>
+            </select>
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <input type="text" id="searchInput" name="title" placeholder="输入用户ID" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn" id="searchButton">查询</button>
+        </div>
+        <div class="layui-input-inline">
+            <a class="layui-btn" id="punishmentButton"  onclick="punishmentFunc()">惩罚</a>
+        </div>
+        <div class="layui-input-inline">
+            <a class="layui-btn" id="rewardButton"  onclick="rewardFunc()">奖励</a>
+        </div>
+    </div>
+</form>
+<table id="messageList" lay-filter="monitorToolbar"></table>
+
+</body>
