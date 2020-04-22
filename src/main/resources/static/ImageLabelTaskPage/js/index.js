@@ -381,7 +381,6 @@ function acceptFunc() {
         }
     })
 }
-
 //下载
 function downloadFunc() {
     window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+10003+"&acceptId="+10077);
@@ -395,8 +394,6 @@ function downloadFunc() {
         }
     })*/
 }
-
-
 // 返回
 function goBackFunc() {
     window.location.href=reverseURLencode(pageFrom);
