@@ -7,6 +7,7 @@ var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
 var imageUrlPre="http://yuyy.info/image/ols/"; //图片URL的前缀
 var imageNotFinishlist=[];
+var tempTime=0;
 
 var imageWidth=0;   //原始图片宽度
 var imageHeight=0;  //原始图片高度
@@ -209,7 +210,38 @@ CanvasExt1 = {
                     x: labelInfos[i].x/imageWidth*1450,
                     y: labelInfos[i].y/imageHeight*800,
                     width: (labelInfos[i].ex-labelInfos[i].x)/imageWidth*1450,
-                    height: (labelInfos[i].ey-labelInfos[i].y)/imageHeight*800
+                    height: (labelInfos[i].ey-labelInfos[i].y)/imageHeight*800,
+                    mouseover: function(layer) {
+                        var myText='';
+                        var flag=false;
+                        for(var k=0;k<labelInfoArray.length;k++){
+                            for(var k1=0;k1<labelInfoArray[k].labelInfo.length;k1++) {
+                                if(labelInfoArray[k].labelInfo[k1].layerName=== layer.name){
+                                    myText=labelInfoArray[k].labelName;
+                                    flag=true;
+                                    break;
+                                }
+                            }
+                            if(flag){
+                                break;
+                            }
+                        }
+                        $("#canvas").removeLayer('text');
+                        $("#canvas").drawText({
+                            layer:true,
+                            text: myText,
+                            fontFamily: 'cursive',
+                            fontSize: 30,
+                            fillStyle: 'lightblue',
+                            name:'text',
+                            strokeStyle: '#FFFFFF',
+                            strokeWidth: 1,
+                            x: layer.x+layer.width/2, y: layer.y+layer.height/2,
+                        });
+                    },
+                    mouseout: function(layer) {
+                        $("#canvas").removeLayer('text');
+                    }
                 });
                 // 画图
                 $("#"+canvasId).drawLayers();
