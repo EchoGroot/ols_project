@@ -189,11 +189,10 @@ function releaseTask() {
                             //成功跳转界面
                             top.location.href="/ImageLabelTaskPage/index.html?" +
                                 "userId="+userId+
-                                "&pageType="+'otherReleasePage'+
+                                "&pageType="+'labelExamplePage'+
                                 "&"+'taskId'+"="+msg.data.taskId+
                                 "&pageFrom="+URLencode('/Home/Home.html')
-                                +"%3FuserId%3D"+userId
-                                +"%26page%3D"+'releaseNotFinishTask';
+                                +"%3FuserId%3D"+userId;
                         } else if (msg.meta.status == "0") {
                             alert(msg.meta.msg);
                         }
