@@ -73,20 +73,31 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label layui-input-inline">任务发布者</label>
+                        <label class="layui-form-label layui-input-inline">任务状态</label>
                         <div class="layui-input-block layui-input-inline">
-                            <input id="releaseUserName" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                            <input id="taskState" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
                         </div>
                         <label class="layui-form-label layui-input-inline">任务类型</label>
                         <div class="layui-input-block layui-input-inline">
                             <input id="taskType" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label layui-input-inline">任务状态</label>
+                    <div class="layui-form-item onlyTask">
+                        <label class="layui-form-label layui-input-inline">采纳任务编号</label>
                         <div class="layui-input-block layui-input-inline">
-                            <input id="taskState" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                            <input id="adoptAcceptId" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
                         </div>
+                        <label class="layui-form-label layui-input-inline">点击量</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="ext3" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item onlyAccept">
+                        <label class="layui-form-label layui-input-inline">任务发布者</label>
+                        <div class="layui-input-block layui-input-inline">
+                            <input id="releaseUserName" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+
                         <label class="layui-form-label layui-input-inline">接受任务状态</label>
                         <div class="layui-input-block layui-input-inline">
                             <input id="acceptTaskState" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
@@ -97,9 +108,13 @@
                         <div class="layui-input-block layui-input-inline">
                             <input id="releaseTime" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
                         </div>
-                        <label class="layui-form-label layui-input-inline">接受时间</label>
-                        <div class="layui-input-block layui-input-inline">
+                        <label class="onlyAccept layui-form-label layui-input-inline">接受时间</label>
+                        <div class="onlyAccept layui-input-block layui-input-inline">
                             <input id="acceptTime" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="onlyTask layui-form-label layui-input-inline">完成时间</label>
+                        <div class="onlyTask layui-input-block layui-input-inline">
+                            <input id="finishTime" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">

@@ -18,22 +18,7 @@ $(function () {
         ,layer = layui.layer
         ,form = layui.form
     });
-    // 隐藏示例标注区域
-    $("#exampleDivContainer").hide();
-    // 隐藏待标注区域
-    $("#notFinishDivContainer").hide();
-    // 隐藏已标注区域
-    $("#finishDivContainer").hide();
-    //隐藏下载按钮
-    $("#download").hide();
-    // 隐藏举报按钮
-    $("#report").hide();
-    // 隐藏接受任务按钮
-    $("#accept").hide();
-    // 隐藏提交任务按钮
-    $("#submit").hide();
-    // 隐藏提交示例按钮
-    $("#submitExample").hide();
+    myHide();
     switch (pageType){
         case 'labelExamplePage':
             // 获取任务数据
@@ -128,6 +113,7 @@ function getAccepteImageList () {
                 $("#acceptTime").val(resultData.data.taskImage.accept_time);
                 $("#releaseTime").val(resultData.data.taskImage.release_time);
                 $("#taskPoints").val(resultData.data.taskImage.points);
+                $(".onlyTask").hide();
                 // 将数组里的图片数据加载到对应的显示区域
                 loadImageList("exampleDiv",imageExampleList);
                 loadImageList("finishDiv",imageFinishlist);
@@ -311,10 +297,17 @@ function getImageList() {
 
                 }
                 $("#taskName").val(resultData.data.taskInfo.name);
+                $("#taskId").val(resultData.data.taskInfo.id);
+                $("#ext3").val(resultData.data.taskInfo.ext3);
+                $("#adoptAcceptId").val(resultData.data.taskInfo.adopt_accept_id);
+                $("#acceptNum").val(resultData.data.taskInfo.accept_num);
+                $("#taskType").val(resultData.data.taskInfo.type);
+                $("#taskState").val(resultData.data.taskInfo.state);
                 $("#taskInfo").val(resultData.data.taskInfo.information);
                 $("#acceptTime").val(resultData.data.taskInfo.accept_time);
                 $("#releaseTime").val(resultData.data.taskInfo.release_time);
                 $("#taskPoints").val(resultData.data.taskInfo.points);
+                $(".onlyAccept").hide();
                 loadImageList("exampleDiv",imageExampleList);
                 loadImageList("notFinishDiv",imageNotFinishlist);
                 if(pageType!='labelExamplePage'){
@@ -526,4 +519,23 @@ function submitExampleFunc() {
 //举报任务
 function reportFunc(){
     window.location.href='/complain/html/complain.html?userId='+userId+'&taskId='+taskId
+}
+// 初始化时隐藏元素
+function myHide() {
+    // 隐藏示例标注区域
+    $("#exampleDivContainer").hide();
+    // 隐藏待标注区域
+    $("#notFinishDivContainer").hide();
+    // 隐藏已标注区域
+    $("#finishDivContainer").hide();
+    //隐藏下载按钮
+    $("#download").hide();
+    // 隐藏举报按钮
+    $("#report").hide();
+    // 隐藏接受任务按钮
+    $("#accept").hide();
+    // 隐藏提交任务按钮
+    $("#submit").hide();
+    // 隐藏提交示例按钮
+    $("#submitExample").hide();
 }
