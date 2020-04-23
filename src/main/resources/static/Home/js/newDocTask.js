@@ -177,7 +177,7 @@ function releaseTask() {
                         taskName: tname,
                         taskInfo: tdesc,
                         rewardPoints:rpoints,
-                        type:1,
+                        type:0,
                         taskUrl: resultData.toString(),
                         releaseUserId: userId,
                     },
