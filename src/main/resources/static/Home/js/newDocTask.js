@@ -5,12 +5,10 @@
  */
 var success=0;
 var fail=0;
-var imgurls="";
-var imgsName = new Array();
+var docsName = new Array();
 var labelName= new Array();
 
 var userId=getQueryVariable('userId'); //用户ID
-//var page=getQueryVariable('page'); //页面名称
 var page = 'releaseNotFinishTask';
 var query=getQueryVariable('query');
 
@@ -20,8 +18,8 @@ $(function (){
         var layer=layui.layer;
 
         upload.render({
-            elem: '#selectImgs',
-            url: '/task/uploadImgs',//Docs
+            elem: '#selectDocs',
+            url: '/task/uploadDocs',//Docs
             multiple: true,
             auto:false,
 //			上传的单个图片大小
@@ -30,14 +28,15 @@ $(function (){
             number:20,
 //			MultipartFile file 对应，layui默认就是file,要改动则相应改动
             field:'file',
-            bindAction: '#uploadImgs',
-            //accept:'file',
+            bindAction: '#uploadDocs',
+            accept:'file',
+            exts:'txt|doc|docx|pdf',
             before: function(obj) {
                 //预读本地文件示例
                 obj.preview(function(index, file, result) {
-                    $('#previewImgs').append('<img src="' + result
+                    $('#previewDocs').append('<a src="' + result
                         + '" alt="' + file.name
-                        +'"height="92px" width="92px" class="layui-upload-img" style="margin-right: 2px">')
+                        +'"height="92px" width="92px" style="margin-right: 2px">')
                 });
             },
             done: function(res, index, upload) {
@@ -47,9 +46,9 @@ $(function (){
                     fail++;
                 }else{
                     success++;
-                    imgsName.length++;
-                    imgsName[imgsName.length-1]=res.data.imgName;
-                    console.log(imgsName);
+                    docsName.length++;
+                    docsName[docsName.length-1]=res.data.docName;
+                    console.log(docsName);
                 }
             },
             allDone:function(obj){
@@ -63,7 +62,7 @@ $(function (){
     });
     judgeLogin();
     //清空预览图片
-    cleanImgsPreview();
+    cleanDocsPreview();
     //保存商品
     releaseTask();
 
@@ -143,11 +142,11 @@ function gotoUrlByJudege(str) { //str为目的跳转地址
  * 原因：如果已经存在预览的图片的话，再次点击上选择图片时，预览图片会不断累加
  * 表面上做上传成功的个数清0，实际后台已经上传成功保存了的，只是没有使用，以最终商品添加的提交的为准
   */
-function cleanImgsPreview(){
+function cleanDocsPreview(){
     $("#cleanImgs").click(function(){
         success=0;
         fail=0;
-        imgsName.length=0;
+        docsName.length=0;
         $('#previewImgs').html("");
         $('#imgUrls').val("");
     });
@@ -163,10 +162,10 @@ function releaseTask() {
         var rpoints = $("#rewardPoints").val();
         $.ajax({
             type: "POST",
-            url: "/task/creatTaskUrl",
+            url: "/task/creatDocTaskUrl",
             data: {
                 labelName: labelName.toString(),
-                originalImage: imgsName.toString(),
+                originalImage: docsName.toString(),
             },
             success: function (resultData) {
                 console.log(resultData.toString());
@@ -187,13 +186,13 @@ function releaseTask() {
                         if (msg.meta.status == "1") {
                             alert(msg.meta.msg);
                             //成功跳转界面
-                            top.location.href="/ImageLabelTaskPage/index.html?" +
+                           /* top.location.href="/ImageLabelTaskPage/index.html?" +
                                 "userId="+userId+
                                 "&pageType="+'otherReleasePage'+
                                 "&"+'taskId'+"="+msg.data.taskId+
                                 "&pageFrom="+URLencode('/Home/Home.html')
                                 +"%3FuserId%3D"+userId
-                                +"%26page%3D"+'releaseNotFinishTask';
+                                +"%26page%3D"+'releaseNotFinishTask';*/
                         } else if (msg.meta.status == "0") {
                             alert(msg.meta.msg);
                         }

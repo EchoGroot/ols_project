@@ -283,7 +283,10 @@ public class TaskServiceImpl implements TaskService {
         taskUrl.put("taskImage",taskImage);
         return JSON.toJSONString(taskUrl,SerializerFeature.WriteNonStringValueAsString);
     }
-
+    @Override
+    public String creatDocTaskUrl(String labelName,String originalDoc){
+        return "";
+    }
     @Override
     public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
                                               String queryInfo, String searchType,String searchInfo,String field,String order) {
