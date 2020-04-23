@@ -114,6 +114,11 @@ function getAccepteImageList () {
                 $("#releaseTime").val(resultData.data.taskImage.release_time);
                 $("#taskPoints").val(resultData.data.taskImage.points);
                 $(".onlyTask").hide();
+                // 将标签名存入本地session
+                window.sessionStorage.setItem(
+                    acceptId + 'imageNotFinishlist',
+                    JSON.stringify(imageNotFinishlist)
+                );
                 // 将数组里的图片数据加载到对应的显示区域
                 loadImageList("exampleDiv",imageExampleList);
                 loadImageList("finishDiv",imageFinishlist);
@@ -308,6 +313,10 @@ function getImageList() {
                 $("#releaseTime").val(resultData.data.taskInfo.release_time);
                 $("#taskPoints").val(resultData.data.taskInfo.points);
                 $(".onlyAccept").hide();
+                window.sessionStorage.setItem(
+                    taskId + 'imageNotFinishlist',
+                    JSON.stringify(imageNotFinishlist)
+                );
                 loadImageList("exampleDiv",imageExampleList);
                 loadImageList("notFinishDiv",imageNotFinishlist);
                 if(pageType!='labelExamplePage'){
@@ -481,7 +490,7 @@ function submitFunc() {
         }
     })
 }
-// 提交任务
+// 提交标注示例
 function submitExampleFunc() {
     if (imageExampleList.length===0){
         layer.msg('提交标注示例失败，未标注任何示例。', {

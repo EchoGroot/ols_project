@@ -5,6 +5,8 @@ var pageType=getQueryVariable('pageType');  //当前页面类型
 var pageFrom=URLencode(getQueryVariable('pageFrom')); //从那个页面跳转来的（返回时使用）
 var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
+var imageUrlPre="http://yuyy.info/image/ols/"; //图片URL的前缀
+var imageNotFinishlist=[];
 
 var imageWidth=0;   //原始图片宽度
 var imageHeight=0;  //原始图片高度
@@ -255,6 +257,13 @@ function imageRender() {
             // 隐藏标注完成按钮
             $("#finish").hide();
         }else if(operation ==='write'){
+            if(pageType==='labelExamplePage'){
+                imageNotFinishlist=JSON.parse(
+                    window.sessionStorage.getItem( taskId+ 'imageNotFinishlist'));
+            }else{
+                imageNotFinishlist=JSON.parse(
+                    window.sessionStorage.getItem( acceptId+ 'imageNotFinishlist'));
+            }
             // 允许在图层上画框
             drawPen();
             // 显示xy坐标线
@@ -411,7 +420,30 @@ function finishFunc(){
                     time: 1000 //2秒关闭（如果不配置，默认是3秒）
                 });
                 window.setTimeout(function () {
-                    goBackFunc();
+                    if(imageNotFinishlist!==null&&imageNotFinishlist.length >0){
+                        var imageName=imageNotFinishlist.pop().originalImage;
+                        if(pageType==='labelExamplePage'){
+                            window.sessionStorage.setItem(
+                                taskId + 'imageNotFinishlist',
+                                JSON.stringify(imageNotFinishlist)
+                            );
+                        }else{
+                            window.sessionStorage.setItem(
+                                acceptId + 'imageNotFinishlist',
+                                JSON.stringify(imageNotFinishlist)
+                            );
+                        }
+                        window.location.href='/ImageLabelPage/index.html'
+                        +'?imageUrl='+imageUrlPre+imageName
+                        +'&userId='+userId
+                        +'&acceptId='+acceptId
+                        +'&pageType='+pageType
+                        +'&pageFrom='+pageFrom
+                        +'&taskId='+taskId
+                        +'&operation=write';
+                    }else{
+                        goBackFunc();
+                    }
                 }, 1000);
             }else{
                 layer.msg('操作失败，请刷新页面', {
