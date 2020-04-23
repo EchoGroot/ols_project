@@ -53,13 +53,27 @@
           id=#{acceptId}
     </select>
 
-    <update id="storeImageLabelInfoByAccepteId">
+    <update id="storeImageLabelInfoByTempTaskId">
       update
-        ols_accept
+        <if test="pageType == 'labelExamplePage'">
+            ols_task
+        </if>
+        <if test="pageType != 'labelExamplePage'">
+            ols_accept
+        </if>
       set
         url=#{url}
       where
-        id=#{acceptId}
+        id=#{tempTaskId}
+    </update>
+
+    <update id="updTaskState">
+      update
+        ols_task
+      set
+        state=4
+      where
+        id=#{taskId}
     </update>
 
     <select id="getNotCheckedTask" resultMap="TaskMap">

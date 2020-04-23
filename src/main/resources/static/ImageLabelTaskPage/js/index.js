@@ -32,7 +32,15 @@ $(function () {
     $("#accept").hide();
     // 隐藏提交任务按钮
     $("#submit").hide();
+    // 隐藏提交示例按钮
+    $("#submitExample").hide();
     switch (pageType){
+        case 'labelExamplePage':
+            // 获取任务数据
+            getImageList();
+            //显示提交示例按钮
+            $("#submitExample").show();
+            break;
         case 'personalAcceptNotFinishPage':
             //显示提交任务按钮
             $("#submit").show();
@@ -160,10 +168,24 @@ function loadImageList(domId,imageList) {
                     +'        <button type="button" class="layui-btn layui-btn-radius">'
                     +'查看'
                     +'        </button>\n'
+                    +'</a>\n';
+                if(pageType =='labelExamplePage'){
+                    shtml+='            <a class="labelAgain" href="/ImageLabelPage/index.html'
+                    +'?imageUrl='+imageUrl+imageList[i].originalImage
+                    +'&userId='+userId
+                    +'&acceptId='+acceptId
+                    +'&taskId='+taskId
+                    +'&pageType='+pageType
+                    +'&pageFrom='+pageFrom
+                    +'&operation=write'
+                    +'">'
+                    +'        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">'
+                    +'重新标注'
+                    +'        </button>\n'
                     +'</a>\n'
-                    +'    </div>\n'
-                    +'</div>\n'
-                ;
+                }
+                shtml+='    </div>\n'
+                    +'</div>\n';
             }
             break;
             // 待标注
@@ -192,6 +214,7 @@ function loadImageList(domId,imageList) {
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
                     +'&pageFrom='+pageFrom
+                    +'&taskId='+taskId
                     +'&operation=write'
                     +'">'
                     +'        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">'
@@ -294,7 +317,9 @@ function getImageList() {
                 $("#taskPoints").val(resultData.data.taskInfo.points);
                 loadImageList("exampleDiv",imageExampleList);
                 loadImageList("notFinishDiv",imageNotFinishlist);
-                $(".labelATag").hide();
+                if(pageType!='labelExamplePage'){
+                    $(".labelATag").hide();
+                }
             } else {
                 layer.msg('获取任务数据失败，请刷新页面', {
                     icon: 5, //红色不开心
@@ -456,6 +481,41 @@ function submitFunc() {
                 });
             } else{
                 layer.msg('提交任务失败，请刷新页面再试。', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }
+        }
+    })
+}
+// 提交任务
+function submitExampleFunc() {
+    if (imageExampleList.length===0){
+        layer.msg('提交标注示例失败，未标注任何示例。', {
+            icon: 5, //红色不开心
+            time: 2000 //2秒关闭（如果不配置，默认是3秒）
+        });
+        return;
+    }
+    $.ajax({
+        url: '/task/setTaskStateByTaskId',
+        type: "POST",
+        data: {
+            "userId": userId,
+            "taskId": taskId
+        },
+        success: function (resultData) {
+            resultData = JSON.parse(resultData);
+            if (resultData.meta.status === "200") {
+                layer.msg('提交标注示例成功，任务审核中。', {
+                    icon: 1, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                window.setTimeout(function(){
+                    goBackFunc();
+                },2000)
+            } else{
+                layer.msg('提交标注示例失败，请刷新页面再试。', {
                     icon: 5, //红色不开心
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });

@@ -21,40 +21,44 @@ $(function () {
                 .attr("href")
             +'&userId='+userId
         );
-    // 已接受未完成的任务
-    }else if(page ==='acceptFinishTask'){
+    // 图片已接受未完成的任务
+    }else if(page ==='acceptFinishImgTask'){
         // 打开抽屉菜单
-        $("#acceptTask").attr('class','layui-nav-item layui-nav-itemed');
-        $("#acceptFinishTask").attr('class','layui-this');
-        $("#iframeMain").attr("src",$("#acceptFinishTask a")
+        $("#acceptImgTask").attr('class','layui-nav-itemed');
+        $("#imgTask").attr('class','layui-nav-item layui-nav-itemed');
+        $("#acceptFinishImgTask").attr('class','layui-this');
+        $("#iframeMain").attr("src",$("#acceptFinishImgTask a")
                 .attr("href")
             +'&userId='+userId
         );
-    // 已接受未完成
-    }/*else if(page ==='acceptNotFinishTask'){
-        $("#acceptTask").attr('class','layui-nav-item layui-nav-itemed');
-        $("#acceptNotFinishTask").attr('class','layui-this');
-        $("#iframeMain").attr("src",$("#acceptNotFinishTask a")
+    // 图片已接受未完成
+    }else if(page ==='acceptNotFinishImgTask'){
+        $("#acceptImgTask").attr('class','layui-nav-itemed');
+        $("#imgTask").attr('class','layui-nav-item layui-nav-itemed');
+        $("#acceptNotFinishImgTask").attr('class','layui-this');
+        $("#iframeMain").attr("src",$("#acceptNotFinishImgTask a")
                 .attr("href")
             +'&userId='+userId
         );
-    // 已发布已完成
-    }else if(page ==='releaseFinishTask'){
-        $("#releaseTask").attr('class','layui-nav-item layui-nav-itemed');
-        $("#releaseFinishTask").attr('class','layui-this');
-        $("#iframeMain").attr("src",$("#releaseFinishTask a")
+    // 图片已发布已完成
+    }else if(page ==='releaseFinishImgTask'){
+        $("#releaseImgTask").attr('class','layui-nav-itemed');
+        $("#imgTask").attr('class','layui-nav-item layui-nav-itemed');
+        $("#releaseFinishImgTask").attr('class','layui-this');
+        $("#iframeMain").attr("src",$("#releaseFinishImgTask a")
                 .attr("href")
             +'&userId='+userId
         );
-    // 已发布未完成
-    }else if(page ==='releaseNotFinishTask'){
-        $("#releaseTask").attr('class','layui-nav-item layui-nav-itemed')
-        $("#releaseNotFinishTask").attr('class','layui-this');
-        $("#iframeMain").attr("src",$("#releaseNotFinishTask a")
+    // 图片已发布未完成
+    }else if(page ==='releaseNotFinishImgTask'){
+        $("#releaseImgTask").attr('class','layui-nav-itemed')
+        $("#imgTask").attr('class','layui-nav-item layui-nav-itemed');
+        $("#releaseNotFinishImgTask").attr('class','layui-this');
+        $("#iframeMain").attr("src",$("#releaseNotFinishImgTask a")
                 .attr("href")
             +'&userId='+userId
         );
-    }*/
+    }
     // layui初始化
     layui.use('element', function(){
         var element = layui.element;

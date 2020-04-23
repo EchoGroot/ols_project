@@ -171,49 +171,54 @@ CanvasExt1 = {
         var color='';
         var penWidth=that.penWidth;
         // 从本地session获取标注信息
-        if(pageType.indexOf('Release')!==-1){
+        if(pageType.indexOf('Release')!==-1
+            ||pageType=='labelExamplePage'
+        ){
             var labelInfos=JSON.parse(window.sessionStorage.getItem(taskId+imageUrl));
         }else if(pageType.indexOf('Accept')!==-1){
             var labelInfos=JSON.parse(window.sessionStorage.getItem(acceptId+imageUrl));
         }
-        for (var i = 0; i < labelInfos.length;i++){
-            layerIndex++;
-            layerName='layer';
-            layerName+=layerIndex;
-            for (var j = 0; j < labelInfoArray.length;j++){
-                if(labelInfoArray[j].labelName ===labelInfos[i].name){
-                    color=colorArray[j];
-                    // 将标注信息根据标签名添加到对应的数组
-                    labelInfoArray[j].labelInfo.push({
-                        layerName:layerName,
-                        startX : labelInfos[i].x/imageWidth*1450,
-                        startY : labelInfos[i].y/imageHeight*800,
-                        endX : labelInfos[i].ex/imageWidth*1450,
-                        endY : labelInfos[i].ey/imageHeight*800
-                    });
-                    break;
+        if(labelInfos!= null){
+            for (var i = 0; i < labelInfos.length;i++){
+                layerIndex++;
+                layerName='layer';
+                layerName+=layerIndex;
+                for (var j = 0; j < labelInfoArray.length;j++){
+                    if(labelInfoArray[j].labelName ===labelInfos[i].name){
+                        color=colorArray[j];
+                        // 将标注信息根据标签名添加到对应的数组
+                        labelInfoArray[j].labelInfo.push({
+                            layerName:layerName,
+                            startX : labelInfos[i].x/imageWidth*1450,
+                            startY : labelInfos[i].y/imageHeight*800,
+                            endX : labelInfos[i].ex/imageWidth*1450,
+                            endY : labelInfos[i].ey/imageHeight*800
+                        });
+                        break;
+                    }
                 }
+                // 添加到canvas图层
+                $("#"+canvasId).addLayer({
+                    type: 'rectangle',
+                    strokeStyle: color,
+                    strokeWidth: penWidth,
+                    name:layerName,
+                    fromCenter: false,
+                    x: labelInfos[i].x/imageWidth*1450,
+                    y: labelInfos[i].y/imageHeight*800,
+                    width: (labelInfos[i].ex-labelInfos[i].x)/imageWidth*1450,
+                    height: (labelInfos[i].ey-labelInfos[i].y)/imageHeight*800
+                });
+                // 画图
+                $("#"+canvasId).drawLayers();
+                // 保存图层
+                $("#"+canvasId).saveCanvas();
             }
-            // 添加到canvas图层
-            $("#"+canvasId).addLayer({
-                type: 'rectangle',
-                strokeStyle: color,
-                strokeWidth: penWidth,
-                name:layerName,
-                fromCenter: false,
-                x: labelInfos[i].x/imageWidth*1450,
-                y: labelInfos[i].y/imageHeight*800,
-                width: (labelInfos[i].ex-labelInfos[i].x)/imageWidth*1450,
-                height: (labelInfos[i].ey-labelInfos[i].y)/imageHeight*800
-            });
-            // 画图
-            $("#"+canvasId).drawLayers();
-            // 保存图层
-            $("#"+canvasId).saveCanvas();
+            // 只显示第一个标签名对应的标注信息
+            //labelNameClick(labelInfoArray[0].labelName)
+            showAll();
         }
-        // 只显示第一个标签名对应的标注信息
-        //labelNameClick(labelInfoArray[0].labelName)
-        showAll();
+
     }
 };
 // 默认画图准备
@@ -245,17 +250,15 @@ function imageRender() {
         imageHeight = img.height;
         if(operation === 'read'){
             drawPen1();
-        }
-        if(operation ==='write'){
-            // 允许在图层上画框
-            drawPen();
-            // 显示xy坐标线
-            xyLine();
-        }else{
             // 隐藏撤销按钮
             $("#revoke").hide();
             // 隐藏标注完成按钮
             $("#finish").hide();
+        }else if(operation ==='write'){
+            // 允许在图层上画框
+            drawPen();
+            // 显示xy坐标线
+            xyLine();
         }
     };
 }
@@ -267,6 +270,7 @@ function labelNameRender() {
         labelName = JSON.parse(window.sessionStorage.getItem(acceptId + 'labelName'));
     }else if(pageType==='otherReleasePage'
         || pageType==='personalReleasePage'
+        || pageType==='labelExamplePage'
     ){
         labelName = JSON.parse(window.sessionStorage.getItem(taskId + 'labelName'))
     }
@@ -387,8 +391,10 @@ function finishFunc(){
         return;
     }
     var data ={
+            "pageType":pageType,
             "userId":userId,
             "acceptId":acceptId,
+            "taskId":taskId,
             "imageUrlParam":imageUrlParam,
             "labelInfo":JSON.stringify(labelInfo)
         };

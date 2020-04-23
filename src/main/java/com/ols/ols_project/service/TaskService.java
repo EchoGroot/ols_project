@@ -19,7 +19,9 @@ public interface TaskService {
 
     AcceptTaskForTaskInfoVO getAccepteImageListByAccepteId(long acceptId);
 
-    int storeImageLabelInfo(long acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
+    int storeImageLabelInfo(String pageType,long tempTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
+
+    int setTaskStateByTaskId(long taskId);
 
     List<TaskEntityBo> getNotCheckedTask(long userId);
 

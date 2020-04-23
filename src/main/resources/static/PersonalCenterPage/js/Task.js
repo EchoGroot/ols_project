@@ -502,29 +502,32 @@ function checkFunc(taskId) {
     var page1;
     var pageType;
     var idType;
-    if(page==='releaseTask' ){
-        idType='taskId';
-        pageType='personalReleasePage';
-        if(query==='releasefinish'){
-            page1 ='releaseFinishTask';
-        }else {
-            page1 ='releaseNotFinishTask';
+    if(taskType==='img'){
+        if(page==='releaseTask' ){
+            idType='taskId';
+            pageType='personalReleasePage';
+            if(query==='releasefinish'){
+                page1 ='releaseFinishImgTask';
+            }else {
+                page1 ='releaseNotFinishImgTask';
+            }
+        }else{
+            idType='acceptId';
+            if(query==='acceptfinish'){
+                page1 ='acceptFinishImgTask';
+                pageType='personalAcceptFinishPage';
+            }else {
+                page1 ='acceptNotFinishImgTask';
+                pageType='personalAcceptNotFinishPage';
+            }
         }
-    }else{
-        idType='acceptId';
-        if(query==='acceptfinish'){
-            page1 ='acceptFinishTask';
-            pageType='personalAcceptFinishPage';
-        }else {
-            page1 ='acceptNotFinishTask';
-            pageType='personalAcceptNotFinishPage';
-        }
+        top.location.href="/ImageLabelTaskPage/index.html?" +
+            "userId="+userId+
+            "&pageType="+pageType+
+            "&"+idType+"="+taskId+
+            "&pageFrom=%2FPersonalCenterPage%2Findex.html"
+            +"%3FuserId%3D"+userId
+            +"%26page%3D"+page1;
     }
-    top.location.href="/ImageLabelTaskPage/index.html?" +
-        "userId="+userId+
-        "&pageType="+pageType+
-        "&"+idType+"="+taskId+
-        "&pageFrom=%2FPersonalCenterPage%2Findex.html"
-        +"%3FuserId%3D"+userId
-        +"%26page%3D"+page1;
+
 }

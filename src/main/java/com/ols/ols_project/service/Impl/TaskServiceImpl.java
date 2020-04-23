@@ -10,7 +10,6 @@ import com.ols.ols_project.common.Const.AcceptStateEnum;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
-import com.ols.ols_project.common.utils.XmlUtil;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
@@ -79,20 +78,41 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public int storeImageLabelInfo(long acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam) {
-        AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptTaskId);
-        AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
-        acceptImageUrl.getTaskImage().stream().forEach(e->{
-            if(e.getOriginalImage().equals(imageUrlParam)){
-                e.setLabeledInfo(labelInfos);
-                e.setIsLabeled(true);
-                e.setIsExample(false);
-                return;
-            }
-        });
-        //转xml测试
-        log.debug(XmlUtil.convertToXml(acceptImageUrl));
-        return taskMapper.storeImageLabelInfoByAccepteId(acceptTaskId,JSON.toJSONString(acceptImageUrl));
+    public int storeImageLabelInfo(String pageType,long tempTaskId, List<LabelInfo> labelInfos, String imageUrlParam) {
+        int result=0;
+        if("labelExamplePage".equals(pageType)){
+            TaskEntity taskInfo = taskMapper.getTaskInfoByTaskId(tempTaskId);
+            AccepteImageUrl acceptImageUrl = JSON.parseObject(taskInfo.getUrl(), new TypeReference<AccepteImageUrl>() {});
+            acceptImageUrl.getTaskImage().stream().forEach(e->{
+                if(e.getOriginalImage().equals(imageUrlParam)){
+                    e.setLabeledInfo(labelInfos);
+                    e.setIsLabeled(true);
+                    e.setIsExample(true);
+                    // 结束foreach
+                    return;
+                }
+            });
+            result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptImageUrl));
+        }else{
+            AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(tempTaskId);
+            AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
+            acceptImageUrl.getTaskImage().stream().forEach(e->{
+                if(e.getOriginalImage().equals(imageUrlParam)){
+                    e.setLabeledInfo(labelInfos);
+                    e.setIsLabeled(true);
+                    e.setIsExample(false);
+                    // 结束foreach
+                    return;
+                }
+            });
+            result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptImageUrl));
+        }
+        return result;
+    }
+
+    @Override
+    public int setTaskStateByTaskId(long taskId) {
+        return taskMapper.updTaskState(taskId);
     }
 
     @Override

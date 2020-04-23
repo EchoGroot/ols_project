@@ -1,11 +1,11 @@
 package com.ols.ols_project.mapper;
 
-import com.ols.ols_project.model.*;
+import com.ols.ols_project.model.AcceptTaskForTaskInfo;
+import com.ols.ols_project.model.FinishCheckTask;
 import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -20,9 +20,11 @@ public interface TaskMapper {
 
     AccepteEntity getAccepteTaskInfoByAcceptId(long acceptId);
 
-    int storeImageLabelInfoByAccepteId(long acceptId,String url);
+    int storeImageLabelInfoByTempTaskId(String pageType,long tempTaskId,String url);
 
     List<TaskEntity> getNotCheckedTask(long userId);
+
+    int updTaskState(long taskId);
 
     int setNotCheckedTaskForUser(long userId, int count);
 

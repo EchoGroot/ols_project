@@ -17,6 +17,7 @@ import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -127,16 +128,25 @@ public class TaskController {
      */
     @PostMapping(value = "/storeImageLabelInfo")
     public String storeImageLabelInfo(
+            @RequestParam("pageType") String pageType,
             @RequestParam("userId") String userId,
             @RequestParam("acceptId") String acceptId,
+            @RequestParam("taskId") String taskId,
             @RequestParam("imageUrlParam") String imageUrlParam,
             @RequestParam("labelInfo") String labelInfo
 
     ){
         String resultStr=null;
         List<LabelInfo> labelInfoList= (List<LabelInfo>)JSON.parse(labelInfo);
+        long tempTaskId=0L;
+        if("labelExamplePage".equals(pageType)){
+            tempTaskId=Long.parseLong(taskId);
+        }else{
+            tempTaskId=Long.parseLong(acceptId);
+        }
         if(1==taskService.storeImageLabelInfo(
-                Long.parseLong(acceptId),
+                pageType,
+                tempTaskId,
                 labelInfoList,
                 imageUrlParam)){
             resultStr= JSON.toJSONString(
@@ -144,6 +154,24 @@ public class TaskController {
         }else{
             resultStr=JSON.toJSONString(
                     new Result("201","存储图片标注数据失败"));
+        }
+        return resultStr;
+    }
+
+    @PostMapping(value = "/setTaskStateByTaskId")
+    public String setTaskStateByTaskId(@RequestParam("taskId") String taskId){
+        String resultStr=null;
+        if(StringUtils.isNotBlank(taskId)){
+            if(1==taskService.setTaskStateByTaskId(Long.parseLong(taskId))){
+                resultStr= JSON.toJSONString(
+                        new Result("200","存储标注示例成功"));
+            }else{
+                resultStr= JSON.toJSONString(
+                        new Result("201","存储标注示例失败"));
+            }
+        }else{
+            resultStr= JSON.toJSONString(
+                    new Result("202","参数不能为空"));
         }
         return resultStr;
     }
