@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AcceptTaskForTaskInfo {
+public class AcceptTaskForTaskInfoVO {
     /**
      * 任务编号
      */
@@ -44,12 +44,12 @@ public class AcceptTaskForTaskInfo {
     /**
      * 状态
      */
-    private Integer ols_task_state;
+    private String ols_task_state;
 
     /**
      * 文件类型
      */
-    private Integer type;
+    private String  type;
 
     /**
      * 完成时间
@@ -99,7 +99,7 @@ public class AcceptTaskForTaskInfo {
     /**
      * 接受状态
      */
-    private Integer ols_accept_state;
+    private String ols_accept_state;
 
     /**
      * 标注文件路径

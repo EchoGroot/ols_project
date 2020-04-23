@@ -110,6 +110,12 @@ function getAccepteImageList () {
                 taskId=resultData.data.taskImage.ols_task_id;
                 // 显示任务详情
                 $("#taskName").val(resultData.data.taskImage.name);
+                $("#taskId").val(resultData.data.taskImage.ols_accept_id);
+                $("#acceptNum").val(resultData.data.taskImage.accept_num);
+                $("#taskType").val(resultData.data.taskImage.type);
+                $("#acceptTaskState").val(resultData.data.taskImage.ols_accept_state);
+                $("#taskState").val(resultData.data.taskImage.ols_task_state);
+                $("#releaseUserName").val(resultData.data.taskImage.release_user_name);
                 $("#taskInfo").val(resultData.data.taskImage.information);
                 $("#acceptTime").val(resultData.data.taskImage.accept_time);
                 $("#releaseTime").val(resultData.data.taskImage.release_time);
@@ -257,6 +263,7 @@ function getImageList() {
         },
         success: function (resultData) {
             resultData = JSON.parse(resultData);
+            console.log(resultData);
             if (resultData.meta.status === "200") {
                 var imageList = JSON.parse(resultData.data.taskInfo.url);
                 // 将标签名存入本地session

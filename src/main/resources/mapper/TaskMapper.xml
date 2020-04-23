@@ -9,27 +9,28 @@
     <select id="getAccepteImageListByAccepteId" resultType="com.ols.ols_project.model.AcceptTaskForTaskInfo">
         select
            ols_task.id as ols_task_id,
-           name,
+           ols_task.name as name,
            ols_task.url as ols_task_url,
            information,
-           points,
+           ols_task.points as points,
            ols_task.state as ols_task_state,
            type,
            ols_task.finish_time as ols_task_finish_time,
            release_time,
-           release_user_id,
+           ols_user.name as release_user_name,
            accept_num,
            adopt_accept_id,
            ols_accept.id as ols_accept_id,
            user_id,
            accept_time,
            ols_accept.finish_time as ols_accept_finish_time,
-           ols_accept.state as ols_accept_stat,
+           ols_accept.state as ols_accept_state,
            ols_accept.url as ols_accept_url
         from
-          ols_task,ols_accept
+          ols_task,ols_accept,ols_user
         where
-          ols_task.type=1
+          release_user_id=ols_user.id
+          and ols_task.type=1
           and ols_task.id = ols_accept.task_id
           and ols_accept.id = #{acceptId}
     </select>

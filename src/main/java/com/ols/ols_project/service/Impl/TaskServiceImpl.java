@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.Const.AcceptStateEnum;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
@@ -53,7 +54,28 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId) { return taskMapper.getAccepteImageListByAccepteId(acceptId);
+    public AcceptTaskForTaskInfoVO getAccepteImageListByAccepteId(long acceptId) {
+        AcceptTaskForTaskInfo taskInfo = taskMapper.getAccepteImageListByAccepteId(acceptId);
+        return AcceptTaskForTaskInfoVO.builder()
+                .ols_task_id(taskInfo.getOls_task_id())
+                .name(taskInfo.getName())
+                .ols_task_url(taskInfo.getOls_task_url())
+                .information(taskInfo.getInformation())
+                .points(taskInfo.getPoints())
+                .ols_task_state(TaskStateEnum.getNameByCode(taskInfo.getOls_task_state()))
+                .type(FileTypeEnum.getNameByCode(taskInfo.getType()))
+                .ols_task_finish_time(taskInfo.getOls_task_finish_time())
+                .release_time(taskInfo.getRelease_time())
+                .release_user_name(taskInfo.getRelease_user_name())
+                .accept_num(taskInfo.getAccept_num())
+                .adopt_accept_id(taskInfo.getAdopt_accept_id())
+                .ols_accept_id(taskInfo.getOls_accept_id())
+                .user_id(taskInfo.getUser_id())
+                .accept_time(taskInfo.getAccept_time())
+                .ols_accept_finish_time(taskInfo.getOls_accept_finish_time())
+                .ols_accept_state(AcceptStateEnum.getNameByCode(taskInfo.getOls_accept_state()))
+                .ols_accept_url(taskInfo.getOls_accept_url())
+                .build();
     }
 
     @Override

@@ -1,15 +1,11 @@
 package com.ols.ols_project.service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.ols.ols_project.mapper.TaskMapper;
-import com.ols.ols_project.model.AcceptTaskForTaskInfo;
+import com.ols.ols_project.model.AcceptTaskForTaskInfoVO;
 import com.ols.ols_project.model.LabelInfo;
-import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.TaskEntityBo;
+import com.ols.ols_project.model.entity.TaskEntity;
 
-import java.math.BigInteger;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +17,7 @@ public interface TaskService {
 
     String getImageListByTaskId(long taskId);
 
-    AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId);
+    AcceptTaskForTaskInfoVO getAccepteImageListByAccepteId(long acceptId);
 
     int storeImageLabelInfo(long acceptTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
 
