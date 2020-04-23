@@ -513,4 +513,18 @@ public class TaskController {
         FileUtils.deleteFile(fileAllTemp);//临时文件夹用完删除
         zipFile.delete();//临时压缩包用后删除
     }
+
+    @GetMapping("/getAllReleaseById")
+    public String getAllReleaseById(
+            @RequestParam("year") String year,
+            @RequestParam("userId") String userId
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("releaseList",
+                taskService.getAllReleaseById(Long.parseLong(userId),Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取个人已发布成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
 }

@@ -2,6 +2,7 @@ package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.AcceptTaskForTaskInfo;
 import com.ols.ols_project.model.FinishCheckTask;
+import com.ols.ols_project.model.MonthAndCount;
 import com.ols.ols_project.model.entity.AccepteEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
@@ -55,4 +56,6 @@ public interface TaskMapper {
     List<List<TaskEntity>> getAllTask(String query, int start, int end, String queryInfo,String searchType,String searchInfo,String field,String order);
     void clickNumPlus(long taskId);
     List<TaskEntity> getClickNum();
+    List<MonthAndCount> getAllReleaseById(long userId, int year, int state);
+    List<MonthAndCount> getJudgeTimeById(long userId, int year);
 }

@@ -507,4 +507,65 @@
                  ext3 DESC
                  LIMIT 10;
     </select>
+    <select id="getAllReleaseById" resultMap="monthAndCountMap">
+        select
+        <if test="state==1">
+            DATE_FORMAT(finish_time, '%m') as month,
+        </if>
+        <if test="state==5">
+            DATE_FORMAT(release_time, '%m') as month,
+        </if>
+        <if test="state==0">
+            DATE_FORMAT(release_time, '%m') as month,
+        </if>
+            count(1) as count
+        from
+            ols_task
+        where
+            release_user_id = #{userId}
+            <if test="state!=0">
+                and state = #{state}
+                <if test="state==1">
+                    and DATE_FORMAT(finish_time, '%Y')=#{year}
+                </if>
+                <if test="state==5">
+                    and DATE_FORMAT(release_time, '%Y')=#{year}
+                </if>
+            </if>
+            <if test="state==0">
+                and DATE_FORMAT(release_time, '%Y')=#{year}
+            </if>
+        GROUP BY
+            <if test="state!=0">
+                <if test="state==1">
+                    DATE_FORMAT(finish_time, '%m');
+                </if>
+                <if test="state==5">
+                    DATE_FORMAT(release_time, '%m');
+                </if>
+            </if>
+            <if test="state==0">
+                DATE_FORMAT(release_time, '%m');
+            </if>
+    </select>
+    <select id="getJudgeTimeById" resultMap="monthAndCountMap">
+        SELECT
+            DATE_FORMAT(judge_time, '%m') as month,
+            count(1) as count
+        FROM
+            ols_judge,ols_task
+        WHERE
+            ols_task.release_user_id = #{userId}
+            and ols_task.id = ols_judge.task_id
+            and DATE_FORMAT(judge_time, '%Y')=#{year}
+            and ispassed = 0
+            and state = 6
+        GROUP BY
+            DATE_FORMAT(judge_time, '%m');
+    </select>
+    <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
+        <id column="month" property="month"  />
+        <result column="count" property="count" />
+    </resultMap>
+
 </mapper>

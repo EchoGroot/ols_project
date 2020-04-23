@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ols.ols_project.mapper.AcceptMapper">
+    <select id="getAllAcceptById" resultMap="monthAndCountMap">
+        select
+        <if test="state==0">
+            DATE_FORMAT(accept_time, '%m') as month,
+        </if>
+        <if test="state==1">
+            DATE_FORMAT(finish_time, '%m') as month,
+        </if>
+            count(1) as count
+        from
+            ols_accept
+        where
+            user_id = #{userId}
+        <if test="state==0">
+            and DATE_FORMAT(accept_time, '%Y')=#{year}
+        </if>
+        <if test="state==1">
+            and DATE_FORMAT(finish_time, '%Y')=#{year}
+        </if>
+            and state = #{state}
+        GROUP BY
+        <if test="state==0">
+            DATE_FORMAT(accept_time, '%m');
+        </if>
+        <if test="state==1">
+            DATE_FORMAT(finish_time, '%m');
+        </if>
+    </select>
+
+    <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
+        <id column="month" property="month"  />
+        <result column="count" property="count" />
+    </resultMap>
+</mapper>

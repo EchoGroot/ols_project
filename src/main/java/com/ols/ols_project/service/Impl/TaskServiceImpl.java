@@ -252,7 +252,7 @@ public class TaskServiceImpl implements TaskService {
         taskEntity.setUrl(taskUrl);
         taskEntity.setInformation(taskInfo);
         taskEntity.setPoints(rewardPoints);
-        taskEntity.setState(5);//默认类型5 已发布
+        taskEntity.setState(7);//默认类型7 发布且未标注示例
         taskEntity.setType(type);
         taskEntity.setRelease_time(new Timestamp(System.currentTimeMillis()));
         taskEntity.setFinish_time(null);
@@ -375,5 +375,48 @@ public class TaskServiceImpl implements TaskService {
                 fromFile.delete();//遍历删除文件夹及其子内容
             }
         }
+    }
+
+    @Override
+    public int[][] getAllReleaseById(long userId, int year) {
+        int[][] resultArr=new int[4][];
+        //当月总计发布数量
+        List<MonthAndCount> list0 = taskMapper.getAllReleaseById(userId, year, 0);
+        //已完成
+        List<MonthAndCount> list1 = taskMapper.getAllReleaseById(userId, year, 1);
+        //已失效
+        //已发布
+        List<MonthAndCount> list5 = taskMapper.getAllReleaseById(userId, year, 5);
+        //未过审时间
+        List<MonthAndCount> list6 = taskMapper.getJudgeTimeById(userId, year);
+        // 6未过审核 5已发布 1已完成
+        int[] state0=new int[12];
+        int[] state1=new int[12];
+        int[] state5=new int[12];
+        int[] state6=new int[12];
+        int j=0,k=0;
+        for (int i=0;i<12;i++){
+            state0[i]=0;
+            state1[i]=0;
+            state5[i]=0;
+            state6[i]=0;
+            if(j<list0.size()&&Integer.parseInt(list0.get(j).getMonth())==(i+1)){
+                state0[i]=Integer.parseInt(list0.get(j++).getCount());
+            }
+            if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
+                state1[i]=Integer.parseInt(list1.get(k++).getCount());
+            }
+            if(j<list5.size()&&Integer.parseInt(list5.get(j).getMonth())==(i+1)){
+                state5[i]=Integer.parseInt(list5.get(j++).getCount());
+            }
+            if(k<list6.size()&&Integer.parseInt(list6.get(k).getMonth())==(i+1)){
+                state6[i]=Integer.parseInt(list6.get(k++).getCount());
+            }
+        }
+        resultArr[0]=state0;
+        resultArr[1]=state1;
+        resultArr[2]=state5;
+        resultArr[3]=state6;
+        return resultArr;
     }
 }
