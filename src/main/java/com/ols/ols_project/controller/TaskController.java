@@ -316,9 +316,12 @@ public class TaskController {
     public String creatTaskUrl(String labelName, String originalImage){
         return taskService.creatTaskUrl(labelName,originalImage);
     }
-
+    @PostMapping("/creatDocTaskUrl")
+    public String creatDocTaskUrl(String labelName, String originalDoc){
+        return taskService.creatDocTaskUrl(labelName,originalDoc);
+    }
     @PostMapping("uploadImgs")
-    public String uplpadImgs(@RequestParam("file") MultipartFile file) {
+    public String uploadImgs(@RequestParam("file") MultipartFile file) {
         String oriName = "";
         String staticPath=desFilePath;
         String thumbPath = thumbFilePath;
@@ -354,6 +357,37 @@ public class TaskController {
             System.out.println(e.getMessage());
             Result result = new Result("1","图片保存失败--IO异常");
             System.out.println(staticPath + "图片保存失败--IO异常");
+            return JSON.toJSONString(result);
+        }
+    }
+    @PostMapping("uploadDocs")
+    public String uploadDocs(@RequestParam("file") MultipartFile file) {
+        String staticPath=desFilePath;
+        try {
+            // 2.获取原文件后缀名extensionName，以最后的.作为截取(.txt .doc .pdf)
+            String extName =file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            // 3.生成自定义的新文件名
+            String newName = uidGenService.getUid() + extName;
+            //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
+            // 4.保存绝对路径
+            staticPath += newName;
+            File desFile = new File(staticPath);
+            file.transferTo(desFile);
+            // 6.返回保存结果信息
+            HashMap<String,Object> dataMap=new HashMap<>();
+            dataMap.put("src", "/文件保存的绝对路径地址/" + newName);
+            dataMap.put("docName", newName);
+            Result result = new Result(dataMap,"0","上传成功");
+            System.out.println(staticPath+"文件保存成功");
+            return JSON.toJSONString(result);
+        } catch (IllegalStateException e) {
+            Result result = new Result("1","文件保存失败");
+            System.out.println(staticPath + "文件保存失败");
+            return JSON.toJSONString(result);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            Result result = new Result("1","文件保存失败--IO异常");
+            System.out.println(staticPath + "文件保存失败--IO异常");
             return JSON.toJSONString(result);
         }
     }

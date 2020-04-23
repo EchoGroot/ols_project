@@ -49,7 +49,7 @@ public interface TaskService {
 
     int awardPoints(int rewardPoints,long releaseUserId);
     String creatTaskUrl(String labelName, String originalImage);
-
+    String creatDocTaskUrl(String labelName,String originalDoc);
     HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
                                        String queryInfo,String searchType, String searchInfo,String field,String order);
 

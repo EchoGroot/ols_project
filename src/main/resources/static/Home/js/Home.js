@@ -229,6 +229,9 @@ $(function () {
     $("#newTaskBtn").click(function () {
         gotoUrlByJudege("/Home/newTask.html?userId="+userId)
     });
+    $("#newDocTaskBtn").click(function () {
+        gotoUrlByJudege("/Home/newDocTask.html?userId="+userId)
+    });
     $("#acceptli").click(function () {
         gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
     })

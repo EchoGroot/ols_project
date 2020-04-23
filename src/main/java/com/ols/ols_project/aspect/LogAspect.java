@@ -28,7 +28,8 @@ public class LogAspect {
      * ..表示包及子包 该方法代表controller层的所有方法
      */
     @Pointcut("execution(public * com.ols.ols_project.controller..*.*(..))" +
-            "&& !execution(public * com.ols.ols_project.controller.TaskController.uplpadImgs(..))"
+            "&& !execution(public * com.ols.ols_project.controller.TaskController.uploadImgs(..))" +
+            "&& !execution(public * com.ols.ols_project.controller.TaskController.uploadDocs(..))"
     )
     public void controllerMethod() {
     }
