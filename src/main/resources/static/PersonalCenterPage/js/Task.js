@@ -114,9 +114,13 @@ $(function () {
             ,done: function(res, curr, count){
                 if(page==='acceptTask'){
                     $(".adoptClass").hide();
-                }
+                };
+                if(query==='releasefinish' && taskType==='img'){
+                    $(".checkClass").hide();
+                    $(".adoptClass").hide();
+                    $(".downloadClass").show();
+                };
             }
-
         });
         // 监听下拉选择框
         form.on('select(chooseSelectFilter)', function (data) {
@@ -136,6 +140,10 @@ $(function () {
                 }
             } else if(layEvent === 'adopt'){
                 // 采纳
+                chooseAdoptFunc(data.id);
+            }else if(layEvent === 'download'){
+                // 下载
+                downloadFunc(data.id);
             }
         });
         //筛选按钮点击时间
@@ -529,5 +537,11 @@ function checkFunc(taskId) {
             +"%3FuserId%3D"+userId
             +"%26page%3D"+page1;
     }
+}
 
+function chooseAdoptFunc(taskId) {
+    parent.$("#iframeMain").attr("src","./adoptImgTask.html?a=1&"+'taskId='+taskId+'&userId='+userId);
+}
+function downloadFunc(taskId) {
+    window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
 }

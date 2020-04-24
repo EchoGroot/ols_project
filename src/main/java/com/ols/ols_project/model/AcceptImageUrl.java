@@ -26,7 +26,7 @@ import java.util.List;
         "labelName"
 })
 @XmlSeeAlso(JSONObject.class)
-public class AccepteImageUrl {
-    private List<AccepteTaskImageInfo> taskImage;
+public class AcceptImageUrl {
+    private List<AcceptTaskImageInfo> taskImage;
     private List<String> labelName;
 }

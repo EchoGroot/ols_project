@@ -21,7 +21,7 @@ $(function () {
                 .attr("href")
             +'&userId='+userId
         );
-    // 图片已接受未完成的任务
+    // 图片已接受已完成的任务
     }else if(page ==='acceptFinishImgTask'){
         // 打开抽屉菜单
         $("#acceptImgTask").attr('class','layui-nav-itemed');

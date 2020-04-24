@@ -35,7 +35,7 @@
           and ols_accept.id = #{acceptId}
     </select>
 
-    <select id="getAccepteTaskInfoByAcceptId" resultType="com.ols.ols_project.model.entity.AccepteEntity">
+    <select id="getAccepteTaskInfoByAcceptId" resultType="com.ols.ols_project.model.entity.AcceptEntity">
         select
           id,
           user_id,
@@ -135,7 +135,7 @@
           id = #{taskId}
     </select>
 
-    <insert id="insAcceptTask" parameterType="com.ols.ols_project.model.entity.AccepteEntity">
+    <insert id="insAcceptTask" parameterType="com.ols.ols_project.model.entity.AcceptEntity">
         insert into ols_accept
           (
             id,
@@ -497,6 +497,16 @@
         where
             id=#{taskId}
     </update>
+
+    <update id="setFinishById">
+        update
+            ols_task
+        set
+            state=1,
+            adopt_accept_id=#{accept}
+        where
+            id=#{taskId}
+    </update>
     <select id="getClickNum" resultType="com.ols.ols_project.model.entity.TaskEntity">
         SELECT id,
                name,
@@ -506,6 +516,14 @@
         ORDER BY
                  ext3 DESC
                  LIMIT 10;
+    </select>
+    <select id="getPoints" resultType="int">
+        select
+         points
+        from
+        ols_task
+        where
+        id=#{taskId}
     </select>
     <select id="getAllReleaseById" resultMap="monthAndCountMap">
         select

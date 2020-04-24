@@ -35,7 +35,7 @@ $(function () {
         $("#ChartMain3").hide();
         $("#Header").append("个人接受任务可视化分析");
         $.ajax({
-            url: '/accept/getAllAcceptById',
+            url: '/accept/getPersonalAcceptByUserId',
             type: "GET",
             data: {
                 userId: userId,

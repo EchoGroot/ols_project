@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccepteEntity {
+public class AcceptEntity {
 
     /**
      * 接受任务编号

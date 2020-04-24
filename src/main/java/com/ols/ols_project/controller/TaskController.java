@@ -12,7 +12,7 @@ import com.ols.ols_project.common.utils.XmlUtil;
 import com.ols.ols_project.common.utils.ZipUtils;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.*;
-import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.AcceptEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
@@ -464,7 +464,6 @@ public class TaskController {
     }
     @GetMapping("/downloadFinishedTask")
     public void downloadFT(@RequestParam(value = "taskId") long taskId,
-                           @RequestParam(value = "acceptId") long acceptId,
                            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONArray fileNameArray = taskService.getFileNameByTaskId(taskId);
         String path = desFilePath;
@@ -482,9 +481,10 @@ public class TaskController {
             File toFile = new File(path+taskId+"\\"+fileNameArray.get(i));//目标文件地址 用于将要打包的文件放在一起
             copy(fromFile.toPath(),toFile.toPath());//将源文件复制进临时文件夹  用于打包
         }
+
         //将采纳的标注信息以xml格式也加入打包文件中
-        AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(acceptId);
-        AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
+        AcceptEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(taskMapper.getTaskInfoByTaskId(taskId).getAdopt_accept_id());
+        AcceptImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AcceptImageUrl>() {});
         FileUtils.saveAsFileWriter(XmlUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
         //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
 

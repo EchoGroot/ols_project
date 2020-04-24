@@ -2,7 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ols.ols_project.mapper.AcceptMapper">
-    <select id="getAllAcceptById" resultMap="monthAndCountMap">
+    <select id="getUserId" resultType="Long">
+        select user_id from ols_accept where id=#{acceptId}
+    </select>
+    <select id="getPersonalAcceptByUserId" resultMap="monthAndCountMap">
         select
         <if test="state==0">
             DATE_FORMAT(accept_time, '%m') as month,
@@ -30,9 +33,52 @@
             DATE_FORMAT(finish_time, '%m');
         </if>
     </select>
+    <update id="setAdoptState">
+        update
+          ols_accept
+        set
+          state=2
+        where
+          id=#{acceptId}
+    </update>
+
+    <update id="setNotAdoptState">
+        update
+            ols_accept
+        set
+            state=3
+        where
+            task_id=#{taskId}
+    </update>
+    <select id="getAcceptListByTaskId" resultMap="AcceptMap,total">
+        select
+            SQL_CALC_FOUND_ROWS id,
+            user_id,task_id,accept_time,finish_time,state,url
+        from
+            ols_accept
+        where
+            task_id=#{taskId}
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
 
     <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
         <id column="month" property="month"  />
         <result column="count" property="count" />
+    </resultMap>
+    <resultMap id="AcceptMap" type="com.ols.ols_project.model.entity.AcceptEntity" >
+        <id column="id" property="id"  />
+        <result column="user_id" property="user_id" />
+        <result column="task_id" property="task_id" />
+        <result column="accept_time" property="accept_time" />
+        <result column="finish_time" property="finish_time" />
+        <result column="state" property="state" />
+        <result column="url" property="url" />
     </resultMap>
 </mapper>

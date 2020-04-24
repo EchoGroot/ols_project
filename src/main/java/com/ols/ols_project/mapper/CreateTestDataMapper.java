@@ -1,6 +1,6 @@
 package com.ols.ols_project.mapper;
 
-import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.AcceptEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
@@ -13,7 +13,7 @@ import com.ols.ols_project.model.entity.UserOperationLogEntity;
 public interface CreateTestDataMapper {
     void createTestDataForOlsUser(UserEntity userEntity);
     void createTestDataForOlsTask(TaskEntity taskEntity);
-    void createTestDataForOlsAccepte(AccepteEntity acceptEntity);
+    void createTestDataForOlsAccepte(AcceptEntity acceptEntity);
 
     void createTestDataForOlsUserOperationLog(UserOperationLogEntity userOperationLogEntity);
 }

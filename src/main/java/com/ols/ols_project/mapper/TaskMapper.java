@@ -3,7 +3,7 @@ package com.ols.ols_project.mapper;
 import com.ols.ols_project.model.AcceptTaskForTaskInfo;
 import com.ols.ols_project.model.FinishCheckTask;
 import com.ols.ols_project.model.MonthAndCount;
-import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.AcceptEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 
@@ -19,7 +19,7 @@ public interface TaskMapper {
 
     AcceptTaskForTaskInfo getAccepteImageListByAccepteId(long acceptId);
 
-    AccepteEntity getAccepteTaskInfoByAcceptId(long acceptId);
+    AcceptEntity getAccepteTaskInfoByAcceptId(long acceptId);
 
     int storeImageLabelInfoByTempTaskId(String pageType,long tempTaskId,String url);
 
@@ -31,7 +31,7 @@ public interface TaskMapper {
 
     TaskEntity getTaskInfoByTaskId(long taskId);
 
-    int insAcceptTask(AccepteEntity build);
+    int insAcceptTask(AcceptEntity build);
 
     int selAcceptNumOfTask(long taskId);
 
@@ -58,4 +58,6 @@ public interface TaskMapper {
     List<TaskEntity> getClickNum();
     List<MonthAndCount> getAllReleaseById(long userId, int year, int state);
     List<MonthAndCount> getJudgeTimeById(long userId, int year);
+    int getPoints(long taskId);
+    void setFinishById(long taskId,long acceptId);
 }

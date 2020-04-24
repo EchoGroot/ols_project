@@ -1,4 +1,4 @@
-var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
+var userId=getQueryVariable('userId'); //获取URL参数里的用户ID
 var queryInfo= getQueryVariable('queryInfo'); 
 $(function () {
     // layui初始化
@@ -262,6 +262,9 @@ $(function () {
                     curr: 1 //重新从第 1 页开始
                 }
             });
+        })
+        $("#ChartBtn").click(function () {
+            parent.$("#iframeMain").attr("src",$(this).attr("href")+'userId='+userId);
         })
     });
 });

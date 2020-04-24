@@ -29,7 +29,7 @@ import java.util.List;
         "isExample",
         "labeledInfo"
 })
-public class AccepteTaskImageInfo {
+public class AcceptTaskImageInfo {
     private String originalImage;
     private Boolean isLabeled;
     private Boolean isExample;

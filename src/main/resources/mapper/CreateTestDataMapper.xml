@@ -43,7 +43,7 @@
     </insert>
 
     <insert id="createTestDataForOlsAccepte"
-            parameterType="com.ols.ols_project.model.entity.AccepteEntity">
+            parameterType="com.ols.ols_project.model.entity.AcceptEntity">
         insert into ols_accept
           (
             user_id,

@@ -31,10 +31,12 @@
 
 <table id="taskList" lay-filter="monitorToolbar"></table>
 <script type="text/html" id="barHandle">
-    <a class="layui-btn layui-btn-sm" lay-event="check">查看</a>
+
+    <a class="checkClass layui-btn layui-btn-sm" lay-event="check">查看</a>
     <!-- 这里同样支持 laytpl 语法，如： -->
     {{#  if(d.ext1 !== '0'){ }}
-    <a id="adopt" class="adoptClass layui-btn layui-btn-danger layui-btn-sm" lay-event="no">选择采纳</a>
+    <a class="downloadClass layui-btn layui-btn-danger layui-btn-sm" lay-event="download" style="display: none">下载</a>
+    <a class="adoptClass layui-btn layui-btn-danger layui-btn-sm" lay-event="adopt">选择采纳</a>
     {{#  } }}
 </script>
 </body>

@@ -13,7 +13,7 @@ import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
-import com.ols.ols_project.model.entity.AccepteEntity;
+import com.ols.ols_project.model.entity.AcceptEntity;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.service.TaskService;
@@ -82,7 +82,7 @@ public class TaskServiceImpl implements TaskService {
         int result=0;
         if("labelExamplePage".equals(pageType)){
             TaskEntity taskInfo = taskMapper.getTaskInfoByTaskId(tempTaskId);
-            AccepteImageUrl acceptImageUrl = JSON.parseObject(taskInfo.getUrl(), new TypeReference<AccepteImageUrl>() {});
+            AcceptImageUrl acceptImageUrl = JSON.parseObject(taskInfo.getUrl(), new TypeReference<AcceptImageUrl>() {});
             acceptImageUrl.getTaskImage().stream().forEach(e->{
                 if(e.getOriginalImage().equals(imageUrlParam)){
                     e.setLabeledInfo(labelInfos);
@@ -94,8 +94,8 @@ public class TaskServiceImpl implements TaskService {
             });
             result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptImageUrl));
         }else{
-            AccepteEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(tempTaskId);
-            AccepteImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AccepteImageUrl>() {});
+            AcceptEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(tempTaskId);
+            AcceptImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AcceptImageUrl>() {});
             acceptImageUrl.getTaskImage().stream().forEach(e->{
                 if(e.getOriginalImage().equals(imageUrlParam)){
                     e.setLabeledInfo(labelInfos);
@@ -175,7 +175,7 @@ public class TaskServiceImpl implements TaskService {
         //查询任务信息
         TaskEntityBo taskInfoByTaskId = getTaskInfoByTaskId(taskId);
         //写入任务接受表
-        result+=taskMapper.insAcceptTask(AccepteEntity.builder()
+        result+=taskMapper.insAcceptTask(AcceptEntity.builder()
                 .id(uidGenService.getUid())
                 .task_id(taskInfoByTaskId.getId())
                 .user_id(userId)

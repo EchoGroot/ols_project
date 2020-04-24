@@ -92,7 +92,7 @@ public class CreateTestDataServiceImpl implements CreateTestDataService {
 
     @Override
     public void createTestDataForOlsAccepte() {
-        AccepteEntity acceptEntity=new AccepteEntity();
+        AcceptEntity acceptEntity=new AcceptEntity();
         Random random = new Random();
         for (int i = 0; i < 1; i++) {
             acceptEntity.setUser_id(10000L);
