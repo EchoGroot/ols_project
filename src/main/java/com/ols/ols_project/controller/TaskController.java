@@ -465,6 +465,15 @@ public class TaskController {
     @GetMapping("/downloadFinishedTask")
     public void downloadFT(@RequestParam(value = "taskId") long taskId,
                            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //判断环境
+        String str="";
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            str = "\\";
+        }else if(os.toLowerCase().startsWith("lin")){
+            str = "/";
+        }
+
         JSONArray fileNameArray = taskService.getFileNameByTaskId(taskId);
         String path = desFilePath;
         //String path = "http:\\\\yuyy.info\\image\\ols\\";//linux 路径有点问题
@@ -478,14 +487,14 @@ public class TaskController {
         }
         for(int i=0;i<fileNameArray.size();i++){
             File fromFile = new File(path+fileNameArray.get(i));//找到文件
-            File toFile = new File(path+taskId+"\\"+fileNameArray.get(i));//目标文件地址 用于将要打包的文件放在一起
+            File toFile = new File(path+taskId+str+fileNameArray.get(i));//目标文件地址 用于将要打包的文件放在一起
             copy(fromFile.toPath(),toFile.toPath());//将源文件复制进临时文件夹  用于打包
         }
 
         //将采纳的标注信息以xml格式也加入打包文件中
         AcceptEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(taskMapper.getTaskInfoByTaskId(taskId).getAdopt_accept_id());
         AcceptImageUrl acceptImageUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AcceptImageUrl>() {});
-        FileUtils.saveAsFileWriter(XmlUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
+        FileUtils.saveAsFileWriter(XmlUtil.convertToXml(acceptImageUrl),fileAllTemp.getPath()+str+taskId+"labelInfo.xml");
         //FileUtils.saveAsFileWriter(taskService.getImageListByTaskId(taskId),fileAllTemp.getPath()+"\\"+taskId+"labelInfo.xml");
 
         FileOutputStream zip = new FileOutputStream(new File(fileAllTemp.getPath()+".zip"));

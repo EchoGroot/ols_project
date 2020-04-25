@@ -543,5 +543,6 @@ function chooseAdoptFunc(taskId) {
     parent.$("#iframeMain").attr("src","./adoptImgTask.html?a=1&"+'taskId='+taskId+'&userId='+userId);
 }
 function downloadFunc(taskId) {
-    window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
+    //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
+    window.open("http://yuyy.info:8081/task/downloadFinishedTask?taskId="+taskId);
 }
