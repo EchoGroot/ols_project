@@ -2,10 +2,7 @@ package com.ols.ols_project.service.Impl;
 
 import com.ols.ols_project.common.Const.*;
 import com.ols.ols_project.mapper.UserMapper;
-import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.AcceptTaskBo;
-import com.ols.ols_project.model.TaskEntityBo;
-import com.ols.ols_project.model.UserSignUp;
+import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
@@ -184,6 +181,25 @@ public class UserServiceImpl implements UserService {
         });
         result.put("total",list.get(1).get(0));
         result.put("userList",listBo);
+        return result;
+    }
+
+    @Override
+    public HashMap<String, Object> getUserOperationLog(Integer pageNum, Integer pageSize,String user_id) {
+        List<List<UserOperationLog>> list = userMapper.getUserOperationLog((pageNum - 1) * pageSize, pageSize,user_id);
+        HashMap<String,Object> result=new HashMap<>();
+        List<Object> listBo=new ArrayList<>();
+        list.get(0).stream().forEach(userOperationLogEntity -> {
+            listBo.add(UserOperationLog.builder()
+                    .id(userOperationLogEntity.getId())
+                    .user_id(userOperationLogEntity.getUser_id())
+                    .type(LogTypeEnum.getNameByCode(Integer.parseInt(userOperationLogEntity.getType())))
+                    .operation(userOperationLogEntity.getOperation())
+                    .time(userOperationLogEntity.getTime())
+                    .build());
+        });
+        result.put("total",list.get(1).get(0));
+        result.put("logList",listBo);
         return result;
     }
 

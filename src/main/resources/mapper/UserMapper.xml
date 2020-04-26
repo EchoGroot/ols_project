@@ -403,4 +403,34 @@
         SELECT FOUND_ROWS() as total;
     </select>
 
+    <resultMap id="UserOperationLogMap" type="com.ols.ols_project.model.UserOperationLog" >
+        <id column="id" property="id"  />
+        <result column="user_id" property="user_id" />
+        <result column="type" property="type" />
+        <result column="operation" property="operation" />
+        <result column="time" property="time" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+    </resultMap>
+
+    <select id="getUserOperationLog" resultMap="UserOperationLogMap,total">
+        SELECT
+        SQL_CALC_FOUND_ROWS id,
+        user_id,
+        type,
+        operation,
+        time,
+        ext1,
+        ext2,
+        ext3
+        from
+        ols_user_operation_log
+        where
+        user_id=#{user_id}
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
 </mapper>

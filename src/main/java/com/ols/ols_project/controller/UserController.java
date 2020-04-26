@@ -524,6 +524,11 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 注销
+     * @param httpServletRequest
+     * @return
+     */
     @GetMapping(value="/cancel")
     public String cancel(HttpServletRequest httpServletRequest){
         String resultStr = null;
@@ -541,6 +546,23 @@ public class UserController {
         }
         return resultStr;
     }
+
+    @GetMapping(value = "/getUserOperationLog")
+    public String getUserOperationLog(
+            @RequestParam(value = "user_id") String user_id,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize
+    ) {
+        HashMap<String, Object> data = userService.getUserOperationLog(pageNum,pageSize,user_id);
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(data, "0", "获取用户操作日志成功！"),
+                "yyyy-MM-dd HH:mm:ss",
+                SerializerFeature.WriteNonStringValueAsString);
+        return result;
+    }
+
+
 
 
 }

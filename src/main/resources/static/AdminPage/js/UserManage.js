@@ -45,7 +45,7 @@ $(function () {
             // 工具条的点击事件
             if(layEvent === 'log'){
                 // 查看用户操作日志
-                // yesReviewerSignUp(data.id,'yes',tableIns)
+                operationLog(data.id,data.name)
             } else if(layEvent === 'no'){
                 // 拒绝审核者账号注册
                 //yesReviewerSignUp(data.id,'no',tableIns)
@@ -167,33 +167,45 @@ $(function () {
     });
 
 });
-// 允许或者拒绝审核者账号注册
-function yesReviewerSignUp(userId,operation,tableIns) {
-    $.ajax({
-        type: "POST",
-        url:"/user/yesReviewerSignUp",
-        data:{
-            "userId":userId,
-            "operation":operation,
-            "adminUserId":adminUserId
-        },
-        success:function(resultData){
-            resultData=JSON.parse(resultData)
-            if(resultData.meta.status === "200"){
-                layer.msg('操作成功', {
-                    icon: 1, //绿勾
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                });
-                // 表格重载
-                tableIns.reload({});
-            }else{
-                layer.msg('操作失败，请刷新页面', {
-                    icon: 5, //红色不开心
-                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                });
+// 查看用户操作日志
+function operationLog(userId,userName) {
+    layui.use(['table','form'],function () {
+        var table=layui.table;
+        var form=layui.form;
+        layer.open({
+            type:1,
+            title:userName+"操作日志",
+            area:['600px','600px'],
+            content:$('#logDiv'),
+            success:function () {
+                table.render({
+                    elem:'#logList'
+                    ,height: '500'
+                    , url: '/user/getUserOperationLog?user_id='+userId//数据接口
+                    , page: true //开启分页
+                    , limits: [10,20,30]
+                    , limit: 10
+                    , parseData: function(res) { //res 即为原始返回的数据
+                        return {
+                            "code": res.meta.status, //解析接口状态
+                            "msg": res.meta.msg, //解析提示文本
+                            "count": res.data.total, //解析数据长度
+                            "data": res.data.logList //解析数据列表
+                        }
+                    }
+                    , cols: [[ //表头
+                        {field: 'type', title: '类型', align:'center',width: 100,fixed: 'left', sort: true}
+                        , {field: 'time', title: '时间', align:'center',width: 200, sort: true}
+                        , {field: 'operation', title: '详情', align:'center',width: 300, sort: true}
+
+                    ]]
+
+                })
+
             }
-        }
-    });
+        })
+
+    })
 }
 // 获取URL参数
 function getQueryVariable(name) {

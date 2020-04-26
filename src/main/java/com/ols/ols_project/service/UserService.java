@@ -144,4 +144,6 @@ public interface UserService {
      * @return
      */
     HashMap<String, Object> getUserSignUp(String queryInfo,String searchInfo,Integer pageNum, Integer pageSize);
+
+    HashMap<String, Object> getUserOperationLog(Integer pageNum, Integer pageSize,String user_id);
 }

@@ -1,6 +1,7 @@
 package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.AcceptTask;
+import com.ols.ols_project.model.UserOperationLog;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.UserSignUp;
@@ -52,5 +53,9 @@ public interface UserMapper {
     int setPoints(int points,long userId);
 
     int insmessage();
+
+    List<List<UserOperationLog>> getUserOperationLog(int start, Integer end,String user_id);
+
+
 
 }
