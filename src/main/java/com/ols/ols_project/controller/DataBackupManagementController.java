@@ -19,10 +19,11 @@ public class DataBackupManagementController {
 
     /**
      * 定时生成备份文件
+     *
      * @throws Exception
      */
-    @Scheduled(cron="0 0 1 * * ?") //每天凌晨1点执行一次
-    public void backup2() throws  Exception{
+    @Scheduled(cron = "0 0 1 * * ?") //每天凌晨1点执行一次
+    public void backup2() throws Exception {
         System.out.println("############生成备份文件");
         backup();
     }
@@ -30,13 +31,13 @@ public class DataBackupManagementController {
     //备份数据库
     @GetMapping("/backup")
     public static boolean backup() {
-        String hostIP="106.15.225.159";
-        String userName="olsAdmin";
-        String password="6789@jkl";
-        String savePath="D:\\backUp\\";
-        String fileName=new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date().getTime());
-        String databaseName="ols";
-        fileName +=".sql";
+        String hostIP = "106.15.225.159";
+        String userName = "olsAdmin";
+        String password = "6789@jkl";
+        String savePath = "D:\\backUp\\";
+        String fileName = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date().getTime());
+        String databaseName = "ols";
+        fileName += ".sql";
         File saveFile = new File(savePath);
         if (!saveFile.exists()) {// 如果目录不存在
             saveFile.mkdirs();// 创建文件夹
@@ -47,12 +48,12 @@ public class DataBackupManagementController {
         //拼接命令行的命令
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("mysqldump").append(" -h").append(hostIP);
-        stringBuilder.append(" -u").append(userName).append(" -p").append(password).append(" "+databaseName);
+        stringBuilder.append(" -u").append(userName).append(" -p").append(password).append(" " + databaseName);
         stringBuilder.append(" >").append(savePath + fileName);
         System.out.println(stringBuilder);
         try {
             //调用外部执行exe文件的javaAPI
-            Process process = Runtime.getRuntime().exec("cmd /c"+stringBuilder.toString());
+            Process process = Runtime.getRuntime().exec("cmd /c" + stringBuilder.toString());
             if (process.waitFor() == 0) {// 0 表示线程正常终止。
                 return true;
             }
@@ -65,39 +66,43 @@ public class DataBackupManagementController {
     }
 
 
-//还原数据库
     /**
-     * @param filepath 数据库备份的脚本路径
+     * 导入Mysql数据库
+     * @param importFilePath 数据库文件路径
+     * @param fileName    要导入的文件名
      * @return
+     * @throws InterruptedException
      */
-    @GetMapping("/recover")
-    public static boolean recover( @RequestParam("filepath") String filepath
-                                   //@RequestParam("ip") String ip,
-                                   //@RequestParam("database") String database,
-                                  // @RequestParam("userName") String userName,
-                                   //@RequestParam("password") String password
-                                   ) {
+    @GetMapping("/importDatabase")
+    public static boolean importDatabase(
+                                         String importFilePath,
+                                         String fileName) {
 
-        String ip="106.15.225.159";
-        String userName="olsAdmin";
-        String password="6789@jkl";
-        String database="ols";
-        String stmt1 = "mysqladmin -h "+ip+" -u "+userName+" -p"+password+" create "+database;
-
-        String stmt2 = "mysql -h "+ip+" -u "+userName+" -p "+password+" "+database+" < " + filepath;
-
-        String[] cmd = { "cmd", "/c", stmt2 };
-
+        String hostIP = "127.0.0.1";
+        String hostPort = "3306";
+        String userName = "root";
+        String password = "root";
+        String databaseName = "olsbackup";
+        File imporFile = new File(importFilePath);
+        if (!imporFile.exists()) {
+            imporFile.mkdirs();
+        }
+        if (!importFilePath.endsWith(File.separator)) {
+            importFilePath = importFilePath + File.separator;
+        }
         try {
-            Runtime.getRuntime().exec(stmt1);
-            Runtime.getRuntime().exec(cmd);
-            System.out.println("数据已从 " + filepath + " 导入到数据库中");
+            Process process = Runtime.getRuntime().exec("cmd /C" + "mysql -h" + hostIP + " -P" + hostPort + " -u" + userName + " -p" + password + " " + databaseName + "<" + importFilePath + fileName);
+            if (process.waitFor() == 0) {
+                return true;
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return true;
+        return false;
     }
+
 
 
     /**

@@ -1,6 +1,12 @@
 //用户举报页面
 var userId=getQueryVariable('userId'); //用户ID
 var taskId=getQueryVariable('taskId'); // 任务ID
+$.Lemoji({
+    emojiInput: '#L_content',
+    emojiBtn: '#btn',
+    position: 'LEFTBOTTOM',
+    length: 8
+});
 
 $(function () {
     //layui初始化
@@ -36,68 +42,7 @@ $(function () {
             }
         })
     });
-
-
-    // 页面初始化生成验证码
-    window.onload = createCode("#codeCard");
-    // 验证码切换
-    $("#codeCard").click(function () {
-        createCode("#codeCard");
-    });
-});
-// 生成验证码
-function createCode(codeID) {
-    var code = "";
-    // 验证码长度
-    var codeLength = 4;
-    // 验证码dom元素
-    var checkCode = $(codeID);
-    // 验证码随机数
-    var random = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
-        'S','T','U','V','W','X','Y','Z'];
-    for (var i = 0;i < codeLength; i++){
-        // 随机数索引
-        var index = Math.floor(Math.random()*36);
-        code += random[index];
-    }
-    // 将生成的随机验证码赋值
-    checkCode.val(code);
-}
-//验证码匹配
-function verifyCode(email) {
-    var inputcode=$("#inputcode").val();
-    if(inputcode===""||inputcode===null){
-        layer.msg('请输入验证码！',{
-            icon:5
-        });
-        return false;
-    }else{
-        $.ajax({
-            type:"post",
-            url:"/user/verifyCode",
-            data:{
-                "email":email,
-                "inputcode":inputcode
-            },
-            success: function (resultData) {
-                resultData = JSON.parse(resultData);
-                if (resultData.meta.status === "200") {
-                    return true;
-                }else{
-                    layer.alert('验证码错误！',{
-                        icon:5
-                    });
-                    return false;
-                }
-            },
-            error:function(){
-                return false;
-            }
-        })
-    }
-    return true;
-
-}
+})
 
 // 从URL中获取参数
 function getQueryVariable(name) {

@@ -21,14 +21,14 @@
         }
     })
  }
-
 //还原
-function restoreFunc(){
+function importDatabase(){
     $.ajax({
-        url: '/data/recover',
+        url: '/data/importDatabase',
         type: "GET",
         data: {
-            "filepath": filepath
+            "importFilePath":importFilePath,
+            "fileName": fileName
         },
         success: function (resultData) {
             resultData = JSON.parse(resultData);
@@ -47,6 +47,8 @@ function restoreFunc(){
         }
     })
 }
+
+
 
 function restoreFunc1(){
     // 打开弹窗
@@ -69,25 +71,3 @@ function restoreFunc1(){
     });
 }
 
-
-
-function backupFunc1(){
-    // 打开弹窗
-    layer.open({
-        title: '备份数据库',
-        area: ['400px', '250px'],
-        btnAlign: 'c',
-        closeBtn:'1',//右上角的关闭
-        content: '<div><div>请输入备份文件名称：  <textarea class="layui-layer-input" name="txt_remark" id="fileName"style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></textarea></div>' +
-            '<div>请输入备份地址： <textarea class="layui-layer-input" name="txt_remark" id="savePath"  style="width:100%;height:30%;line-height:20px;padding:6px 10px;"></textarea></div>',
-        btn:['确认','取消'],
-        yes: function (index, layero) {
-            backup(hostIp,userName,password,$("#savePath").val(),$("#fileName").val(),databaseName);
-            layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
-        },
-        btn2:function(index, layero)
-        {
-            layer.close(index);
-        }
-    });
-}
