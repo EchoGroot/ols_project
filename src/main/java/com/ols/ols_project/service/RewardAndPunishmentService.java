@@ -9,4 +9,7 @@ public interface RewardAndPunishmentService {
     HashMap<String, Object> getAllMessage( Integer pageNum, Integer pageSize);
     //确认发布惩罚信息
    // int taskPassOrNotPassAudits(long userId,  String operation,String infomation);
+//通过类型查询奖惩信息
+    HashMap<String, Object> getRAPInformationBytype(int type,String queryInfo, String searchInfo, int pageNum, int pageSize);
+
 }

@@ -1,7 +1,10 @@
 package com.ols.ols_project.service.Impl;
 
 import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.mapper.RewardAndPunishmentMapper;
+import com.ols.ols_project.model.FinishCheckTask;
+import com.ols.ols_project.model.FinishCheckTaskBo;
 import com.ols.ols_project.model.RewardAndPunishmentEnityBo;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.RewardAndPunishmentEnity;
@@ -53,6 +56,7 @@ public class RewardAndPunishmentServiceImpl implements RewardAndPunishmentServic
                             .id(e.getId())
                             .user_id(e.getUser_id())
                             .information(e.getInformation())
+                            .type(e.getType())
                             .ext1(e.getExt1())
                             .ext2(e.getExt2())
                             .create_time(e.getCreate_time())
@@ -63,6 +67,29 @@ public class RewardAndPunishmentServiceImpl implements RewardAndPunishmentServic
         data.put("total", list.get(1).get(0));
         return data;
     }
+
+    @Override
+    public HashMap<String, Object> getRAPInformationBytype(int type,String queryInfo, String searchInfo, int pageNum, int pageSize) {
+        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.selRAPinformationByType(type,queryInfo, searchInfo, (pageNum - 1) * pageSize, pageSize);
+        List<RewardAndPunishmentEnityBo> boList=new ArrayList<>();
+        HashMap<String,Object> resultMap=new HashMap<>();
+        list.get(0).forEach(e->{
+            boList.add(RewardAndPunishmentEnityBo.builder()
+                    .id(e.getId())
+                    .user_id(e.getUser_id())
+                    .information(e.getInformation())
+                    .type(e.getType())
+                    .ext1(e.getExt1())
+                    .ext2(e.getExt2())
+                    .create_time(e.getCreate_time())
+                    .build());
+        });
+        resultMap.put("total",list.get(1).get(0));
+        resultMap.put("messageList",boList);
+        return resultMap;
+    }
+
+
 
 
 }

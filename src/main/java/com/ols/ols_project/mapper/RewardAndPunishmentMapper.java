@@ -20,7 +20,7 @@ public interface RewardAndPunishmentMapper {
 
     int subpunishment(long userId, String operation);
 
-    List<List<RewardAndPunishmentEnity>> selRAPinformationByType(long userId,String queryInfo, String searchInfo, int start, int end);
+    List<List<RewardAndPunishmentEnity>> selRAPinformationByType(int type,String queryInfo, String searchInfo, int start, int end);
 
 
 }

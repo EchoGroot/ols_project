@@ -3,7 +3,6 @@ package com.ols.ols_project.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ols.ols_project.model.Result;
-import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.service.RewardAndPunishmentService;
 import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,16 +47,45 @@ public class RewardAndPunishmentController {
     //查询所有奖惩信息
     @GetMapping("/getAllMessage")
     public String getAllMessage(
-            @RequestParam(value = "page") Integer pageNum,
-            @RequestParam(value = "limit") Integer pageSize
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize
+          //  @RequestParam("type") int type,
+           // @RequestParam(value = "queryInfo") String  queryInfo,
+           // @RequestParam(value = "searchInfo") String  searchInfo
     ){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        rewardAndPunishmentService.getAllMessage( pageNum, pageSize)
+                        rewardAndPunishmentService.getAllMessage(pageNum, pageSize)
                         ,"0"
                         ,"获取所有奖惩信息成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
+
+    /**
+     * 根据type查询奖励惩罚信息
+     * @param pageNum
+     * @param pageSize
+     * @param type
+     * @param queryInfo 筛选条件
+     * @param searchInfo 搜索关键字（任务名）
+     * @return
+     */
+    @GetMapping("/getRAPInformationBytype")
+    public String getFinishCheckTaskByUserId(
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize,
+            @RequestParam("type") int type,
+            @RequestParam(value = "queryInfo") String  queryInfo,
+            @RequestParam(value = "searchInfo") String  searchInfo
+    ){
+        // layui默认数据表格的status为0才显示数据
+        String result=JSON.toJSONStringWithDateFormat(
+                new Result(rewardAndPunishmentService.getRAPInformationBytype(type,queryInfo,searchInfo,pageNum, pageSize),"0","根据类型获取奖励或惩罚的信息"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+
 }
