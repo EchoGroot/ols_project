@@ -115,7 +115,7 @@ $(function () {
                 if(page==='acceptTask'){
                     $(".adoptClass").hide();
                 };
-                if(query==='releasefinish' && taskType==='img'){
+                if(query==='releasefinish' && taskType==='txt'){
                     $(".checkClass").hide();
                     $(".adoptClass").hide();
                     $(".downloadClass").show();
@@ -510,22 +510,22 @@ function checkFunc(taskId) {
     var page1;
     var pageType;
     var idType;
-    if(taskType==='img'){
+    if(taskType==='doc'){
         if(page==='releaseTask' ){
             idType='taskId';
             pageType='personalReleasePage';
             if(query==='releasefinish'){
-                page1 ='releaseFinishImgTask';
+                page1 ='releaseFinishTxtTask';
             }else {
-                page1 ='releaseNotFinishImgTask';
+                page1 ='releaseNotFinishTxtTask';
             }
         }else{
             idType='acceptId';
             if(query==='acceptfinish'){
-                page1 ='acceptFinishImgTask';
+                page1 ='acceptFinishTxtTask';
                 pageType='personalAcceptFinishPage';
             }else {
-                page1 ='acceptNotFinishImgTask';
+                page1 ='acceptNotFinishTxtTask';
                 pageType='personalAcceptNotFinishPage';
             }
         }
@@ -540,9 +540,10 @@ function checkFunc(taskId) {
 }
 
 function chooseAdoptFunc(taskId) {
-    parent.$("#iframeMain").attr("src","./adoptImgTask.html?a=1&"+'taskId='+taskId+'&userId='+userId);
+    //使用文本采纳的HTML和参数 看自己需求改下
+    //parent.$("#iframeMain").attr("src","./adoptTxtTask.html?a=1&"+'taskId='+taskId+'&userId='+userId);
 }
 function downloadFunc(taskId) {
     //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
-    window.open("http://yuyy.info:8081/task/downloadFinishedTask?taskId="+taskId);
+    //使用文本任务下载地址
 }
