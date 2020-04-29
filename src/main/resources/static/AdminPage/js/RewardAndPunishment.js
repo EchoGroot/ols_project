@@ -185,19 +185,29 @@ function punishmentFunc() {
         // 打开弹窗
         layer.open({
             title: '惩罚',
-            area: ['400px', '250px'],
+            area: ['500px', '250px'],
             btnAlign: 'c',
             closeBtn:'1',//右上角的关闭
-            content: '<div><div>请输入用户ID：  <textarea class="layui-layer-input" name="txt_remark" id="toID"style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></textarea></div>' +
-                '<div>请输入惩罚理由： <textarea class="layui-layer-input" name="txt_remark" id="information"  style="width:100%;height:30%;line-height:20px;padding:6px 10px;"></textarea></div>' +
-                '<div>扣除积分：<textarea class="layui-layer-input" name="txt_remark" id="remark" style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></textarea></div></div>',
+            content: '<div>' +
+                '<div >请输入用户ID： <input class="layui-layer-input" placeholder="请输入ID"  name="txt_remark" id="toID"style="width:45%;height:20%;line-height:20px;padding:6px 8px;"></input></div>' +
+                '<div >请输入惩罚理由： <textarea class="layui-layer-input" placeholder="请输入惩罚原因" name="txt_remark" id="information"  style="width:100%;height:50%;line-height:20px;padding:10px 10px;"></textarea></div>' +
+                '<div style="margin-top: 5px">扣除积分：<input class="layui-layer-input" placeholder="请输入积分" name="txt_remark" id="remark" style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></input></div>' +
+                '</div>',
             btn:['确认','取消'],
             yes: function (index, layero) {
                 createMessage($("#toID").val(),$("#information").val(),$('#remark').val(),0);
+                layer.msg('惩罚成功', {
+                    icon: 1, //绿勾
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
                 layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
             },
             btn2:function(index, layero)
             {
+                layer.msg('取消惩罚', {
+                    // icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
                 layer.close(index);
             }
         });
@@ -208,19 +218,29 @@ function rewardFunc() {
     // 打开弹窗
     layer.open({
         title: '奖励',
-        area: ['400px', '250px'],
+        area: ['500px', '250px'],
         btnAlign: 'c',
         closeBtn:'1',//右上角的关闭
-        content: '<div><div>请输入用户ID：  <textarea class="layui-layer-input" name="txt_remark" id="toID"style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></textarea></div>' +
-            '<div>请输入奖励理由： <textarea class="layui-layer-input" name="txt_remark" id="information"  style="width:100%;height:30%;line-height:20px;padding:6px 10px;"></textarea></div>' +
-            '<div>奖励积分：<textarea class="layui-layer-input" name="txt_remark" id="remark" style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></textarea></div></div>',
+        content: '<div>' +
+            '<div >请输入用户ID： <input class="layui-layer-input" placeholder="请输入ID" name="txt_remark" id="toID"style="width:45%;height:20%;line-height:20px;padding:6px 8px;"></input></div>' +
+            '<div >请输入奖励理由： <textarea class="layui-layer-input" placeholder="请输入奖励原因" name="txt_remark" id="information"  style="width:100%;height:50%;line-height:20px;padding:10px 10px;"></textarea></div>' +
+            '<div style="margin-top: 5px">奖励积分：<input class="layui-layer-input" placeholder="请输入积分" name="txt_remark" id="remark" style="width:50%;height:20%;line-height:20px;padding:6px 10px;"></input></div>' +
+            '</div>',
         btn:['确认','取消'],
         yes: function (index, layero) {
             createMessage($("#toID").val(),$("#information").val(),$('#remark').val(),1);
+            layer.msg('奖励成功', {
+                icon: 1, //绿勾
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
             layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
         },
         btn2:function(index, layero)
         {
+            layer.msg('取消奖励', {
+               // icon: 5, //红色不开心
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
             layer.close(index);
         }
     });

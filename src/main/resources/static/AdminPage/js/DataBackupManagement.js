@@ -1,5 +1,4 @@
 $(function(){
-    backup2();
     $.ajax({
         url: "/data/getAllBackUpName",
         type: "get",

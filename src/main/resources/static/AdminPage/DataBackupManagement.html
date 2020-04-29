@@ -1,19 +1,23 @@
-<head>
+<head xmlns:margin="http://www.w3.org/1999/xhtml" xmlns:margin="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" href="../layui/css/layui.css">
     <script src="../layui/layui.js"></script>
     <script src="/js/jquery-3.4.1.js"></script>
     <script src="js/DataBackupManagement.js"></script>
 </head>
 <body>
-<div class="layui-input-inline">
-    <a class="layui-btn" id="backupButton"  onclick="backupFunc()">备份</a>
-</div>
-<div class="layui-input-inline layui-input-block">
-    <select id="selectBox" lay-filter="selectBox">
-        <option value="">请选择要还原的文件</option>
-    </select>
-</div>
-<div class="layui-input-inline">
-    <a  class="layui-btn" type="button" id="restore">还原文件</a>
-</div>
+
+    <div class="layui-form-item" style="margin-top: 20px;">
+        <div class="layui-input-inline"style="left: 100px">
+            <a class="layui-btn" id="backupButton"  onclick="backupFunc()" >备份数据库</a>
+        </div>
+        <div class="layui-input-inline layui-input-block" style="left: 100px">
+            <select id="selectBox" lay-filter="selectBox" style="height: 37px;left: 100px">
+                <option value="">请选择要还原的文件</option>
+             </select>
+        </div>
+        <div class="layui-input-inline" style="left: 100px">
+            <a  class="layui-btn" type="button" id="restore" style="left: 100px">还原数据库</a>
+        </div>
+    </div>
+
 </body>

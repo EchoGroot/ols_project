@@ -43,19 +43,43 @@
         <!--<result column="total"/>-->
     <!--</resultMap>-->
 
-    <update id="subpunishment">
-        update
+
+    <select id="selRAPinformationByType" resultMap="RewardAndPunishmentMap,total">
+        select
+        SQL_CALC_FOUND_ROWS id,
+        user_id,
+        type,
+        information,
+        ext1,
+        ext2,
+        create_time
+        from
         ols_reward_and_punishment
-        set
-        state =
-        <if test="operation == 'yes'">
-            5
+
+        <if test="searchInfo != ''">
+            and (user_id like '%${searchInfo}%')
         </if>
-        <if test="operation == 'no'">
-            6
+        <choose>
+            <when test="queryInfo == 'reward'">
+                and type= 1
+            </when>
+            <when test="queryInfo == 'punishment'">
+                and type = 0
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY create_time
         </if>
-        where
-        id=#{userId}
-    </update>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY create_time DESC
+        </if>
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
+
+
+
 
 </mapper>
