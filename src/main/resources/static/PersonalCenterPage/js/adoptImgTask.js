@@ -80,7 +80,7 @@ function adoptFunc(acceptId) {
         },
         success: function (resultData) {
             alert("采纳成功！");
-            parent.$("#iframeMain").attr("src","./Task.html?a=1&page=releaseTask&query=releasenotfinish&taskType=img&"+'userId='+userId);
+            parent.$("#iframeMain").attr("src","./Task.html?a=1&query=releasenotfinish&"+'userId='+userId);
         }
     })
 }
