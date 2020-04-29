@@ -9,7 +9,6 @@
     <script src="../../layui/layui.js"></script>
     <link rel="stylesheet" href="../css/global.css">
     <script src="../js/complain.js"></script>
-    <script src="../js/emoji_jQuery.min .js"></script>
 
 
 </head>
@@ -18,7 +17,7 @@
     <div class="layui-container">
         <a class="fly-logo" >
             <img src="../../Home/image/logo1.png" height="50" width="270"/>
-            </a>
+        </a>
         <ul class="layui-nav fly-nav-user">
             <div id="login" style="display: none">
                 <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" ></a></li>
@@ -40,48 +39,48 @@
                 <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
                     <div class="layui-tab-item layui-show">
 
-                            <div class="layui-row layui-col-space15 layui-form-item">
+                        <div class="layui-row layui-col-space15 layui-form-item">
 
-                                <div class="layui-col-md9">
-                                    <label for="L_title" class="layui-form-label" id="Complain">投诉理由</label>
-                                    <div class="layui-input-block">
-                                        <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
-                                        <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
-                                    </div>
+                            <div class="layui-col-md9">
+                                <label for="L_title" class="layui-form-label" id="Complain">投诉理由</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="L_title" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                                    <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
                                 </div>
                             </div>
-                            <div class="layui-form-item layui-form-text" id="test">
-                                <div class="layui-input-block">
+                        </div>
+                        <div class="layui-form-item layui-form-text">
+                            <div class="layui-input-block">
 
-                                    <div class="layui-unselect fly-edit" id="div-emoji">
-                                        <span title="插入表情" type="face" id="btn">
+                                <div class="layui-unselect fly-edit">
+                                        <span title="插入表情" type="face">
                                             <i class="iconfont icon-yxj-expression" style="top: 1px;"></i>
                                         </span>
-                                        <span title="插入图片：img[src]" type="picture" >
+                                    <span title="插入图片：img[src]" type="picture">
                                             <i class="iconfont icon-tupian"></i>
                                         </span>
-                                        <span title="预览" type="yulan">
+                                    <span title="预览" type="yulan">
                                             <i class="iconfont icon-yulan1"></i>
                                         </span>
-                                    </div>
+                                </div>
 
 
 
-                                    <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
-                                </div>
+                                <textarea id="L_content" name="content" required lay-verify="required" placeholder="详细描述" class="layui-textarea fly-editor" style="height: 260px;"></textarea>
                             </div>
-                            <div class="layui-form-item">
-                                <label for="L_vercode" class="layui-form-label">人类验证</label>
-                                <div class="layui-input-inline">
-                                    <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
-                                </div>
-                                <div class="layui-form-mid">
-                                    <span style="color: #c00;">1+1=?</span>
-                                </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label for="L_vercode" class="layui-form-label">人类验证</label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="L_vercode" name="vercode" required lay-verify="required" placeholder="请回答后面的问题" autocomplete="off" class="layui-input">
                             </div>
-                            <div class="layui-form-item">
-                                <button id="submitBtn" class="layui-btn"  >立即发布</button>
+                            <div class="layui-form-mid">
+                                <span style="color: #c00;">1+1=?</span>
                             </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <button id="submitBtn" class="layui-btn"  >立即发布</button>
+                        </div>
 
                     </div>
                 </div>

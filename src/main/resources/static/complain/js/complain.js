@@ -1,13 +1,12 @@
 //用户举报页面
 var userId=getQueryVariable('userId'); //用户ID
 var taskId=getQueryVariable('taskId'); // 任务ID
-$.Lemoji({
-    emojiInput: '#L_content',
-    emojiBtn: '#btn',
-    position: 'LEFTBOTTOM',
-    length: 8
-});
-
+// $.Lemoji({
+//     emojiInput: '#L_content',
+//     emojiBtn: '#btn',
+//     position: 'LEFTBOTTOM',
+//     length: 8
+// });
 $(function () {
     //layui初始化
     layui.use(['layer','form'],function () {
@@ -42,8 +41,7 @@ $(function () {
             }
         })
     });
-})
-
+});
 // 从URL中获取参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
@@ -54,5 +52,5 @@ function getQueryVariable(name) {
     }
     return null;
 }
-//举报任务
+
 
