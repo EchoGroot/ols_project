@@ -32,7 +32,7 @@ $(function () {
                 , {field: 'ishandled', title: '是否处理', align:'center',width: '10%',sort: true}
                 , {field: 'isfirst', title: '是否第一次查看',align:'center', width: '20%',sort: true}
                // , {field: 'response', title: '是否回复',align:'center', width: '10%',sort: true}
-                // , {field: 'type', title: '举报类型',align:'center', width: '10%',sort: true}
+                //, {field: 'type', title: '举报任务类型',align:'center', width: '10%',sort: true}
                 , {field: 'create_time', title: '发布时间',align:'center', width: '10%', sort: true}
             ]]
         });

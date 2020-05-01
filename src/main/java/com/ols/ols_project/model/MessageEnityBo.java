@@ -48,9 +48,9 @@ public class MessageEnityBo {
      */
     private int isfirst;
     /**
-     * 备用字段1
+     * 任务类型
      */
-    private String ext1;
+    private int type;
     /**
      * 备用字段2
      */

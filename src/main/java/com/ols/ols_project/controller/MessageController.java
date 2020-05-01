@@ -7,6 +7,8 @@ import com.ols.ols_project.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static java.lang.Long.parseLong;
+
 //关于举报信息的controller
 @RestController
 @RequestMapping("message")
@@ -15,7 +17,11 @@ public class MessageController {
     private MessageService messageService;
     //发布举报信息
     @GetMapping("/createMessage")
-    public String createMessage(@RequestParam("userId") String userId,@RequestParam("taskId") String taskId,@RequestParam("Message") String Message){
+    public String createMessage(@RequestParam("userId") String userId,
+                                @RequestParam("taskId") String taskId,
+                                @RequestParam("Message") String Message
+                                //@RequestParam("type") int type
+                                ){
         messageService.createMessage(Long.parseLong(userId),Long.parseLong(taskId),Message);
         String resultStr = JSON.toJSONString(new Result("200","创建举报信息成功"));;
         return resultStr;

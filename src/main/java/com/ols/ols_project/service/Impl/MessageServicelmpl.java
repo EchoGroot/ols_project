@@ -37,7 +37,7 @@ public class MessageServicelmpl implements MessageService {
         messageEntity.setMessage(Message);
         messageEntity.setIshandled(0);
         messageEntity.setIsfirst(1);
-        messageEntity.setExt1(null);
+        messageEntity.setType(0);
         messageEntity.setExt2(null);
         messageEntity.setExt3(0);
         messageEntity.setCreate_time(new Timestamp(System.currentTimeMillis()));
@@ -60,7 +60,7 @@ public class MessageServicelmpl implements MessageService {
                             .ishandled(e.getIshandled())
                             .isfirst(e.getIsfirst())
                             .response(e.getResponse())
-                            .ext1(e.getExt1())
+                            .type(e.getType())
                             .ext2(e.getExt2())
                             .ext3(e.getExt3())
                             .create_time(e.getCreate_time())

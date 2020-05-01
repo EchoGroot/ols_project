@@ -1,6 +1,7 @@
 //用户举报页面
 var userId=getQueryVariable('userId'); //用户ID
 var taskId=getQueryVariable('taskId'); // 任务ID
+var type=getQueryVariable('type');
 // $.Lemoji({
 //     emojiInput: '#L_content',
 //     emojiBtn: '#btn',
@@ -13,9 +14,10 @@ $(function () {
         var layer = layui.layer;
         var form = layui.form;
     })
+
     $("#submitBtn").click(function () {
         //
-        var message="举报理由："+$("#Complain").val()+"/n详情描述："+$("#L_content").val();
+        var message="举报理由："+$("#L_title").val()+"   详情描述："+$("#L_content").val();
         $.ajax({
             url: '/message/createMessage',
             type: "GET",
