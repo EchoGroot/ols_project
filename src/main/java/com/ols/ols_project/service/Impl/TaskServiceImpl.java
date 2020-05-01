@@ -419,4 +419,60 @@ public class TaskServiceImpl implements TaskService {
         resultArr[3]=state6;
         return resultArr;
     }
+
+    @Override
+    public HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order) {
+        List<List<AcceptTask>> list = taskMapper.getAcceptImgTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo,searchInfo,field,order);
+        List<AcceptTaskBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(AcceptTaskBo.builder()
+                            .taskId(e.getTaskId())
+                            .acceptId(e.getAcceptId())
+                            .taskName(e.getTaskName())
+                            .points(e.getPoints())
+                            .taskState(TaskStateEnum.getNameByCode(e.getTaskState()))
+                            .type(FileTypeEnum.getNameByCode(e.getType()))
+                            .releaseTime(e.getReleaseTime())
+                            .releaseName(e.getReleaseName())
+                            .acceptNum(e.getAcceptNum())
+                            .acceptTime(e.getAcceptTime())
+                            .finishTime(e.getFinishTime())
+                            .acceptState(AcceptStateEnum.getNameByCode(e.getAcceptState()))
+                            .build());
+                }
+        );
+        data.put("taskList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
+
+    @Override
+    public HashMap<String, Object> getReleaseImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order) {
+        List<List<TaskEntity>> list = taskMapper.getReleaseImgTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,field,order);
+        List<TaskEntityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(TaskEntityBo.builder()
+                            .id(e.getId())
+                            .name(e.getName())
+                            .information(e.getInformation())
+                            .points(e.getPoints())
+                            .state(TaskStateEnum.getNameByCode(e.getState()))
+                            .type(FileTypeEnum.getNameByCode(e.getType()))
+                            .release_time(e.getRelease_time())
+                            .finish_time(e.getFinish_time())
+                            .accept_num(e.getAccept_num())
+                            .adopt_accept_id(e.getAdopt_accept_id())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .build());
+                }
+        );
+        data.put("taskList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
 }

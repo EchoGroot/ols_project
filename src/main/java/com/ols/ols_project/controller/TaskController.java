@@ -322,7 +322,7 @@ public class TaskController {
     }
 
     /**
-     * 创建ols_task表的测试数据
+     *
      * @author wjp
      * @date 2020/3/21 23.30
      */
@@ -534,6 +534,51 @@ public class TaskController {
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取个人已发布成功"),
                 "yyyy-MM-dd");
+        return result;
+    }
+
+    @GetMapping(value = "/getAcceptImgTaskByUserId")
+    public String getAcceptImgTaskByUserId(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "field") String field,
+            @RequestParam(value = "order") String order
+    ) {
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        taskService.getAcceptImgTaskByUserId(
+                                Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,field,order)
+                        , "0", "获取已接受任务成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
+
+    @GetMapping(value = "/getReleaseImgTaskByUserId")
+    public String getReleaseImgTaskByUserId(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "field") String field,
+            @RequestParam(value = "order") String order
+    ) {
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        taskService.getReleaseImgTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,field,order)
+                        , "0"
+                        , "获取已发布任务成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 }

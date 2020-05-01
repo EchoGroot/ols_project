@@ -28,8 +28,7 @@ public class FileUtils {
             return file.delete();
         }
     }
-
-    public static void saveAsFileWriter(String content, String filePath) {
+    public static void saveAsFileWriter(String content,String filePath) {
         FileWriter fwriter = null;
         try {
             // true表示不覆盖原来的内容，而是加到文件的后面。若要覆盖原来的内容，直接省略这个参数就好
@@ -67,4 +66,3 @@ public class FileUtils {
 
     }
 }
-

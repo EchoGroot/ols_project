@@ -16,7 +16,8 @@ public enum TaskStateEnum {
     INVALID("已失效",3),
     CHECK("审核中",4),
     RELEASE("已发布",5),
-    NOT_PASSED_CHECK("未通过审核",6);
+    NOT_PASSED_CHECK("未通过审核",6),
+    NOT_LABEL_EXAMPLE("未标注示例",7);
 
     private String name;
     private Integer code;

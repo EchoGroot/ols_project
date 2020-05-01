@@ -56,4 +56,8 @@ public interface TaskService {
     JSONArray getFileNameByTaskId(long taskId);
     void delImgFileByTaskId(long taskId);
     int[][] getAllReleaseById(long userId,int year);
+    HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);
+
+    HashMap<String, Object> getReleaseImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);
+
 }

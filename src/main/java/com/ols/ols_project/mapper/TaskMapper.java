@@ -1,5 +1,6 @@
 package com.ols.ols_project.mapper;
 
+import com.ols.ols_project.model.AcceptTask;
 import com.ols.ols_project.model.AcceptTaskForTaskInfo;
 import com.ols.ols_project.model.FinishCheckTask;
 import com.ols.ols_project.model.MonthAndCount;
@@ -60,4 +61,8 @@ public interface TaskMapper {
     List<MonthAndCount> getJudgeTimeById(long userId, int year);
     int getPoints(long taskId);
     void setFinishById(long taskId,long acceptId);
+    List<List<AcceptTask>> getAcceptImgTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo,String field,String order);
+
+    List<List<TaskEntity>> getReleaseImgTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo,String field,String order);
+
 }
