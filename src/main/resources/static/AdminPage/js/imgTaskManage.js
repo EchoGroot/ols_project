@@ -1,5 +1,5 @@
 var userId=getQueryVariable('userId'); //获取URL参数里的用户ID
-var queryInfo= getQueryVariable('queryInfo'); 
+var queryInfo= getQueryVariable('queryInfo');
 $(function () {
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
@@ -178,51 +178,6 @@ $(function () {
                     break;
             }
         });
-        //监听任务类型下拉框
-        /*form.on('select(taskType)', function(data){
-            $("#searchInput").val("");
-            switch (data.value) {
-                //所有文件类型
-                case '0':
-                    //表格重载
-                    tableIns.reload({
-                        where:{
-                            queryInfo: '',
-                            searchInfo:$("#searchInput").val()
-                        },
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                //文本类型
-                case '1':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'doc',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-                // 图片类型
-                case '2':
-                    //表格重载
-                    tableIns.reload({
-                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'img',
-                            searchInfo:$("#searchInput").val()
-                        }
-                        ,page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                    });
-                    break;
-            }
-        });*/
         //监听搜索类型
         var searchType='';
         form.on('select(searchType)', function(data){

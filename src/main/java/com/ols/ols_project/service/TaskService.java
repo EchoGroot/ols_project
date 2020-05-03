@@ -55,6 +55,7 @@ public interface TaskService {
     List<TaskEntity> getClickNum();
     JSONArray getFileNameByTaskId(long taskId);
     void delImgFileByTaskId(long taskId);
+    int[][] getAdminImgChartData(int year);
     int[][] getAllReleaseById(long userId,int year);
     HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);
 

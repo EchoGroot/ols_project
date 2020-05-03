@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -378,6 +379,24 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public int[][] getAdminImgChartData(int year) {
+        int[][] resultArr=new int[7][12];
+        List<List<MonthAndCount>> lists = new ArrayList<>();
+        for(int i=1;i<8;i++){
+            lists.add(taskMapper.getAdminImgChartData(year, i));
+        }
+        for(int i=0;i<7;i++){
+            int j=0;
+            for(int k=0;k<12;k++){
+                if(j<lists.get(i).size()&&Integer.parseInt(lists.get(i).get(j).getMonth())==(k+1)){
+                    resultArr[i][k]=Integer.parseInt(lists.get(i).get(j++).getCount());
+                }
+            }
+        }
+        return resultArr;
+    }
+
+    @Override
     public int[][] getAllReleaseById(long userId, int year) {
         int[][] resultArr=new int[4][];
         //当月总计发布数量
@@ -394,7 +413,7 @@ public class TaskServiceImpl implements TaskService {
         int[] state1=new int[12];
         int[] state5=new int[12];
         int[] state6=new int[12];
-        int j=0,k=0;
+        int j=0,k=0,m=0,n=0;
         for (int i=0;i<12;i++){
             state0[i]=0;
             state1[i]=0;
@@ -406,11 +425,11 @@ public class TaskServiceImpl implements TaskService {
             if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
                 state1[i]=Integer.parseInt(list1.get(k++).getCount());
             }
-            if(j<list5.size()&&Integer.parseInt(list5.get(j).getMonth())==(i+1)){
-                state5[i]=Integer.parseInt(list5.get(j++).getCount());
+            if(m<list5.size()&&Integer.parseInt(list5.get(m).getMonth())==(i+1)){
+                state5[i]=Integer.parseInt(list5.get(m++).getCount());
             }
-            if(k<list6.size()&&Integer.parseInt(list6.get(k).getMonth())==(i+1)){
-                state6[i]=Integer.parseInt(list6.get(k++).getCount());
+            if(n<list6.size()&&Integer.parseInt(list6.get(n).getMonth())==(i+1)){
+                state6[i]=Integer.parseInt(list6.get(n++).getCount());
             }
         }
         resultArr[0]=state0;

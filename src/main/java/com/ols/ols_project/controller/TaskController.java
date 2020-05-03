@@ -523,6 +523,19 @@ public class TaskController {
         zipFile.delete();//临时压缩包用后删除
     }
 
+    @GetMapping("/getAdminImgChartData")
+    public String getAdminImgChartData(
+            @RequestParam("year") String year
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("releaseList",
+                taskService.getAdminImgChartData(Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取所有已发布成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
     @GetMapping("/getAllReleaseById")
     public String getAllReleaseById(
             @RequestParam("year") String year,
@@ -536,6 +549,7 @@ public class TaskController {
                 "yyyy-MM-dd");
         return result;
     }
+
 
     @GetMapping(value = "/getAcceptImgTaskByUserId")
     public String getAcceptImgTaskByUserId(

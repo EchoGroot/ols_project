@@ -1,0 +1,50 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="./js/imgTaskManage.js"></script>
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select id="chooseSelect" lay-filter="chooseSelect">
+                <option value="0">选择筛选条件</option>
+                <option value="1">所有已发布任务</option>
+                <option value="2">审核中</option>
+                <option value="3">已发布</option>
+                <option value="4">未通过审核</option>
+                <option value="5">已完成</option>
+                <option value="6">已失效</option>
+            </select>
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <select id="searchType" lay-filter="searchType">
+                <option value="0">选择搜索类型(默认任务名)</option>
+                <option value="1">任务名称</option>
+                <option value="2">任务编号</option>
+                <option value="3">发布者id</option>
+                <option value="4">所属审核者编号</option>
+            </select>
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <input type="text" id="searchInput" name="title" placeholder="输入关键字" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-block layui-input-inline">
+            <span class="fly-search" id="searchButton"  style="float: left"><i class="layui-icon"></i></span>
+            <!--<button class="layui-btn" id="searchButton">查询</button>-->
+        </div>
+        <div class="layui-input-block layui-input-inline" style="float: right;margin-right: 20px">
+            <a class="layui-btn" id="ChartBtn" style="float: right" href="./ChartForImg.html?">图片任务可视化分析</a>
+        </div>
+    </div>
+</form>
+<table id="taskList" lay-filter="monitorToolbar" style="font-size: 12px"></table>
+<script type="text/html" id="barHandle">
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    <a class="layui-btn layui-btn-sm" lay-event="taskInfo">任务详情</a>
+    <a id="no" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="labelInfo">标注详情</a>
+    <!-- 隐藏的任务下载按钮，若已完成 则显示出来 -->
+</script>
+</body>

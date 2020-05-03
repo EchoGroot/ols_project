@@ -57,6 +57,7 @@ public interface TaskMapper {
     List<List<TaskEntity>> getAllTask(String query, int start, int end, String queryInfo,String searchType,String searchInfo,String field,String order);
     void clickNumPlus(long taskId);
     List<TaskEntity> getClickNum();
+    List<MonthAndCount> getAdminImgChartData(int year, int state);
     List<MonthAndCount> getAllReleaseById(long userId, int year, int state);
     List<MonthAndCount> getJudgeTimeById(long userId, int year);
     int getPoints(long taskId);
