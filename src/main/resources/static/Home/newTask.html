@@ -60,55 +60,65 @@
 <!-提交任务表单 ->
 <form class="layui-form layui-container" action="addImageTask" method="post">
     <div class="layui-form-item">
-        <label class="layui-form-label">任务名</label>
-        <div class="layui-input-block">
+        <label class="layui-form-label">任    务    名</label>
+        <div class="layui-input-inline">
             <input type="text" name="taskName" id="taskName" required  lay-verify="taskname" placeholder="请填写任务名" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item  layui-form-text">
-        <label class="layui-form-label">任务详细信息</label>
-        <div class="layui-input-block">
-            <textarea name="taskDesc" id="taskDesc" placeholder="请输任务详细新情" class="layui-textarea"></textarea>
+        <label class="layui-form-label">任务详情</label>
+        <div class="layui-input-block" style="width: 475px;">
+            <textarea name="taskDesc" id="taskDesc" placeholder="请输任务详细信息" class="layui-textarea"></textarea>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">悬赏积分</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <input type="text" name="rewardPoints" id="rewardPoints" required  lay-verify="rewardpoints" placeholder="请输悬赏积分" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">标注规则</label>
-        <div class="layui-input-block">
-            <input type="text" name="labelName" id="labelName" required  lay-verify="labelname" placeholder="请输入标注规则" autocomplete="off" class="layui-input" style="width:20%">
-            <a id="addTag" class="layui-btn" style="border-radius:6px;">
-                <span class="glyphicon glyphicon-plus glyphicon glyphicon-plus glyphicon-plus-button" aria-hidden="true"></span>添加规则
-            </a>
+        <div class="layui-btn-container" id="TagViews"></div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="text" name="labelName" id="labelName" required  lay-verify="labelname" placeholder="请输入标注规则" autocomplete="off" class="layui-input">
         </div>
-        <div class="layui-btn-container" id="TagViews">
-        </div>
+        <a id="addTag" class="layui-btn layui-btn-warm" >
+            <span class="glyphicon glyphicon-plus glyphicon-plus-button" aria-hidden="true">
+                <i class="layui-icon">&#xe608;</i>添加规则
+            </span>
+        </a>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">图片上传</label>
         <div class="layui-input-block">
-            <button type="button" class="layui-btn" id="selectImgs">
+            <button type="button" class="layui-btn layui-btn-primary" id="selectImgs" >
             <i class="layui-icon">&#xe67c;</i>选择图片（最多选择20张，单张图片最大为10M）
             </button>
-            <button type="button" class="layui-btn" id="uploadImgs">上传图片</button>
-            <button type="button" class="layui-btn" id="cleanImgs"> <i class="fa fa-trash-o fa-lg"></i>清空图片预览</button>
+            <button type="button" class="layui-btn layui-btn-warm" id="uploadImgs">上传图片</button>
         </div>
-        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+        <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px; margin-left: 30px;height: 200px;width: 660px">
             预览图：
+            <button type="button" class="layui-btn layui-btn-danger" id="cleanImgs" style="float: right"> <i class="fa fa-trash-o fa-lg"></i>清空图片预览</button>
+
             <div class="layui-upload-list" id="previewImgs"></div>
         </blockquote>
     </div>
         
     <input type="text" id="imgUrls" name="imgUrls" style="display: none;" class="layui-input">
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" type="button" style="width: 800px;" id="btnSubmit">确认发布</button>
-        </div>
+    <div style="text-align: center"> <!--class="layui-form-item"-->
+        <!--<label class="layui-form-label"></label>-->
+        <p class="layui-input-inline">
+            <button class="layui-btn  layui-btn-radius layui-btn-normal" type="button"  id="btnSubmit" >确认发布</button><!-- style="float: right"-->
+            <!--</div>
+            <div>-->
+            <button class="layui-btn layui-btn-radius layui-btn-primary" type="button" id="cancelSubmit">取消</button>
+        </p>
+
     </div>
 </form>
 

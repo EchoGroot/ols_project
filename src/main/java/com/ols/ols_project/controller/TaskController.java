@@ -388,6 +388,32 @@ public class TaskController {
             return JSON.toJSONString(result);
         }
     }
+    @PostMapping("cancelImgs")
+    public void cancelImgs(String fileNameArray0){
+        String path = desFilePath;
+        String thumbPath = thumbFilePath;
+        String [] fileNameArray= fileNameArray0.split(",");
+        String delFailure="";
+        String delThumbFailure="";
+        for(int i=0;i<fileNameArray.length;i++){
+            File fromFile = new File(path+fileNameArray[i]);//找到文件
+            File fromThumbFile = new File(thumbPath+fileNameArray[i]);
+            if (fromFile.exists()) {
+                fromFile.delete();
+            }else{
+                delFailure+=fileNameArray[i]+",";
+            }
+            if (fromThumbFile.exists()) {
+                fromThumbFile.delete();//遍历删除文件夹及其子内容
+            }else{
+                delThumbFailure+=fileNameArray[i]+",";
+            }
+        }
+        if(delFailure!=""){
+            System.out.println(delFailure+"文件未找到！");
+            System.out.println(delThumbFailure+"缩略图文件未找到！");
+        }
+    }
     @PostMapping("uploadDocs")
     public String uploadDocs(@RequestParam("file") MultipartFile file) {
         String staticPath=desFilePath;

@@ -68,6 +68,15 @@ $(function (){
     releaseTask();
 
     $("#addTag").click(function () {
+        var styleBtn;
+        if(labelName.length%3===0){
+            styleBtn='normal';
+        }else if(labelName.length%3===1){
+            styleBtn='warm';
+        }
+        else if(labelName.length%3===2){
+            styleBtn='danger';
+        }
         var stateJudge = true;
         if($("#labelName").val() == ""){
             alert("标注规则不可为空!");
@@ -80,7 +89,7 @@ $(function (){
             }
             if(stateJudge == true){
                 labelName.push($("#labelName").val());
-                var str = "<button type='button' class='layui-btn' value='"+$("#labelName").val()+"' onclick='removeThis(this)'>"+$("#labelName").val()+"</button>"
+                var str = "<button type='button' class='layui-btn layui-btn-"+styleBtn+" layui-btn-sm' value='"+$("#labelName").val()+"' onclick='removeThis(this)'>"+$("#labelName").val()+"</button>"
                 $("#TagViews").append(str);
                 $("#labelName").val("");
                 console.log(labelName);
@@ -147,9 +156,16 @@ function cleanImgsPreview(){
     $("#cleanImgs").click(function(){
         success=0;
         fail=0;
-        imgsName.length=0;
         $('#previewImgs').html("");
         $('#imgUrls').val("");
+        $.ajax({
+            type: "POST",
+            url: "/task/cancelImgs",
+            data: {
+                fileNameArray0: imgsName.toString()
+            }
+        })
+        imgsName.length=0;
     });
 }
 
@@ -200,6 +216,18 @@ function releaseTask() {
                 });
             }
         })
+    });
+
+    $('#cancelSubmit').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/task/cancelImgs",
+            data: {
+                fileNameArray0: imgsName.toString()
+            }
+        })
+        imgsName.length=0;
+        //跳转主页或者返回上个界面
     });
 }
 //获取URL参数
