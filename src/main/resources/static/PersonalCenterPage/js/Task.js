@@ -121,6 +121,7 @@ $(function () {
                     $(".downloadClass").show();
                 };
             }
+
         });
         // 监听下拉选择框
         form.on('select(chooseSelectFilter)', function (data) {
@@ -140,7 +141,9 @@ $(function () {
                 }
             } else if(layEvent === 'adopt'){
                 // 采纳
-                chooseAdoptFunc(data.id);
+                if(taskType=='doc'){
+                    chooseAdoptFunc(data.id);
+                }
             }else if(layEvent === 'download'){
                 // 下载
                 downloadFunc(data.id);
@@ -541,7 +544,7 @@ function checkFunc(taskId) {
 
 function chooseAdoptFunc(taskId) {
     //使用文本采纳的HTML和参数 看自己需求改下
-    //parent.$("#iframeMain").attr("src","./adoptTxtTask.html?a=1&"+'taskId='+taskId+'&userId='+userId);
+    parent.$("#iframeMain").attr("src","./adopt.html?a=1&"+'taskId='+taskId+'&userId='+userId);
 }
 function downloadFunc(taskId) {
     //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);

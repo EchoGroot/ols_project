@@ -105,8 +105,8 @@ public class UserController {
      * @param query      'acceptfinish'：已完成的任务，'acceptnotfinish'：未完成的任务
      * @param pageNum
      * @param pageSize   如果等于0，就是全部查询出来，否则就是分页查询
-     * @param queryInfo
-     * @param searchInfo
+     * @param queryInfo   筛选条件
+     * @param searchInfo   搜索关键字
      * @return
      */
     @GetMapping(value = "/getAcceptTaskByUserId")

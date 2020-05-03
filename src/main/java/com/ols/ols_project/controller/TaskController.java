@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.*;
 
 import static java.nio.file.Files.copy;
 
@@ -43,7 +45,7 @@ import static java.nio.file.Files.copy;
 @RestController
 @RequestMapping("task")
 public class TaskController {
-    @Autowired
+    @Resource
     private TaskMapper taskMapper;
 
     @Autowired
@@ -134,8 +136,8 @@ public class TaskController {
             @RequestParam("taskId") String taskId,
             @RequestParam("imageUrlParam") String imageUrlParam,
             @RequestParam("labelInfo") String labelInfo
-
     ){
+
         String resultStr=null;
         List<LabelInfo> labelInfoList= (List<LabelInfo>)JSON.parse(labelInfo);
         long tempTaskId=0L;

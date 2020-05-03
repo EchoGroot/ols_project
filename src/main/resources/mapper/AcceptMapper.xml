@@ -81,4 +81,58 @@
         <result column="state" property="state" />
         <result column="url" property="url" />
     </resultMap>
+    <!--
+    新建接收任务信息  程畅
+    -->
+    <insert id="createAccept">
+        insert into ols_accept
+        (id,user_id,task_id,accept_time,finish_time,state,url，
+         ext1,ext2,ext3)
+            value (#{id},#{user_id},#{task_id},#{accept_time},
+            #{finish_time},#{state},#{url},#{ext1},#{ext2},#{ext3})
+    </insert>
+    <update id="adopt">
+        update
+            ols_accept
+        set
+            state=#{state}
+        where
+            id=#{id}
+    </update>
+    <!--
+    数据库中查询accept表中内容   程畅
+    -->
+    <select id="getAcceptByTaskId" resultMap="acceptTaskMap,Total1">
+        select ols_user.name as name,
+               ols_accept.id as id,
+               ols_accept.task_id as taskId,
+               ols_accept.accept_time as acceptTime,
+               ols_accept.finish_time as finishTime,
+               ols_accept.state as state,
+               ols_accept.url as url,
+               ols_accept.ext1 as ext1,
+               ols_accept.ext2 as ext2,
+               ols_accept.ext3 as ext3
+        from ols_accept,ols_user
+        where task_id = #{taskId} and ols_accept.user_id=ols_user.id
+        limit
+          #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
+    <resultMap id="acceptTaskMap" type="com.ols.ols_project.model.AcceptByTaskId" >
+        <id column="id" property="id"  />
+        <result column="name" property="name" />
+        <result column="taskId" property="task_id" />
+        <result column="acceptTime" property="accept_time" />
+        <result column="finishTime" property="finish_time" />
+        <result column="state" property="state" />
+        <result column="url" property="url" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+    </resultMap>
+    <resultMap id="Total1" type="java.lang.Integer">
+        <result column="total"/>
+    </resultMap>
 </mapper>

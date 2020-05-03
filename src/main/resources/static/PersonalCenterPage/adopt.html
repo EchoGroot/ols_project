@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="./js/adopt.js"></script>
+    <script src="/layui/layui.js"></script>
+    <title>选择采纳</title>
+</head>
+<body>
+<a class="layui-btn" id="GoBack" href="./Task.html?a=1&page=releaseTask&query=releasenotfinish&taskType=img&">返回</a>
+
+<table id="acceptList" lay-filter="monitorToolbar"></table>
+<script type="text/html" id="barHandle">
+    <a class="checkClass layui-btn layui-btn-sm" lay-event="check">标注详情</a>
+    <a class="adoptClass layui-btn layui-btn-danger layui-btn-sm" lay-event="adopt">采纳</a>
+</script>
+</body>
+</html>

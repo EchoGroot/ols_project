@@ -1,5 +1,12 @@
 package com.ols.ols_project.service.Impl;
 
+import com.ols.ols_project.mapper.AcceptMapper;
+import com.ols.ols_project.mapper.TaskMapper;
+import com.ols.ols_project.model.AcceptByTaskId;
+import com.ols.ols_project.model.entity.AcceptEntity;
+import com.ols.ols_project.service.AcceptService;
+import com.baidu.fsg.uid.service.UidGenService;
+import lombok.extern.slf4j.Slf4j;
 import com.ols.ols_project.common.Const.AcceptStateEnum;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
@@ -18,19 +25,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 @Transactional(rollbackFor=Exception.class)
 public class AcceptServiceImpl implements AcceptService {
+    @Resource
+    private AcceptMapper acceptMapper;
+    @Resource
+    private TaskMapper taskMapper;
     @Autowired
-    AcceptMapper acceptMapper;
+    private UserMapper userMapper;
+
     @Autowired
-    TaskMapper taskMapper;
-    @Autowired
-    UserMapper userMapper;
+    private UidGenService uidGenService;
+
+    @Override
+    public String createAccept(long task_id) {
+        AcceptEntity acceptEntity = new AcceptEntity();
+        long Id = uidGenService.getUid();
+        acceptEntity.setId(Id);
+        acceptEntity.setTask_id(task_id);
+        acceptEntity.setState(0);
+        acceptEntity.setExt1(null);
+        acceptEntity.setExt2(null);
+        acceptEntity.setExt3(null);
+        //String url= taskMapper.getUrlByTaskId(task_id);
+        //acceptEntity.setUrl(url);
+        acceptEntity.setAccept_time(new Timestamp(System.currentTimeMillis()));
+        acceptEntity.setFinish_time(new Timestamp(System.currentTimeMillis()));
+        acceptMapper.createAccept(acceptEntity);//
+        return null;
+    }
+
+    @Override
+    public HashMap<String, Object> getAcceptByTaskId(Long taskId, Integer pageNum, Integer pageSize) {
+        List<List<AcceptByTaskId>> acceptByTaskId = acceptMapper.getAcceptByTaskId(taskId, (pageNum - 1) * pageSize, pageSize);
+        HashMap<String,Object> data=new HashMap<>();
+        data.put("acceptTaskList",acceptByTaskId.get(0));
+        data.put("total",acceptByTaskId.get(1).get(0));
+//        [1.2.3]
+//        [50]
+        return data;
+    }
+
+
+    /*
+    *authour:wjp
+    *
+    * */
 
     @Override
     public int[][] getPersonalAcceptByUserId(long userId, int year) {
@@ -99,4 +147,5 @@ public class AcceptServiceImpl implements AcceptService {
         taskMapper.setFinishById(taskId,acceptId);
         return "200";
     }
+
 }
