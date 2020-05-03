@@ -5,7 +5,6 @@ $(function () {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
-
         // 表格渲染
         var tableIns=table.render({
             elem: '#messageList'
@@ -26,22 +25,28 @@ $(function () {
             }
             , cols: [[ //表头
                 {field: 'id', title: '消息ID', align:'center',width: '10%',fixed: 'left', sort: true}
-                , {field: 'user_id', title: '举报者编号', align:'center',width: '10%', sort: true}
-                , {field: 'task_id', title: '任务编号', align:'center',width: '10%', sort: true}
-                , {field: 'message', title: '举报信息', align:'center',width: '20%'}
-                , {field: 'ishandled', title: '是否处理', align:'center',width: '10%',sort: true}
-                , {field: 'isfirst', title: '是否第一次查看',align:'center', width: '20%',sort: true}
+                , {field: 'user_id', title: '举报者编号', align:'center',width: '12%', sort: true}
+                , {field: 'task_id', title: '任务编号', align:'center',width: '12%', sort: true}
+                , {field: 'message', title: '举报信息', align:'center',width: '15%'}
+                , {field: 'ishandled', title: '是否处理', align:'center',width: '12%',sort: true}
+                , {field: 'isfirst', title: '是否查看',align:'center', width: '12%',sort: true}
                // , {field: 'response', title: '是否回复',align:'center', width: '10%',sort: true}
                 //, {field: 'type', title: '举报任务类型',align:'center', width: '10%',sort: true}
-                , {field: 'create_time', title: '发布时间',align:'center', width: '10%', sort: true}
+                , {field: 'create_time', title: '发布时间',align:'center', width: '18%', sort: true}
+                , {title: '操作', align: 'center', toolbar: '#barHandle', width: '10%'}
             ]]
         });
         //监听工具条
         table.on('tool(monitorToolbar)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            // 工具条的点击事件
+            if(layEvent === 'handle'){
+                alert("已处理")
+                // 查看任务详情
+                // yesReviewerSignUp(data.id,'yes',tableIns)
+            }
         });
-
         //筛选按钮点击事件
         //监听下拉框change事件 layui不支持jQuery的change事件 用form.on('select(test)', function(data){})监听
         form.on('select(chooseSelect)', function(data){

@@ -42,12 +42,9 @@ $(function () {
         table.on('tool(monitorToolbar)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-
-
             if(layEvent === 'yes'){
                 punishmentFunc(userId,'yes',tableIns,'扣除用户（'+userId+'）的积分。')
             }
-
         });
       //监听下拉框change事件
         form.on('select(chooseSelect)', function(data){
