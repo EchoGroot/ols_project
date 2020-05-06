@@ -21,14 +21,14 @@ public class SystemController {
         return null;
     }
 
-    @GetMapping("/getAllSystemByAcceptUID")
+    @GetMapping("/getAllSystemByAcceptUID") //通过接受信息人的ID获取关于此人的所有消息
     public String getAllSystemByAcceptUID(@RequestParam(value = "acceptUID") long acceptUID,
                                           @RequestParam(value = "page") Integer pageNum,
                                           @RequestParam(value = "limit") Integer pageSize){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
                         systemService.getAllSystemByAcceptUID(acceptUID,pageNum,pageSize)
-                        ,"0"
+                        ,"200"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString);

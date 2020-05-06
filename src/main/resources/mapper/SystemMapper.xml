@@ -13,7 +13,7 @@
     </update>
     <select id="getAllSystemByAcceptUID" resultMap="SystemMap,total">
         select
-            id,
+            SQL_CALC_FOUND_ROWS id,
             release_user_id,
             accept_user_id,
             message,
@@ -25,6 +25,7 @@
             ols_system
         where
         accept_user_id=#{acceptUID}
+        order by create_time desc
         <if test="end != 0">
             limit
             #{start},#{end};
