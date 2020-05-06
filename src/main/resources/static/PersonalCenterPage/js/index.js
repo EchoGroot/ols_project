@@ -4,7 +4,7 @@ var page=getQueryVariable('page'); //页面名称
 //入口函数:在 html 所有标签(DOM)都加载之后，就会去执行。
 $(function () {
     // 添加a=1参数是为了正确匹配iframe的URL参数 #acceptFinishTask a,#acceptNotFinishTask a,#releaseFinishTask a,#releaseNotFinishTask a,
-    $("#personalInfo a,#acceptFinishImgTask a,#acceptNotFinishImgTask a,#acceptImgTaskAnalyse a,#releaseFinishImgTask a,#releaseNotFinishImgTask a,#releaseImgTaskAnalyse a,#acceptFinishTxtTask a,#acceptNotFinishTxtTask a,#releaseFinishTxtTask a,#releaseNotFinishTxtTask a").click(function (e) {
+    $("#personalInfo a,#acceptFinishImgTask a,#acceptNotFinishImgTask a,#acceptImgTaskAnalyse a,#releaseFinishImgTask a,#releaseNotFinishImgTask a,#releaseImgTaskAnalyse a,#acceptFinishTxtTask a,#acceptNotFinishTxtTask a,#releaseFinishTxtTask a,#releaseNotFinishTxtTask a,#rewardInformation a,#punishmentInformation a,#rapAnalyse a").click(function (e) {
         // 阻止a标签的默认行为
         e.preventDefault();
         // 给iframe的src属性赋值，显示对应的html
@@ -32,6 +32,8 @@ $(function () {
         }else if(page ==='releaseFinishTxtTask'||page ==='releaseNotFinishTxtTask'){
             $("#releaseTxtTask").attr('class','layui-nav-itemed');
             $("#txtTask").attr('class','layui-nav-item layui-nav-itemed');
+        }else if(page ==='rewardInformation'||page ==='punishmentInformation'||page ==='rapAnalyse'){
+            $("#RAPInformation").attr('class','layui-nav-item layui-nav-itemed');
         }
     }
     // layui初始化
