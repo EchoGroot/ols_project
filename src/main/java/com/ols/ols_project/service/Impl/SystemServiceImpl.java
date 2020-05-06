@@ -49,7 +49,7 @@ public class SystemServiceImpl implements SystemService {
 
     @Override
     public HashMap<String,Object> getAllSystemByAcceptUID(long acceptUID, Integer pageNum, Integer pageSize) {
-        List<List<SystemEntity>> list = systemMapper.getAllSystemByAcceptUID(acceptUID,pageNum,pageSize);
+        List<List<SystemEntity>> list = systemMapper.getAllSystemByAcceptUID(acceptUID,(pageNum - 1) * pageSize,pageSize);
         List<SystemEntity> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
@@ -61,6 +61,12 @@ public class SystemServiceImpl implements SystemService {
         data.put("sysList",list1);
         data.put("total",list.get(1).get(0));
         return data;
+    }
+
+    @Override
+    public SystemEntity getSystemById(long acceptId) {
+        SystemEntity systemEntity = systemMapper.getSystemById(acceptId);
+        return systemEntity;
     }
 
 }

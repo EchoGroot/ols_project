@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface SystemMapper {
     void createSystem(SystemEntity systemEntity);
-    List<List<SystemEntity>> getAllSystemByAcceptUID(long acceptUID, Integer pageNum, Integer pageSize);
+    List<List<SystemEntity>> getAllSystemByAcceptUID(long acceptUID, int start, int end);
     int setViewed(long id);
+    SystemEntity getSystemById(long acceptId);
 }

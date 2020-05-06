@@ -24,7 +24,7 @@
         from
             ols_system
         where
-            id=#{id}
+        accept_user_id=#{acceptUID}
         <if test="end != 0">
             limit
             #{start},#{end};
@@ -33,6 +33,21 @@
             ;
         </if>
         SELECT FOUND_ROWS() as total;
+    </select>
+    <select id="getSystemById" resultType="com.ols.ols_project.model.entity.SystemEntity">
+        select
+            id,
+            release_user_id,
+            accept_user_id,
+            message,
+            create_time,
+            ext1,
+            ext2,
+            ext3
+        from
+            ols_system
+        where
+            id=#{id}
     </select>
     <resultMap id="SystemMap" type="com.ols.ols_project.model.entity.SystemEntity" >
         <id column="id" property="id"  />
