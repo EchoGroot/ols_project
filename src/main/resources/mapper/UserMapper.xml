@@ -235,6 +235,7 @@
         where
           role=2
           and ols_user_operation_log.user_id=ols_user.id
+          and ols_user.ext2='0'
         <if test="searchInfo != ''">
             and name like '%${searchInfo}%'
         </if>
@@ -325,11 +326,11 @@
     </update>
 
     <select id="login" resultType="Long">
-        select id from ols_user where (name=#{userName} or email=#{userName})and password=#{passWord}
+        select id from ols_user where (name=#{userName} or email=#{userName})and password=#{passWord} and ext2='0'
     </select>
 
     <select id="checkUserName" resultType="Long">
-        select id from ols_user where name=#{userName}
+        select id from ols_user where name=#{userName} and ext2='0'
     </select>
 
     <insert id="userLoginTime">
@@ -338,7 +339,7 @@
 
     <insert id="userRegister">
         insert into ols_user values(#{id},#{name},#{birthday},#{password},
-			#{sex},#{email},#{role},0,#{ext1},null,null)
+			#{sex},#{email},#{role},0,#{ext1},'0',null)
     </insert>
 
     <insert id="userRegisterTime">
@@ -372,6 +373,7 @@
         where
         ols_user_operation_log.user_id=ols_user.id
         and ols_user_operation_log.type=0
+        and ols_user.ext2='0'
         <if test="searchInfo != ''">
             and name like '%${searchInfo}%'
         </if>
@@ -432,5 +434,10 @@
         #{start},#{end};
         SELECT FOUND_ROWS() as total;
     </select>
+
+    <update id="deleteUser">
+        update ols_user set ext2='1' where id=#{userId}
+    </update>
+
 
 </mapper>

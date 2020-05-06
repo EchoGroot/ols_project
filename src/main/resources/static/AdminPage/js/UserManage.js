@@ -24,15 +24,15 @@ $(function () {
                 }
             }
             , cols: [[ //表头
-                {field: 'id', title: '用户ID', align:'center',width: '10%',fixed: 'left', sort: true}
+                {field: 'id', title: '用户ID', align:'center',width: '15%',fixed: 'left', sort: true}
                 , {field: 'name', title: '用户名', align:'center',width: '10%', sort: true}
-                , {field: 'sex', title: '性别', align:'center',width: '10%', sort: true}
-                , {field: 'birthday', title: '出生日期', align:'center',width: '15%', sort: true}
+                , {field: 'sex', title: '性别', align:'center',width: '7%', sort: true}
+                , {field: 'birthday', title: '出生日期', align:'center',width: '10%', sort: true}
                 , {field: 'email', title: '邮箱', align:'center',width: '15%'}
                 , {field: 'role', title: '角色',align:'center', width: '10%'}
                 , {field: 'signUpTime', title: '注册时间',align:'center', width: '10%', sort: true}
-                , {field: 'points', title: '积分', align:'center',width: '10%', sort: true}
-                , {title: '操作日志', align:'center',toolbar: '#barHandle'}
+                , {field: 'points', title: '积分', align:'center',width: '7%', sort: true}
+                , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]]
 
         });
@@ -46,9 +46,9 @@ $(function () {
             if(layEvent === 'log'){
                 // 查看用户操作日志
                 operationLog(data.id,data.name)
-            } else if(layEvent === 'no'){
-                // 拒绝审核者账号注册
-                //yesReviewerSignUp(data.id,'no',tableIns)
+            } else if(layEvent === 'delete'){
+                // 删除用户
+                deleteUser(data.id,data.name,obj)
             }
         });
 
@@ -174,7 +174,7 @@ function operationLog(userId,userName) {
         var form=layui.form;
         layer.open({
             type:1,
-            title:userName+"操作日志",
+            title:userName+"的操作日志",
             area:['600px','600px'],
             content:$('#logDiv'),
             success:function () {
@@ -206,6 +206,31 @@ function operationLog(userId,userName) {
         })
 
     })
+}
+function deleteUser(userId,userName,obj){
+    layer.confirm('确定删除用户'+userName, function (index) {
+        $.ajax({
+            type:"post",
+            url:"/user/deleteUser",
+            dataType:"json",
+            data: {
+                "userId": userId
+            },
+            success: function (resultData) {
+                if (resultData.meta.status === "200") {
+                    //删除
+                    obj.del();
+                    //关闭弹框
+                    layer.close(index);
+                    layer.msg("删除用户成功", {icon: 6});
+                } else {
+                    layer.msg("删除用户失败", {icon: 5});
+                }
+            }
+        });
+    });
+
+
 }
 // 获取URL参数
 function getQueryVariable(name) {

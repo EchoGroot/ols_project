@@ -145,5 +145,19 @@ public interface UserService {
      */
     HashMap<String, Object> getUserSignUp(String queryInfo,String searchInfo,Integer pageNum, Integer pageSize);
 
+    /**
+     * 查看用户操作日志
+     * @param pageNum
+     * @param pageSize
+     * @param user_id
+     * @return
+     */
     HashMap<String, Object> getUserOperationLog(Integer pageNum, Integer pageSize,String user_id);
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    int deleteUser(String userId);
 }

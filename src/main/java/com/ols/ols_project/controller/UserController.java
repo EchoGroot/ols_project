@@ -562,6 +562,21 @@ public class UserController {
         return result;
     }
 
+    @PostMapping(value = "/deleteUser")
+    public String deleteUser(@RequestParam(value = "userId")String userId){
+        String resultStr = null;
+        try {
+            userService.deleteUser(userId);
+            resultStr = JSON.toJSONString(
+                    new Result("200", "删除用户成功！"));
+        } catch (Exception e) {
+            resultStr = JSON.toJSONString(
+                    new Result("201", "删除用户失败！"));
+
+        }
+        return resultStr;
+    }
+
 
 
 

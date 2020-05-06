@@ -56,6 +56,8 @@ public interface UserMapper {
 
     List<List<UserOperationLog>> getUserOperationLog(int start, Integer end,String user_id);
 
+    int deleteUser(String userId);
+
 
 
 }
