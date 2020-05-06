@@ -42,8 +42,6 @@
     <!--<resultMap id="Total" type="java.lang.Integer">-->
         <!--<result column="total"/>-->
     <!--</resultMap>-->
-
-
     <select id="selRAPinformationByType" resultMap="RewardAndPunishmentMap,total">
         select
         SQL_CALC_FOUND_ROWS id,
@@ -78,8 +76,92 @@
         SELECT FOUND_ROWS() as total;
     </select>
 
+    <select id="getRInformationById" resultMap="RewardAndPunishmentMap,total">
+        select
+            SQL_CALC_FOUND_ROWS id,
+            user_id,
+            type,
+            information,
+            ext1,
+            ext2,
+            create_time
+        from
+            ols_reward_and_punishment
+        where
+              user_id=#{id}
+        and type= 1
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
 
+    <select id="getPInformationById" resultMap="RewardAndPunishmentMap,total">
+        select
+            SQL_CALC_FOUND_ROWS id,
+            user_id,
+            type,
+            information,
+            ext1,
+            ext2,
+            create_time
+        from
+            ols_reward_and_punishment
+        where
+            user_id=#{id}
+          and type= 0
+            limit
+            #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
 
+    <select id="getRPInformationById" resultMap="RewardAndPunishmentMap,total">
+        select
+            SQL_CALC_FOUND_ROWS id,
+            user_id,
+            type,
+            information,
+            ext1,
+            ext2,
+            create_time
+        from
+            ols_reward_and_punishment
+        where
+            user_id=#{id}
+            limit
+            #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
 
-
+    <select id="getInformationByUserId" resultMap="monthAndCountMap">
+        select
+        <if test="type==0">
+            DATE_FORMAT(create_time, '%m') as month,
+        </if>
+        <if test="type==1">
+            DATE_FORMAT(create_time, '%m') as month,
+        </if>
+        count(1) as count
+        from
+        ols_reward_and_punishment
+        where
+        user_id = #{userId}
+        <if test="type==0">
+            and DATE_FORMAT(create_time, '%Y')=#{year}
+        </if>
+        <if test="type==1">
+            and DATE_FORMAT(create_time, '%Y')=#{year}
+        </if>
+        and type  = #{type}
+        GROUP BY
+        <if test="type==0">
+            DATE_FORMAT(create_time, '%m');
+        </if>
+        <if test="type==1">
+            DATE_FORMAT(create_time, '%m');
+        </if>
+    </select>
+    <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
+        <id column="month" property="month"  />
+        <result column="count" property="count" />
+    </resultMap>
 </mapper>

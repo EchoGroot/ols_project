@@ -26,16 +26,7 @@ public class DataBackupManagementController {
 
     private static UidGenService uidGenService;
 
-    /**
-     * 定时生成备份文件
-     *
-     * @throws Exception
-     */
-    @Scheduled(cron = "0 0 1 * * ?") //每天凌晨1点执行一次
-    public void backup2() throws Exception {
-        System.out.println("############生成备份文件");
-        backup();
-    }
+
 
     //备份数据库
     @GetMapping("/backup")

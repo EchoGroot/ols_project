@@ -1,13 +1,14 @@
 package com.ols.ols_project.service.Impl;
 
 import com.baidu.fsg.uid.service.UidGenService;
+import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
+import com.ols.ols_project.common.Const.TaskStateEnum;
 import com.ols.ols_project.mapper.RewardAndPunishmentMapper;
-import com.ols.ols_project.model.FinishCheckTask;
-import com.ols.ols_project.model.FinishCheckTaskBo;
-import com.ols.ols_project.model.RewardAndPunishmentEnityBo;
+import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.JudgeEntity;
 import com.ols.ols_project.model.entity.RewardAndPunishmentEnity;
+import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.service.RewardAndPunishmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,103 @@ public class RewardAndPunishmentServiceImpl implements RewardAndPunishmentServic
         return resultMap;
     }
 
+    @Override
+    public HashMap<String, Object> getRInformationById(long userId,Integer pageNum, Integer pageSize) {
+        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.getRInformationById(userId,(pageNum - 1) * pageSize, pageSize);
+        List<RewardAndPunishmentEnityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(RewardAndPunishmentEnityBo.builder()
+                            .id(e.getId())
+                            .user_id(e.getUser_id())
+                            .information(e.getInformation())
+                            .type(e.getType())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .create_time(e.getCreate_time())
+                            .build());
+                }
+        );
+        data.put("messageList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
 
+   @Override
+    public HashMap<String, Object> getPInformationById(long userId,Integer pageNum, Integer pageSize) {
+        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.getPInformationById(userId,(pageNum - 1) * pageSize, pageSize);
+        List<RewardAndPunishmentEnityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(RewardAndPunishmentEnityBo.builder()
+                            .id(e.getId())
+                            .user_id(e.getUser_id())
+                            .information(e.getInformation())
+                            .type(e.getType())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .create_time(e.getCreate_time())
+                            .build());
+                }
+        );
+        data.put("messageList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
 
+    @Override
+    public HashMap<String, Object> getRPInformationById(long userId,Integer pageNum, Integer pageSize) {
+        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.getRPInformationById(userId,(pageNum - 1) * pageSize, pageSize);
+        List<RewardAndPunishmentEnityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(RewardAndPunishmentEnityBo.builder()
+                            .id(e.getId())
+                            .user_id(e.getUser_id())
+                            .information(e.getInformation())
+                            .type(e.getType())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .create_time(e.getCreate_time())
+                            .build());
+                }
+        );
+        data.put("messageList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
 
+    @Override
+    public int[][] getInformationByUserId(long userId, int year) {
+        int[][] resultArr=new int[3][];
+//        获取惩罚
+        List<MonthAndCount> list = rewardandpunishmentMapper.getInformationByUserId(userId, year, 0);
+//        获取奖励
+        List<MonthAndCount> list1 = rewardandpunishmentMapper.getInformationByUserId(userId, year, 1);
+//        惩罚
+        int[] no=new int[12];
+//        奖励
+        int[] yes=new int[12];
+//        总数量
+        int[] yesAndNo=new int[12];
+        int j=0,k=0;
+        for (int i=0;i<12;i++){
+            no[i]=0;
+            yes[i]=0;
+            if(j<list.size()&&Integer.parseInt(list.get(j).getMonth())==(i+1)){
+                no[i]=Integer.parseInt(list.get(j++).getCount());
+            }
+            if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
+                yes[i]=Integer.parseInt(list1.get(k++).getCount());
+            }
+            yesAndNo[i]=yes[i]+no[i];
+        }
+        resultArr[0]=yes;
+        resultArr[1]=no;
+        resultArr[2]=yesAndNo;
+        return resultArr;
+    }
 }

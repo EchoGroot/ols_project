@@ -73,7 +73,7 @@ public class RewardAndPunishmentController {
      * @return
      */
     @GetMapping("/getRAPInformationBytype")
-    public String getFinishCheckTaskByUserId(
+    public String getRAPInformationBytype(
             @RequestParam("page") int pageNum,
             @RequestParam("limit") int pageSize,
             @RequestParam("type") int type,
@@ -87,5 +87,71 @@ public class RewardAndPunishmentController {
         return result;
     }
 
+    @GetMapping(value = "/getRInformationById")
+    public String getRInformationById(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize
+    ) {
+        System.out.println("1");
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        rewardAndPunishmentService.getRInformationById(Long.parseLong(userId),pageNum, pageSize)
+                        , "0"
+                        , "获取奖励信息成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
 
+    @GetMapping(value = "/getPInformationById")
+    public String getPInformationById(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize
+    ) {
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        rewardAndPunishmentService.getPInformationById(Long.parseLong(userId),pageNum, pageSize)
+                        , "0"
+                        , "获取奖励信息成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
+    @GetMapping(value = "/getRPInformationById")
+    public String getRPInformationById(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize
+    ) {
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        rewardAndPunishmentService.getRPInformationById(Long.parseLong(userId),pageNum, pageSize)
+                        , "0"
+                        , "获取奖励惩罚信息成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
+    @GetMapping("/getInformationByUserId")
+    public String getInformationByUserId(
+            @RequestParam("year") String year,
+            @RequestParam("userId") String userId
+    ){
+        System.out.println("111111111");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("rapList",
+                rewardAndPunishmentService.getInformationByUserId(Long.parseLong(userId),Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取个人奖惩成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
 }
