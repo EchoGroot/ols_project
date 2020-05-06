@@ -8,19 +8,9 @@ import com.ols.ols_project.service.AcceptService;
 import com.baidu.fsg.uid.service.UidGenService;
 import lombok.extern.slf4j.Slf4j;
 import com.ols.ols_project.common.Const.AcceptStateEnum;
-import com.ols.ols_project.common.Const.FileTypeEnum;
-import com.ols.ols_project.common.Const.TaskStateEnum;
-import com.ols.ols_project.mapper.AcceptMapper;
-import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.AcceptEntityBo;
-import com.ols.ols_project.model.AcceptTaskBo;
 import com.ols.ols_project.model.MonthAndCount;
-import com.ols.ols_project.model.entity.AcceptEntity;
-import com.ols.ols_project.model.entity.TaskEntity;
-import com.ols.ols_project.model.entity.UserEntity;
-import com.ols.ols_project.service.AcceptService;
-import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -148,4 +138,8 @@ public class AcceptServiceImpl implements AcceptService {
         return "200";
     }
 
+    @Override
+    public long getUserId(long acceptId) {
+        return acceptMapper.getUserId(acceptId);
+    }
 }

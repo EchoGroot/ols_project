@@ -12,7 +12,7 @@ public interface AcceptMapper {
     int setAdoptState(long acceptId);//采纳并扣除和奖励积分
     int setNotAdoptState(long taskId);//批量更改未采纳状态
     long getUserId(long acceptId);
-
+    AcceptEntity getSystemByAcceptId(long acceptId);
 /**
  * 关于接收任务的Mapper
  * @author cc

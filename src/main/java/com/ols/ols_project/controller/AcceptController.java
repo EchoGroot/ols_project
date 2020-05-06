@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.service.AcceptService;
+import com.ols.ols_project.service.SystemService;
+import com.ols.ols_project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,10 @@ import java.util.HashMap;
 public class AcceptController {
     @Autowired
     private AcceptService acceptService;
+    @Autowired
+    private SystemService systemService;
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping("/getPersonalAcceptByUserId")
     public String getPersonalAcceptByUserId(
@@ -51,6 +57,10 @@ public class AcceptController {
         String str;
         if (acceptService.adoptByAcceptId(acceptId, taskId) == "200") {
             str = "采纳成功！";
+            //查询信息BY acceptId
+            long releaseUID = taskService.getTaskInfoByTaskId(taskId).getRelease_user_id();
+            long acceptUID = acceptService.getUserId(acceptId);
+            systemService.createSystem(releaseUID,acceptUID, "恭喜，用户"+releaseUID+"在"+taskId+"任务中已采纳您的标注");
         } else {
             str = "未知错误！";
         }

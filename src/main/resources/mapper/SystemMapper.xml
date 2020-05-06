@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ols.ols_project.mapper.SystemMapper">
+    <insert id="createSystem">
+        insert into ols_system
+        (id,release_user_id,accept_user_id,message,create_time,ext1,ext2,ext3)
+            value
+            (#{id},#{release_user_id},#{accept_user_id},#{message},#{create_time},#{ext1},#{ext2},#{ext3})
+    </insert>
+    <update id="setViewed">
+        update ols_system set ext3=1 where id=#{id}
+    </update>
+    <select id="getAllSystemByAcceptUID" resultMap="SystemMap,total">
+        select
+            id,
+            release_user_id,
+            accept_user_id,
+            message,
+            create_time,
+            ext1,
+            ext2,
+            ext3
+        from
+            ols_system
+        where
+            id=#{id}
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
+    <resultMap id="SystemMap" type="com.ols.ols_project.model.entity.SystemEntity" >
+        <id column="id" property="id"  />
+        <result column="release_user_id" property="release_user_id" />
+        <result column="accept_user_id" property="accept_user_id" />
+        <result column="message" property="message" />
+        <result column="create_time" property="create_time" />
+        <result column="ext1" property="ext1" />
+        <result column="ext2" property="ext2" />
+        <result column="ext3" property="ext3" />
+    </resultMap>
+    <resultMap id="total" type="java.lang.Integer">
+        <result column="total"/>
+    </resultMap>
+</mapper>
