@@ -29,7 +29,7 @@ public class AcceptServiceImpl implements AcceptService {
     private AcceptMapper acceptMapper;
     @Resource
     private TaskMapper taskMapper;
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
     @Autowired

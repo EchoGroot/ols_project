@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -41,12 +44,23 @@ public class SystemServiceImpl implements SystemService {
     @Override
     public String setViewed(long id) {
         systemMapper.setViewed(id);
-        return "200";
+        return "1";
     }
 
     @Override
-    public List<SystemEntity> getAllSystemByAcceptUID(long acceptUID,Integer pageNum, Integer pageSize) {
-        return null;
+    public HashMap<String,Object> getAllSystemByAcceptUID(long acceptUID, Integer pageNum, Integer pageSize) {
+        List<List<SystemEntity>> list = systemMapper.getAllSystemByAcceptUID(acceptUID,pageNum,pageSize);
+        List<SystemEntity> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    //list1.add(e);
+                    Collections.addAll(list1,e);
+                }
+        );
+        data.put("sysList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
     }
 
 }
