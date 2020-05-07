@@ -334,7 +334,7 @@
     </select>
 
     <insert id="userLoginTime">
-        insert into ols_user_operation_log values(#{id},#{user_id},1,null,#{time},null,null,null)
+        insert into ols_user_operation_log values(#{id},#{user_id},1,'登录',#{time},null,null,null)
     </insert>
 
     <insert id="userRegister">
@@ -343,7 +343,7 @@
     </insert>
 
     <insert id="userRegisterTime">
-        insert into ols_user_operation_log values(#{id},#{user_id},0,null,#{time},null,null,null)
+        insert into ols_user_operation_log values(#{id},#{user_id},'注册',null,#{time},null,null,null)
     </insert>
 
     <select id="getEmailByName" resultType="String">
@@ -430,6 +430,9 @@
         ols_user_operation_log
         where
         user_id=#{user_id}
+        <if test="searchInfo != ''">
+            and operation like '%${searchInfo}%'
+        </if>
         limit
         #{start},#{end};
         SELECT FOUND_ROWS() as total;
@@ -448,4 +451,8 @@
             points DESC
             LIMIT 10;
     </select>
+
+    <insert id="userOperation">
+        insert into ols_user_operation_log values(#{id},#{user_id},2,#{operation},#{time},null,null,null)
+    </insert>
 </mapper>

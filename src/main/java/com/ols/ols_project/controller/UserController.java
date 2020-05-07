@@ -249,10 +249,20 @@ public class UserController {
         try {
             userService.changeEmailById(Long.parseLong(userId), email);
             resultStr = JSON.toJSONString(
-                    new Result("200", "修改密码成功！"));
+                    new Result("200", "修改邮箱成功！"));
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(Long.parseLong(userId));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
+            userLog.setOperation("修改邮箱");
+            userService.userOperation(userLog);
+
         } catch (Exception e) {
             resultStr = JSON.toJSONString(
-                    new Result("201", "修改密码失败！"));
+                    new Result("201", "修改邮箱失败！"));
 
         }
         return resultStr;
@@ -471,6 +481,15 @@ public class UserController {
             userService.changePasswordByName(userName, password);
             resultStr = JSON.toJSONString(
                     new Result("200", "修改密码成功！"));
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(userService.checkUserName(userName));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
+            userLog.setOperation("修改密码");
+            userService.userOperation(userLog);
         } catch (Exception e) {
             resultStr = JSON.toJSONString(
                     new Result("201", "修改密码失败！"));
@@ -549,11 +568,12 @@ public class UserController {
 
     @GetMapping(value = "/getUserOperationLog")
     public String getUserOperationLog(
+            @RequestParam(value = "searchInfo") String searchInfo,
             @RequestParam(value = "user_id") String user_id,
             @RequestParam(value = "page") Integer pageNum,
             @RequestParam(value = "limit") Integer pageSize
     ) {
-        HashMap<String, Object> data = userService.getUserOperationLog(pageNum,pageSize,user_id);
+        HashMap<String, Object> data = userService.getUserOperationLog(searchInfo,pageNum,pageSize,user_id);
         // layui默认数据表格的status为0才显示数据
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(data, "0", "获取用户操作日志成功！"),

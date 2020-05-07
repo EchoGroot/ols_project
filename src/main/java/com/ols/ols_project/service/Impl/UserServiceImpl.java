@@ -185,8 +185,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public HashMap<String, Object> getUserOperationLog(Integer pageNum, Integer pageSize,String user_id) {
-        List<List<UserOperationLog>> list = userMapper.getUserOperationLog((pageNum - 1) * pageSize, pageSize,user_id);
+    public HashMap<String, Object> getUserOperationLog(String searchInfo,Integer pageNum, Integer pageSize,String user_id) {
+        List<List<UserOperationLog>> list = userMapper.getUserOperationLog(searchInfo,(pageNum - 1) * pageSize, pageSize,user_id);
         HashMap<String,Object> result=new HashMap<>();
         List<Object> listBo=new ArrayList<>();
         list.get(0).stream().forEach(userOperationLogEntity -> {
@@ -211,5 +211,8 @@ public class UserServiceImpl implements UserService {
         List<UserEntity> list = userMapper.getPointsRank();
         return list;
     }
+
+    @Override
+    public int userOperation(UserOperationLogEntity userLog){return userMapper.userOperation(userLog);}
 
 }

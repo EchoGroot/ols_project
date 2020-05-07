@@ -170,22 +170,23 @@ $(function () {
 // 查看用户操作日志
 function operationLog(userId,userName) {
     layui.use(['table','form'],function () {
-        var table=layui.table;
-        var form=layui.form;
+        var table = layui.table;
+        var form = layui.form;
         layer.open({
-            type:1,
-            title:userName+"的操作日志",
-            area:['600px','600px'],
-            content:$('#logDiv'),
-            success:function () {
-                table.render({
-                    elem:'#logList'
-                    ,height: '500'
-                    , url: '/user/getUserOperationLog?user_id='+userId//数据接口
+            type: 1,
+            title: userName + "的操作日志",
+            area: ['600px', '600px'],
+            content: $('#logDiv'),
+            success: function () {
+                var tableIns = table.render({
+                    elem: '#logList'
+                    , height: '500'
+                    , url: '/user/getUserOperationLog?user_id=' + userId//数据接口
                     , page: true //开启分页
-                    , limits: [10,20,30]
+                    , limits: [10, 20, 30]
                     , limit: 10
-                    , parseData: function(res) { //res 即为原始返回的数据
+                    , where: {searchInfo: ''}
+                    , parseData: function (res) { //res 即为原始返回的数据
                         return {
                             "code": res.meta.status, //解析接口状态
                             "msg": res.meta.msg, //解析提示文本
@@ -194,12 +195,25 @@ function operationLog(userId,userName) {
                         }
                     }
                     , cols: [[ //表头
-                        {field: 'type', title: '类型', align:'center',width: 100,fixed: 'left', sort: true}
-                        , {field: 'time', title: '时间', align:'center',width: 200, sort: true}
-                        , {field: 'operation', title: '详情', align:'center',width: 300, sort: true}
+                        {field: 'type', title: '类型', align: 'center', width: 100, fixed: 'left', sort: true}
+                        , {field: 'time', title: '时间', align: 'center', width: 200, sort: true}
+                        , {field: 'operation', title: '详情', align: 'center', width: 300, sort: true}
 
                     ]]
 
+                });
+                //筛选按钮点击事件
+                $("#searchButton1").click(function (e) {
+                    // 阻止a标签的默认行为
+                    e.preventDefault();
+                    tableIns.reload({
+                        where: { //设定异步数据接口的额外参数,可覆盖原有参数
+                            searchInfo: $("#searchInput1").val()
+                        }
+                        , page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                    });
                 })
 
             }
@@ -207,6 +221,7 @@ function operationLog(userId,userName) {
 
     })
 }
+
 function deleteUser(userId,userName,obj){
     layer.confirm('确定删除用户'+userName, function (index) {
         $.ajax({

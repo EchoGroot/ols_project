@@ -148,12 +148,13 @@ public interface UserService {
 
     /**
      * 查看用户操作日志
+     * @param searchInfo
      * @param pageNum
      * @param pageSize
      * @param user_id
      * @return
      */
-    HashMap<String, Object> getUserOperationLog(Integer pageNum, Integer pageSize,String user_id);
+    HashMap<String, Object> getUserOperationLog(String searchInfo,Integer pageNum, Integer pageSize,String user_id);
 
     /**
      * 删除用户
@@ -163,4 +164,11 @@ public interface UserService {
     int deleteUser(String userId);
 
     List<UserEntity> getPointsRank();
+
+    /**
+     * 用户操作
+     * @param userLog
+     * @return
+     */
+    int userOperation(UserOperationLogEntity userLog);
 }

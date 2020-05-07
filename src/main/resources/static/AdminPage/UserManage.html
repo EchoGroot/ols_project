@@ -35,6 +35,12 @@
     <a id="no" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete">删除用户</a>
 </script>
 <div id="logDiv" class="layui-form" style="display: none">
+    <div class="layui-input-block layui-input-inline">
+        <input type="text" id="searchInput1" name="title" placeholder="关键词" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-input-inline">
+        <button class="layui-btn" id="searchButton1">查询</button>
+    </div>
     <table id="logList" lay-filter="logList"></table>
 </div>
 </body>

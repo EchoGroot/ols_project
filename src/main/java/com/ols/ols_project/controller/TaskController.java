@@ -14,6 +14,7 @@ import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.AcceptEntity;
 import com.ols.ols_project.model.entity.UserEntity;
+import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.TaskService;
 import com.ols.ols_project.service.UserService;
 import net.coobird.thumbnailator.Thumbnails;
@@ -29,6 +30,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -231,6 +234,16 @@ public class TaskController {
             if(2==taskService.acceptTask(Long.parseLong(userId),Long.parseLong(taskId))){
                 resultStr=JSON.toJSONString(
                         new Result("200","接受任务成功"));
+
+                //更新操作日志
+                UserOperationLogEntity userLog=new UserOperationLogEntity();
+                userLog.setId(uidGenService.getUid());
+                userLog.setUser_id(Long.parseLong(userId));
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date=new Date();
+                userLog.setTime(Timestamp.valueOf(df.format(date)));
+                userLog.setOperation("接受任务"+taskId);
+                userService.userOperation(userLog);
             }else{
                 resultStr=JSON.toJSONString(
                         new Result("202","接受任务失败"));
@@ -316,6 +329,15 @@ public class TaskController {
         if(2==taskService.submitAcceptTask(Long.parseLong(acceptId),Long.parseLong(taskId))){
             resultStr= JSON.toJSONString(
                     new Result("200","提交已接受的任务成功"));
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(Long.parseLong(userId));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
+            userLog.setOperation("提交任务"+taskId);
+            userService.userOperation(userLog);
         }else{
             resultStr=JSON.toJSONString(
                     new Result("201","提交已接受的任务失败"));
@@ -336,6 +358,16 @@ public class TaskController {
             HashMap<String,Object> data = new HashMap();
             data.put("taskId",result);
             resultStr = JSON.toJSONString(new Result(data,"1","积分扣除成功"));
+            //更新操作日志
+            UserOperationLogEntity userLog=new UserOperationLogEntity();
+            userLog.setId(uidGenService.getUid());
+            userLog.setUser_id(releaseUserId);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date=new Date();
+            userLog.setTime(Timestamp.valueOf(df.format(date)));
+            userLog.setOperation("发布任务"+result);
+            userService.userOperation(userLog);
+
         }else{
             resultStr = JSON.toJSONString(new Result("0","积分不足！发布失败"));
         }
