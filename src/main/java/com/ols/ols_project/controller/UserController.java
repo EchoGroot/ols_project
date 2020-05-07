@@ -577,6 +577,10 @@ public class UserController {
         return resultStr;
     }
 
+    @GetMapping("/getPointsRank")
+    public String getPointsRank(){
+        return JSON.toJSONString(userService.getPointsRank(),SerializerFeature.WriteNonStringValueAsString);
+    }
 
 
 

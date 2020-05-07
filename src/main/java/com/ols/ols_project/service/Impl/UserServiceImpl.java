@@ -206,4 +206,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUser(String userId){return userMapper.deleteUser(userId);}
 
+    @Override
+    public List<UserEntity> getPointsRank() {
+        List<UserEntity> list = userMapper.getPointsRank();
+        return list;
+    }
+
 }

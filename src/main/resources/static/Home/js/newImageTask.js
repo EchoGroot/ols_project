@@ -15,10 +15,10 @@ var page = 'releaseNotFinishTask';
 var query=getQueryVariable('query');
 
 $(function (){
-    layui.use(['upload','layer'],function() {
+    layui.use(['upload','layer','form'],function() {
         var upload = layui.upload;
         var layer=layui.layer;
-
+        var form = layui.form;
         upload.render({
             elem: '#selectImgs',
             url: '/task/uploadImgs',//Docs
@@ -59,13 +59,18 @@ $(function (){
                 )
             }
         });
-
+        form.on('submit(btnSubmit)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            console.log(data)
+            releaseTask();
+            return false;
+        });
     });
     judgeLogin();
     //清空预览图片
     cleanImgsPreview();
     //保存商品
-    releaseTask();
+
 
     $("#addTag").click(function () {
         var styleBtn;
@@ -98,12 +103,22 @@ $(function (){
             }
         }
     })
-
-    $("#acceptli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    $('#cancelSubmit').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/task/cancelImgs",
+            data: {
+                fileNameArray0: imgsName.toString()
+            }
+        })
+        imgsName.length=0;
+        window.location.href='/Home/Home.html';
+    });
+    $("#myImgli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=acceptFinishImgTask")
     })
-    $("#releaseli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+    $("#myDocli").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=acceptFinishTxtTask")
     })
 });
 
@@ -173,35 +188,48 @@ function cleanImgsPreview(){
  * 发布任务
  */
 function releaseTask() {
-    $('#btnSubmit').click(function () {
-        var tname = $("#taskName").val();
-        var tdesc = $("#taskDesc").val();
-        var rpoints = $("#rewardPoints").val();
-        $.ajax({
-            type: "POST",
-            url: "/task/creatTaskUrl",
-            data: {
-                labelName: labelName.toString(),
-                originalImage: imgsName.toString(),
-            },
-            success: function (resultData) {
-                console.log(resultData.toString());
-                //url成功获取 提交表单进行数据交互
-                $.ajax({
-                    type: "POST",
-                    url: "/task/createTask",
-                    data: {
-                        taskName: tname,
-                        taskInfo: tdesc,
-                        rewardPoints:rpoints,
-                        type:1,
-                        taskUrl: resultData.toString(),
-                        releaseUserId: userId,
-                    },
-                    success: function (msg) {
-                        msg=JSON.parse(msg);
-                        if (msg.meta.status == "1") {
-                            alert(msg.meta.msg);
+    var tname = $("#taskName").val();
+    var tdesc = $("#taskDesc").val();
+    var rpoints = $("#rewardPoints").val();
+    if(labelName.length===0){
+        layer.msg("请至少添加一种标注规则！",{
+            icon: 5,
+            anim: 6
+        });
+        return false;
+    }
+    if(imgsName.length===0){
+        layer.msg('请至少上传一张图片！', {
+            icon: 5,
+            anim: 6
+        })
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: "/task/creatTaskUrl",
+        data: {
+            labelName: labelName.toString(),
+            originalImage: imgsName.toString(),
+        },
+        success: function (resultData) {
+            console.log(resultData.toString());
+            //url成功获取 提交表单进行数据交互
+            $.ajax({
+                type: "POST",
+                url: "/task/createTask",
+                data: {
+                    taskName: tname,
+                    taskInfo: tdesc,
+                    rewardPoints:rpoints,
+                    type:1,
+                    taskUrl: resultData.toString(),
+                    releaseUserId: userId,
+                },
+                success: function (msg) {
+                    msg=JSON.parse(msg);
+                    if (msg.meta.status == "1") {
+                        layer.msg(msg.meta.msg, {icon: 1},function () {
                             //成功跳转界面
                             top.location.href="/ImageLabelTaskPage/index.html?" +
                                 "userId="+userId+
@@ -209,26 +237,14 @@ function releaseTask() {
                                 "&"+'taskId'+"="+msg.data.taskId+
                                 "&pageFrom="+URLencode('/Home/Home.html')
                                 +"%3FuserId%3D"+userId;
-                        } else if (msg.meta.status == "0") {
-                            alert(msg.meta.msg);
-                        }
+                        });
+                    } else if (msg.meta.status == "0") {
+                        alert(msg.meta.msg);
                     }
-                });
-            }
-        })
-    });
-
-    $('#cancelSubmit').click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/task/cancelImgs",
-            data: {
-                fileNameArray0: imgsName.toString()
-            }
-        })
-        imgsName.length=0;
-        //跳转主页或者返回上个界面
-    });
+                }
+            });
+        }
+    })
 }
 //获取URL参数
 function getQueryVariable(name) {
@@ -278,9 +294,9 @@ function judgeLogin() {
                                 div2.style.display="none";
                                 var div1=document.getElementById("login");
                                 div1.style.display="block";
-                                var li1=document.getElementById("acceptli");
+                                var li1=document.getElementById("myImgli");
                                 li1.style.visibility="visible";
-                                var li2=document.getElementById("releaseli");
+                                var li2=document.getElementById("myDocli");
                                 li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
                                 var a=document.getElementById("userName");
                                 a.innerText=name;
@@ -295,7 +311,6 @@ function judgeLogin() {
                     window.location.href='/Home/Home.html';
 
                 }
-
             }
         })
     }

@@ -58,6 +58,6 @@ public interface UserMapper {
 
     int deleteUser(String userId);
 
-
+    List<UserEntity> getPointsRank();
 
 }

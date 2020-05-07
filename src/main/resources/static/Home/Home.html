@@ -18,25 +18,29 @@
         <a class="fly-logo" href="/Home/Home.html">
             <img src="/Home/image/logo1.png" height="50" width="270"/>
         </a>
-        <ul class="layui-nav fly-nav-user">
-            <!-- 未登入的状态 -->
-            <div id="logoff">
-                <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" href="./login.html"></a></li>
-                <li class="layui-nav-item"><a href="/Home/login.html">登入</a></li>
-                <li class="layui-nav-item"><a href="/Home/register.html">注册</a></li>
-                <li class="layui-nav-item layui-hide-xs">
-                    <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
-                </li>
-                <li class="layui-nav-item layui-hide-xs">
-                    <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
-                </li>
-            </div>
-            <!--登入后的状态-->
-            <div id="login" style="display: none">
-                <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" ></a></li>
-                <li class="layui-nav-item"><a href=" " id="userName"></a></li>
-                <li class="layui-nav-item"><a href="javascript:cancel()" id="">注销</a></li>
-            </div>
+        <!-- 未登入的状态 -->
+        <ul class="layui-nav fly-nav-user" id="logoff">
+            <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" href="/Home//login.html"></a></li>
+            <li class="layui-nav-item"><a href="/Home/login.html">登入</a></li>
+            <li class="layui-nav-item"><a href="/Home/register.html">注册</a></li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>
+            </li>
+        </ul>
+        <!--登入后的状态-->
+        <ul class="layui-nav layui-layout-right" id="login" style="display: none">
+            <li class="layui-nav-item"><a class="iconfont icon-touxiang layui-hide-xs" ></a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" id="userName" ></a>
+                <dl class="layui-nav-child">
+                    <dd><a id="personCenter" href="#">个人中心</a></dd>
+                    <dd><a id="systemMsg" href="#">消息</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="javascript:cancel()" id="">注销</a></li>
         </ul>
     </div>
 </div>
@@ -51,9 +55,9 @@
             <li class="layui-hide-xs layui-show-md-inline-block"><span class="fly-mid"></span></li>
             <!-- 用户登入后显示 -->
             <li class="layui-hide-xs layui-show-md-inline-block" >
-                <a style="visibility:hidden" id="myImgli">我的图片任务</a></li>
+                <a style="visibility:hidden" id="myImgli" href="">我的图片任务</a></li>
             <li class="layui-hide-xs layui-show-md-inline-block">
-                <a style="visibility:hidden" id="myDocli">我的文本任务</a></li>
+                <a style="visibility:hidden" id="myDocli" href="">我的文本任务</a></li>
         </ul>
         <div class="fly-column-right layui-hide-xs">
             <a id="newDocTaskBtn" class="layui-btn">发布文本任务</a>
@@ -69,13 +73,13 @@
                 <div>
                     <form class="layui-form" action="">
                         <div class="fly-panel-title fly-filter">
-                            <a class="layui-this" id="queryReleasedTask">综合</a>
+                            <a class="layui-this" id="queryReleasedTask" href="#">综合</a>
                             <span class="fly-mid"></span>
-                            <a id="queryImgTask">图片任务</a>
+                            <a id="queryImgTask" href="#">图片任务</a>
                             <span class="fly-mid"></span>
-                            <a id="queryTxtTask">文本任务</a>
+                            <a id="queryTxtTask" href="#">文本任务</a>
                             <span class="fly-mid"></span>
-                            <a id="queryAdoptedTask">已采纳任务</a>
+                            <a id="queryAdoptedTask" href="#">已采纳任务</a>
                             <span class="fly-filter-right layui-hide-xs">
                                 <a class="layui-input-block layui-input-inline">
                                     <input type="text" id="searchInput" name="title" placeholder="输入关键字" autocomplete="off" class="layui-input">
@@ -84,7 +88,7 @@
                             </span>
                         </div>
                     </form>
-                    <table id="taskList" lay-filter="monitorToolbar">
+                    <table id="taskList" lay-filter="monitorToolbar" style="font-size: 8px">
                         <script type="text/html" id="barHandle">
                             <a class="layui-btn layui-btn-sm" lay-event="check">查看</a>
                         </script>
@@ -94,14 +98,17 @@
         </div>
         <div class="layui-col-md4">
             <dl class="fly-panel fly-list-one">
-                <dt class="fly-panel-title">排行榜</dt>
-
-                <div style="font-family:Arial;" id="ViewPhbInfo">   <!--  font-size:16px-->
+                <h3 class="fly-panel-title">热度排行榜</h3>
+                <dl class="fly-panel-main" id="ViewPhbInfo">   <!--  font-size:16px-->
                     <!--排行榜载体-->
-                </div>
-
+                </dl>
             </dl>
-
+            <dl class="fly-panel fly-list-one">
+                <h3 class="fly-panel-title">积分排行榜</h3>
+                <dl class="fly-panel-main" id="pointsRank">   <!--  font-size:16px-->
+                    <!--排行榜载体-->
+                </dl>
+            </dl>
             <div class="fly-panel">
                 <div class="fly-panel-title">
                     这里可作为广告区域

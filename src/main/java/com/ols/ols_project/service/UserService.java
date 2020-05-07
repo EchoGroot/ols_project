@@ -4,6 +4,7 @@ import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 关于User的Service
@@ -160,4 +161,6 @@ public interface UserService {
      * @return
      */
     int deleteUser(String userId);
+
+    List<UserEntity> getPointsRank();
 }

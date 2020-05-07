@@ -439,5 +439,13 @@
         update ols_user set ext2='1' where id=#{userId}
     </update>
 
-
+    <select id="getPointsRank" resultType="com.ols.ols_project.model.entity.UserEntity">
+        SELECT points,
+               name
+        FROM
+            ols_user
+        ORDER BY
+            points DESC
+            LIMIT 10;
+    </select>
 </mapper>

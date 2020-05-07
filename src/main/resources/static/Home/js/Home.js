@@ -7,20 +7,21 @@ var query=getQueryVariable('query'); //查询参数  needlabel和adopted两种
 var url='/task/getAllTask'
 $(function () {
     // layui初始化
-    layui.use(['layer', 'form', 'table'], function () {
+    layui.use(['layer', 'form', 'table','element'], function () {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
+        var element = layui.element;
         // 发布的任务
         cols = [[ //表头
-            {field: 'id', title: '任务编号', align: 'center', width: '10%', fixed: 'left'}
-            , {field: 'name', title: '任务名称', align: 'center', width: '10%'}
-            , {field: 'points', title: '任务分值', align: 'center', width: '10%', sort: true}
-            , {field: 'type', title: '文件类型', align: 'center', width: '10%', sort: true}
+            {field: 'id', title: '任务编号', align: 'center', width: '11%', fixed: 'left',fontSize:8}
+            , {field: 'name', title: '任务名称', align: 'center', width: '20%'}
+            , {field: 'points', title: '任务分值', align: 'center', width: '11%', sort: true}
+            , {field: 'type', title: '文件类型', align: 'center', width: '11%', sort: true}
             , {field: 'release_time', title: '发布时间', align: 'center', width: '15%', sort: true}
-            , {field: 'accept_num', title: '接受者数量', align: 'center', width: '10%', sort: true}
-            , {field: 'ext1', title: '完成任务数量', align: 'center', width: '10%', sort: true}
-            , {title: '操作', align: 'center', toolbar: '#barHandle'}
+            , {field: 'accept_num', title: '接受者数量', align: 'center', width: '11%', sort: true}
+            , {field: 'ext1', title: '完成任务数量', align: 'center', width: '11%', sort: true}
+            , {title: '操作', align: 'center', toolbar: '#barHandle',width: '10%'}
         ]];
         // 渲染表格 *****由于默认界面是tableIns，所以选择先渲染tableIns2再渲染tableIns覆盖。
         var tableIns2 = table.render({
@@ -52,12 +53,12 @@ $(function () {
                 }
             }
             , cols: [[ //表头
-                {field: 'id', title: '任务编号', align: 'center', width: '10%', fixed: 'left'}
-                , {field: 'name', title: '任务名称', align: 'center', width: '10%'}
-                , {field: 'points', title: '任务分值', align: 'center', width: '10%', sort: true}
-                , {field: 'type', title: '文件类型', align: 'center', width: '10%', sort: true}
-                , {field: 'finish_time', title: '完成时间', align: 'center', width: '15%', sort: true}
-                , {title: '操作', align: 'center', toolbar: '#barHandle'}
+                {field: 'id', title: '任务编号', align: 'center', width: '18%', fixed: 'left'}
+                , {field: 'name', title: '任务名称', align: 'center', width: '22%'}
+                , {field: 'points', title: '任务分值', align: 'center', width: '15%', sort: true}
+                , {field: 'type', title: '文件类型', align: 'center', width: '15%', sort: true}
+                , {field: 'finish_time', title: '完成时间', align: 'center', width: '20%', sort: true}
+                , {title: '操作', align: 'center', toolbar: '#barHandle',width: '10%'}
             ]]
             , done: function (res, curr, count) {
                 if (page === 'acceptTask') {
@@ -67,11 +68,10 @@ $(function () {
         });
         var tableIns = table.render({
             elem: '#taskList'
-            , height: 700
             , url: url //数据接口
             , page: true //开启分页
-            , limits: [15, 30, 50, 100]
-            , limit: 15
+            , limits: [17, 30,40, 50,80,100]
+            , limit: 17
             , method: 'get'
             , autoSort: false
             , where: {
@@ -232,6 +232,9 @@ $(function () {
     $("#newDocTaskBtn").click(function () {
         gotoUrlByJudege("/Home/newDocTask.html?userId="+userId)
     });
+    $("#systemMsg").click(function () {
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=systemInfo")
+    })
     $("#myImgli").click(function () {
         gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=acceptFinishImgTask")
     })
@@ -353,9 +356,12 @@ function judgeLogin() {
                                 var li2=document.getElementById("myDocli");
                                 li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
                                 var a=document.getElementById("userName");
-                                a.innerText=name;
+                                //a.innerText=name;
+                                $("#userName").append(name+"<span class='layui-nav-more'></span>")
                                 a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
-
+                                $("#personCenter").click(function () {
+                                    window.location.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
+                                })
                             }
                         }
                     });

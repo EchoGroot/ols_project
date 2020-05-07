@@ -9,15 +9,14 @@ $(function () {
             resultData=JSON.parse(resultData);
             FxDATA=resultData;
             if (FxDATA != null) {//浏览量总排行榜
-                var str = "<blockquote class='layui-elem-quote layui-quote-nm'>";//排行榜的载体
+                var str="";
                 for (var i = 0; i < FxDATA.length; i++) {
                     if (i != 0) {
                         str = str + "<br>";
                     }
                     //分别表示排行榜的热度颜色 排行榜的点击数量 当前热度排行的名称
-                    str = str + "<span class='layui-badge-dot layui-bg-" + PhRdColor[i] + "'></span> <span class='layui-badge-rim'>" + FxDATA[i].ext3 + "</span> <a id='rankBtn"+i+"' name='"+FxDATA[i].id+"' >" + FxDATA[i].name + "</a>";
+                    str = str + "<span class='layui-badge-dot layui-bg-" + PhRdColor[i] + "'></span> <span class='layui-badge-rim'>" + FxDATA[i].ext3 + "</span> <a id='rankBtn"+i+"' name='"+FxDATA[i].id+"' href='#'>" + FxDATA[i].name + "</a>";
                 }
-                str = str + "</blockquote> ";
                 $("#ViewPhbInfo").append(str);
                 //创建动态btnID点击事件
                 for(i = 0;i<FxDATA.length;i++){  //这个i用来选中btn
@@ -32,6 +31,26 @@ $(function () {
                         checkFunc(e.target.name); //选中name   name用来存taskId了
                     })
                 }
+            }
+        }
+    })
+
+    $.ajax({
+        type: "get",
+        url:"/user/getPointsRank",
+        success:function(resultData){
+            resultData=JSON.parse(resultData);
+            FxDATA=resultData;
+            if (FxDATA != null) {//浏览量总排行榜
+                var str="";
+                for (var i = 0; i < FxDATA.length; i++) {
+                    if (i != 0) {
+                        str = str + "<br>";
+                    }
+                    //分别表示排行榜的热度颜色 排行榜的点击数量 当前热度排行的名称
+                    str = str + "<span class='layui-badge-dot layui-bg-" + PhRdColor[i] + "'></span> <span class='layui-badge-rim'>" + FxDATA[i].points + "</span> <a>" + FxDATA[i].name + "</a>";
+                }
+                $("#pointsRank").append(str);
             }
         }
     })
