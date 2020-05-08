@@ -171,4 +171,11 @@ public interface UserService {
      * @return
      */
     int userOperation(UserOperationLogEntity userLog);
+
+    /**
+     * 性别信息
+     * @param role
+     * @return
+     */
+    int[] getSex(int role);
 }

@@ -1,6 +1,7 @@
 package com.ols.ols_project.mapper;
 
 import com.ols.ols_project.model.AcceptTask;
+import com.ols.ols_project.model.SexAndCount;
 import com.ols.ols_project.model.UserOperationLog;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
@@ -61,5 +62,7 @@ public interface UserMapper {
     List<UserEntity> getPointsRank();
 
     int userOperation(UserOperationLogEntity userLog);
+
+    List<SexAndCount>getSex(int role, String sex);
 
 }

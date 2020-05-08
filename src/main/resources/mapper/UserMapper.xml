@@ -455,4 +455,20 @@
     <insert id="userOperation">
         insert into ols_user_operation_log values(#{id},#{user_id},2,#{operation},#{time},null,null,null)
     </insert>
+
+    <select id="getSex" resultMap="sexAndCountMap">
+        SELECT
+          sex,
+          count(1) as count
+        FROM
+          ols_user
+        WHERE
+          role=#{role}
+          and sex = #{sex}
+
+    </select>
+    <resultMap id="sexAndCountMap" type="com.ols.ols_project.model.SexAndCount" >
+        <id column="sex" property="sex"  />
+        <result column="count" property="count" />
+    </resultMap>
 </mapper>

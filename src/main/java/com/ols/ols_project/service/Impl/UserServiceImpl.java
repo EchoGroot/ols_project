@@ -215,4 +215,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int userOperation(UserOperationLogEntity userLog){return userMapper.userOperation(userLog);}
 
+    @Override
+    public int[] getSex(int role) {
+        int[] resultArr=new int[3];
+        //获取性别为男的数量
+        List<SexAndCount> men = userMapper.getSex(role,"男");
+        //获取性别为女的数量
+        List<SexAndCount> women = userMapper.getSex(role,"女");
+        resultArr[0]=Integer.parseInt(men.get(0).getCount());
+        resultArr[1]=Integer.parseInt(women.get(0).getCount());;
+        resultArr[2]=resultArr[0]+resultArr[1];
+        return resultArr;
+    }
+
 }

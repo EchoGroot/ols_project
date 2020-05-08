@@ -1,3 +1,22 @@
-<div>
-    <h1>UserStatistics</h1>
-</div>
+<head>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="css/UserStatistics.css">
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="js/UserStatistics.js"></script>
+    <script src="/layui/layui.js"></script>
+</head>
+<body>
+<form id="queryForm" class="layui-form" action="">
+    <div class="layui-form-item">
+        <div class="layui-input-block layui-input-inline">
+            <select name="" id="" lay-filter="chooseSelect">
+                <option value="0">普通用户</option>
+                <option value="2">审核者</option>
+                <option value="1">管理员</option>
+            </select>
+        </div>
+    </div>
+</form>
+<div id="main1" style="float:left; width: 500px;height:500px;margin-top: 50px"></div>
+</body>

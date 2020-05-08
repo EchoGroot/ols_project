@@ -566,6 +566,14 @@ public class UserController {
         return resultStr;
     }
 
+    /**
+     * 获取用户操作日志
+     * @param searchInfo
+     * @param user_id
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @GetMapping(value = "/getUserOperationLog")
     public String getUserOperationLog(
             @RequestParam(value = "searchInfo") String searchInfo,
@@ -582,6 +590,11 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
     @PostMapping(value = "/deleteUser")
     public String deleteUser(@RequestParam(value = "userId")String userId){
         String resultStr = null;
@@ -602,6 +615,20 @@ public class UserController {
         return JSON.toJSONString(userService.getPointsRank(),SerializerFeature.WriteNonStringValueAsString);
     }
 
+    /**
+     * 获取性别信息
+     * @param role
+     * @return
+     */
+    @GetMapping("/getSex")
+    public String getSex(@RequestParam("role") int role){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("sexList",
+                userService.getSex(role));
+        String result= JSON.toJSONString(
+                new Result(data,"200","获取性别信息成功"));
+        return result;
+    }
 
 
 }
