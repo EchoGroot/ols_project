@@ -25,14 +25,14 @@ $(function () {
             }
             , cols: [[ //表头
                 {field: 'id', title: '消息ID', align:'center',width: '10%',fixed: 'left', sort: true}
-                , {field: 'user_id', title: '举报者编号', align:'center',width: '12%', sort: true}
-                , {field: 'task_id', title: '任务编号', align:'center',width: '12%', sort: true}
-                , {field: 'message', title: '举报信息', align:'center',width: '15%'}
-                , {field: 'ishandled', title: '是否处理', align:'center',width: '12%',sort: true}
-                , {field: 'isfirst', title: '是否查看',align:'center', width: '12%',sort: true}
+                , {field: 'user_id', title: '举报者编号', align:'center',width: '10%', sort: true}
+                , {field: 'task_id', title: '任务编号', align:'center',width: '11%', sort: true}
+                , {field: 'type', title: '任务类型',align:'center', width: '11%',sort: true}
+                , {field: 'message', title: '举报信息', align:'center',width: '11%'}
+                , {field: 'ishandled', title: '是否处理', align:'center',width: '11%',sort: true}
+                , {field: 'isfirst', title: '是否查看',align:'center', width: '11%',sort: true}
                // , {field: 'response', title: '是否回复',align:'center', width: '10%',sort: true}
-                //, {field: 'type', title: '举报任务类型',align:'center', width: '10%',sort: true}
-                , {field: 'create_time', title: '发布时间',align:'center', width: '18%', sort: true}
+                , {field: 'create_time', title: '发布时间',align:'center', width: '15%', sort: true}
                 , {title: '操作', align: 'center', toolbar: '#barHandle', width: '10%'}
             ]]
         });
@@ -145,4 +145,61 @@ function getQueryVariable(name) {
         return window.sessionStorage.getItem(name);
     }
     return null;
+}
+
+// 回复举报信息
+function replyFunc() {
+    // 打开弹窗
+    layer.open({
+        title: '回复举报信息',
+        area: ['500px', '250px'],
+        btnAlign: 'c',
+        closeBtn:'1',//右上角的关闭
+        content: '<div>' +
+            '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="information"  style="width:100%;height:50%;line-height:20px;padding:10px 10px;"></textarea></div>' +
+            '</div>',
+        btn:['确认','取消'],
+        yes: function (index, layero) {
+            replyMessage($("#information").val());
+            layer.msg('回复成功', {
+                icon: 1, //绿勾
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
+            layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
+        },
+        btn2:function(index, layero)
+        {
+            layer.msg('取消回复', {
+                icon: 5, //红色不开心
+                time: 2000 //2秒关闭（如果不配置，默认是3秒）
+            });
+            layer.close(index);
+        }
+    });
+}
+// 回复举报信息
+function replyMessage(information) {
+    $.ajax({
+        type: "POST",
+        url:"/information/replyMessage",
+        data:{
+            "information":information,
+        },
+        success:function(resultData){
+            resultData=JSON.parse(resultData)
+            if(resultData.meta.status === "200"){
+                layer.msg('操作成功', {
+                    icon: 1, //绿勾
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                //这里以搜索为例
+                tableIns.reload({});
+            }else{
+                layer.msg('操作失败，请刷新页面', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+            }
+        }
+    });
 }

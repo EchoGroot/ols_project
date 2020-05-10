@@ -36,6 +36,16 @@
                 <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
                     <div class="layui-tab-item layui-show">
                         <div class="layui-row layui-col-space15 layui-form-item">
+                            <div class="layui-col-md3">
+                                <label class="layui-form-label">所在专栏</label>
+                                <div class="layui-input-block">
+                                    <select lay-verify="required" name="class" lay-filter="column" id="type">
+                                        <option></option>
+                                        <option value="0">文档</option>
+                                        <option value="1">图片</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="layui-col-md9">
                                 <label for="L_title" class="layui-form-label" id="Complain">投诉理由</label>
                                 <div class="layui-input-block">

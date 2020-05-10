@@ -17,13 +17,15 @@ $(function () {
     $("#submitBtn").click(function () {
         //提交举报信息
         var message="举报理由："+$("#L_title").val()+"   详情描述："+$("#L_content").val();
+        var type=$("#type").val();
         $.ajax({
             url: '/message/createMessage',
             type: "GET",
             data: {
                 "userId": userId,
                 "taskId": taskId,
-                "Message":message
+                "Message":message,
+                "type":type
             },
             success: function (resultData) {
                 resultData = JSON.parse(resultData);

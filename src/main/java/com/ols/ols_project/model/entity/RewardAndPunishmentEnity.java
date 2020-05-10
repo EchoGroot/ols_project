@@ -30,7 +30,7 @@ public class RewardAndPunishmentEnity {
      */
     private String information;
     /**
-     * 备用字段1
+     * 积分
      */
     private String ext1;
     /**

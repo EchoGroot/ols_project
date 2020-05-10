@@ -32,10 +32,10 @@ public class MessageController {
     @GetMapping("/createMessage")
     public String createMessage(@RequestParam("userId") String userId,
                                 @RequestParam("taskId") String taskId,
-                                @RequestParam("Message") String Message
-                                //@RequestParam("type") int type
+                                @RequestParam("Message") String Message,
+                                @RequestParam("type") int type
                                 ){
-        messageService.createMessage(Long.parseLong(userId),Long.parseLong(taskId),Message);
+        messageService.createMessage(Long.parseLong(userId),Long.parseLong(taskId),Message,type);
         String resultStr = JSON.toJSONString(new Result("200","创建举报信息成功"));
         //更新操作日志
         UserOperationLogEntity userLog=new UserOperationLogEntity();
@@ -64,5 +64,12 @@ public class MessageController {
                 ,"yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString);
         return result;
+    }
+    //回复举报信息
+    @GetMapping("/replyMessage")
+    public String replyMessage(@RequestParam("Message") String Message){
+        messageService.replyMessage(Message);
+        String resultStr = JSON.toJSONString(new Result("200","回复举报息成功"));;
+        return resultStr;
     }
 }

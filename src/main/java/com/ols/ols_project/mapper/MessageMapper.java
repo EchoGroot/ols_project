@@ -10,9 +10,9 @@ import java.util.List;
  */
 public interface MessageMapper {
     //发布举报信息
-   void CreateMessage(MessageEntity taskEntity);
+   void CreateMessage(MessageEntity messageEntity);
    //查询所有举报信息
    List<List<MessageEntity>> getAllMessage( String queryInfo, String searchInfo ,int start, int end);
-    void clickNumPlus(long messageId);
-    List<MessageEntity> getClickNum();
+    //回复举报信息
+    void replyMessage(MessageEntity messageEntity);
 }

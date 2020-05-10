@@ -52,6 +52,14 @@
           #{start},#{end};
       SELECT FOUND_ROWS() as total;
     </select>
+    <insert id="replyMessage">
+        insert into ols_message
+        (id,user_id,task_id,message,ishandled,response,
+         isfirst,type,ext2,ext3,create_time)
+            value (#{id},#{user_id},#{task_id},#{message},
+            #{ishandled},#{response},#{isfirst},
+            #{type},#{ext2},#{ext3},#{create_time})
+    </insert>
     <resultMap id="MessageMap" type="com.ols.ols_project.model.entity.MessageEntity" >
         <id column="id" property="id"  />
         <result column="user_id" property="user_id" />

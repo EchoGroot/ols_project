@@ -44,7 +44,7 @@ public class RewardAndPunishmentController {
         }
         return "";
     }
-    //查询所有奖惩信息
+    //管理员查询所有奖惩信息
     @GetMapping("/getAllMessage")
     public String getAllMessage(
             @RequestParam("page") int pageNum,
@@ -86,7 +86,7 @@ public class RewardAndPunishmentController {
                 "yyyy-MM-dd");
         return result;
     }
-
+    //根据用户ID查看奖励信息
     @GetMapping(value = "/getRInformationById")
     public String getRInformationById(
             @RequestParam(value = "userId") String userId,
@@ -105,7 +105,7 @@ public class RewardAndPunishmentController {
         );
         return result;
     }
-
+    //根据用户ID查看惩罚信息
     @GetMapping(value = "/getPInformationById")
     public String getPInformationById(
             @RequestParam(value = "userId") String userId,
@@ -123,6 +123,7 @@ public class RewardAndPunishmentController {
         );
         return result;
     }
+    //根据用户ID查看奖惩信息
     @GetMapping(value = "/getRPInformationById")
     public String getRPInformationById(
             @RequestParam(value = "userId") String userId,
@@ -140,6 +141,7 @@ public class RewardAndPunishmentController {
         );
         return result;
     }
+    //奖惩可视化
     @GetMapping("/getInformationByUserId")
     public String getInformationByUserId(
             @RequestParam("year") String year,

@@ -28,7 +28,7 @@ public class MessageServicelmpl implements MessageService {
     @Autowired
     private UidGenService uidGenService;
     @Override
-    public String createMessage(long userId, long taskId,String Message) {
+    public String createMessage(long userId, long taskId,String Message,int type) {
         MessageEntity messageEntity = new MessageEntity();
         long messageId = uidGenService.getUid();
         messageEntity.setId(messageId);
@@ -37,7 +37,7 @@ public class MessageServicelmpl implements MessageService {
         messageEntity.setMessage(Message);
         messageEntity.setIshandled(0);
         messageEntity.setIsfirst(1);
-        messageEntity.setType(0);
+        messageEntity.setType(type);
         messageEntity.setExt2(null);
         messageEntity.setExt3(0);
         messageEntity.setCreate_time(new Timestamp(System.currentTimeMillis()));
@@ -70,5 +70,22 @@ public class MessageServicelmpl implements MessageService {
         data.put("messageList",list1);
         data.put("total",list.get(1).get(0));
         return data;
+    }
+    @Override
+    public String replyMessage(String Message) {
+        MessageEntity messageEntity = new MessageEntity();
+        long messageId = uidGenService.getUid();
+        messageEntity.setId(messageId);
+        messageEntity.setUser_id(null);
+        messageEntity.setTask_id(null);
+        messageEntity.setMessage(Message);
+        messageEntity.setIshandled(0);
+        messageEntity.setIsfirst(1);
+        messageEntity.setType(0);
+        messageEntity.setExt2(null);
+        messageEntity.setExt3(0);
+        messageEntity.setCreate_time(new Timestamp(System.currentTimeMillis()));
+        messageMapper.replyMessage(messageEntity);
+        return Long.toString(messageId);
     }
 }
