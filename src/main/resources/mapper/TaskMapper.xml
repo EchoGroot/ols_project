@@ -534,6 +534,7 @@
         ols_task
         where
             state = #{state}
+            and type=1
             and DATE_FORMAT(release_time, '%Y')=#{year}
         GROUP BY
             DATE_FORMAT(release_time, '%m');
@@ -555,6 +556,7 @@
             ols_task
         where
             release_user_id = #{userId}
+            and type=1
             <if test="state!=0">
                 and state = #{state}
                 <if test="state==1">
