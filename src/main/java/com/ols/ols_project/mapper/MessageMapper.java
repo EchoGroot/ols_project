@@ -1,5 +1,6 @@
 package com.ols.ols_project.mapper;
 
+import com.ols.ols_project.model.MonthAndCount;
 import com.ols.ols_project.model.entity.MessageEntity;
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface MessageMapper {
    List<List<MessageEntity>> getAllMessage( String queryInfo, String searchInfo ,int start, int end);
     //回复举报信息
     void replyMessage(MessageEntity messageEntity);
+    //奖励惩罚可视化
+    List<MonthAndCount> getmessage( int year, int type);
 }

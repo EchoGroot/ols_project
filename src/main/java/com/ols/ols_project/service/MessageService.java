@@ -9,4 +9,6 @@ public interface MessageService {
     HashMap<String, Object> getAllMessage(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize);
     //回复举报信息
     String replyMessage( String Message);
+
+    int[][] getmessage(int year);
 }

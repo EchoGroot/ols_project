@@ -3,6 +3,7 @@ package com.ols.ols_project.service.Impl;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.mapper.MessageMapper;
 import com.ols.ols_project.model.MessageEnityBo;
+import com.ols.ols_project.model.MonthAndCount;
 import com.ols.ols_project.model.entity.MessageEntity;
 import com.ols.ols_project.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,7 @@ public class MessageServicelmpl implements MessageService {
         data.put("total",list.get(1).get(0));
         return data;
     }
+    //回复举报信息
     @Override
     public String replyMessage(String Message) {
         MessageEntity messageEntity = new MessageEntity();
@@ -79,8 +81,8 @@ public class MessageServicelmpl implements MessageService {
         messageEntity.setUser_id(null);
         messageEntity.setTask_id(null);
         messageEntity.setMessage(Message);
-        messageEntity.setIshandled(0);
-        messageEntity.setIsfirst(1);
+        messageEntity.setIshandled(1);
+        messageEntity.setIsfirst(0);
         messageEntity.setType(0);
         messageEntity.setExt2(null);
         messageEntity.setExt3(0);
@@ -88,4 +90,36 @@ public class MessageServicelmpl implements MessageService {
         messageMapper.replyMessage(messageEntity);
         return Long.toString(messageId);
     }
+//举报可视化
+    @Override
+    public int[][] getmessage( int year) {
+        int[][] resultArr=new int[3][];
+//        获取举报文档
+        List<MonthAndCount> list = messageMapper.getmessage( year, 0);
+//        获取举报图片
+        List<MonthAndCount> list1 = messageMapper.getmessage( year, 1);
+//        图片
+        int[] no=new int[12];
+//        文档
+        int[] yes=new int[12];
+//        总数量
+        int[] yesAndNo=new int[12];
+        int j=0,k=0;
+        for (int i=0;i<12;i++){
+            no[i]=0;
+            yes[i]=0;
+            if(j<list.size()&&Integer.parseInt(list.get(j).getMonth())==(i+1)){
+                no[i]=Integer.parseInt(list.get(j++).getCount());
+            }
+            if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
+                yes[i]=Integer.parseInt(list1.get(k++).getCount());
+            }
+            yesAndNo[i]=yes[i]+no[i];
+        }
+        resultArr[0]=yes;
+        resultArr[1]=no;
+        resultArr[2]=yesAndNo;
+        return resultArr;
+    }
 }
+

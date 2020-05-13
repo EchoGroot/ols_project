@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import static java.lang.Long.parseLong;
 
@@ -71,5 +72,19 @@ public class MessageController {
         messageService.replyMessage(Message);
         String resultStr = JSON.toJSONString(new Result("200","回复举报息成功"));;
         return resultStr;
+    }
+    //举报信息可视化
+    @GetMapping("/getmessage")
+    public String getmessage(
+            @RequestParam("year") String year
+    ){
+        System.out.println("111111111");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("complainList",
+                messageService.getmessage(Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取举报信息成功"),
+                "yyyy-MM-dd");
+        return result;
     }
 }

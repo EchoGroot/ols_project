@@ -41,11 +41,11 @@ $(function () {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             // 工具条的点击事件
-            if(layEvent === 'handle'){
-                alert("已处理")
+            //if(layEvent === 'handle'){
+                //alert("已处理")
                 // 查看任务详情
                 // yesReviewerSignUp(data.id,'yes',tableIns)
-            }
+            //}
         });
         //筛选按钮点击事件
         //监听下拉框change事件 layui不支持jQuery的change事件 用form.on('select(test)', function(data){})监听
@@ -152,15 +152,15 @@ function replyFunc() {
     // 打开弹窗
     layer.open({
         title: '回复举报信息',
-        area: ['500px', '250px'],
+        area: ['500px', '300px'],
         btnAlign: 'c',
         closeBtn:'1',//右上角的关闭
         content: '<div>' +
-            '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="information"  style="width:100%;height:50%;line-height:20px;padding:10px 10px;"></textarea></div>' +
+            '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="message"  style="width:100%;height:70%;line-height:20px;padding:10px 10px;"></textarea></div>' +
             '</div>',
         btn:['确认','取消'],
         yes: function (index, layero) {
-            replyMessage($("#information").val());
+            replyMessage($("#message").val());
             layer.msg('回复成功', {
                 icon: 1, //绿勾
                 time: 2000 //2秒关闭（如果不配置，默认是3秒）
@@ -178,12 +178,12 @@ function replyFunc() {
     });
 }
 // 回复举报信息
-function replyMessage(information) {
+function replyMessage(message) {
     $.ajax({
-        type: "POST",
-        url:"/information/replyMessage",
+        type: "GET",
+        url:"/message/replyMessage",
         data:{
-            "information":information,
+            "Message":message,
         },
         success:function(resultData){
             resultData=JSON.parse(resultData)
