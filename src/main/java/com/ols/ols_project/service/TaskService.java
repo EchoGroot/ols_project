@@ -43,20 +43,30 @@ public interface TaskService {
      */
     String creatTask( String taskName,String taskUrl,  String taskInfo, int rewardPoints, int type,
                     Long releaseUserId);
+
     int deductRewardPoints(int rewardPoints,long releaseUserId);
 
     int awardPoints(int rewardPoints,long releaseUserId);
+
     String creatTaskUrl(String labelName, String originalImage);
+
     String creatDocTaskUrl(String labelName,String originalDoc);
+
     HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
                                        String queryInfo,String searchType, String searchInfo,String field,String order);
 
     void clickNumPlus(long taskId);
+
     List<TaskEntity> getClickNum();
+
     JSONArray getFileNameByTaskId(long taskId);
+
     void delImgFileByTaskId(long taskId);
+
     int[][] getAdminImgChartData(int year);
+
     int[][] getAllReleaseById(long userId,int year);
+
     HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);
 
     HashMap<String, Object> getReleaseImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);

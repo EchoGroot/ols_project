@@ -503,7 +503,7 @@
             ols_task
         set
             state=1,
-            adopt_accept_id=#{accept}
+            adopt_accept_id=#{acceptId}
         where
             id=#{taskId}
     </update>

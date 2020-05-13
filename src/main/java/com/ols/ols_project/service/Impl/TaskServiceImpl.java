@@ -19,6 +19,7 @@ import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,9 @@ public class TaskServiceImpl implements TaskService {
     private TaskMapper taskMapper;
     @Resource
     private UserMapper userMapper;
+
+    @Value("${image.fileFath}")
+    private String desFilePath;
 
     @Autowired
     private UidGenService uidGenService;
@@ -369,7 +373,7 @@ public class TaskServiceImpl implements TaskService {
     public void delImgFileByTaskId(long taskId){
         //删文件
         JSONArray fileNameArray = getFileNameByTaskId(taskId);
-        String path = "G:\\images\\";
+        String path = desFilePath;
         for(int i=0;i<fileNameArray.size();i++){
             File fromFile = new File(path+fileNameArray.get(i));//找到文件
             if (fromFile.exists()) {

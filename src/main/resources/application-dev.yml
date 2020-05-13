@@ -24,6 +24,6 @@ email:
   authorizationCode: ${email.authorizationCode:}
 image:
   #任务图片存储路径
-  fileFath: G:\\images\\
+  fileFath: D:\\images\\
   #任务图片缩略图存储路径
-  thumbFilePath: G:\\images\\thumb\\
+  thumbFilePath: D:\\images\\thumb\\
