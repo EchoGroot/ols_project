@@ -169,7 +169,7 @@ function loadImageList(domId,imageList) {
                     +'&operation=write'
                     +'">'
                     +'        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">'
-                    +'重新标注'
+                    +'标注示例'
                     +'        </button>\n'
                     +'</a>\n'
                 }
