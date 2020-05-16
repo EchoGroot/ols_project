@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.awt.geom.AreaOp;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -34,9 +33,9 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.*;
 
 import static java.nio.file.Files.copy;
 
@@ -103,7 +102,8 @@ public class TaskController {
                 taskService.getAccepteImageListByAccepteId(Long.parseLong(acceptId)));
         resultStr= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取接受任务图片数据成功"),
-                "yyyy-MM-dd hh:mm:ss");
+                "yyyy-MM-dd hh:mm:ss",
+                SerializerFeature.WriteNonStringValueAsString);
         return resultStr;
     }
 
@@ -123,7 +123,8 @@ public class TaskController {
                 taskService.getTaskInfoByTaskId(Long.parseLong(taskId)));
         resultStr= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取任务数据成功"),
-                "yyyy-MM-dd hh:mm:ss");
+                "yyyy-MM-dd hh:mm:ss"
+                ,SerializerFeature.WriteNonStringValueAsString);
         return resultStr;
     }
 
