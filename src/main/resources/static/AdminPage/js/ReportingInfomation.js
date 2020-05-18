@@ -40,6 +40,7 @@ $(function () {
         table.on('tool(monitorToolbar)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
             // 工具条的点击事件
             //if(layEvent === 'handle'){
                 //alert("已处理")
@@ -149,6 +150,8 @@ function getQueryVariable(name) {
 
 // 回复举报信息
 function replyFunc() {
+
+
     // 打开弹窗
     layer.open({
         title: '回复举报信息',
@@ -156,6 +159,7 @@ function replyFunc() {
         btnAlign: 'c',
         closeBtn:'1',//右上角的关闭
         content: '<div>' +
+            '<div >举报者ID： <textarea class="layui-layer-input"  name="txt_remark" id="user_id"  style="width:50%;height:10%;line-height:20px;padding:10px 10px;">user_id</textarea></div>'+
             '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="message"  style="width:100%;height:70%;line-height:20px;padding:10px 10px;"></textarea></div>' +
             '</div>',
         btn:['确认','取消'],

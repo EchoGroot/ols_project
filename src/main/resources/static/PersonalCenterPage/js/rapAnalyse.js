@@ -3,9 +3,9 @@ var yes=[];
 var no=[];var state0=[];var state1=[];var state5=[];var state6=[];
 var yesAndNo=[];
 $(function () {
-        $("#ChartMain3").hide();
-        $("#Header").append("个人奖惩信息可视化分析");
-        $.ajax({
+    $("#ChartMain3").hide();
+    $("#Header").append("个人奖惩信息可视化分析");
+    $.ajax({
             url: '/information/getInformationByUserId',
             type: "GET",
             data: {
