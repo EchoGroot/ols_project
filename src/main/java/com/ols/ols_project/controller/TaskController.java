@@ -66,6 +66,9 @@ public class TaskController {
     @Value("${image.fileFath}")
     private String desFilePath;
 
+    @Value("${doc.docPath}")
+    private String docPath;
+
     @Value("${image.thumbFilePath}")
     private String thumbFilePath;
 
@@ -452,7 +455,7 @@ public class TaskController {
     }
     @PostMapping("uploadDocs")
     public String uploadDocs(@RequestParam("file") MultipartFile file) {
-        String staticPath=desFilePath;
+        String staticPath=docPath;
         try {
             // 2.获取原文件后缀名extensionName，以最后的.作为截取(.txt .doc .pdf)
             String extName =file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
@@ -469,6 +472,9 @@ public class TaskController {
             dataMap.put("docName", newName);
             Result result = new Result(dataMap,"0","上传成功");
             System.out.println(staticPath+"文件保存成功");
+            System.out.println(staticPath);
+            FileOutputStream out = new FileOutputStream(staticPath);
+            out.write(file.getBytes());
             return JSON.toJSONString(result);
         } catch (IllegalStateException e) {
             Result result = new Result("1","文件保存失败");
@@ -481,6 +487,8 @@ public class TaskController {
             return JSON.toJSONString(result);
         }
     }
+
+
     @GetMapping("/getAllTask")
     public String getAllTask(@RequestParam(value = "query") String query,
                              @RequestParam(value = "page") Integer pageNum,

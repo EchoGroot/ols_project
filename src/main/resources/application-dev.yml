@@ -27,3 +27,5 @@ image:
   fileFath: D:\\images\\
   #任务图片缩略图存储路径
   thumbFilePath: D:\\images\\thumb\\
+doc:
+  docPath: D:/docTask/

@@ -52,9 +52,9 @@ $(function (){
                 }
             },
             allDone:function(obj){
-                layer.msg("总共要上传图片总数为："+(fail+success)+"\n"
-                    +"其中上传成功图片数为："+success+"\n"
-                    +"其中上传失败图片数为："+fail
+                layer.msg("总共要上传文件总数为："+(fail+success)+"\n"
+                    +"其中上传成功文件数为："+success+"\n"
+                    +"其中上传失败文件数为："+fail
                 )
             }
         });
