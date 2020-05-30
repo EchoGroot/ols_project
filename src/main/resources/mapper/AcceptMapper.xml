@@ -42,6 +42,7 @@
             and DATE_FORMAT(finish_time, '%Y')=#{year}
         </if>
             and state = #{state}
+            and type=1
         GROUP BY
         <if test="state==0">
             DATE_FORMAT(accept_time, '%m');

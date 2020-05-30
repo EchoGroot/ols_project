@@ -9,6 +9,9 @@ var imgurls="";
 var imgsName = new Array();
 var labelName= new Array();
 
+var loadIndex;
+var fileCount=0;
+
 var userId=getQueryVariable('userId'); //用户ID
 //var page=getQueryVariable('page'); //页面名称
 var page = 'releaseNotFinishTask';
@@ -32,9 +35,25 @@ $(function (){
             field:'file',
             bindAction: '#uploadImgs',
             //accept:'file',
+            choose:function(obj){
+                $('#previewImgs').html("");
+                //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+                obj.preview(function(index, file, result){
+                    $('#previewImgs').append('<img src="' + result
+                        + '" alt="' + file.name
+                        +'"height="92px" width="92px" class="layui-upload-img" style="margin-right: 2px">')
+                });
+            },
             before: function(obj) {
-                //预读本地文件示例
-                obj.preview(function(index, file, result) {
+                //开启遮罩 显示上传进度
+                loadIndex = layer.msg("正在上传1/"+fileCount,{
+                    shade: [0.3,'#000'],
+                    time:false
+                });
+                $('#previewImgs').html("");
+                obj.preview(function(index, file, result){
+                    fileCount++;
+                    console.log(fileCount);
                     $('#previewImgs').append('<img src="' + result
                         + '" alt="' + file.name
                         +'"height="92px" width="92px" class="layui-upload-img" style="margin-right: 2px">')
@@ -51,8 +70,14 @@ $(function (){
                     imgsName[imgsName.length-1]=res.data.imgName;
                     console.log(imgsName);
                 }
+
+                loadIndex = layer.msg("正在上传"+success+"/"+fileCount,{
+                    shade: [0.3,'#000'],
+                    time:false
+                });
             },
             allDone:function(obj){
+                layer.close(loadIndex);//上传完毕，关闭遮罩。
                 layer.msg("总共要上传图片总数为："+(fail+success)+"\n"
                     +"其中上传成功图片数为："+success+"\n"
                     +"其中上传失败图片数为："+fail
@@ -171,6 +196,7 @@ function cleanImgsPreview(){
     $("#cleanImgs").click(function(){
         success=0;
         fail=0;
+        fileCount=0;
         $('#previewImgs').html("");
         $('#imgUrls').val("");
         $.ajax({
