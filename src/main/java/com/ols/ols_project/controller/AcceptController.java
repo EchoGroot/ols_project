@@ -38,6 +38,21 @@ public class AcceptController {
                 "yyyy-MM-dd");
         return result;
     }
+
+    @GetMapping("/getPersonalAcceptDocByUserId")
+    public String getPersonalAcceptDocByUserId(
+            @RequestParam("year") String year,
+            @RequestParam("userId") String userId
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("acceptList",
+                acceptService.getPersonalAcceptDocByUserId(Long.parseLong(userId),Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取个人已接受成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
     @GetMapping("/getAcceptListByTaskId")
     public String getAcceptListByTaskId(@RequestParam(value = "taskId") Long taskId,
                              @RequestParam(value = "page") Integer pageNum,

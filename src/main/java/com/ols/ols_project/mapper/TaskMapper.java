@@ -68,4 +68,13 @@ public interface TaskMapper {
 
     List<List<TaskEntity>> getReleaseImgTaskByUserId(long id, String query, int start, int end, String queryInfo, String searchInfo,String field,String order);
 
+    List<MonthAndCount> getAdminDocChartData(int year, int state);
+
+    List<MonthAndCount> getAllReleaseDocById(long userId, int year, int state);
+
+    List<List<AcceptTask>> getAcceptDocTaskByUserId(long userId, String query, int start, int end, String queryInfo, String searchInfo, String field, String order);
+
+    List<List<TaskEntity>> getReleaseDocTaskByUserId(long userId, String query, int start, int end, String queryInfo, String searchInfo, String field, String order);
+
+    String getDocListByTaskId(long taskId);
 }

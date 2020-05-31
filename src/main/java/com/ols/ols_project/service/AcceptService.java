@@ -14,4 +14,6 @@ public interface AcceptService {
     HashMap<String, Object> getAcceptListByTaskId(Long taskId,Integer pageNum, Integer pageSize);
     String adoptByAcceptId(long acceptId,long taskId);
     long getUserId(long acceptId);
+
+    Object getPersonalAcceptDocByUserId(long parseLong, int parseInt);
 }

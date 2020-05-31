@@ -22,5 +22,6 @@ public interface AcceptMapper {
     void createAccept(AcceptEntity acceptEntity);
     void adopt(long id,int toState);
     List<List<AcceptByTaskId>> getAcceptByTaskId(Long taskId,int start,int end);
+    List<MonthAndCount> getPersonalAcceptDocByUserId(long userId, int year, int state);
 }
 

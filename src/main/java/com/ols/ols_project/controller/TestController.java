@@ -41,7 +41,7 @@ public class TestController {
      */
     @GetMapping("testindex")
     public String showIndex(Model model){
-        model.addAttribute("msg","ols");
+        model.addAttribute("msg","21313dsadas");
         List<TestUser> users = testService.selAll();
         model.addAttribute("list",users);
         System.out.println(users);

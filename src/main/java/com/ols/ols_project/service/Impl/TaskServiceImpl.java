@@ -369,6 +369,24 @@ public class TaskServiceImpl implements TaskService {
         return fileNameArray;
     }
     //管理员删除任务文件时使用    ！！慎用 会使任务获取不到源图片文件
+
+    @Override
+    public JSONArray getDocFileNameByTaskId(long taskId){
+        JSONArray fileNameArray = new JSONArray();//定义要返回的ImageName数组
+        String url = taskMapper.getDocListByTaskId(taskId);//获取文件url
+        //从url中截取文件名,返回数组
+        JSONObject urlJson = JSONObject.parseObject(url);//将url转json对象
+        JSONArray taskFileArray = JSONArray.parseArray(urlJson.getString("taskImage"));//获取taskImage数组
+        for(int i=0;i<taskFileArray.size();i++)
+        {
+            JSONObject taskImage = JSONObject.parseObject(taskFileArray.get(i).toString());//获取taskImage数组的每个对象
+            fileNameArray.add(taskImage.getString("originalImage"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
+        }
+        return fileNameArray;
+    }
+    //管理员删除任务文件时使用    ！！慎用 会使任务获取不到源图片文件
+
+
     @Override
     public void delImgFileByTaskId(long taskId){
         //删文件
@@ -388,6 +406,22 @@ public class TaskServiceImpl implements TaskService {
         List<List<MonthAndCount>> lists = new ArrayList<>();
         for(int i=1;i<8;i++){
             lists.add(taskMapper.getAdminImgChartData(year, i));
+        }
+        for(int i=0;i<7;i++){
+            int j=0;
+            for(int k=0;k<12;k++){
+                if(j<lists.get(i).size()&&Integer.parseInt(lists.get(i).get(j).getMonth())==(k+1)){
+                    resultArr[i][k]=Integer.parseInt(lists.get(i).get(j++).getCount());
+                }
+            }
+        }
+        return resultArr;
+    }
+    public int[][] getAdminDocChartData(int year) {
+        int[][] resultArr=new int[7][12];
+        List<List<MonthAndCount>> lists = new ArrayList<>();
+        for(int i=1;i<8;i++){
+            lists.add(taskMapper.getAdminDocChartData(year, i));
         }
         for(int i=0;i<7;i++){
             int j=0;
@@ -442,10 +476,75 @@ public class TaskServiceImpl implements TaskService {
         resultArr[3]=state6;
         return resultArr;
     }
+    @Override
+    public int[][] getAllReleaseDocById(long userId, int year) {
+        int[][] resultArr=new int[3][];
+        //当月总计发布数量
+        List<MonthAndCount> list0 = taskMapper.getAllReleaseDocById(userId, year, 0);
+        //已完成
+        List<MonthAndCount> list1 = taskMapper.getAllReleaseDocById(userId, year, 1);
+        //已失效
+        //已发布
+        List<MonthAndCount> list5 = taskMapper.getAllReleaseDocById(userId, year, 5);
+        //未过审时间
 
+        // 6未过审核 5已发布 1已完成
+        int[] state0=new int[12];
+        int[] state1=new int[12];
+        int[] state5=new int[12];
+        //int[] state6=new int[12];
+        int j=0,k=0,m=0,n=0;
+        for (int i=0;i<12;i++){
+            state0[i]=0;
+            state1[i]=0;
+            state5[i]=0;
+            if(j<list0.size()&&Integer.parseInt(list0.get(j).getMonth())==(i+1)){
+                state0[i]=Integer.parseInt(list0.get(j++).getCount());
+            }
+            if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
+                state1[i]=Integer.parseInt(list1.get(k++).getCount());
+            }
+            if(m<list5.size()&&Integer.parseInt(list5.get(m).getMonth())==(i+1)){
+                state5[i]=Integer.parseInt(list5.get(m++).getCount());
+            }
+
+        }
+        resultArr[0]=state0;
+        resultArr[1]=state1;
+        resultArr[2]=state5;
+
+        return resultArr;
+    }
     @Override
     public HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order) {
         List<List<AcceptTask>> list = taskMapper.getAcceptImgTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo,searchInfo,field,order);
+        List<AcceptTaskBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(AcceptTaskBo.builder()
+                            .taskId(e.getTaskId())
+                            .acceptId(e.getAcceptId())
+                            .taskName(e.getTaskName())
+                            .points(e.getPoints())
+                            .taskState(TaskStateEnum.getNameByCode(e.getTaskState()))
+                            .type(FileTypeEnum.getNameByCode(e.getType()))
+                            .releaseTime(e.getReleaseTime())
+                            .releaseName(e.getReleaseName())
+                            .acceptNum(e.getAcceptNum())
+                            .acceptTime(e.getAcceptTime())
+                            .finishTime(e.getFinishTime())
+                            .acceptState(AcceptStateEnum.getNameByCode(e.getAcceptState()))
+                            .build());
+                }
+        );
+        data.put("taskList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
+
+    public HashMap<String,Object> getAcceptDocTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order) {
+        List<List<AcceptTask>> list = taskMapper.getAcceptDocTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo,searchInfo,field,order);
         List<AcceptTaskBo> list1=new ArrayList<>();
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
@@ -498,4 +597,33 @@ public class TaskServiceImpl implements TaskService {
         data.put("total",list.get(1).get(0));
         return data;
     }
+
+    @Override
+    public HashMap<String, Object> getReleaseDocTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order) {
+        List<List<TaskEntity>> list = taskMapper.getReleaseDocTaskByUserId(userId, query, (pageNum - 1) * pageSize, pageSize,queryInfo, searchInfo,field,order);
+        List<TaskEntityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(TaskEntityBo.builder()
+                            .id(e.getId())
+                            .name(e.getName())
+                            .information(e.getInformation())
+                            .points(e.getPoints())
+                            .state(TaskStateEnum.getNameByCode(e.getState()))
+                            .type(FileTypeEnum.getNameByCode(e.getType()))
+                            .release_time(e.getRelease_time())
+                            .finish_time(e.getFinish_time())
+                            .accept_num(e.getAccept_num())
+                            .adopt_accept_id(e.getAdopt_accept_id())
+                            .ext1(e.getExt1())
+                            .ext2(e.getExt2())
+                            .build());
+                }
+        );
+        data.put("taskList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
+
 }

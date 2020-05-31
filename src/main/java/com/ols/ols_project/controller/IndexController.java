@@ -13,4 +13,9 @@ public class IndexController {
     public String index(){
         return "forward:/Home/Home.html";
     }
+
+    @RequestMapping("/testMyPage")
+    public String testMyPage(){
+        return "forward:/Home/test.html";
+    }
 }

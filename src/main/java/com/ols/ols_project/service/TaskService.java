@@ -61,6 +61,8 @@ public interface TaskService {
 
     JSONArray getFileNameByTaskId(long taskId);
 
+    JSONArray getDocFileNameByTaskId(long taskId);
+
     void delImgFileByTaskId(long taskId);
 
     int[][] getAdminImgChartData(int year);
@@ -71,4 +73,9 @@ public interface TaskService {
 
     HashMap<String, Object> getReleaseImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);
 
+    Object getAllReleaseDocById(long parseLong, int parseInt);
+
+    HashMap<String, Object> getAcceptDocTaskByUserId(long parseLong, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo, String field, String order);
+
+    HashMap<String, Object> getReleaseDocTaskByUserId(long parseLong, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo, String field, String order);
 }

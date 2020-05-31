@@ -6,6 +6,10 @@
         select url from ols_task where id = #{taskId}
     </select>
 
+    <select id="getDocListByTaskId" resultType="java.lang.String">
+        select url from ols_task where id = #{taskId}
+    </select>
+
     <select id="getAccepteImageListByAccepteId" resultType="com.ols.ols_project.model.AcceptTaskForTaskInfo">
         select
            ols_task.id as ols_task_id,
@@ -539,7 +543,65 @@
         GROUP BY
             DATE_FORMAT(release_time, '%m');
     </select>
+    <!--
+    获取文本类型分析数据
+    -->
+    <select id="getAdminDocChartData" resultMap="monthAndCountMap">
+        select
+            DATE_FORMAT(release_time, '%m') as month,
+            count(1) as count
+        from
+            ols_task
+        where
+            state = #{state}
+            and type=0
+            and DATE_FORMAT(release_time, '%Y')=#{year}
+        GROUP BY
+            DATE_FORMAT(release_time, '%m');
+    </select>
 
+    <select id="getAllReleaseDocById" resultMap="monthAndCountMap">
+        select
+        <if test="state==1">
+            DATE_FORMAT(finish_time, '%m') as month,
+        </if>
+        <if test="state==5">
+            DATE_FORMAT(release_time, '%m') as month,
+        </if>
+        <if test="state==0">
+            DATE_FORMAT(release_time, '%m') as month,
+        </if>
+        count(1) as count
+        from
+        ols_task
+        where
+        release_user_id = #{userId}
+        and type=0
+        <if test="state!=0">
+            and state = #{state}
+            <if test="state==1">
+                and DATE_FORMAT(finish_time, '%Y')=#{year}
+            </if>
+            <if test="state==5">
+                and DATE_FORMAT(release_time, '%Y')=#{year}
+            </if>
+        </if>
+        <if test="state==0">
+            and DATE_FORMAT(release_time, '%Y')=#{year}
+        </if>
+        GROUP BY
+        <if test="state!=0">
+            <if test="state==1">
+                DATE_FORMAT(finish_time, '%m');
+            </if>
+            <if test="state==5">
+                DATE_FORMAT(release_time, '%m');
+            </if>
+        </if>
+        <if test="state==0">
+            DATE_FORMAT(release_time, '%m');
+        </if>
+    </select>
     <select id="getAllReleaseById" resultMap="monthAndCountMap">
         select
         <if test="state==1">
@@ -694,6 +756,98 @@
         SELECT FOUND_ROWS() as total;
     </select>
 
+    <select id="getAcceptDocTaskByUserId" resultMap="AcceptTaskMap,total">
+        select
+        SQL_CALC_FOUND_ROWS ols_task.id as taskId,
+        ols_accept.id as acceptId,
+        ols_task.name as taskName,
+        ols_task.points as points,
+        ols_task.state as taskState,
+        type,
+        release_time as releaseTime,
+        ols_user.name as releaseName,
+        accept_num as acceptNum,
+        accept_time as acceptTime,
+        ols_accept.finish_time as finishTime,
+        ols_accept.state as acceptState
+        from
+        ols_task,ols_accept,ols_user
+        where
+        release_user_id=ols_user.id
+        and ols_task.id = ols_accept.task_id
+        and ols_accept.user_id = #{id}
+        and type= 0
+        <if test="searchInfo != ''">
+            and (ols_task.name like '%${searchInfo}%')
+        </if>
+        <choose>
+            <when test="query == 'acceptfinish'">
+                and ols_accept.state != 0
+            </when>
+            <when test="query == 'acceptnotfinish'">
+                and ols_accept.state = 0
+            </when>
+        </choose>
+        <choose>
+            <when test="queryInfo == ''">
+            </when>
+            <when test="queryInfo == 'finish'">
+                and ols_accept.state=1
+            </when>
+            <when test="queryInfo == 'adopted'">
+                and ols_accept.state=2
+            </when>
+            <when test="queryInfo == 'notAdopted'">
+                and ols_accept.state=3
+            </when>
+            <when test="queryInfo == 'invalid'">
+                and ols_accept.state=4
+            </when>
+        </choose>
+        <choose>
+            <when test="field == ''">
+                ORDER BY release_time
+            </when>
+            <when test="field == 'points'">
+                ORDER BY ols_task.points
+            </when>
+            <when test="field == 'acceptNum'">
+                ORDER BY accept_num
+            </when>
+            <when test="field == 'acceptTime'">
+                ORDER BY accept_time
+            </when>
+            <when test="field == 'releaseTime'">
+                ORDER BY release_time
+            </when>
+            <when test="field == 'acceptState'">
+                ORDER BY ols_accept.state
+            </when>
+            <when test="field == 'finishTime'">
+                ORDER BY ols_accept.finish_time
+            </when>
+        </choose>
+        <choose>
+            <when test="order == 'desc'">
+                DESC
+            </when>
+            <when test="order == ''">
+                DESC
+            </when>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+        </choose>
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
+
     <select id="getReleaseImgTaskByUserId" resultMap="ReleaseTaskMap,total">
         SELECT
         SQL_CALC_FOUND_ROWS id,
@@ -716,6 +870,98 @@
         where
         release_user_id=#{id}
         and type= 1
+        <if test="searchInfo != ''">
+            and (name like '%${searchInfo}%')
+        </if>
+        <choose>
+            <when test="query == 'releasefinish'">
+                and (state = 1 or state=2 or state=3)
+            </when>
+            <when test="query == 'releasenotfinish'">
+                and (state = 4 or state=5 or state=6 or state=7)
+            </when>
+        </choose>
+        <choose>
+            <when test="queryInfo == 'check'">
+                and state=4
+            </when>
+            <when test="queryInfo == 'notPassed'">
+                and state=6
+            </when>
+            <when test="queryInfo == 'passed'">
+                and state=5
+            </when>
+            <when test="queryInfo == 'notlabelexm'">
+                and state=7
+            </when>
+            <when test="queryInfo == 'finish'">
+                and state=1
+            </when>
+            <when test="queryInfo == 'delete'">
+                and state=2
+            </when>
+            <when test="queryInfo == 'disable'">
+                and state=3
+            </when>
+        </choose>
+        <choose>
+            <when test="field == ''">
+                ORDER BY release_time
+            </when>
+            <when test="field == 'points'">
+                ORDER BY points
+            </when>
+            <when test="field == 'state'">
+                ORDER BY state
+            </when>
+            <when test="field == 'release_time'">
+                ORDER BY release_time
+            </when>
+            <when test="field == 'accept_num'">
+                ORDER BY accept_num
+            </when>
+            <when test="field == 'ext1'">
+                ORDER BY ext1
+            </when>
+        </choose>
+        <choose>
+            <when test="order == 'desc'">
+                DESC
+            </when>
+            <when test="order == ''">
+                DESC
+            </when>
+            <when test="order == 'asc'">
+                ASC
+            </when>
+        </choose>
+        limit
+        #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
+
+    <select id="getReleaseDocTaskByUserId" resultMap="ReleaseTaskMap,total">
+        SELECT
+        SQL_CALC_FOUND_ROWS id,
+        name,
+        url,
+        information,
+        points,
+        state,
+        type,
+        release_time,
+        finish_time,
+        release_user_id,
+        accept_num,
+        adopt_accept_id,
+        ext1,
+        ext2,
+        ext3
+        from
+        ols_task
+        where
+        release_user_id=#{id}
+        and type= 0
         <if test="searchInfo != ''">
             and (name like '%${searchInfo}%')
         </if>

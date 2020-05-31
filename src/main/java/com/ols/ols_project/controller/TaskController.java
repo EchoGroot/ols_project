@@ -453,39 +453,65 @@ public class TaskController {
             System.out.println(delThumbFailure+"缩略图文件未找到！");
         }
     }
+
+
+//    @PostMapping("uploadDocs")
+//    public String uploadDocs(@RequestParam("file") MultipartFile file) throws IOException {
+//        if(file.isEmpty()){
+//            System.out.println("文件为空");
+//            return null;
+//        }
+//        String staticPath=docPath;
+//        System.out.println(file.getBytes());
+//        System.out.println(file.getOriginalFilename());
+//        try {
+//            // 2.获取原文件后缀名extensionName，以最后的.作为截取(.txt .doc .pdf)
+//            String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+//            // 3.生成自定义的新文件名
+//            String newName = uidGenService.getUid() + extName;
+//            //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
+//            // 4.保存绝对路径
+//            staticPath += newName;
+//            File desFile = new File(staticPath);
+//            file.transferTo(desFile);
+//            // 6.返回保存结果信息
+//            HashMap<String, Object> dataMap = new HashMap<>();
+//            dataMap.put("src", "/文件保存的绝对路径地址/" + newName);
+//            dataMap.put("docName", newName);
+//            Result result = new Result(dataMap, "0", "上传成功");
+//            System.out.println(staticPath + "文件保存成功");
+//            FileOutputStream out = new FileOutputStream(staticPath);
+//            out.write(file.getBytes());
+//            return JSON.toJSONString(result);
+////        } catch (IllegalStateException e) {
+////            Result result = new Result("1","文件保存失败");
+////            System.out.println(staticPath + "文件保存失败");
+////            return JSON.toJSONString(result);
+////        } catch (IOException e) {
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            System.out.println(e.getMessage());
+//            Result result = new Result("1","文件保存失败--IO异常");
+//            System.out.println(staticPath + "文件保存失败--IO异常");
+//            return JSON.toJSONString(result);
+//        }
     @PostMapping("uploadDocs")
-    public String uploadDocs(@RequestParam("file") MultipartFile file) {
-        String staticPath=docPath;
-        try {
-            // 2.获取原文件后缀名extensionName，以最后的.作为截取(.txt .doc .pdf)
-            String extName =file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            // 3.生成自定义的新文件名
-            String newName = uidGenService.getUid() + extName;
-            //String realPath = request.getRealPath("http://yuyy.info/image/ols/");
-            // 4.保存绝对路径
-            staticPath += newName;
-            File desFile = new File(staticPath);
-            file.transferTo(desFile);
-            // 6.返回保存结果信息
-            HashMap<String,Object> dataMap=new HashMap<>();
-            dataMap.put("src", "/文件保存的绝对路径地址/" + newName);
-            dataMap.put("docName", newName);
-            Result result = new Result(dataMap,"0","上传成功");
-            System.out.println(staticPath+"文件保存成功");
-            System.out.println(staticPath);
-            FileOutputStream out = new FileOutputStream(staticPath);
-            out.write(file.getBytes());
-            return JSON.toJSONString(result);
-        } catch (IllegalStateException e) {
-            Result result = new Result("1","文件保存失败");
-            System.out.println(staticPath + "文件保存失败");
-            return JSON.toJSONString(result);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            Result result = new Result("1","文件保存失败--IO异常");
-            System.out.println(staticPath + "文件保存失败--IO异常");
-            return JSON.toJSONString(result);
+    public String uploadDocs(@RequestParam("file") MultipartFile file) throws IOException {
+        if(file.isEmpty()){
+            System.out.println("文件为空");
+            return null;
         }
+        String extName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        String staticPath=docPath + file.getOriginalFilename();
+        System.out.println(staticPath);
+        FileOutputStream out = new FileOutputStream(staticPath);
+        out.write(file.getBytes());
+        HashMap<String, Object> dataMap = new HashMap<>();
+        dataMap.put("src", "/文件保存的绝对路径地址/" + staticPath);
+        dataMap.put("docName", staticPath);
+        Result result = new Result(dataMap, "0", "上传成功");
+        System.out.println(staticPath + "文件保存成功");
+        return JSON.toJSONString(result);
     }
 
 
@@ -499,9 +525,9 @@ public class TaskController {
                              @RequestParam(value = "field") String field,
                              @RequestParam(value = "order") String order){
         String result= JSON.toJSONStringWithDateFormat(
-                new Result(
-                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
-                        ,"0"
+                        new Result(
+                                taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
+                                ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 ,SerializerFeature.WriteNonStringValueAsString);
@@ -593,6 +619,60 @@ public class TaskController {
         zipFile.delete();//临时压缩包用后删除
     }
 
+    @GetMapping("/downloadDocTask")
+    public void downloadDocTask(@RequestParam(value = "taskId") long taskId,
+                           HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //判断环境
+        String str="";
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            str = "\\";
+        }else if(os.toLowerCase().startsWith("lin")){
+            str = "/";
+        }
+        //获取要下载的所有文件名
+        JSONArray fileNameArray = taskService.getDocFileNameByTaskId(taskId);
+        String path = desFilePath;//规定的下载地址
+        //String path = "http:\\\\yuyy.info\\image\\ols\\";//linux 路径有点问题
+        //新建临时文件夹用于打包所有要下载的问文件 若已存在，则先删除再创建
+        File fileAllTemp = new File(path+taskId);
+        if (fileAllTemp.exists()) {
+            FileUtils.deleteFile(fileAllTemp);//遍历删除文件夹及其子内容
+            fileAllTemp.mkdirs();
+        }else {
+            fileAllTemp.mkdirs();
+        }
+        for(int i=0;i<fileNameArray.size();i++){
+            File fromFile = new File(path+fileNameArray.get(i));//找到文件
+            File toFile = new File(path+taskId+str+fileNameArray.get(i));//目标文件地址 用于将要打包的文件放在一起
+            copy(fromFile.toPath(),toFile.toPath());//将源文件复制进临时文件夹  用于打包
+        }
+
+        FileOutputStream zip = new FileOutputStream(new File(fileAllTemp.getPath()+".zip"));
+        ZipUtils.toZip(fileAllTemp.getPath(),zip,true);
+
+        File zipFile = new File(fileAllTemp.getPath()+".zip");//选中压缩文件
+        if(zipFile.exists())
+        {
+            response.setContentType("application/x-msdownload"); //设置响应类型,此处为下载类型
+            response.setHeader("Content-Disposition", "attachment;filename=\""+taskId+".zip\"");//以附件的形式打开
+            InputStream inputStream = new FileInputStream(zipFile);
+            ServletOutputStream outputStream = response.getOutputStream();
+            byte b[] = new byte[1024];
+            int n;
+            while((n = inputStream.read(b)) != -1)
+            {
+                outputStream.write(b,0,n);
+            }
+            outputStream.close();
+            inputStream.close();
+        }else{
+            request.setAttribute("result", "文件不存在！下载失败！");
+        }
+        FileUtils.deleteFile(fileAllTemp);//临时文件夹用完删除
+        zipFile.delete();//临时压缩包用后删除
+    }
+
     @GetMapping("/getAdminImgChartData")
     public String getAdminImgChartData(
             @RequestParam("year") String year
@@ -619,7 +699,19 @@ public class TaskController {
                 "yyyy-MM-dd");
         return result;
     }
-
+    @GetMapping("/getAllReleaseDocById")
+    public String getAllReleaseDocById(
+            @RequestParam("year") String year,
+            @RequestParam("userId") String userId
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("releaseList",
+                taskService.getAllReleaseDocById(Long.parseLong(userId),Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取个人已发布成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
 
     @GetMapping(value = "/getAcceptImgTaskByUserId")
     public String getAcceptImgTaskByUserId(
@@ -643,6 +735,28 @@ public class TaskController {
         return result;
     }
 
+    @GetMapping(value = "/getAcceptDocTaskByUserId")
+    public String getAcceptDocTaskByUserId(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "field") String field,
+            @RequestParam(value = "order") String order
+    ) {
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        taskService.getAcceptDocTaskByUserId(
+                                Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,field,order)
+                        , "0", "获取已接受任务成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
+
     @GetMapping(value = "/getReleaseImgTaskByUserId")
     public String getReleaseImgTaskByUserId(
             @RequestParam(value = "userId") String userId,
@@ -658,6 +772,29 @@ public class TaskController {
         String result = JSON.toJSONStringWithDateFormat(
                 new Result(
                         taskService.getReleaseImgTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,field,order)
+                        , "0"
+                        , "获取已发布任务成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
+        return result;
+    }
+
+    @GetMapping(value = "/getReleaseDocTaskByUserId")
+    public String getReleaseDocTaskByUserId(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "query") String query,
+            @RequestParam(value = "page") Integer pageNum,
+            @RequestParam(value = "limit") Integer pageSize,
+            @RequestParam(value = "queryInfo") String queryInfo,
+            @RequestParam(value = "searchInfo") String searchInfo,
+            @RequestParam(value = "field") String field,
+            @RequestParam(value = "order") String order
+    ) {
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        taskService.getReleaseDocTaskByUserId(Long.parseLong(userId), query, pageNum, pageSize, queryInfo, searchInfo,field,order)
                         , "0"
                         , "获取已发布任务成功")
                 , "yyyy-MM-dd hh:mm:ss"

@@ -55,12 +55,12 @@ public class UserServiceImpl implements UserService {
         HashMap<String,Object> data=new HashMap<>();
         list.get(0).forEach(
                 e->{
-                    list1.add(AcceptTaskBo.builder()
+                    list1.add(AcceptTaskBo.builder()   //Lombok
                             .taskId(e.getTaskId())
                             .acceptId(e.getAcceptId())
                             .taskName(e.getTaskName())
                             .points(e.getPoints())
-                            .taskState(TaskStateEnum.getNameByCode(e.getTaskState()))
+                            .taskState(TaskStateEnum.getNameByCode(e.getTaskState()))  //枚举
                             .type(FileTypeEnum.getNameByCode(e.getType()))
                             .releaseTime(e.getReleaseTime())
                             .releaseName(e.getReleaseName())

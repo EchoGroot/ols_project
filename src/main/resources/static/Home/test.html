@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.7.0/echarts.js"></script>
+
+    <script>
+        $(function () {
+            $.ajax({
+                url:"/test/getData",
+                type:"post",
+                success:function(data){
+                    var ele = $("#Main_1");
+                    var obj = eval('['+data+']');
+                    alert(obj);
+                    var option = {
+                        series : [
+                            {
+                                name: '访问来源',
+                                type: 'pie',    // 设置图表类型为饼图
+                                radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                                data:obj
+                            }
+                        ]
+                    };
+                    echarts.init(document.getElementById("Main_1")).setOption(option);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="Main_1" style="width: 600px; height: 400px;"></div>
+</body>
+</html>
