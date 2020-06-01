@@ -330,11 +330,8 @@ public class UserController {
                                     new Result(data, "204", "该账号未通过审核！"));
                         }
                     }
-
                 }
             }
-
-
         }
         return resultStr;
     }

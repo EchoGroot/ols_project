@@ -2,5 +2,22 @@
     margin-top: 5px;
 }
 .layui-form{
-    margin-top: 20px;
+    width: 430px;
+    height: 430px;
+    margin: auto;
+    position: absolute;
+    top: 0;right: 0;left: 0;bottom: 0;
+}
+.codeCard1{
+    font-size: 15px;
+    width: 100px;
+    height: 35px;
+}
+.forgetPasswordDiv{
+    width: 430px;
+    height: 150px;
+    background-color: #FFFFFF;
+    margin: auto;
+    position: absolute;
+    top: 0;right: 0;left: 0;bottom: 0;
 }

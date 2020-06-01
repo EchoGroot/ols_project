@@ -9,38 +9,39 @@
 <body>
 <form class="layui-form" action="">
     <div class="layui-form-item ">
-        <label class="layui-form-label layui-input-inline">用户名</label>
+        <label class="layui-form-label ">用户名</label>
         <div class="layui-input-block layui-input-inline">
             <input id="userName" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
+        <a href="javascript:changePassword()" class="forgetPassword">修改密码</a>
     </div>
     <div class="layui-form-item ">
-        <label class="layui-form-label layui-input-inline">性别</label>
+        <label class="layui-form-label ">性别</label>
         <div class="layui-input-block layui-input-inline">
             <input id="sex" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label layui-input-inline">出生日期</label>
+        <label class="layui-form-label">出生日期</label>
         <div class="layui-input-block layui-input-inline">
             <input id="birthday" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label layui-input-inline">邮箱</label>
+        <label class="layui-form-label ">邮箱</label>
         <div class="layui-input-block layui-input-inline">
             <input id="email" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
         <a href="javascript:changeEmail()" class="layui-icon layui-icon-edit" style="font-size: 30px;"></a>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label layui-input-inline">角色</label>
+        <label class="layui-form-label ">角色</label>
         <div class="layui-input-block layui-input-inline">
             <input id="role" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label layui-input-inline">积分</label>
+        <label class="layui-form-label ">积分</label>
         <div id="taskInfoContainer" class="layui-input-inline">
             <input id="points" type="text" readonly="true" name="title" lay-verify="title" autocomplete="off" class="layui-input">
         </div>
@@ -59,5 +60,33 @@
         </div>
     </form>
 </div>
-
+<div class="forgetPasswordDiv layui-form" style="display: none;" id="forgetPassword" >
+    <form class="forgetPasswordDiv  layui-form"  lay-filter="passwordForm">
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-password"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="userPassword1" type="text" name="title" lay-verify="required" placeholder="新密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-password"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="userPassword2" type="text" name="title" lay-verify="required" placeholder="确认密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-vercode"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="inputcode" type="text" name="title" placeholder="验证码"
+                       autocomplete="off" class="layui-input" size="10">
+            </div>
+            <input id="emailCode" name="title" class="codeCard1" lay-submit lay-filter="code" type="button" value="获取验证码">
+        </div>
+    </form>
+</div>
 </body>
