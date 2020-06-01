@@ -47,6 +47,36 @@
         </div>
     </div>
 </form>
+<div class="emailDiv layui-form" id="emailInfo"
+     lay-filter="changeEmail" style="display: none">
+    <form class="emailDiv layui-form"  lay-filter="emailForm">
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-password"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="userPassword" type="password" name="title" lay-verify="required" placeholder="密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-email"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="email1" type="text" name="title" lay-verify="required|email" placeholder="新邮箱"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item ">
+            <label class="layui-form-label layui-icon layui-icon-vercode"
+                   style="font-size: 30px; " ></label>
+            <div class="layui-input-inline">
+                <input id="inputcode1" type="text" name="title" placeholder="验证码"
+                       autocomplete="off" class="layui-input" size="10">
+            </div>
+            <input id="codeCard" name="title" class="codecard1 " lay-submit lay-filter="code1" type="button" value="获取验证码">
+        </div>
+    </form>
+</div>
 <div class="forgetPasswordDiv layui-form" style="display: none;" id="forgetPassword" >
     <form class="forgetPasswordDiv  layui-form"  lay-filter="passwordForm">
         <div class="layui-form-item ">

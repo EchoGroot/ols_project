@@ -46,12 +46,18 @@ $(function () {
         var laydate = layui.laydate;
         //执行一个laydate实例
         laydate.render({
-            elem: '#birthday' //指定元素
+            elem: '#birthday', //指定元素
+            max: maxDate()
         });
     });
 
 
 });
+// 设置最大可选的日期
+function maxDate() {
+    var now = new Date();
+    return now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+}
 function validate() {
     //验证两次输入的密码是否相同
     var passWord1=$("#userPassword1").val();
@@ -84,6 +90,7 @@ function setTime() {
 }
 //验证码匹配
 function verifyCode() {
+    var flag=true;
     var email=$("#email").val();
     var inputcode=$("#inputcode").val();
     if(inputcode===""||inputcode===null){
@@ -99,23 +106,24 @@ function verifyCode() {
                 "email":email,
                 "inputcode":inputcode
             },
+            async: false,
             success: function (resultData) {
                 resultData = JSON.parse(resultData);
                 if (resultData.meta.status === "200") {
-                    return true;
+                    flag=true;
                 }else{
                     layer.alert('验证码错误！',{
                         icon:5
                     });
-                    return false;
+                    flag=false;
                 }
             },
             error:function(){
-                return false;
+                flag=false;
             }
         })
     }
-    return true;
+    return flag;
 }
 //发送邮箱验证码
 function sendEmail() {

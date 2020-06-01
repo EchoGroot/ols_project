@@ -21,3 +21,11 @@
     position: absolute;
     top: 0;right: 0;left: 0;bottom: 0;
 }
+.emailDiv{
+    width: 430px;
+    height: 150px;
+    background-color: #FFFFFF;
+    margin: auto;
+    position: absolute;
+    top: 0;right: 0;left: 0;bottom: 0;
+}

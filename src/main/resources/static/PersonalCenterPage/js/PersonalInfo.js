@@ -12,7 +12,16 @@ $(function () {
         form.on('submit(code)', function(data){
             if(validate()){
                 if(email!=null||email!=""){
-                    sendEmail(email);
+                    sendEmail(email,'emailCode');
+                }
+            }
+            return false;
+        });
+        form.on('submit(code1)', function(data){
+            if(verifyPass()){
+                var email1=$("#email1").val();
+                if(email1!=null||email1!=""){
+                    sendEmail(email1,'codeCard');
                 }
             }
             return false;
@@ -64,6 +73,104 @@ function getQueryVariable(name) {
     }
     return null;
 }
+//修改邮箱
+function changeEmail(){
+    layer.open({
+        type:1
+        ,title:"修改邮箱"
+        ,area:['480px','300px']
+        ,content:$("#emailInfo"),
+        shade:0,
+        btn: ['确定修改', '取消']
+        ,btn1: function(index, layero){
+            var email1=$("#email1").val();
+            var code=$("#inputcode1").val();
+            if(verifyCode(email1,code)){
+                $.ajax({
+                    type : "post",
+                    url : "/user/changeEmail",
+                    dataType : "json",
+                    data : {
+                        "userId":userId,
+                        "email":email1
+                    },
+                    //请求成功
+                    success : function(resultData) {
+                        if(resultData.meta.status === "200"){
+                            layer.msg('修改邮箱成功！',{
+                                icon:1,
+                                time: 5000
+                            });
+                            layer.closeAll();
+                            $("#emailInfo").hide();
+                            loadUserInfo();
+                        }else{
+                            layer.alert('修改邮箱失败！',{
+                                icon:5
+                            });
+                        }
+                    },
+                    //请求失败，包含具体的错误信息
+                    error : function(e){
+                        layer.alert('修改邮箱失败！',{
+                            icon:5
+                        });
+                    }
+                });
+            }else{
+
+            }
+
+
+            //alert(email);
+        },
+        btn2: function(index, layero){
+            layer.closeAll();
+            $("#emailInfo").hide();
+        },
+        cancel:function (layero,index) {
+            layer.closeAll();
+            $("#emailInfo").hide();
+        }
+    });
+}
+//验证密码
+function verifyPass(){
+    var flag=true;
+    var pass=$("#userPassword").val();
+    if(pass==null||pass==""){
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        url:"/user/getUserInfo",
+        data:{
+            "userId":userId
+        },
+        async: false,
+        success:function(resultData){
+            resultData=JSON.parse(resultData);
+            if(resultData.meta.status === "200"){
+                var password=resultData.data.userInfo.password;
+                if(pass!=password){
+                    layer.msg('用户密码错误！', {
+                        icon: 5, //红色不开心
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    });
+                    flag=false;
+                }
+            }else{
+                layer.msg('操作失败，请刷新页面', {
+                    icon: 5, //红色不开心
+                    time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                flag=false;
+            }
+        }
+    });
+    return flag;
+
+}
 //修改密码
 function changePassword(){
     layer.open({
@@ -74,7 +181,8 @@ function changePassword(){
         shade:0,
         btn: ['确定修改', '取消']
         ,btn1: function(index, layero){
-            if(verifyCode(email)){
+            var code=$("#inputcode").val();
+            if(verifyCode(email,code)){
                 var password=$("#userPassword1").val();
                 $.ajax({
                     type : "post",
@@ -89,24 +197,21 @@ function changePassword(){
                         if(resultData.meta.status === "200"){
                             layer.msg('修改密码成功！',{
                                 icon:1,
-                                time: 2000
+                                time: 5000
                             });
                             //cancel();
-                            //layer.closeAll();
-                            //$("#forgetPassword").hide();
-
+                            $("#forgetPassword").hide();
+                            layer.closeAll();
                         }else{
                             layer.alert('修改密码失败！',{
-                                icon:5,
-                                time: 2000
+                                icon:5
                             });
                         }
                     },
                     //请求失败，包含具体的错误信息
                     error : function(e){
                         layer.alert('修改密码失败！',{
-                            icon:5,
-                            time: 2000
+                            icon:5
                         });
                     }
                 });
@@ -140,9 +245,9 @@ function validate() {
     return true;
 }
 //验证码匹配
-function verifyCode(email) {
-    var inputcode=$("#inputcode").val();
-    if(inputcode===""||inputcode===null){
+function verifyCode(email,code) {
+    var flag=true;
+    if(code===""||code===null){
         layer.msg('请输入验证码！',{
             icon:5
         });
@@ -153,42 +258,57 @@ function verifyCode(email) {
             url:"/user/verifyCode",
             data:{
                 "email":email,
-                "inputcode":inputcode
+                "inputcode":code
             },
+            async: false,
             success: function (resultData) {
                 resultData = JSON.parse(resultData);
                 if (resultData.meta.status === "200") {
-                    return true;
+                    flag=true;
                 }else{
                     layer.alert('验证码错误！',{
                         icon:5
                     });
-                    return false;
+                    flag=false;
                 }
             },
             error:function(){
-                return false;
+                flag=false;
             }
         })
     }
-    return true;
+    return flag;
 }
 //倒计时60s
 var countdown = 60;
-function setTime() {
+function setTime(code) {
     if (countdown == 0) {
-        $("#emailCode").attr("disabled",false);
-        $("#emailCode").val("获取验证码");
+        if(code==='emailCode'){
+            $("#emailCode").attr("disabled",false);
+            $("#emailCode").val("获取验证码");
+        }else{
+            if(code==='codeCard'){
+                $("#codeCard").attr("disabled",false);
+                $("#codeCard").val("获取验证码");
+            }
+        }
         countdown = 60;//60秒过后button上的文字初始化,计时器初始化;
         return;
     } else {
-        $("#emailCode").attr("disabled",true);
-        $("#emailCode").val("重新发送("+countdown+"s)");
+        if(code==='emailCode'){
+            $("#emailCode").attr("disabled",true);
+            $("#emailCode").val("重新发送("+countdown+"s)");
+        }else{
+            if(code==='codeCard'){
+                $("#codeCard").attr("disabled",true);
+                $("#codeCard").val("重新发送("+countdown+"s)");
+            }
+        }
         countdown--;
     }
-    setTimeout(function() { setTime() },1000) //每1000毫秒执行一次
+    setTimeout(function() { setTime(code) },1000) //每1000毫秒执行一次
 }
-function sendEmail(email){
+function sendEmail(email,code){
     $.ajax({
         type: "post",
         url: "/user/sendEmail",
@@ -201,7 +321,7 @@ function sendEmail(email){
                 layer.alert('验证码发送成功！',{
                     icon:1
                 });
-                setTime();
+                setTime(code);
             }
         },
         error:function(){

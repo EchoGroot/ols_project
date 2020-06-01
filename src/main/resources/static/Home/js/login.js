@@ -205,6 +205,7 @@ function setTime() {
 }
 //验证码匹配
 function verifyCode(email) {
+    var flag=true;
     var inputcode=$("#inputcode").val();
     if(inputcode===""||inputcode===null){
         layer.msg('请输入验证码！',{
@@ -219,23 +220,24 @@ function verifyCode(email) {
                 "email":email,
                 "inputcode":inputcode
             },
+            async: false,
             success: function (resultData) {
                 resultData = JSON.parse(resultData);
                 if (resultData.meta.status === "200") {
-                    return true;
+                    flag=true;
                 }else{
                     layer.alert('验证码错误！',{
                         icon:5
                     });
-                    return false;
+                    flag=false;
                 }
             },
             error:function(){
-                return false;
+                flag=false;
             }
         })
     }
-    return true;
+    return flag;
 }
 function getEmailByName(userName) {
     $.ajax({

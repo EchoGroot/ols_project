@@ -6,7 +6,7 @@
     <select id="getUserInfoById"
             resultType="com.ols.ols_project.model.entity.UserEntity">
         select
-          id,name,birthday,sex,email,role,points,ext1
+          id,name,password,birthday,sex,email,role,points,ext1
         from
           ols_user
         where
@@ -343,7 +343,7 @@
     </insert>
 
     <insert id="userRegisterTime">
-        insert into ols_user_operation_log values(#{id},#{user_id},'注册',null,#{time},null,null,null)
+        insert into ols_user_operation_log values(#{id},#{user_id},0,'注册',#{time},null,null,null)
     </insert>
 
     <select id="getEmailByName" resultType="String">
