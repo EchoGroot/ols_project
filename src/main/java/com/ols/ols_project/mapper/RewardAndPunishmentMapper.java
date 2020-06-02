@@ -26,6 +26,8 @@ public interface RewardAndPunishmentMapper {
     List<List<RewardAndPunishmentEnity>> getPInformationById( long id,int start, int end);
     //查询所有奖励惩罚信息
     List<List<RewardAndPunishmentEnity>> getRPInformationById( long id,int start, int end);
-    //奖励惩罚可视化
+    //奖励惩罚可视化用户
     List<MonthAndCount> getInformationByUserId(long userId, int year, int type);
+    //管理员查看所有奖惩信息可视化
+    List<MonthAndCount> getRAPmessage( int year, int type);
 }

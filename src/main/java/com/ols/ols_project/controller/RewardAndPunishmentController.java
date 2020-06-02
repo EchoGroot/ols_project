@@ -141,7 +141,7 @@ public class RewardAndPunishmentController {
         );
         return result;
     }
-    //奖惩可视化
+    //奖惩可视化用户个人
     @GetMapping("/getInformationByUserId")
     public String getInformationByUserId(
             @RequestParam("year") String year,
@@ -153,6 +153,21 @@ public class RewardAndPunishmentController {
                 rewardAndPunishmentService.getInformationByUserId(Long.parseLong(userId),Integer.parseInt(year)));
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取个人奖惩成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+    //奖惩信息可视化（管理员）
+    @GetMapping("/getRAPmessage")
+    public String getRAPmessage(
+            @RequestParam("year") String year
+    ){
+        System.out.println("111111111");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("rapList",
+                rewardAndPunishmentService.getRAPmessage(Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取奖惩信息成功"),
                 "yyyy-MM-dd");
         return result;
     }
