@@ -164,4 +164,33 @@
         <id column="month" property="month"  />
         <result column="count" property="count" />
     </resultMap>
+
+    <select id="getRAPmessage" resultMap="monthAndCountMap">
+        select
+        <if test="type==0">
+            DATE_FORMAT(create_time, '%m') as month,
+        </if>
+        <if test="type==1">
+            DATE_FORMAT(create_time, '%m') as month,
+        </if>
+        count(1) as count
+        from
+        ols_reward_and_punishment
+        where
+        1=1
+        <if test="type==0">
+            and DATE_FORMAT(create_time, '%Y')=#{year}
+        </if>
+        <if test="type==1">
+            and DATE_FORMAT(create_time, '%Y')=#{year}
+        </if>
+        and  type = #{type}
+        GROUP BY
+        <if test="type==0">
+            DATE_FORMAT(create_time, '%m');
+        </if>
+        <if test="type==1">
+            DATE_FORMAT(create_time, '%m');
+        </if>
+    </select>
 </mapper>
