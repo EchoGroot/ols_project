@@ -6,6 +6,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.common.utils.Cache;
 import com.ols.ols_project.common.utils.SendEmailBy126;
+import com.ols.ols_project.model.DayAndCount;
 import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 用户相关的Controller
@@ -624,6 +626,36 @@ public class UserController {
                 userService.getSex(role));
         String result= JSON.toJSONString(
                 new Result(data,"200","获取性别信息成功"));
+        return result;
+    }
+
+    /**
+     * 获取所有用户注册信息
+     * @param year
+     * @return
+     */
+    @GetMapping("/getRegister")
+    public String getRegister(@RequestParam("year") String year){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userList",
+                userService.getRegister(Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取用户注册人数成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+    @GetMapping("/getRegisterday")
+    public String getRegisterday(
+            @RequestParam("year") String year){
+        HashMap<String, Object> data = new HashMap<>();
+        List<DayAndCount> list=userService.getRegisterday(Integer.parseInt(year));
+        for(int i=0;i<list.size();i++){
+            data.put(list.get(i).getDay(),Integer.parseInt(list.get(i).getCount()));
+        }
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取用户注册人数成功"),
+                "yyyy-MM-dd");
         return result;
     }
 

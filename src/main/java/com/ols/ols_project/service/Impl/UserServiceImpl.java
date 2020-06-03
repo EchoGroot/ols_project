@@ -228,4 +228,49 @@ public class UserServiceImpl implements UserService {
         return resultArr;
     }
 
+    @Override
+    public List<DayAndCount> getRegisterday(int year){
+        //获取普通用户的注册数
+        List<DayAndCount> list = userMapper.getRegisterday(year);
+
+        return list;
+    }
+
+    @Override
+    public int[][] getRegister(int year){
+        int[][] resultArr=new int[3][];
+        //获取普通用户的注册数
+        List<MonthAndCount> list0 = userMapper.getRegister(year,0);
+        //获取管理员的注册数
+        List<MonthAndCount> list1 = userMapper.getRegister(year,1);
+        //获取审核者的注册数
+        List<MonthAndCount> list2 = userMapper.getRegister(year,2);
+        //普通用户
+        int[] user=new int[12];
+        //管理员
+        int[] admin=new int[12];
+        //审核者
+        int[] reviewer=new int[12];
+        int j=0,k=0,n=0;
+        for (int i=0;i<12;i++){
+            user[i]=0;
+            admin[i]=0;
+            reviewer[i]=0;
+            if(j<list0.size()&&Integer.parseInt(list0.get(j).getMonth())==(i+1)){
+                user[i]=Integer.parseInt(list0.get(j++).getCount());
+            }
+            if(k<list1.size()&&Integer.parseInt(list1.get(k).getMonth())==(i+1)){
+                admin[i]=Integer.parseInt(list1.get(k++).getCount());
+            }
+            if(n<list2.size()&&Integer.parseInt(list2.get(n).getMonth())==(i+1)){
+                reviewer[i]=Integer.parseInt(list2.get(n++).getCount());
+            }
+
+        }
+        resultArr[0]=user;
+        resultArr[1]=admin;
+        resultArr[2]=reviewer;
+        return resultArr;
+    }
+
 }

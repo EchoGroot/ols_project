@@ -1,5 +1,6 @@
 package com.ols.ols_project.service;
 
+import com.ols.ols_project.model.DayAndCount;
 import com.ols.ols_project.model.entity.UserEntity;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
 
@@ -178,4 +179,18 @@ public interface UserService {
      * @return
      */
     int[] getSex(int role);
+
+    /**
+     * 注册信息
+     * @param year
+     * @return
+     */
+    int[][] getRegister(int year);
+
+    /**
+     * 按天获取注册信息
+     * @param year
+     * @return
+     */
+    List<DayAndCount> getRegisterday(int year);
 }

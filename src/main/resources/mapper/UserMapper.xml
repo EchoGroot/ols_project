@@ -467,8 +467,47 @@
           and sex = #{sex}
 
     </select>
+
     <resultMap id="sexAndCountMap" type="com.ols.ols_project.model.SexAndCount" >
         <id column="sex" property="sex"  />
+        <result column="count" property="count" />
+    </resultMap>
+
+   <select id="getRegister" resultMap="monthAndCountMap">
+       SELECT
+          DATE_FORMAT(time, '%m') as month,
+          count(1) as count
+        FROM
+          ols_user_operation_log,ols_user
+        WHERE
+          DATE_FORMAT(time, '%Y')=#{year}
+          and role = #{role}
+          and ols_user.id=ols_user_operation_log.user_id
+          and type=0
+        GROUP BY
+          DATE_FORMAT(time, '%m');
+   </select>
+
+    <resultMap id="monthAndCountMap" type="com.ols.ols_project.model.MonthAndCount" >
+        <id column="month" property="month"  />
+        <result column="count" property="count" />
+    </resultMap>
+
+    <select id="getRegisterday" resultMap="dayAndCountMap">
+       SELECT
+          DATE_FORMAT(time, '%Y-%m-%d') as day,
+          count(1) as count
+        FROM
+          ols_user_operation_log
+        WHERE
+          DATE_FORMAT(time, '%Y')=#{year}
+          and type=1
+        GROUP BY
+          DATE_FORMAT(time, '%y%m%d');
+   </select>
+
+    <resultMap id="dayAndCountMap" type="com.ols.ols_project.model.DayAndCount" >
+        <id column="day" property="day"  />
         <result column="count" property="count" />
     </resultMap>
 </mapper>

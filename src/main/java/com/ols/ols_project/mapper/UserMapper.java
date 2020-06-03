@@ -1,11 +1,8 @@
 package com.ols.ols_project.mapper;
 
-import com.ols.ols_project.model.AcceptTask;
-import com.ols.ols_project.model.SexAndCount;
-import com.ols.ols_project.model.UserOperationLog;
+import com.ols.ols_project.model.*;
 import com.ols.ols_project.model.entity.TaskEntity;
 import com.ols.ols_project.model.entity.UserEntity;
-import com.ols.ols_project.model.UserSignUp;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -64,5 +61,9 @@ public interface UserMapper {
     int userOperation(UserOperationLogEntity userLog);
 
     List<SexAndCount>getSex(int role, String sex);
+
+    List<MonthAndCount>getRegister(int year, int role);
+
+    List<DayAndCount>getRegisterday(int year);
 
 }
