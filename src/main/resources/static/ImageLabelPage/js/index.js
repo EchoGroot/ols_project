@@ -489,7 +489,7 @@ function finishFunc(){
 }
 // 返回按钮点击事件
 function goBackFunc(){
-    window.location.href="/ImageLabelTaskPage/index.html" +
+    window.location.href="/ImageLabelTaskPage/Word.html" +
             "?userId="+userId+
             "&acceptId="+acceptId+
             "&pageType="+pageType+

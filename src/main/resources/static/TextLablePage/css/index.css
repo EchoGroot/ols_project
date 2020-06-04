@@ -1,0 +1,14 @@
+.colorDiv{
+    height: 5px;
+}
+.layui-body{
+    padding: 20px;
+    background-color: #E6E6E6;
+}
+#imageLabelContainer{
+    padding: 10px;
+    bottom: 0px;
+}
+#customPositionDiv{
+    margin-left: 20px;
+}

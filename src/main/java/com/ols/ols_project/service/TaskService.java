@@ -21,6 +21,8 @@ public interface TaskService {
 
     int storeImageLabelInfo(String pageType,long tempTaskId, List<LabelInfo> labelInfos, String imageUrlParam);
 
+    int storeDocLabelInfo(String pageType,long tempTaskId, String labelInfo, String docUrlParam);
+
     int setTaskStateByTaskId(long taskId);
 
     List<TaskEntityBo> getNotCheckedTask(long userId);

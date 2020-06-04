@@ -10,6 +10,7 @@ import com.ols.ols_project.common.Const.AcceptStateEnum;
 import com.ols.ols_project.common.Const.FileTypeEnum;
 import com.ols.ols_project.common.Const.IsPassedEnum;
 import com.ols.ols_project.common.Const.TaskStateEnum;
+import com.ols.ols_project.common.utils.StringtoTxt;
 import com.ols.ols_project.mapper.TaskMapper;
 import com.ols.ols_project.mapper.UserMapper;
 import com.ols.ols_project.model.*;
@@ -111,6 +112,42 @@ public class TaskServiceImpl implements TaskService {
                 }
             });
             result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptImageUrl));
+        }
+        return result;
+    }
+
+    @Override
+    public int storeDocLabelInfo(String pageType, long tempTaskId, String labelInfo, String docUrlParam) {
+        StringtoTxt stringtoTxt = new StringtoTxt();
+        stringtoTxt.WriteStringToFile(docUrlParam,labelInfo);
+        String labelfile = docUrlParam+"label.txt";
+        int result=0;
+        if("labelExamplePage".equals(pageType)){
+            TaskEntity taskInfo = taskMapper.getTaskInfoByTaskId(tempTaskId);
+            AcceptDocUrl acceptDocUrl = JSON.parseObject(taskInfo.getUrl(), new TypeReference<AcceptDocUrl>() {});
+            acceptDocUrl.getTaskDoc().stream().forEach(e->{
+                if(e.getOriginalDoc().equals(docUrlParam)){
+                    e.setLabeledInfo(labelfile);
+                    e.setIsLabeled(true);
+                    e.setIsExample(true);
+                    // 结束foreach
+                    return;
+                }
+            });
+            result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptDocUrl));
+        }else{
+            AcceptEntity acceptEntity = taskMapper.getAccepteTaskInfoByAcceptId(tempTaskId);
+            AcceptDocUrl acceptDocUrl = JSON.parseObject(acceptEntity.getUrl(), new TypeReference<AcceptDocUrl>() {});
+            acceptDocUrl.getTaskDoc().stream().forEach(e->{
+                if(e.getOriginalDoc().equals(docUrlParam)){
+                    e.setLabeledInfo(labelfile);
+                    e.setIsLabeled(true);
+                    e.setIsExample(false);
+                    // 结束foreach
+                    return;
+                }
+            });
+            result=taskMapper.storeImageLabelInfoByTempTaskId(pageType,tempTaskId,JSON.toJSONString(acceptDocUrl));
         }
         return result;
     }
@@ -313,7 +350,24 @@ public class TaskServiceImpl implements TaskService {
     }
     @Override
     public String creatDocTaskUrl(String labelName,String originalDoc){
-        return "";
+
+        String [] labelName1= labelName.split(",");
+        String [] originalDoc1 = originalDoc.split(",");
+        JSONObject taskUrl = new JSONObject();
+        taskUrl.put("labelName",labelName1);
+        JSONArray taskDoc = new JSONArray();
+        for (int i = 0; i < originalDoc1.length; i++) {
+            JSONObject imgInfo = new JSONObject();
+            imgInfo.put("isExample",false);
+            imgInfo.put("isLabeled",false);
+            JSONArray labelDoc =new JSONArray();//labelInfo也遍历添加数据
+            //for (int j = 0; j < labelName1.length; j++)
+            imgInfo.put("labelDoc",labelDoc);
+            imgInfo.put("originalDoc",originalDoc1[i]);
+            taskDoc.add(imgInfo);//遍历添加
+        }
+        taskUrl.put("taskDoc",taskDoc);
+        return JSON.toJSONString(taskUrl,SerializerFeature.WriteNonStringValueAsString);
     }
     @Override
     public HashMap<String, Object> getAllTask(String query, Integer pageNum, Integer pageSize,
