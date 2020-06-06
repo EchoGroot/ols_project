@@ -61,6 +61,20 @@ $(function () {
 function GenerateChart1() {
     var DocChart = echarts.init(document.getElementById('ChartMain3'));
     var option = {
+
+        /*itemStyle: {
+            normal: {
+                shadowBlur: 200,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        },*/
+        itemStyle: {
+            emphasis: {
+                shadowBlur: 200,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        },
+
         legend: {},
         tooltip: {
             trigger: 'axis',
@@ -74,9 +88,11 @@ function GenerateChart1() {
         dataset: {
             source: [
                 ['product', '1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
-                state0,state1,state5,state6
-            ]
+                state0,state1,state5
+            ],
+
         },
+        color:['#fca3ea','#11baf6','#f7f108'],
         xAxis: {type: 'category'},
         yAxis: {gridIndex: 0},
         grid: {top: '55%'},
@@ -146,6 +162,7 @@ function GenerateChart2() {
         }]
     };
     var option2 = {
+
         tooltip: {
             trigger: 'axis',
             axisPointer: {

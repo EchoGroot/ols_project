@@ -13,7 +13,7 @@ import javax.sql.DataSource;
  * @author yuyy
  * @date 20-3-14 下午11:06
  */
-@Configuration
+//@Configuration
 public class DruidDBAutoConfigrationBean {
     @Autowired
     private DruidDBConfigrationBean config;
