@@ -69,6 +69,8 @@ public interface TaskService {
 
     int[][] getAdminImgChartData(int year);
 
+    int[][] getAdminDocChartData(int year);
+
     int[][] getAllReleaseById(long userId,int year);
 
     HashMap<String,Object> getAcceptImgTaskByUserId(long userId, String query, Integer pageNum, Integer pageSize, String queryInfo, String searchInfo,String field,String order);

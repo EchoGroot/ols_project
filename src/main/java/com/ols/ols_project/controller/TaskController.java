@@ -664,6 +664,20 @@ public class TaskController {
         return result;
     }
 
+    @GetMapping("/getAdminDocChartData")
+    public String getAdminDocChartData(
+            @RequestParam("year") String year
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("releaseList",
+                taskService.getAdminDocChartData(Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取所有已发布成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
+
     @GetMapping("/getAllReleaseById")
     public String getAllReleaseById(
             @RequestParam("year") String year,
