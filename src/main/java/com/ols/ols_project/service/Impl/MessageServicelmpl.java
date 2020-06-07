@@ -38,6 +38,7 @@ public class MessageServicelmpl implements MessageService {
         messageEntity.setMessage(Message);
         messageEntity.setIshandled(0);
         messageEntity.setIsfirst(1);
+        messageEntity.setResponse(null);
         messageEntity.setType(type);
         messageEntity.setExt2(null);
         messageEntity.setExt3(0);
@@ -83,6 +84,7 @@ public class MessageServicelmpl implements MessageService {
         messageEntity.setMessage(Message);
         messageEntity.setIshandled(1);
         messageEntity.setIsfirst(0);
+        messageEntity.setResponse(Message);
         messageEntity.setType(0);
         messageEntity.setExt2(null);
         messageEntity.setExt3(0);

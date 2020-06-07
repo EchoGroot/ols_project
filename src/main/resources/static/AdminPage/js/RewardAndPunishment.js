@@ -16,9 +16,6 @@ $(function () {
             , limits: [15, 30, 50, 100]
             , limit: 15
             , where: {
-                //pageNum:'',
-                //pageSize:'',
-               // type:'',
                 queryInfo: 'timeDown',
                 searchInfo: ''
             }
@@ -51,13 +48,12 @@ $(function () {
             console.log("123");
             $("#searchInput").val("");
             switch (data.value) {
-                //默认所有任务信息
+                //默认所有奖惩信息
                 case '0':
                     //表格重载
                     tableIns.reload({
                         where:{
-                            type:'',
-                            queryInfo: '',
+                            queryInfo:'timeDown',
                             searchInfo:$("#searchInput").val()
                         },
                         page: {
@@ -65,14 +61,12 @@ $(function () {
                         }
                     });
                     break;
-                //所有奖励信息
+                //已处理
                 case '1':
                     //表格重载
                     tableIns.reload({
-                        url:'/information/getRAPInformationBytype',
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            type:'',
-                            queryInfo: 'reward',
+                            queryInfo: 'isHandled',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -80,14 +74,12 @@ $(function () {
                         }
                     });
                     break;
-                // 惩罚
+                // 未处理
                 case '2':
                     //表格重载
                     tableIns.reload({
-                        url:'/information/getRAPInformationBytype',
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            type:'',
-                            queryInfo: 'punishment',
+                            queryInfo: 'noHandled',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -99,9 +91,7 @@ $(function () {
                 case '3':
                     //表格重载
                     tableIns.reload({
-                        url:'/information/getRAPInformationBytype',
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            type:'',
                             queryInfo: 'timeUp',
                             searchInfo:$("#searchInput").val()
                         }
@@ -114,9 +104,7 @@ $(function () {
                 case '4':
                     //表格重载
                     tableIns.reload({
-                        url:'/information/getRAPInformationBytype',
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            type:'',
                             queryInfo: 'timeDown',
                             searchInfo:$("#searchInput").val()
                         }
@@ -125,8 +113,84 @@ $(function () {
                         }
                     });
                     break;
-
             }
+            // switch (data.value) {
+            //     //默认所有任务信息
+            //     case '0':
+            //         //表格重载
+            //         tableIns.reload({
+            //             where:{
+            //                 type:'',
+            //                 queryInfo: '',
+            //                 searchInfo:$("#searchInput").val()
+            //             },
+            //             page: {
+            //                 curr: 1 //重新从第 1 页开始
+            //             }
+            //         });
+            //         break;
+            //     //所有奖励信息
+            //     case '1':
+            //         //表格重载
+            //         tableIns.reload({
+            //             url:'/information/getRAPInformationBytype',
+            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
+            //                 type:'',
+            //                 queryInfo: 'reward',
+            //                 searchInfo:$("#searchInput").val()
+            //             }
+            //             ,page: {
+            //                 curr: 1 //重新从第 1 页开始
+            //             }
+            //         });
+            //         break;
+            //     // 惩罚
+            //     case '2':
+            //         //表格重载
+            //         tableIns.reload({
+            //             url:'/information/getRAPInformationBytype',
+            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
+            //                 type:'',
+            //                 queryInfo: 'punishment',
+            //                 searchInfo:$("#searchInput").val()
+            //             }
+            //             ,page: {
+            //                 curr: 1 //重新从第 1 页开始
+            //             }
+            //         });
+            //         break;
+            //     // 时间升序
+            //     case '3':
+            //         //表格重载
+            //         tableIns.reload({
+            //             url:'/information/getRAPInformationBytype',
+            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
+            //                 type:'',
+            //                 queryInfo: 'timeUp',
+            //                 searchInfo:$("#searchInput").val()
+            //             }
+            //             ,page: {
+            //                 curr: 1 //重新从第 1 页开始
+            //             }
+            //         });
+            //         break;
+            //     // 时间降序
+            //     case '4':
+            //         //表格重载
+            //         tableIns.reload({
+            //             url:'/information/getRAPInformationBytype',
+            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
+            //                 type:'',
+            //                 queryInfo: 'timeDown',
+            //                 searchInfo:$("#searchInput").val()
+            //             }
+            //             ,page: {
+            //                 curr: 1 //重新从第 1 页开始
+            //             }
+            //         });
+            //         break;
+            //
+            // }
         });
         //监听搜索按钮点击事件
         $("#searchButton").click(function () {

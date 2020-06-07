@@ -13,7 +13,10 @@ $(function () {
             , page: true //开启分页
             , limits: [15,30,50,100]
             , limit: 15
-            , where:{queryInfo:'timeDown',searchInfo:''}
+            , where:{
+                queryInfo:'timeDown',
+                searchInfo:''
+            }
             , parseData: function(res) { //res 即为原始返回的数据
                 console.log(res)
                 return {
@@ -40,13 +43,6 @@ $(function () {
         table.on('tool(monitorToolbar)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-
-            // 工具条的点击事件
-            //if(layEvent === 'handle'){
-                //alert("已处理")
-                // 查看任务详情
-                // yesReviewerSignUp(data.id,'yes',tableIns)
-            //}
         });
         //筛选按钮点击事件
         //监听下拉框change事件 layui不支持jQuery的change事件 用form.on('select(test)', function(data){})监听
@@ -128,7 +124,6 @@ $(function () {
             where: {
                 queryInfo:'user_id',
                 searchInfo: $("#searchInput").val(),
-
             },
             page: {
                 curr: 1 //重新从第 1 页开始

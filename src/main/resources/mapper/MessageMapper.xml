@@ -34,6 +34,7 @@
         <if test="searchInfo != ''">
             and user_id like '%${searchInfo}%'
         </if>
+
         <choose>
             <when test="queryInfo == 'noHandled'">
                 and ishandled like '0'
@@ -52,6 +53,10 @@
           #{start},#{end};
       SELECT FOUND_ROWS() as total;
     </select>
+
+    <!--
+    回复举报信息
+    -->
     <insert id="replyMessage">
         insert into ols_message
         (id,user_id,task_id,message,ishandled,response,

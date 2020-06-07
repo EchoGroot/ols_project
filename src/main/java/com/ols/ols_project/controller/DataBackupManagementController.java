@@ -86,7 +86,7 @@ public String getAllBackUpName(){
         String hostIP = "127.0.0.1";
         String hostPort = "3306";
         String userName = "root";
-        String password = "970919zs";
+        String password = "123123";
         String databaseName = "olsbackup";
         String importFilePath="d:\\backUp\\";
         importFilePath+= fileName;
