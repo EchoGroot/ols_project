@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="/js/jquery-3.4.1.js"></script>
+    <script src="../js/echarts.min.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="./js/ChartForDoc.js"></script>
+    <script src="/layui/layui.js"></script>
+    <title>图片任务可视化分析</title>
+</head>
+<body>
+<div class="layui-header">
+    <div id="Header"></div>
+    <a class="layui-btn" id="GoBack" href="./TaskManage.html?queryInfo=doc&">返回</a>
+</div>
+<select id="selectYear" lay-filter="selectYear">
+    <option value="0">选择查询时间</option>
+    <option value="1">2020年</option>
+    <option value="2">2019年</option>
+</select>
+
+<div id="speedChart">
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div id="ChartMain" style="width: 900px; height: 600px;margin: auto"></div>
+</div>
+</body>
+</html>

@@ -34,7 +34,7 @@
           ols_task,ols_accept,ols_user
         where
           release_user_id=ols_user.id
-          and ols_task.type=1
+--           and ols_task.type=1
           and ols_task.id = ols_accept.task_id
           and ols_accept.id = #{acceptId}
     </select>

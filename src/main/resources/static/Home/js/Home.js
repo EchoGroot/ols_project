@@ -113,7 +113,7 @@ $(function () {
                     taskId: data.id
                 }
             })
-            checkFunc(data.id);
+            checkFunc(data.id,data.type);
         });
         //监听表头 用来排序
         table.on('sort(monitorToolbar)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
@@ -293,7 +293,7 @@ function paramConfig() {
 }
 
 // 查看任务
-function checkFunc(taskId) {
+function checkFunc(taskId,type) {
     //判断传递userId为空时，接受任务按钮转登录，登录完后返回本页面并在地址栏添加userId参数..丢给杨哥做.这里可以为空
     if(userId == ""){
 
@@ -304,13 +304,25 @@ function checkFunc(taskId) {
     else if(query =='adopted'){
 
     }
-    top.location.href="/ImageLabelTaskPage/index.html?" +
-        "userId="+userId+
-        "&pageType="+'otherReleasePage'+
-        "&"+'taskId'+"="+taskId+
-        "&pageFrom="+URLencode('/Home/Home.html')
-        +"%3FuserId%3D"+userId
-        +"%26page%3D"+'releaseNotFinishTask';
+    if(type=="图片"){
+        top.location.href="/ImageLabelTaskPage/index.html?" +
+            "userId="+userId+
+            "&pageType="+'otherReleasePage'+
+            "&"+'taskId'+"="+taskId+
+            "&pageFrom="+URLencode('/Home/Home.html')
+            +"%3FuserId%3D"+userId
+            +"%26page%3D"+'releaseNotFinishTask';
+    }
+    else {
+        top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
+            "userId="+userId+
+            "&pageType="+'otherReleasePage'+
+            "&"+'taskId'+"="+taskId+
+            "&pageFrom="+URLencode('/Home/Home.html')
+            +"%3FuserId%3D"+userId
+            +"%26page%3D"+'releaseNotFinishTask';
+    }
+
 }
 function URLencode(sStr) {
     return sStr.replace(/\%/g,"%25")

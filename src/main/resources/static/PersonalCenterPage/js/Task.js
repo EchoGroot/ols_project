@@ -532,7 +532,7 @@ function checkFunc(taskId) {
                 pageType='personalAcceptNotFinishPage';
             }
         }
-        top.location.href="/ImageLabelTaskPage/index.html?" +
+        top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
             "userId="+userId+
             "&pageType="+pageType+
             "&"+idType+"="+taskId+

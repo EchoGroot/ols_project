@@ -1,5 +1,5 @@
 /**
- * 图片上传数量及其大小等控制
+ * 文件上传数量及其大小等控制
  * 点击开始上传按钮(uploadImgs)，执行上传
  *
  */
@@ -90,10 +90,10 @@ $(function (){
     })
 
     $("#acceptli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+        gotoUrlByJudege("/PersonalCenterPage/Word.html?userId="+userId+"&page=releaseNotFinishTask")
     })
     $("#releaseli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
+        gotoUrlByJudege("/PersonalCenterPage/Word.html?userId="+userId+"&page=releaseNotFinishTask")
     })
 });
 
@@ -165,7 +165,7 @@ function releaseTask() {
             url: "/task/creatDocTaskUrl",
             data: {
                 labelName: labelName.toString(),
-                originalImage: docsName.toString(),
+                originalDoc: docsName.toString(),
             },
             success: function (resultData) {
                 console.log(resultData.toString());
@@ -186,13 +186,13 @@ function releaseTask() {
                         if (msg.meta.status == "1") {
                             alert(msg.meta.msg);
                             //成功跳转界面
-                           /* top.location.href="/ImageLabelTaskPage/index.html?" +
+                           top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
                                 "userId="+userId+
-                                "&pageType="+'otherReleasePage'+
+                                "&pageType="+'labelExamplePage'+
                                 "&"+'taskId'+"="+msg.data.taskId+
                                 "&pageFrom="+URLencode('/Home/Home.html')
                                 +"%3FuserId%3D"+userId
-                                +"%26page%3D"+'releaseNotFinishTask';*/
+                                +"%26page%3D"+'releaseNotFinishTask';
                         } else if (msg.meta.status == "0") {
                             alert(msg.meta.msg);
                         }
@@ -256,7 +256,7 @@ function judgeLogin() {
                                 li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
                                 var a=document.getElementById("userName");
                                 a.innerText=name;
-                                a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
+                                a.href="/PersonalCenterPage/Word.html?userId="+userId+"&page=personalInfo";
 
                             }
                         }
