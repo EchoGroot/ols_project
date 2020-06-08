@@ -3,7 +3,7 @@ package com.ols.ols_project.model;
 import lombok.*;
 
 /**
- * 返回数据给前段的信息实体类
+ * 返回数据给前端的信息实体类
  * @author yuyy
  * @date 20-2-19 下午2:39
  */

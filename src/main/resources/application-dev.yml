@@ -9,8 +9,9 @@ spring:
   #MySQL配置
   datasource:
     url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
-    username: ${mysql.username:}
-    password: ${mysql.password:}
+    username: ${mysql.username}
+    password: ${mysql.password}
+mysql.address: ${mysql.address:127.0.0.1:3306}
 #日志配置
 log:
   path: /usr/local/logs
@@ -19,9 +20,9 @@ log:
 #邮箱配置
 email:
   #邮箱账户
-  account: ${email.account:}
+  account: ${email.account}
   #第三方代理授权码
-  authorizationCode: ${email.authorizationCode:}
+  authorizationCode: ${email.authorizationCode}
 image:
   #任务图片存储路径
   fileFath: D:\\images\\
@@ -29,3 +30,5 @@ image:
   thumbFilePath: D:\\images\\thumb\\
 doc:
   docPath: D:\\docTask\\
+dbBackUp:
+  savePath: D:\\backUp\\

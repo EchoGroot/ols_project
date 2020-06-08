@@ -1,6 +1,7 @@
 package com.ols.ols_project.schedule;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -18,17 +19,19 @@ import java.util.Date;
 @Component
 public class OlsSchedule {
 
-    /**
-     * 设置定时任务方法
-     * 生日送积分
-     * 每天00:00:00执行
-     * cron表达式
-     */
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void scheduleMethod(){
-        log.info("执行定时任务：生日送积分");
-//        查所有的用户
-    }
+    @Value("${mysql.address}")
+    public static String hostIP;
+
+    @Value("${spring.datasource.username}")
+    public static String userName;
+
+    @Value("${dbBackUp.savePath}")
+    public static String savePath;
+
+    @Value("${spring.datasource.password}")
+    public static String password;
+
+
     /**
      * 定时生成备份文件
      *每天凌晨1点执行一次
@@ -36,14 +39,10 @@ public class OlsSchedule {
      */
     @Scheduled(cron = "0 0 1 * * ?") //每天凌晨1点执行一次
     public void backup2() throws Exception {
-        System.out.println("############生成备份文件");
+        log.info("############生成备份文件");
         backup();
     }
     private String backup() {
-        String hostIP = "106.15.225.159";
-        String userName = "olsAdmin";
-        String password = "6789@jkl";
-        String savePath = "D:\\backUp\\";
         String fileName = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date().getTime());
         String databaseName = "ols";
         fileName += ".sql";
@@ -60,7 +59,7 @@ public class OlsSchedule {
         stringBuilder.append("mysqldump").append(" -h").append(hostIP);
         stringBuilder.append(" -u").append(userName).append(" -p").append(password).append(" " + databaseName);
         stringBuilder.append(" >").append(savePath + fileName);
-        System.out.println(stringBuilder);
+        log.info(stringBuilder.toString());
         try {
             //调用外部执行exe文件的javaAPI
             Process process = Runtime.getRuntime().exec("cmd /c" + stringBuilder.toString());

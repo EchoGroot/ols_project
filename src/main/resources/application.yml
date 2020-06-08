@@ -71,5 +71,11 @@ task:
     #队列容量
     task.pool.queueCapacity: 20
 
+restartWdcpWebServiceJob:
+  bash: /bin/bash
+  path: /www/wdlinux/init.d/httpd_restart.sh
+
+
+
 
 
