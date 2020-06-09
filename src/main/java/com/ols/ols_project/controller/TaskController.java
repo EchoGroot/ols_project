@@ -692,6 +692,20 @@ public class TaskController {
         return result;
     }
 
+    @GetMapping("/getAllReleaseDocById")
+    public String getAllReleaseDocById(
+            @RequestParam("year") String year,
+            @RequestParam("userId") String userId
+    ){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("releaseList",
+                taskService.getAllReleaseDocById(Long.parseLong(userId),Integer.parseInt(year)));
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(data,"200","获取个人已发布成功"),
+                "yyyy-MM-dd");
+        return result;
+    }
+
 
     @GetMapping(value = "/getAcceptImgTaskByUserId")
     public String getAcceptImgTaskByUserId(

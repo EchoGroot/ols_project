@@ -1,11 +1,11 @@
 spring:
-  redis:
-    # Redis服务器地址
-    host: ${redis.ip:127.0.0.1}
-    # Redis服务器连接端口
-    port: ${redis.port:6379}
-    # Redis服务器连接密码
-    password: ${redis.password:}
+#  redis:
+#    # Redis服务器地址
+#    host: ${redis.ip:127.0.0.1}
+#    # Redis服务器连接端口
+#    port: ${redis.port:6379}
+#    # Redis服务器连接密码
+#    password: ${redis.password:}
   #MySQL配置
   datasource:
     url: jdbc:mysql://${mysql.address:127.0.0.1:3306}/ols?serverTimezone=GMT%2B8&allowMultiQueries=true&useAffectedRows=true
