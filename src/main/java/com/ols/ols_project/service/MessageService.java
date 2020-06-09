@@ -8,7 +8,10 @@ public interface MessageService {
     //查询举报信息
     HashMap<String, Object> getAllMessage(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize);
     //回复举报信息
-    String replyMessage( String Message);
+    int replyMessage(long Id ,String Response);
+
+    //通过ID查询举报回复信息
+    HashMap<String, Object> getcomplainById(long userId,Integer pageNum, Integer pageSize);
 
     int[][] getmessage(int year);
 }

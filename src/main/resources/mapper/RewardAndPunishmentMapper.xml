@@ -53,9 +53,9 @@
         create_time
         from
         ols_reward_and_punishment
-
+        where 1=1
         <if test="searchInfo != ''">
-            and (user_id like '%${searchInfo}%')
+            and user_id like '%${searchInfo}%'
         </if>
         <choose>
             <when test="queryInfo == 'reward'">

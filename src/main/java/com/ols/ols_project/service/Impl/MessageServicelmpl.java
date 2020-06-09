@@ -4,7 +4,9 @@ import com.baidu.fsg.uid.service.UidGenService;
 import com.ols.ols_project.mapper.MessageMapper;
 import com.ols.ols_project.model.MessageEnityBo;
 import com.ols.ols_project.model.MonthAndCount;
+import com.ols.ols_project.model.RewardAndPunishmentEnityBo;
 import com.ols.ols_project.model.entity.MessageEntity;
+import com.ols.ols_project.model.entity.RewardAndPunishmentEnity;
 import com.ols.ols_project.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,24 +77,10 @@ public class MessageServicelmpl implements MessageService {
     }
     //回复举报信息
     @Override
-    public String replyMessage(String Message) {
-        MessageEntity messageEntity = new MessageEntity();
-        long messageId = uidGenService.getUid();
-        messageEntity.setId(messageId);
-        messageEntity.setUser_id(null);
-        messageEntity.setTask_id(null);
-        messageEntity.setMessage(Message);
-        messageEntity.setIshandled(1);
-        messageEntity.setIsfirst(0);
-        messageEntity.setResponse(Message);
-        messageEntity.setType(0);
-        messageEntity.setExt2(null);
-        messageEntity.setExt3(0);
-        messageEntity.setCreate_time(new Timestamp(System.currentTimeMillis()));
-        messageMapper.replyMessage(messageEntity);
-        return Long.toString(messageId);
+    public int replyMessage(long Id,String Response) {
+        return messageMapper.replyMessage( Response, Id);
     }
-//举报可视化
+//举报可视化（管理员）
     @Override
     public int[][] getmessage( int year) {
         int[][] resultArr=new int[3][];
@@ -122,6 +110,29 @@ public class MessageServicelmpl implements MessageService {
         resultArr[1]=no;
         resultArr[2]=yesAndNo;
         return resultArr;
+    }
+
+    @Override
+    public HashMap<String, Object> getcomplainById(long userId,Integer pageNum, Integer pageSize) {
+        List<List<MessageEntity>> list = messageMapper.getcomplainById(userId,(pageNum - 1) * pageSize, pageSize);
+        List<MessageEnityBo> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    list1.add(MessageEnityBo.builder()
+                            .id(e.getId())
+                            .user_id(e.getUser_id())
+                            .task_id(e.getTask_id())
+                            .message(e.getMessage())
+                            .create_time(e.getCreate_time())
+                            .response(e.getResponse())
+                            .type(e.getType())
+                            .build());
+                }
+        );
+        data.put("messageList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
     }
 }
 

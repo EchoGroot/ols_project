@@ -15,7 +15,7 @@ public interface RewardAndPunishmentMapper {
     //发布奖惩信息
    void CreateMessage(RewardAndPunishmentEnity rewardandpunishmentEntity);
    //查询所有奖惩信息
-   List<List<RewardAndPunishmentEnity>> getAllMessage( int start, int end);
+   List<List<RewardAndPunishmentEnity>> getAllMessage( String queryInfo, String searchInfo ,int start, int end);
     void clickNumPlus(long messageId);
     List<RewardAndPunishmentEnity> getClickNum();
     int subpunishment(long userId, String operation);

@@ -48,14 +48,13 @@ public class RewardAndPunishmentController {
     @GetMapping("/getAllMessage")
     public String getAllMessage(
             @RequestParam("page") int pageNum,
-            @RequestParam("limit") int pageSize
-          //  @RequestParam("type") int type,
-           // @RequestParam(value = "queryInfo") String  queryInfo,
-           // @RequestParam(value = "searchInfo") String  searchInfo
+            @RequestParam("limit") int pageSize,
+            @RequestParam(value = "queryInfo") String  queryInfo,
+            @RequestParam(value = "searchInfo") String  searchInfo
     ){
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
-                        rewardAndPunishmentService.getAllMessage(pageNum, pageSize)
+                        rewardAndPunishmentService.getAllMessage(queryInfo, searchInfo ,pageNum, pageSize)
                         ,"0"
                         ,"获取所有奖惩信息成功")
                 ,"yyyy-MM-dd hh:mm:ss"

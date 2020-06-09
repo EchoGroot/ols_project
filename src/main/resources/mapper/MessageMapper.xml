@@ -31,6 +31,7 @@
         create_time
         from
         ols_message
+        where 1=1
         <if test="searchInfo != ''">
             and user_id like '%${searchInfo}%'
         </if>
@@ -57,14 +58,17 @@
     <!--
     回复举报信息
     -->
-    <insert id="replyMessage">
-        insert into ols_message
-        (id,user_id,task_id,message,ishandled,response,
-         isfirst,type,ext2,ext3,create_time)
-            value (#{id},#{user_id},#{task_id},#{message},
-            #{ishandled},#{response},#{isfirst},
-            #{type},#{ext2},#{ext3},#{create_time})
-    </insert>
+
+    <update id="replyMessage">
+        update
+        ols_message
+        set
+        response=#{response},ishandled=1
+        where
+        id=#{id}
+    </update>
+
+
     <resultMap id="MessageMap" type="com.ols.ols_project.model.entity.MessageEntity" >
         <id column="id" property="id"  />
         <result column="user_id" property="user_id" />
@@ -115,4 +119,22 @@
         <id column="month" property="month"  />
         <result column="count" property="count" />
     </resultMap>
+
+
+    <select id="getcomplainById" resultMap="MessageMap,total">
+        select
+        SQL_CALC_FOUND_ROWS id,
+        user_id,
+        task_id,
+        message,
+        type,
+        response
+        from
+            ols_message
+        where
+            user_id=#{id}
+            limit
+            #{start},#{end};
+        SELECT FOUND_ROWS() as total;
+    </select>
 </mapper>

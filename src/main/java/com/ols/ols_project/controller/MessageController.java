@@ -7,6 +7,7 @@ import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.MessageService;
 import com.ols.ols_project.service.UserService;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,9 +69,14 @@ public class MessageController {
     }
     //回复举报信息
     @GetMapping("/replyMessage")
-    public String replyMessage(@RequestParam("Message") String Message){
-        messageService.replyMessage(Message);
-        String resultStr = JSON.toJSONString(new Result("200","回复举报息成功"));;
+    public String replyMessage(@RequestParam("Response") String Response,@RequestParam("Id") long Id)
+    {
+        String resultStr=null;
+        if(1==messageService.replyMessage(Id,Response)){
+            resultStr = JSON.toJSONString(new Result("200","回复举报息成功"));;
+        }else{
+            resultStr = JSON.toJSONString(new Result("201","回复举报息失败"));;
+        }
         return resultStr;
     }
     //举报信息可视化
@@ -85,6 +91,24 @@ public class MessageController {
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取举报信息成功"),
                 "yyyy-MM-dd");
+        return result;
+    }
+    //用户查询举报信息的回复信息
+    @GetMapping(value = "/getcomplainById")
+    public String getcomplainById(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam("page") int pageNum,
+            @RequestParam("limit") int pageSize
+    ) {
+        // layui默认数据表格的status为0才显示数据
+        String result = JSON.toJSONStringWithDateFormat(
+                new Result(
+                        messageService.getcomplainById(Long.parseLong(userId),pageNum, pageSize)
+                        , "0"
+                        , "获取奖励惩罚信息成功")
+                , "yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 }

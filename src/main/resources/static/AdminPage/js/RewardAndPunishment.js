@@ -1,4 +1,3 @@
-//var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
 var userId=getQueryVariable('userId'); //用户ID
 $(function () {
     // layui初始化
@@ -31,7 +30,8 @@ $(function () {
             , cols: [[ //表头
                 {field: 'id', title: '消息ID', align: 'center', width: '15%', fixed: 'left', sort: true}
                 , {field: 'user_id', title: '用户编号', align: 'center', width: '15%', sort: true}
-                , {field: 'information', title: '奖惩信息', align: 'center', width: '50%'}
+                , {field: 'information', title: '奖惩信息', align: 'center', width: '30%'}
+                , {field: 'type', title: '奖惩类型', align: 'center', width: '20%',sort:true}
                 , {field: 'create_time', title: '发布时间', align: 'center', width: '20%', sort: true}
             ]]
         });
@@ -45,8 +45,6 @@ $(function () {
         });
       //监听下拉框change事件
         form.on('select(chooseSelect)', function(data){
-            console.log("123");
-            $("#searchInput").val("");
             switch (data.value) {
                 //默认所有奖惩信息
                 case '0':
@@ -66,7 +64,7 @@ $(function () {
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'isHandled',
+                            queryInfo: 'reward',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -79,7 +77,7 @@ $(function () {
                     //表格重载
                     tableIns.reload({
                         where: { //设定异步数据接口的额外参数,可覆盖原有参数
-                            queryInfo: 'noHandled',
+                            queryInfo: 'punishment',
                             searchInfo:$("#searchInput").val()
                         }
                         ,page: {
@@ -114,92 +112,14 @@ $(function () {
                     });
                     break;
             }
-            // switch (data.value) {
-            //     //默认所有任务信息
-            //     case '0':
-            //         //表格重载
-            //         tableIns.reload({
-            //             where:{
-            //                 type:'',
-            //                 queryInfo: '',
-            //                 searchInfo:$("#searchInput").val()
-            //             },
-            //             page: {
-            //                 curr: 1 //重新从第 1 页开始
-            //             }
-            //         });
-            //         break;
-            //     //所有奖励信息
-            //     case '1':
-            //         //表格重载
-            //         tableIns.reload({
-            //             url:'/information/getRAPInformationBytype',
-            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
-            //                 type:'',
-            //                 queryInfo: 'reward',
-            //                 searchInfo:$("#searchInput").val()
-            //             }
-            //             ,page: {
-            //                 curr: 1 //重新从第 1 页开始
-            //             }
-            //         });
-            //         break;
-            //     // 惩罚
-            //     case '2':
-            //         //表格重载
-            //         tableIns.reload({
-            //             url:'/information/getRAPInformationBytype',
-            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
-            //                 type:'',
-            //                 queryInfo: 'punishment',
-            //                 searchInfo:$("#searchInput").val()
-            //             }
-            //             ,page: {
-            //                 curr: 1 //重新从第 1 页开始
-            //             }
-            //         });
-            //         break;
-            //     // 时间升序
-            //     case '3':
-            //         //表格重载
-            //         tableIns.reload({
-            //             url:'/information/getRAPInformationBytype',
-            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
-            //                 type:'',
-            //                 queryInfo: 'timeUp',
-            //                 searchInfo:$("#searchInput").val()
-            //             }
-            //             ,page: {
-            //                 curr: 1 //重新从第 1 页开始
-            //             }
-            //         });
-            //         break;
-            //     // 时间降序
-            //     case '4':
-            //         //表格重载
-            //         tableIns.reload({
-            //             url:'/information/getRAPInformationBytype',
-            //             where: { //设定异步数据接口的额外参数,可覆盖原有参数
-            //                 type:'',
-            //                 queryInfo: 'timeDown',
-            //                 searchInfo:$("#searchInput").val()
-            //             }
-            //             ,page: {
-            //                 curr: 1 //重新从第 1 页开始
-            //             }
-            //         });
-            //         break;
-            //
-            // }
         });
         //监听搜索按钮点击事件
         $("#searchButton").click(function () {
             tableIns.reload({
                 where: {
                     searchType:searchType,
-                    searchInfo: $("#searchInput").val(),
-                    field: '',
-                    order: ''
+                    searchInfo: $("#searchInput").val()
+
                 },
                 page: {
                     curr: 1 //重新从第 1 页开始

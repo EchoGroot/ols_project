@@ -1,4 +1,5 @@
 var adminUserId=getQueryVariable('userId'); //获取URL参数里的用户ID
+var tableIns;
 $(function () {
     // layui初始化
     layui.use(['layer', 'form','table'], function() {
@@ -6,7 +7,7 @@ $(function () {
         var layer = layui.layer;
         var form = layui.form;
         // 表格渲染
-        var tableIns=table.render({
+        tableIns=table.render({
             elem: '#messageList'
             , height: '700'
             , url: '/message/getAllMessage/' //数据接口
@@ -32,11 +33,11 @@ $(function () {
                 , {field: 'task_id', title: '任务编号', align:'center',width: '11%', sort: true}
                 , {field: 'type', title: '任务类型',align:'center', width: '11%',sort: true}
                 , {field: 'message', title: '举报信息', align:'center',width: '11%'}
-                , {field: 'ishandled', title: '是否处理', align:'center',width: '11%',sort: true}
-                , {field: 'isfirst', title: '是否查看',align:'center', width: '11%',sort: true}
-               // , {field: 'response', title: '是否回复',align:'center', width: '10%',sort: true}
+                , {field: 'ishandled', title: '是否处理', align:'center',width: '8%',sort: true}
+                , {field: 'isfirst', title: '是否查看',align:'center', width: '8%',sort: true}
+               , {field: 'response', title: '回复内容',align:'center', width: '8%',sort: true}
                 , {field: 'create_time', title: '发布时间',align:'center', width: '15%', sort: true}
-                , {title: '操作', align: 'center', toolbar: '#barHandle', width: '10%'}
+                , {title: '操作', align: 'center', toolbar: '#barHandle', width: '8%'}
             ]]
         });
         //监听工具条
@@ -44,13 +45,13 @@ $(function () {
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent==="handle"){
-                replyFunc(data)
+                replyFunc(data,tableIns)
             }
         });
         //筛选按钮点击事件
         //监听下拉框change事件 layui不支持jQuery的change事件 用form.on('select(test)', function(data){})监听
         form.on('select(chooseSelect)', function(data){
-            $("#searchInput").val("");
+            // $("#searchInput").val("");
             switch (data.value) {
                 //默认所有举报信息
                 case '0':
@@ -147,9 +148,7 @@ function getQueryVariable(name) {
 }
 
 // 回复举报信息
-function replyFunc(data) {
-
-
+function replyFunc(data,tableIns) {
     // 打开弹窗
     layer.open({
         title: '回复举报信息',
@@ -157,17 +156,13 @@ function replyFunc(data) {
         btnAlign: 'c',
         closeBtn:'1',//右上角的关闭
         content: '<div>' +
-            '<div >举报者ID： <textarea class="layui-layer-input"  name="txt_remark" id="user_id"  style="width:50%;height:10%;line-height:20px;padding:10px 10px;">'+data.user_id+'</textarea></div>'+
-            '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="message"  style="width:100%;height:70%;line-height:20px;padding:10px 10px;"></textarea></div>' +
+            '<div >消息ID： <input class="layui-layer-input" id="id" style="width:50%;height:10%;line-height:20px;padding:10px 10px;" value="'+data.id+'"></div>'+
+            '<div >请输入回复信息： <textarea class="layui-layer-input" placeholder="请输入回复信息" name="txt_remark" id="Response"  style="width:100%;height:70%;line-height:20px;padding:10px 10px;"></textarea></div>' +
             '</div>',
         btn:['确认','取消'],
         yes: function (index, layero) {
-            replyMessage($("#message").val());
-            layer.msg('回复成功', {
-                icon: 1, //绿勾
-                time: 2000 //2秒关闭（如果不配置，默认是3秒）
-            });
-            layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
+            replyMessage($("#id").val(),$("#Response").val(),tableIns);
+
         },
         btn2:function(index, layero)
         {
@@ -180,22 +175,29 @@ function replyFunc(data) {
     });
 }
 // 回复举报信息
-function replyMessage(message) {
+function replyMessage(id,Response,tableIns) {
     $.ajax({
         type: "GET",
         url:"/message/replyMessage",
         data:{
-            "Message":message,
+            "Id":id,
+            "Response":Response,
         },
         success:function(resultData){
             resultData=JSON.parse(resultData)
             if(resultData.meta.status === "200"){
-                layer.msg('操作成功', {
+                layer.msg('回复成功', {
                     icon: 1, //绿勾
                     time: 2000 //2秒关闭（如果不配置，默认是3秒）
                 });
-                //这里以搜索为例
+                // layer.close(index);//可执行确定按钮事件并把备注信息（即多行文本框值）存入需要的地方
                 tableIns.reload({});
+                // layer.msg('操作成功', {
+                //     icon: 1, //绿勾
+                //     time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                // });
+                // //这里以搜索为例
+                // tableIns.reload({});
             }else{
                 layer.msg('操作失败，请刷新页面', {
                     icon: 5, //红色不开心

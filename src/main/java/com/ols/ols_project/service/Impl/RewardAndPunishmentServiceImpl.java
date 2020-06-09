@@ -47,8 +47,8 @@ public class RewardAndPunishmentServiceImpl implements RewardAndPunishmentServic
     }
 
     @Override
-    public HashMap<String, Object> getAllMessage(Integer pageNum, Integer pageSize) {
-        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.getAllMessage((pageNum - 1) * pageSize, pageSize);
+    public HashMap<String, Object> getAllMessage(String queryInfo,String searchInfo ,Integer pageNum, Integer pageSize) {
+        List<List<RewardAndPunishmentEnity>> list = rewardandpunishmentMapper.getAllMessage(queryInfo, searchInfo ,(pageNum - 1) * pageSize, pageSize);
         List<RewardAndPunishmentEnityBo> list1 = new ArrayList<>();
         HashMap<String, Object> data = new HashMap<>();
         list.get(0).forEach(
