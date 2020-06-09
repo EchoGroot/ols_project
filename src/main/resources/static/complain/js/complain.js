@@ -54,5 +54,9 @@ function getQueryVariable(name) {
     }
     return null;
 }
+//返回
+function goBackFunc() {
+    window.location.href='/Home/Home.html?userId='+userId
+}
 
 
