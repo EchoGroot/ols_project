@@ -68,5 +68,19 @@ public class SystemServiceImpl implements SystemService {
         SystemEntity systemEntity = systemMapper.getSystemById(acceptId);
         return systemEntity;
     }
-
+    @Override
+    public HashMap<String,Object> getAllSystem( Integer pageNum, Integer pageSize) {
+        List<List<SystemEntity>> list = systemMapper.getAllSystem((pageNum - 1) * pageSize,pageSize);
+        List<SystemEntity> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    //list1.add(e);
+                    Collections.addAll(list1,e);
+                }
+        );
+        data.put("sysList",list1);
+        data.put("total",list.get(1).get(0));
+        return data;
+    }
 }

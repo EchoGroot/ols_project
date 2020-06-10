@@ -50,6 +50,32 @@
         where
             id=#{id}
     </select>
+
+    <select id="getAllSystem" resultMap="SystemMap,total">
+        select
+        SQL_CALC_FOUND_ROWS id,
+        release_user_id,
+        accept_user_id,
+        message,
+        create_time,
+        ext1,
+        ext2,
+        ext3
+        from
+        ols_system
+        where
+        1=1
+        order by create_time desc
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
+
     <resultMap id="SystemMap" type="com.ols.ols_project.model.entity.SystemEntity" >
         <id column="id" property="id"  />
         <result column="release_user_id" property="release_user_id" />

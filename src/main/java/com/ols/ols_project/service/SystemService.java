@@ -10,4 +10,6 @@ public interface SystemService {
     String setViewed(long id);
     HashMap<String,Object> getAllSystemByAcceptUID(long acceptUID, Integer pageNum, Integer pageSize);
     SystemEntity getSystemById(long acceptId);
+
+    HashMap<String,Object> getAllSystem(Integer pageNum, Integer pageSize);
 }

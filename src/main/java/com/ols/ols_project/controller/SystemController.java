@@ -51,4 +51,21 @@ public class SystemController {
                 , SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
+
+
+    //@RequestParam(value = "acceptUID") long acceptUID,
+    @GetMapping("/getAllSystem") //通过所有消息
+    public String getAllSystem(
+
+                               @RequestParam(value = "page") Integer pageNum,
+                               @RequestParam(value = "limit") Integer pageSize){
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(
+                        systemService.getAllSystem(pageNum,pageSize)
+                        ,"200"
+                        ,"获取所有任务成功")
+                ,"yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString);
+        return result;
+    }
 }

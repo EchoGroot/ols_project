@@ -9,4 +9,6 @@ public interface SystemMapper {
     List<List<SystemEntity>> getAllSystemByAcceptUID(long acceptUID, int start, int end);
     int setViewed(long id);
     SystemEntity getSystemById(long acceptId);
+
+    List<List<SystemEntity>> getAllSystem( int start, int end);
 }
