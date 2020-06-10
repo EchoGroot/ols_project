@@ -166,7 +166,7 @@ function getQueryVariable(name) {
 }
 // 查看
 function checkFunc(taskId) {
-    top.location.href="/ImageLabelTaskPage/Word.html?" +
+    top.location.href="/ImageLabelTaskPage/index.html?" +
         "userId="+userId+
         "&pageType=otherReleasePage"+
         "&taskId="+taskId+

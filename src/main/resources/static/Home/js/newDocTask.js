@@ -90,10 +90,10 @@ $(function (){
     })
 
     $("#acceptli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/Word.html?userId="+userId+"&page=releaseNotFinishTask")
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
     })
     $("#releaseli").click(function () {
-        gotoUrlByJudege("/PersonalCenterPage/Word.html?userId="+userId+"&page=releaseNotFinishTask")
+        gotoUrlByJudege("/PersonalCenterPage/index.html?userId="+userId+"&page=releaseNotFinishTask")
     })
 });
 
@@ -256,7 +256,7 @@ function judgeLogin() {
                                 li2.style.visibility="visible"; //这样做布局没问题了，但是存在BUG 可以前端修改显示出来。所以点击事件需要判断登录状态。
                                 var a=document.getElementById("userName");
                                 a.innerText=name;
-                                a.href="/PersonalCenterPage/Word.html?userId="+userId+"&page=personalInfo";
+                                a.href="/PersonalCenterPage/index.html?userId="+userId+"&page=personalInfo";
 
                             }
                         }
