@@ -34,31 +34,19 @@ function restoreFunc(fileName){
     })
 }
 //备份数据库
-            function backupFunc(){
-                $.ajax({
-                    url: '/data/backup',
-                    type: "GET",
-                    success: function (resultData) {
-                        if(resultData=="1"){
-                            alert("备份成功!");
-                        }
-                        else {
-                            alert("备份失败");
-                        }
-                        // resultData = JSON.parse(resultData);
-                        // if (resultData.meta.status === "200") {
-                        //     layer.msg('备份成功', {
-                        //         icon: 1, //红色不开心
-                        //         time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        //     });
-                        // } else {
-                        //     layer.msg('备份失败，请刷新页面重试', {
-                        //         icon: 5, //红色不开心
-                        //         time: 2000 //2秒关闭（如果不配置，默认是3秒）
-                        //          });
-                        // }
-                    }
-                })
+function backupFunc(){
+    $.ajax({
+        url: '/data/backup',
+        type: "GET",
+        success: function (resultData) {
+            if(resultData=="1"){
+                alert("备份成功!");
+            }
+            else {
+                alert("备份失败");
+            }
+        }
+    })
 }
 
 

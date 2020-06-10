@@ -34,19 +34,44 @@ function GenerateChart2() {
     var ImgChart2 = echarts.init(document.getElementById('ChartMain2'));
     var option1 = {
         title: {
-            text: '举报信息数据统计与分析'
+            text: '举报信息数据统计与分析' ,
+            x:'center',
+            y:'top'
+
         },
-        tooltip: {},
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
         toolbox: {
             feature: {
                 saveAsImage: {}
             }
         },
+        legend: {
+            orient: 'vertical',
+            left: 10,
+            data: ['图片', '文档']
+        },
         series: [{
             name: '举报信息',
             type: 'pie',
-            radius: '55%',
-            roseType: 'angle',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '30',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
             data: [
                 {value:yes.reduce(getSum),name:'文档'},
                 {value:no.reduce(getSum),name:'图片'}
@@ -74,21 +99,21 @@ function GenerateChart2() {
             bottom: '3%',
             containLabel: true
         },
-        // legend: {
-        //     data:[{
-        //         name: '文档',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '图片',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '举报总量',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     }]
-        // },
+        legend: {
+            data:[{
+                name: '文档',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            },{
+                name: '图片',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            },{
+                name: '举报总量',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            }]
+        },
         xAxis: {
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
