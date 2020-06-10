@@ -77,10 +77,10 @@ function getAccepteDocList () {
                 );
                 // 将标注信息存入对应的数组
                 for (var i = 0; i < acceptDocList.taskDoc.length; i++) {
-                    if (acceptDocList.taskDoc[i].isExample=="true") {
+                    if (acceptDocList.taskDoc[i].isExample) {
                         $("#exampleDivContainer").show();
                         docExampleList.push(acceptDocList.taskDoc[i]);
-                    } else if (acceptDocList.taskDoc[i].isLabeled=="true") {
+                    } else if (acceptDocList.taskDoc[i].isLabeled) {
                         $("#finishDivContainer").show();
                         docFinishlist.push(acceptDocList.taskDoc[i])
                     } else {
@@ -147,6 +147,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
+                    +'&labelInfo='+docUrl+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -154,7 +155,6 @@ function loadDocList(domId,docList) {
                     +'&taskId='+taskId
                     +'&operation=read'
                     +'">'
-                    +'<p>123.doc</p>'
                     +'        <button type="button" class="layui-btn layui-btn-radius">'
                     +'查看'
                     +'        </button>\n'
@@ -162,6 +162,7 @@ function loadDocList(domId,docList) {
                 if(pageType =='labelExamplePage'){
                     shtml+='            <a class="labelAgain" href="/TextLablePage/index.html'
                         +'?docUrl='+docUrl+docList[i].originalDoc
+                        +'&labelInfo='+docUrl+docList[i].labeledInfo
                         +'&userId='+userId
                         +'&acceptId='+acceptId
                         +'&taskId='+taskId
@@ -187,6 +188,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
+                    +'&labelInfo='+docUrl+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -200,6 +202,7 @@ function loadDocList(domId,docList) {
                     +'</a>\n'
                     +'            <a class="labelATag" href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
+                    +'&labelInfo='+docUrl+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -225,6 +228,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
+                    +'&labelInfo='+docUrl+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -237,6 +241,7 @@ function loadDocList(domId,docList) {
                     +'</a>\n'
                     +'            <a class="labelAgain" href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
+                    +'&labelInfo='+docUrl+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -449,6 +454,7 @@ function submitFunc() {
         });
         return;
     }
+    alert(taskId);
     $.ajax({
         url: '/task/submitAcceptTask',
         type: "POST",

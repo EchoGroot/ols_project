@@ -123,7 +123,8 @@ public class TaskController {
                 taskService.getAccepteImageListByAccepteId(Long.parseLong(acceptId)));
         resultStr= JSON.toJSONStringWithDateFormat(
                 new Result(data,"200","获取接受任务文本数据成功"),
-                "yyyy-MM-dd hh:mm:ss");
+                "yyyy-MM-dd hh:mm:ss",
+                SerializerFeature.WriteNonStringValueAsString);
         return resultStr;
     }
 

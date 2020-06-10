@@ -5,6 +5,7 @@ var pageType=getQueryVariable('pageType');  //当前页面类型
 var pageFrom=URLencode(getQueryVariable('pageFrom')); //从那个页面跳转来的（返回时使用）
 var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
+var labelInfo=getQueryVariable('labelInfo');
 var docUrlPre="D://docTask//";
 var originaldoc;
 var docNotFinishlist=[];
@@ -28,9 +29,16 @@ $(function () {
         var layer = layui.layer;
     });
     labelNameRender();
-    loadDoc();
     if(operation==="read"){
+        if(labelInfo==null){
+            loadDoc(docUrl);
+        }else {
+            loadDoc(labelInfo);
+        }
+
         editor.isReadOnly = true;
+    }else{
+        loadDoc(docUrl);
     }
 
 });
@@ -75,7 +83,7 @@ function labelNameRender() {
     }
 }
 //加载文本
-function loadDoc() {
+function loadDoc(url) {
     if(operation === 'read'){
         // 隐藏撤销按钮
         $("#revoke").hide();
@@ -93,6 +101,35 @@ function loadDoc() {
     $.ajax({
         type: "POST",
         url: '/task/loadDoc',
+        data: {
+            "path": url,
+        },
+        success: function (resultData) {
+            originaldoc = resultData;
+            editor.setData(resultData);
+        }
+    })
+
+}
+//加载已标注文本
+function loadLabelDoc() {
+    if(operation === 'read'){
+        // 隐藏撤销按钮
+        $("#revoke").hide();
+        // 隐藏标注完成按钮
+        $("#finish").hide();
+    }else if(operation ==='write') {
+        if (pageType === 'labelExamplePage') {
+            docNotFinishlist = JSON.parse(
+                window.sessionStorage.getItem(taskId + 'docNotFinishlist'));
+        } else {
+            docNotFinishlist = JSON.parse(
+                window.sessionStorage.getItem(acceptId + 'docNotFinishlist'));
+        }
+    }
+    $.ajax({
+        type: "POST",
+        url: '/task/loadLabelDoc',
         data: {
             "path": docUrl,
         },
@@ -154,7 +191,6 @@ function change(rgb) {
 }
 //完成任务
 function finishFunc(){
-    // 27是http://yuyy.info/image/ols/的长度
     var docUrlParam = docUrl.substring(13, docUrl.length);
     var labelInfo = editor.getData();
     if(labelInfo===originaldoc){
@@ -198,7 +234,7 @@ function finishFunc(){
                                 JSON.stringify(docNotFinishlist)
                             );
                         }
-                        window.location.href='/TextLabelPage/index.html'
+                        window.location.href='/TextLablePage/index.html'
                             +'?docUrl='+docUrlPre+docName
                             +'&userId='+userId
                             +'&acceptId='+acceptId
@@ -221,8 +257,13 @@ function finishFunc(){
     });
 }
 //返回
-function goBackFunc() {
-    window.location.href=reverseURLencode(pageFrom);
+function goBackFunc(){
+    window.location.href="/TextLabelTaskPage/TextLabelTask.html" +
+        "?userId="+userId+
+        "&acceptId="+acceptId+
+        "&pageType="+pageType+
+        "&taskId="+taskId+
+        "&pageFrom="+pageFrom;
 }
 //转义
 function URLencode(sStr) {

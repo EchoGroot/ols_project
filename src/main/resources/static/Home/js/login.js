@@ -1,4 +1,5 @@
 var email=null;
+var email=null;
 $(function () {
     //layui初始化
     layui.use('form', function(){

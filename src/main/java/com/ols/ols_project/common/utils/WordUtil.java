@@ -48,7 +48,7 @@ public class WordUtil {
                 buffer=stripper.getText(document);
                 document.close();
             }else if (path.endsWith("txt")){
-                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "GBK"));// 构造一个BufferedReader类来读取文件
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path)), "UTF-8"));// 构造一个BufferedReader类来读取文件
                 String s = null;
                 while ((s = br.readLine()) != null) {// 使用readLine方法，一次读一行
                     buffer = buffer + "\n" + s;
