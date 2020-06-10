@@ -48,7 +48,7 @@ $(function () {
         )
     }
     // layui初始化
-    layui.use(['layer', 'form','table'], function() {
+    layui.use([ 'form','layer','table'], function() {
         var table = layui.table;
         var layer = layui.layer;
         var form = layui.form;
@@ -532,6 +532,7 @@ function checkFunc(taskId) {
                 pageType='personalAcceptNotFinishPage';
             }
         }
+        url = window.location.href
         top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
             "userId="+userId+
             "&pageType="+pageType+
@@ -543,7 +544,8 @@ function checkFunc(taskId) {
 }
 
 function chooseAdoptFunc(taskId) {
-    //使用文本采纳的HTML和参数 看自己需求改下
+    //使用文本采纳的HTML和参数
+
     parent.$("#iframeMain").attr("src","./adopt.html?a=1&"+'taskId='+taskId+'&userId='+userId);
 }
 function downloadFunc(taskId) {
