@@ -45,6 +45,13 @@ function GenerateChart2() {
         series: [{
             name: '奖惩信息',
             type: 'pie',
+            roseType: 'angle',
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
             data: [
                 {value:yes.reduce(getSum),name:'奖励'},
                 {value:no.reduce(getSum),name:'惩罚'}
@@ -72,21 +79,21 @@ function GenerateChart2() {
             bottom: '3%',
             containLabel: true
         },
-        legend: {
-            data:[{
-                name: '奖励',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '惩罚',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '奖惩总量',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            }]
-        },
+        // legend: {
+        //     data:[{
+        //         name: '奖励',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     },{
+        //         name: '惩罚',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     },{
+        //         name: '奖惩总量',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     }]
+        // },
         xAxis: {
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },

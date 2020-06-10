@@ -45,6 +45,8 @@ function GenerateChart2() {
         series: [{
             name: '举报信息',
             type: 'pie',
+            radius: '55%',
+            roseType: 'angle',
             data: [
                 {value:yes.reduce(getSum),name:'文档'},
                 {value:no.reduce(getSum),name:'图片'}
@@ -72,21 +74,21 @@ function GenerateChart2() {
             bottom: '3%',
             containLabel: true
         },
-        legend: {
-            data:[{
-                name: '文档',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '图片',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '举报总量',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            }]
-        },
+        // legend: {
+        //     data:[{
+        //         name: '文档',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     },{
+        //         name: '图片',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     },{
+        //         name: '举报总量',
+        //         // 强制设置图形为圆。
+        //         icon: 'circle',
+        //     }]
+        // },
         xAxis: {
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
