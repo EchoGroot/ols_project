@@ -36,7 +36,7 @@ $(function (){
             bindAction: '#uploadImgs',
             //accept:'file',
             choose:function(obj){
-                $('#previewImgs').html("");
+                cleanImgsPreview();
                 //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
                 obj.preview(function(index, file, result){
                     $('#previewImgs').append('<img src="' + result
@@ -93,7 +93,9 @@ $(function (){
     });
     judgeLogin();
     //清空预览图片
-    cleanImgsPreview();
+    $("#cleanImgs").click(function(){
+        cleanImgsPreview();
+    });
     //保存商品
 
 
@@ -193,21 +195,19 @@ function gotoUrlByJudege(str) { //str为目的跳转地址
  * 表面上做上传成功的个数清0，实际后台已经上传成功保存了的，只是没有使用，以最终商品添加的提交的为准
   */
 function cleanImgsPreview(){
-    $("#cleanImgs").click(function(){
-        success=0;
-        fail=0;
-        fileCount=0;
-        $('#previewImgs').html("");
-        $('#imgUrls').val("");
-        $.ajax({
-            type: "POST",
-            url: "/task/cancelImgs",
-            data: {
-                fileNameArray0: imgsName.toString()
-            }
-        })
-        imgsName.length=0;
-    });
+    success=0;
+    fail=0;
+    fileCount=0;
+    $('#previewImgs').html("");
+    $('#imgUrls').val("");
+    $.ajax({
+        type: "POST",
+        url: "/task/cancelImgs",
+        data: {
+            fileNameArray0: imgsName.toString()
+        }
+    })
+    imgsName.length=0;
 }
 
 /**

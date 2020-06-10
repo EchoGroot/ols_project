@@ -126,9 +126,8 @@ public class AcceptServiceImpl implements AcceptService {
 
     @Override
     public String adoptByAcceptId(long acceptId, long taskId) {
-        acceptMapper.setAdoptState(acceptId);
         acceptMapper.setNotAdoptState(taskId);
-
+        acceptMapper.setAdoptState(acceptId);
         long userId=acceptMapper.getUserId(acceptId);
         //奖励积分
         int resultPoints = userMapper.getPoints(userId)+taskMapper.getPoints(taskId);

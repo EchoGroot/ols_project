@@ -28,27 +28,28 @@
             DATE_FORMAT(accept_time, '%m') as month,
         </if>
         <if test="state==1">
-            DATE_FORMAT(finish_time, '%m') as month,
+            DATE_FORMAT(ols_accept.finish_time, '%m') as month,
         </if>
-            count(1) as count
+        count(1) as count
         from
-            ols_accept
+        ols_accept,ols_task
         where
-            user_id = #{userId}
+        user_id = #{userId}
         <if test="state==0">
             and DATE_FORMAT(accept_time, '%Y')=#{year}
         </if>
         <if test="state==1">
-            and DATE_FORMAT(finish_time, '%Y')=#{year}
+            and DATE_FORMAT(ols_accept.finish_time, '%Y')=#{year}
         </if>
-            and state = #{state}
-            and type=1
+        and ols_accept.state = #{state}
+        and ols_task.type = 1
+        and ols_task.id=ols_accept.task_id
         GROUP BY
         <if test="state==0">
             DATE_FORMAT(accept_time, '%m');
         </if>
         <if test="state==1">
-            DATE_FORMAT(finish_time, '%m');
+            DATE_FORMAT(ols_accept.finish_time, '%m');
         </if>
     </select>
 

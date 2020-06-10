@@ -62,3 +62,4 @@ function adoptFunc(acceptId) {
             parent.$("#iframeMain").attr("src","./Task.html?a=1&page=releaseTask&query=releasenotfinish&taskType=doc"+'userId='+userId);
         }
     })
+}

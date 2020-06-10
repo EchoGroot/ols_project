@@ -8,12 +8,12 @@
     <script src="../js/jquery-3.4.1.min.js"></script>
     <script src="./js/ChartForImg.js"></script>
     <script src="/layui/layui.js"></script>
-    <title>图片任务可视化分析</title>
+    <title>图片相关信息统计分析</title>
 </head>
 <body>
     <div class="layui-header">
         <div id="Header"></div>
-        <a class="layui-btn" id="GoBack" href="./imgTaskManage.html?queryInfo=img&">返回</a>
+        <!--<a class="layui-btn" id="GoBack" href="./imgTaskManage.html?queryInfo=img&">返回</a>-->
     </div>
     <select id="selectYear" lay-filter="selectYear">
         <option value="0">选择查询时间</option>
@@ -24,6 +24,8 @@
     <div id="speedChart">
         <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
         <div id="ChartMain" style="width: 900px; height: 600px;margin: auto"></div>
+        <div id="ChartMain1" style="width: 900px; height: 600px;margin: auto"></div>
+        <div id="ChartMain2" style="width: 900px; height: 600px;margin: auto"></div>
     </div>
 </body>
 </html>
