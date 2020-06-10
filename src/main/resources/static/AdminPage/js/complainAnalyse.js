@@ -44,7 +44,14 @@ function GenerateChart2() {
             formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
         },
@@ -72,6 +79,12 @@ function GenerateChart2() {
             labelLine: {
                 show: false
             },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
             data: [
                 {value:yes.reduce(getSum),name:'文档'},
                 {value:no.reduce(getSum),name:'图片'}
@@ -81,15 +94,19 @@ function GenerateChart2() {
     var option2 = {
         tooltip: {
             trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#93c36f'
-                }
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
         },
@@ -100,35 +117,54 @@ function GenerateChart2() {
             containLabel: true
         },
         legend: {
-            data:[{
-                name: '文档',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '图片',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            },{
-                name: '举报总量',
-                // 强制设置图形为圆。
-                icon: 'circle',
-            }]
+            data:['文档','图片']
+            // data:[{
+            //     name: '文档',
+            //     // 强制设置图形为圆。
+            //     icon: 'circle',
+            // },{
+            //     name: '图片',
+            //     // 强制设置图形为圆。
+            //     icon: 'circle',
+            // },{
+            //     name: '举报总量',
+            //     // 强制设置图形为圆。
+            //     icon: 'circle',
+            // }]
         },
-        xAxis: {
+        yAxis: {
+            type: 'category',
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
-        yAxis: {},
+        xAxis: {
+            type: 'value'
+        },
         series: [{
             name: '文档',
             type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
             data: yes
         },{
             name: '图片',
             type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
             data: no
         },{
             name: '举报总量',
             type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
             data: yesAndNo
         }]
     };

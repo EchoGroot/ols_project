@@ -38,7 +38,14 @@ function GenerateChart2() {
         },
         tooltip: {},
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
         },
@@ -69,7 +76,14 @@ function GenerateChart2() {
             }
         },
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
         },
@@ -79,21 +93,21 @@ function GenerateChart2() {
             bottom: '3%',
             containLabel: true
         },
-        // legend: {
-        //     data:[{
-        //         name: '奖励',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '惩罚',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '奖惩总量',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     }]
-        // },
+        legend: {
+            data:[{
+                name: '奖励',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            },{
+                name: '惩罚',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            },{
+                name: '奖惩总量',
+                // 强制设置图形为圆。
+                icon: 'circle',
+            }]
+        },
         xAxis: {
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
