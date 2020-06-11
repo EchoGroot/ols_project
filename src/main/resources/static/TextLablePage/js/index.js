@@ -7,6 +7,7 @@ var operation=getQueryVariable('operation'); //read，write
 var taskId=getQueryVariable('taskId'); //任务ID
 var labelInfo=getQueryVariable('labelInfo');
 var docUrlPre="D://docTask//";
+var labelInfoArray= [];
 var originaldoc;
 var docNotFinishlist=[];
 var colorArray=[ //颜色数组
@@ -33,7 +34,7 @@ $(function () {
         if(labelInfo==null){
             loadDoc(docUrl);
         }else {
-            loadDoc(labelInfo);
+            loadDoc(docUrlPre+labelInfo);
         }
 
         editor.isReadOnly = true;
@@ -74,8 +75,8 @@ function labelNameRender() {
         }else{
             var shtml ='<li class="layui-nav-item layui-this" onclick="showAll()"><a href="javascript:;">查看全部</a></li>';
             for (var i = 0; i < labelName.length; i++){
-                shtml +='<li class="layui-nav-item" onclick="labelNameClick('+'\''+labelName[i]+'\''+','+'\''+colorArray[i]+'\''+')"><a href="javascript:;">'+ labelName[i]+'</a><div class="colorDiv" style="background-color: '+colorArray[i]+'"></div></li>';
-                //labelInfoArray.push({labelName:labelName[i],labelInfo:[]});
+                shtml +='<li class="layui-nav-item" onclick="showLabelInfo('+'\''+labelName[i]+'\''+','+'\''+colorArray[i]+'\''+')"><a href="javascript:;">'+ labelName[i]+'</a><div class="colorDiv" style="background-color: '+colorArray[i]+'"></div></li>';
+                labelInfoArray.push({labelName:labelName[i],color:colorArray[i]});
             }
         }
 
@@ -255,6 +256,28 @@ function finishFunc(){
             }
         }
     });
+}
+function showAll() {
+    editor.setData(originaldoc);
+
+}
+function showLabelInfo(labelName,collor){
+    var text = originaldoc;
+    for(var i=0;i<labelInfoArray.length;i++){
+        var a= labelInfoArray[i];
+        if(labelName!=a.labelName){
+            var rgb = hexToRgb(a.color);
+            var begin = "<span style=\"color:"+rgb+";\"><strong>#";
+            var end = "&lt;"+a.labelName+"&gt;#</strong></span>";
+            var temp=text.replace(begin,"");
+            var result = temp.replace(end,"");
+            text = result;
+        }
+
+    }
+    editor.setData(text);
+    //text.replace("")
+
 }
 //返回
 function goBackFunc(){

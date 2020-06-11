@@ -147,7 +147,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
-                    +'&labelInfo='+docUrl+docList[i].labeledInfo
+                    +'&labelInfo='+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -162,7 +162,7 @@ function loadDocList(domId,docList) {
                 if(pageType =='labelExamplePage'){
                     shtml+='            <a class="labelAgain" href="/TextLablePage/index.html'
                         +'?docUrl='+docUrl+docList[i].originalDoc
-                        +'&labelInfo='+docUrl+docList[i].labeledInfo
+                        +'&labelInfo='+docList[i].labeledInfo
                         +'&userId='+userId
                         +'&acceptId='+acceptId
                         +'&taskId='+taskId
@@ -188,7 +188,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
-                    +'&labelInfo='+docUrl+docList[i].labeledInfo
+                    +'&labelInfo='+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -202,7 +202,7 @@ function loadDocList(domId,docList) {
                     +'</a>\n'
                     +'            <a class="labelATag" href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
-                    +'&labelInfo='+docUrl+docList[i].labeledInfo
+                    +'&labelInfo='+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -228,7 +228,7 @@ function loadDocList(domId,docList) {
                     +'    <div class="lookAndLabel">\n'
                     +'            <a href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
-                    +'&labelInfo='+docUrl+docList[i].labeledInfo
+                    +'&labelInfo='+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType
@@ -241,7 +241,7 @@ function loadDocList(domId,docList) {
                     +'</a>\n'
                     +'            <a class="labelAgain" href="/TextLablePage/index.html'
                     +'?docUrl='+docUrl+docList[i].originalDoc
-                    +'&labelInfo='+docUrl+docList[i].labeledInfo
+                    +'&labelInfo='+docList[i].labeledInfo
                     +'&userId='+userId
                     +'&acceptId='+acceptId
                     +'&pageType='+pageType

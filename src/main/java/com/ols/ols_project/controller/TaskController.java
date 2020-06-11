@@ -276,7 +276,7 @@ public class TaskController {
     public String acceptTask(
             @RequestParam("userId") String userId,
             @RequestParam("taskId") String taskId
-                             ){
+    ){
         String resultStr=null;
         //查询该用户是否已接受此任务
         List<AcceptTaskBo>acceptTaskByUserId=
@@ -324,14 +324,14 @@ public class TaskController {
             @RequestParam("taskId") String taskId,
             @RequestParam("operation") String operation,
             @RequestParam("message") String message
-                             ){
+    ){
         String resultStr=null;
         if(1==taskService.taskPassOrNotPassAudits(
                 Long.parseLong(userId),
                 Long.parseLong(taskId),
                 operation,
                 message
-                )){
+        )){
             UserEntity userInfo = userService.getUserInfoById(Long.parseLong(userId));
             //发送邮件通知
             sendEmailBy126.sendEmail(
@@ -559,9 +559,9 @@ public class TaskController {
                              @RequestParam(value = "field") String field,
                              @RequestParam(value = "order") String order){
         String result= JSON.toJSONStringWithDateFormat(
-                        new Result(
-                                taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
-                                ,"0"
+                new Result(
+                        taskService.getAllTask(query, pageNum, pageSize,queryInfo,searchType,searchInfo,field,order)
+                        ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 ,SerializerFeature.WriteNonStringValueAsString);
@@ -655,7 +655,7 @@ public class TaskController {
 
     @GetMapping("/downloadDocTask")
     public void downloadDocTask(@RequestParam(value = "taskId") long taskId,
-                           HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+                                HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //判断环境
         String str="";
         String os = System.getProperty("os.name");
