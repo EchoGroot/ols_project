@@ -425,7 +425,7 @@ function checkFunc(taskId) {
             page1='acceptNotFinishImgTask';
         }
     }
-    url = window.location.href
+    //url = window.location.href
     top.location.href="/ImageLabelTaskPage/index.html?" +
         "userId="+userId+
         "&pageType="+pageType+

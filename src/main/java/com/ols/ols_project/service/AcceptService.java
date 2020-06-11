@@ -9,6 +9,7 @@ public interface AcceptService {
     //查询接收信息
    // HashMap<String, Object> getAllMessage(Integer pageNum, Integer pageSize);
     HashMap<String,Object> getAcceptByTaskId(Long taskId,Integer pageNum, Integer pageSize);
+    HashMap<String,Object> getAllImgAcceptList(Integer pageNum, Integer pageSize);
     // authour:wjp
     int[][] getPersonalAcceptByUserId(long userId,int year);
     HashMap<String, Object> getAcceptListByTaskId(Long taskId,Integer pageNum, Integer pageSize);

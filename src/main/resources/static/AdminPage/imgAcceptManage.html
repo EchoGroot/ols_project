@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/layui/css/layui.css">
     <script src="/js/jquery-3.4.1.js"></script>
-    <script src="./js/imgTaskManage.js"></script>
+    <script src="./js/imgAcceptManage.js"></script>
     <script src="/layui/layui.js"></script>
 </head>
 <body>
@@ -35,16 +35,13 @@
             <span class="fly-search" id="searchButton"  style="float: left"><i class="layui-icon"></i></span>
             <!--<button class="layui-btn" id="searchButton">查询</button>-->
         </div>
-        <div class="layui-input-block layui-input-inline" style="float: right;margin-right: 20px">
-            <a class="layui-btn" id="ChartBtn" style="float: right" href="./ChartForImg.html?">图片任务可视化分析</a>
-        </div>
     </div>
 </form>
-<table id="taskList" lay-filter="monitorToolbar" style="font-size: 12px"></table>
+<table id="acceptList" lay-filter="monitorToolbar" style="font-size: 12px"></table>
 <script type="text/html" id="barHandle">
     <!-- 这里同样支持 laytpl 语法，如： -->
-    <a class="layui-btn layui-btn-sm" lay-event="taskInfo">任务详情</a>
-    <!--<a id="no" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="labelInfo">标注详情</a>-->
+    <a class="layui-btn layui-btn-sm" lay-event="acceptInfo">进度查看</a>
+    <!--<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delAC">删除</a>-->
     <!-- 隐藏的任务下载按钮，若已完成 则显示出来 -->
 </script>
 </body>
