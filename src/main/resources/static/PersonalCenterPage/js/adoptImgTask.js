@@ -87,7 +87,7 @@ function adoptFunc(acceptId) {
             if(resultData==='采纳成功！'){
                 
             }
-            parent.$("#iframeMain").attr("src","./Task.html?a=1&query=releasenotfinish&"+'userId='+userId);
+            parent.$("#iframeMain").attr("src","./imgTask.html?a=1&query=releasenotfinish&"+'userId='+userId);
         }
     })
 }

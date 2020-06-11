@@ -28,7 +28,7 @@ $(function () {
                                 taskId:e.target.name
                             }
                         })
-                        checkFunc(e.target.name); //选中name   name用来存taskId了
+                        checkFunc(e.target.name,"图片"); //选中name   name用来存taskId了
                     })
                 }
             }

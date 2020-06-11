@@ -2,6 +2,24 @@ var userId=getQueryVariable('userId'); //获取URL参数里的用户ID
 var state1=[];var state2=[];var state3=[];var state4=[];var state5=[];var state6=[];var state7=[];
 var free;var used;
 $(function () {
+    layui.use(['layer', 'form','table'], function() {
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        form.on('select(selectYear)', function() {
+            switch ($("#selectYear").val()) {
+                case '0':
+                    AjaxA1(2020);
+                    break;
+                case '1':
+                    AjaxA1(2020);
+                    break;
+                case '2':
+                    AjaxA1(2019);
+                    break;
+            }
+        })
+    })
     var year=2020;
     $("#Header").append("图片任务后台管理可视化分析");
     /*$("#GoBack").click(function () {

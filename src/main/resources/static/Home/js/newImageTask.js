@@ -85,7 +85,7 @@ $(function (){
             }
         });
         form.on('submit(btnSubmit)', function(data){
-            layer.msg(JSON.stringify(data.field));
+            //layer.msg(JSON.stringify(data.field));
             console.log(data)
             releaseTask();
             return false;

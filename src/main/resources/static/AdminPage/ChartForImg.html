@@ -12,19 +12,26 @@
 </head>
 <body>
     <div class="layui-header">
-        <div id="Header"></div>
+        <div id="Header" style="text-align: center;font-size: 20px;margin-top: 20px"></div>
         <!--<a class="layui-btn" id="GoBack" href="./imgTaskManage.html?queryInfo=img&">返回</a>-->
     </div>
-    <select id="selectYear" lay-filter="selectYear">
-        <option value="0">选择查询时间</option>
-        <option value="1">2020年</option>
-        <option value="2">2019年</option>
-    </select>
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <div class="layui-input-block layui-input-inline">
+                <select id="selectYear" lay-filter="selectYear">
+                    <option value="0">选择查询时间</option>
+                    <option value="1">2020年</option>
+                    <option value="2">2019年</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
 
     <div id="speedChart">
         <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-        <div id="ChartMain" style="width: 900px; height: 600px;margin: auto"></div>
-        <div id="ChartMain1" style="width: 900px; height: 600px;margin: auto"></div>
+        <div id="ChartMain" style="width: 900px; height: 600px;float:left;margin-left: 50px"></div>
+        <div id="ChartMain1" style="width: 400px; height: 300px;float:left;margin-left: 50px;margin-top: 150px"></div>
         <div id="ChartMain2" style="width: 900px; height: 600px;margin: auto"></div>
     </div>
 </body>

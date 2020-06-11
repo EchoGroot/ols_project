@@ -105,6 +105,9 @@ $(function () {
                 if(query==='acceptfinish' || query==='acceptnotfinish'){ // acceptnotfinish releasefinish releasenotfinish
                     $(".adoptClass").hide();
                 };
+                if(query==='acceptnotfinish'){
+                    $(".checkClass").html("标注");;
+                };
                 if(query==='releasefinish'){
                     $(".checkClass").hide();
                     $(".adoptClass").hide();
