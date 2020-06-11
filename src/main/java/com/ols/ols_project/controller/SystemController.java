@@ -54,7 +54,7 @@ public class SystemController {
 
 
     //@RequestParam(value = "acceptUID") long acceptUID,
-    @GetMapping("/getAllSystem") //通过所有消息
+    @GetMapping("/getAllSystem") //管理员查看所有通知消息
     public String getAllSystem(
 
                                @RequestParam(value = "page") Integer pageNum,
@@ -62,7 +62,7 @@ public class SystemController {
         String result= JSON.toJSONStringWithDateFormat(
                 new Result(
                         systemService.getAllSystem(pageNum,pageSize)
-                        ,"200"
+                        ,"0"
                         ,"获取所有任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString);

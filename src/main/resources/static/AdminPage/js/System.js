@@ -1,49 +1,41 @@
 var page=getIframeQueryVariable('page'); //页面名称
 $(function () {
-    layui.use('laypage', function () {
-        var laypage = layui.laypage;
-        loadPage(1,10)
-        function loadPage(page1,limit1){
-            $.ajax({
-                url: '/system/getAllSystem',
-                type: "GET",
-                data: {
-                   // acceptUID: 0,
-                    page:page1,
-                    limit:limit1,
-                },
-                success: function (resultData) {
-                    resultData = JSON.parse(resultData);
-                    if(resultData.data.total>0){
-                        $('ul').empty();
-                        for(var i=0;i<resultData.data.sysList.length;i++){
-                            var str="<li class='layui-timeline-item'><i class='layui-icon layui-timeline-axis'></i><div class='layui-timeline-content layui-text'><h3 class='layui-timeline-title'>用户"+resultData.data.sysList[i].accept_user_id+"  "+resultData.data.sysList[i].create_time+"</h3><p>"+resultData.data.sysList[i].message+"</p></div></li>";
-                            $("#systemInfos").append(str);
-                        }
-                        laypage.render({
-                            elem: 'pagingModule'
-                            ,theme: '#1E9FFF'
-                            ,curr:page1
-                            ,limit:limit1
-                            ,count: resultData.data.total
-                            ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
-                            ,jump: function(obj,first){
-                                console.log(obj)
-                                if(!first) {
-                                    loadPage(obj.curr,obj.limit);
-                                }
-                            }
-                        });
-                    }else {
-                        var str="<li class='layui-timeline-item'><i class='layui-icon layui-timeline-axis'></i><div class='layui-timeline-content layui-text'><h3 class='layui-timeline-title'>暂无系统消息</h3><p></p></div></li>";
-                        $("#systemInfos").append(str);
-                    }
+    // layui初始化
+    layui.use(['layer', 'form', 'table'], function () {
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        // 表格渲染
+        // 表格渲染
+        tableIns = table.render({
+            elem: '#sysList'
+            , height: '700'
+            , url: '/system/getAllSystem'
+            , type: "GET"
+            , page: true //开启分页
+            , limits: [15, 30, 50, 100]
+            , limit: 15
+            , parseData: function (res) { //res 即为原始返回的数据
+                console.log(res)
+                return {
+                    "code": res.meta.status, //解析接口状态
+                    "msg": res.meta.msg, //解析提示文本
+                    "count": res.data.total, //解析数据长度
+                    "data": res.data.sysList //解析数据列表
                 }
-            })
-        }
-    })
-
-})
+            }
+            , cols: [[ //表头
+                {field: 'accept_user_id', title: '用户ID', align: 'center', width: '20%', fixed: 'left', sort: true}
+                , {field: 'create_time', title: '发布时间', align: 'center', width: '20%', sort: true}
+                , {field: 'message', title: '消息', align: 'center', width: '50%'}
+            ]]
+        });
+        table.on('tool(monitorToolbar)', function (obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        });
+    });
+});
 // 获取URL里的参数
 function getIframeQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
