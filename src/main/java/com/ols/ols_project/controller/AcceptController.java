@@ -66,6 +66,21 @@ public class AcceptController {
                 , SerializerFeature.WriteNonStringValueAsString);
         return result;
     }
+
+    @GetMapping("/getAllImgAcceptList")
+    public String getAllImgAcceptList(@RequestParam(value = "page") Integer pageNum,
+                                      @RequestParam(value = "limit") Integer pageSize){
+        String result= JSON.toJSONStringWithDateFormat(
+                new Result(
+                        acceptService.getAllImgAcceptList( pageNum, pageSize)
+                        ,"0"
+                        ,"获取所有接受任务成功")
+                ,"yyyy-MM-dd hh:mm:ss"
+                , SerializerFeature.WriteNonStringValueAsString);
+        return result;
+
+    }
+
     @PostMapping("/adoptByAcceptId")
     public String adoptByAcceptId(@RequestParam(value = "acceptId") Long acceptId,
                                   @RequestParam(value = "taskId") Long taskId) {

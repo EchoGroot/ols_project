@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,6 +62,21 @@ public class AcceptServiceImpl implements AcceptService {
         data.put("total",acceptByTaskId.get(1).get(0));
 //        [1.2.3]
 //        [50]
+        return data;
+    }
+
+    @Override
+    public HashMap<String, Object> getAllImgAcceptList(Integer pageNum, Integer pageSize) {
+        List<List<AcceptEntity>> list = acceptMapper.getAllImgAcceptList((pageNum - 1) * pageSize, pageSize);
+        List<AcceptEntity> list1=new ArrayList<>();
+        HashMap<String,Object> data=new HashMap<>();
+        list.get(0).forEach(
+                e->{
+                    Collections.addAll(list1,e);
+                }
+        );
+        data.put("allAcceptList",list1);
+        data.put("total",list.get(1).get(0));
         return data;
     }
 

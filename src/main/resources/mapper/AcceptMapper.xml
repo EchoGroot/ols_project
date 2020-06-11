@@ -101,6 +101,26 @@
         where
             task_id=#{taskId}
     </update>
+    <select id="getAllImgAcceptList" resultMap="AcceptMap,total">
+        select SQL_CALC_FOUND_ROWS
+        ols_accept.id as id,
+        ols_accept.user_id as user_id,
+        ols_accept.task_id as task_id,
+        ols_accept.accept_time as accept_time,
+        ols_accept.finish_time as finish_time,
+        ols_accept.state as state,
+        ols_accept.url as url
+        from ols_accept,ols_task
+        where ols_task.id=ols_accept.task_id and ols_task.type=1
+        <if test="end != 0">
+            limit
+            #{start},#{end};
+        </if>
+        <if test="end == 0">
+            ;
+        </if>
+        SELECT FOUND_ROWS() as total;
+    </select>
     <select id="getAcceptListByTaskId" resultMap="AcceptMap,total">
         select
             SQL_CALC_FOUND_ROWS id,

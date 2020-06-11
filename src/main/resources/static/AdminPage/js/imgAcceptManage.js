@@ -9,42 +9,36 @@ $(function () {
 
         // 表格渲染
         var tableIns=table.render({
-            elem: '#taskList'
+            elem: '#acceptList'
             , height: '700'
-            , url: '/task/getAllTask' //数据接口
+            , url: '/accept/getAllImgAcceptList' //数据接口
             , page: true //开启分页
             , limits: [15,30,50,100]
             , limit: 15
             , autoSort: false
             , where:{
-                query: '',
+               /* query: '',
                 queryInfo: queryInfo,
                 searchType:'',
                 searchInfo: '',
                 field: '',
-                order: ''
+                order: ''*/
             }
             , parseData: function(res) { //res 即为原始返回的数据
                 return {
                     "code": res.meta.status, //解析接口状态
                     "msg": res.meta.msg, //解析提示文本
                     "count": res.data.total, //解析数据长度
-                    "data": res.data.taskList //解析数据列表
+                    "data": res.data.allAcceptList //解析数据列表
                 }
             }
             , cols: [[ //表头
-                {field: 'id', title: '任务编号', align: 'center', width: '7%', fixed: 'left'}
-                , {field: 'name', title: '任务名称', align: 'center', width: '7%'}
-                , {field: 'points', title: '任务分值', align: 'center', width: '7%', sort: true}
-                , {field: 'type', title: '文件类型', align: 'center', width: '7%', sort: true}
-                , {field: 'release_time', title: '发布时间', align: 'center', width: '11%', sort: true}
+                {field: 'id', title: '接受任务编号', align: 'center', width: '7%', fixed: 'left'}
+                , {field: 'user_id', title: '接受者ID', align: 'center', width: '7%'}
+                , {field: 'task_id', title: '所属任务ID', align: 'center', width: '7%', sort: true}
+                , {field: 'state', title: '完成状态', align: 'center', width: '7%', sort: true}
+                , {field: 'accept_time', title: '接受时间', align: 'center', width: '11%', sort: true}
                 , {field: 'finish_time', title: '完成时间', align: 'center', width: '11%', sort: true}
-                , {field: 'release_user_id', title: '发布者id', align: 'center', width: '11%', sort: true}
-                , {field: 'accept_num', title: '接受者数量', align: 'center', width: '5%', sort: true}
-                , {field: 'adopt_accept_id', title: '采纳接受任务编号', align: 'center', width: '5%', sort: true}
-                , {field: 'ext1', title: '完成任务数量', align: 'center', width: '5%', sort: true}
-                , {field: 'ext2', title: '所属审核者编号', align: 'center', width: '7%', sort: true}
-                , {field: 'ext3', title: '点击量', align: 'center', width: '5%', sort: true}
                 , {title: '操作', align: 'center', toolbar: '#barHandle'}
             ]]
 
@@ -55,18 +49,10 @@ $(function () {
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
 
             // 工具条的点击事件
-            if(layEvent === 'taskInfo'){
-                window.open("/ImageLabelTaskPage/index.html?" +
-                    "userId="+userId+
-                    "&pageType="+'otherReleasePage'+
-                    "&pageFrom="+
-                    "&"+'taskId'+"="+data.id);
-                // 查看任务详情
-                // yesReviewerSignUp(data.id,'yes',tableIns)
-            } else if(layEvent === 'labelInfo'){
-                alert(2)
-                // 删除任务
-                //yesReviewerSignUp(data.id,'no',tableIns)
+            if(layEvent === 'acceptInfo'){
+                acceptInfo(data);
+            } else if(layEvent === 'delAC'){
+                delAC(data.id);
             }
         });
         //监听表头 用来排序
@@ -222,11 +208,20 @@ $(function () {
                 }
             });
         })
-        $("#ChartBtn").click(function () {
-            parent.$("#iframeMain").attr("src",$(this).attr("href")+'userId='+userId);
-        })
+
     });
 });
+function acceptInfo(data) {
+    window.open("/ImageLabelTaskPage/index.html?" +
+        "userId="+data.user_id+
+        "&pageType="+'personalAcceptFinishPage'+
+        "&"+'acceptId'+"="+data.id
+        +"&pageFrom=");
+}
+function delAC(id) {
+
+}
+
 // 获取URL参数
 function getQueryVariable(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");

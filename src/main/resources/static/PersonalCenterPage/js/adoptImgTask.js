@@ -50,7 +50,7 @@ $(function () {
             if(layEvent==='adopt'){
                 adoptFunc(data.acceptId);
             }else if(layEvent==='check'){
-                checkFunc(data.acceptId)
+                checkFunc(data)
             }
         });
         $("#GoBack").click(function () {
@@ -66,8 +66,12 @@ function getIframeQueryVariable(name) {
     if (r != null) return unescape(r[2]);
     return null;
 }
-function checkFunc(acceptId) {
+function checkFunc(data) {
 //查看标注详情
+    window.open("/ImageLabelTaskPage/index.html?" +
+        "userId="+data.user_id+
+        "&pageType="+'personalAcceptFinishPage'+
+        "&"+'acceptId'+"="+data.id+"&pageFrom=");
 }
 function adoptFunc(acceptId) {
     //选择采纳

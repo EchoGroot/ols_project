@@ -34,19 +34,57 @@ function GenerateChart2() {
     var ImgChart2 = echarts.init(document.getElementById('ChartMain2'));
     var option1 = {
         title: {
-            text: '举报信息数据统计与分析'
+            text: '举报信息数据统计与分析' ,
+            x:'center',
+            y:'top'
+
         },
-        tooltip: {},
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c} ({d}%)'
+        },
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
+        },
+        legend: {
+            orient: 'vertical',
+            left: 10,
+            data: ['图片', '文档']
         },
         series: [{
             name: '举报信息',
             type: 'pie',
-            radius: '55%',
-            roseType: 'angle',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: false,
+            label: {
+                show: false,
+                position: 'center'
+            },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: '30',
+                    fontWeight: 'bold'
+                }
+            },
+            labelLine: {
+                show: false
+            },
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
             data: [
                 {value:yes.reduce(getSum),name:'文档'},
                 {value:no.reduce(getSum),name:'图片'}
@@ -56,15 +94,19 @@ function GenerateChart2() {
     var option2 = {
         tooltip: {
             trigger: 'axis',
-            axisPointer: {
-                type: 'cross',
-                label: {
-                    backgroundColor: '#93c36f'
-                }
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
         },
         toolbox: {
+            show: true,
             feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
                 saveAsImage: {}
             }
         },
@@ -74,38 +116,35 @@ function GenerateChart2() {
             bottom: '3%',
             containLabel: true
         },
-        // legend: {
-        //     data:[{
-        //         name: '文档',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '图片',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '举报总量',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     }]
-        // },
-        xAxis: {
+        legend: {
+            data:['文档','图片']
+        },
+        yAxis: {
+            type: 'category',
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
-        yAxis: {},
+        xAxis: {
+            type: 'value'
+        },
         series: [{
             name: '文档',
             type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
             data: yes
         },{
             name: '图片',
             type: 'bar',
+            stack: '总量',
+            label: {
+                show: true,
+                position: 'insideRight'
+            },
             data: no
-        },{
-            name: '举报总量',
-            type: 'bar',
-            data: yesAndNo
-        }]
+        },]
     };
     ImgChart.setOption(option1);
     ImgChart2.setOption(option2);

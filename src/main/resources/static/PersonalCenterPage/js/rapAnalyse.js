@@ -35,22 +35,42 @@ function GenerateChart2() {
     var ImgChart2 = echarts.init(document.getElementById('ChartMain2'));
     var option1 = {
         title: {
-            text: '奖惩信息数据统计与分析'
+            text: '奖惩信息数据统计与分析',
+            left: 'center'
         },
-        tooltip: {},
+        tooltip: { trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        itemStyle: {
+            normal: {
+                shadowBlur: 200,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+        },
         toolbox: {
+            show: true,
             feature: {
-                saveAsImage: {}
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+                saveAsImage: {show: true}
             }
         },
         series: [{
             name: '奖惩信息',
             type: 'pie',
-            roseType: 'angle',
-            itemStyle: {
-                normal: {
-                    shadowBlur: 100,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+            radius: [20, 110],
+            center: ['25%', '50%'],
+            roseType: 'radius',
+            label: {
+                show: false
+            },
+            emphasis: {
+                label: {
+                    show: true
                 }
             },
             data: [
@@ -64,52 +84,63 @@ function GenerateChart2() {
             trigger: 'axis',
             axisPointer: {
                 type: 'cross',
-                label: {
-                    backgroundColor: '#93c36f'
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             }
         },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
+
         grid: {
             left: '3%',
             right: '4%',
             bottom: '3%',
             containLabel: true
         },
-        // legend: {
-        //     data:[{
-        //         name: '奖励',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '惩罚',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     },{
-        //         name: '奖惩总量',
-        //         // 强制设置图形为圆。
-        //         icon: 'circle',
-        //     }]
-        // },
-        xAxis: {
+        legend: {
+            data: ['奖励', '惩罚', '奖惩总量']
+        },
+        yAxis: {
             data: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"]
         },
-        yAxis: {},
+        xAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {
+                    show: true,
+                    type: ['pie', 'funnel']
+                },
+                saveAsImage: {show: true}
+            }
+        },
         series: [{
             name: '奖励',
             type: 'bar',
+            label: {
+                show: true
+            },
             data: yes
         },{
             name: '惩罚',
             type: 'bar',
+            label: {
+                show: true,
+                position: 'left'
+            },
             data: no
         },{
             name: '奖惩总量',
             type: 'bar',
+            label: {
+                show: true,
+                position: 'inside'
+            },
             data: yesAndNo
         }]
     };
