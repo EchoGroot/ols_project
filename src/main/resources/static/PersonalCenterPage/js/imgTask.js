@@ -379,6 +379,8 @@ $(function () {
             }else if(layEvent === 'download'){
                 // 下载
                 downloadFunc(data.id);
+            }else if(layEvent === 'lableExm'){
+                lableExmFunc(data.id);
             }
         });
         //查询按钮点击时间
@@ -444,4 +446,13 @@ function chooseAdoptFunc(taskId) {
 function downloadFunc(taskId) {
     //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
     window.open("http://yuyy.info:8081/task/downloadFinishedTask?taskId="+taskId);
+}
+function lableExmFunc(taskId) {
+    top.location.href="/ImageLabelTaskPage/index.html?" +
+        "userId="+userId+
+        "&pageType=labelExamplePage"+
+        "&taskId="+taskId+
+        "&pageFrom= %2FPersonalCenterPage%2Findex.html"
+        +"%3FuserId%3D"+userId
+        +"%26page%3DreleaseNotFinishImgTask";
 }

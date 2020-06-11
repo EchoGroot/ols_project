@@ -25,8 +25,11 @@
 
 <table id="taskList" lay-filter="monitorToolbar"></table>
 <script type="text/html" id="barHandle">
-
+    {{#  if(d.state !== '未标注示例'){ }}
     <a class="checkClass layui-btn layui-btn-sm" lay-event="check">查看</a>
+    {{#  }else{ }}
+    <a class="lableClass layui-btn layui-btn-danger layui-btn-sm" lay-event="lableExm">标注示例</a>
+    {{#  } }}
     <!-- 这里同样支持 laytpl 语法，如： -->
     {{#  if(d.ext1 !== '0'){ }}
     <a class="downloadClass layui-btn layui-btn-danger layui-btn-sm" lay-event="download" style="display: none">下载</a>
