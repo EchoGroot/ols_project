@@ -118,19 +118,6 @@ function GenerateChart2() {
         },
         legend: {
             data:['文档','图片']
-            // data:[{
-            //     name: '文档',
-            //     // 强制设置图形为圆。
-            //     icon: 'circle',
-            // },{
-            //     name: '图片',
-            //     // 强制设置图形为圆。
-            //     icon: 'circle',
-            // },{
-            //     name: '举报总量',
-            //     // 强制设置图形为圆。
-            //     icon: 'circle',
-            // }]
         },
         yAxis: {
             type: 'category',
@@ -157,16 +144,7 @@ function GenerateChart2() {
                 position: 'insideRight'
             },
             data: no
-        },{
-            name: '举报总量',
-            type: 'bar',
-            stack: '总量',
-            label: {
-                show: true,
-                position: 'insideRight'
-            },
-            data: yesAndNo
-        }]
+        },]
     };
     ImgChart.setOption(option1);
     ImgChart2.setOption(option2);
