@@ -104,9 +104,9 @@ $(function () {
             // 查看
             }else if(layEvent === 'check'){
                 if(page==='finishCheck'){
-                    checkFunc(data.taskId)
+                    checkFunc(data.taskId,data.type)
                 }else{
-                    checkFunc(data.id)
+                    checkFunc(data.id,data.type)
                 }
             }
         });
@@ -165,14 +165,25 @@ function getQueryVariable(name) {
     return null;
 }
 // 查看
-function checkFunc(taskId) {
-    top.location.href="/ImageLabelTaskPage/index.html?" +
-        "userId="+userId+
-        "&pageType=otherReleasePage"+
-        "&taskId="+taskId+
-        "&pageFrom=%2FJudgeTaskPage%2Findex.html"
+function checkFunc(taskId,type) {
+    if(type=="图片"){
+        top.location.href="/ImageLabelTaskPage/index.html?" +
+            "userId="+userId+
+            "&pageType="+'otherReleasePage'+
+            "&"+'taskId'+"="+taskId+
+            "&pageFrom=%2FJudgeTaskPage%2Findex.html"
             +"%3FuserId%3D"+userId
             +"%26page%3D"+page;
+    }
+    else {
+        top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
+            "userId="+userId+
+            "&pageType="+'otherReleasePage'+
+            "&"+'taskId'+"="+taskId+
+            "&pageFrom=%2FJudgeTaskPage%2Findex.html"
+            +"%3FuserId%3D"+userId
+            +"%26page%3D"+page;
+    }
 }
 // 未通过审核
 function noFunc(taskId,tableIns) {
