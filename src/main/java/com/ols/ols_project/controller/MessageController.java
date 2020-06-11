@@ -7,16 +7,16 @@ import com.ols.ols_project.model.Result;
 import com.ols.ols_project.model.entity.UserOperationLogEntity;
 import com.ols.ols_project.service.MessageService;
 import com.ols.ols_project.service.UserService;
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-
-import static java.lang.Long.parseLong;
 
 //关于举报信息的controller
 @RestController

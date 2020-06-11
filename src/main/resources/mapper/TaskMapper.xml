@@ -111,7 +111,7 @@
           ext2 = '${userId}'
         where
           state = 4
-          and ext2 is null
+          and ext2 = 0
         limit
           #{count}
     </update>

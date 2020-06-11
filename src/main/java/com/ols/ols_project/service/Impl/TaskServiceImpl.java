@@ -28,7 +28,6 @@ import javax.annotation.Resource;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -174,7 +173,7 @@ public class TaskServiceImpl implements TaskService {
                                     .type(FileTypeEnum.getNameByCode(taskEntity.getType()))
                                     .release_time(taskEntity.getRelease_time())
                                     .release_user_id(taskEntity.getRelease_user_id())
-                                    .ext1(taskEntity.getExt1())
+                                    .finish_time(taskEntity.getFinish_time())                                    .ext1(taskEntity.getExt1())
                                     .ext2(taskEntity.getExt2())
                                     .ext3(taskEntity.getExt3())
                                     .build()

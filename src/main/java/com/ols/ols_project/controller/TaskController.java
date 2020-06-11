@@ -262,7 +262,9 @@ public class TaskController {
         data.put("taskList",notCheckedTask);
         resultStr=JSON.toJSONStringWithDateFormat(
                 new Result(data,"0","获取待审核任务成功"),
-                "yyyy-MM-dd hh-mm-ss");
+                "yyyy-MM-dd hh-mm-ss",
+                SerializerFeature.WriteNonStringValueAsString
+        );
         return resultStr;
     }
 
