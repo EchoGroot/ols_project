@@ -44,6 +44,7 @@ public class DataBackupManagementController {
         String databaseName = "ols";
         fileName += ".sql";
         String bb ="";
+        String hostIP1=hostIP.substring(0,hostIP.length()-5);
         File saveFile = new File(savePath);
         if (!saveFile.exists()) {// 如果目录不存在
             saveFile.mkdirs();// 创建文件夹
@@ -53,13 +54,14 @@ public class DataBackupManagementController {
         }
         //拼接命令行的命令
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("mysqldump").append(" -h").append(hostIP);
+        stringBuilder.append("mysqldump").append(" -h").append(hostIP1);
         stringBuilder.append(" -u").append(userName).append(" -p").append(password).append(" " + databaseName);
         stringBuilder.append(" >").append(savePath + fileName);
         //log.info(stringBuilder.toString());
         try {
             //调用外部执行exe文件的javaAPI
             Process process = Runtime.getRuntime().exec("cmd /c" + stringBuilder.toString());
+            System.out.println(stringBuilder.toString());
             if (process.waitFor() == 0) {// 0 表示线程正常终止。
                 bb="1";
             }
