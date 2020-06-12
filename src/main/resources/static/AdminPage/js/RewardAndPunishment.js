@@ -117,7 +117,7 @@ $(function () {
         $("#searchButton").click(function () {
             tableIns.reload({
                 where: {
-                    searchType:searchType,
+                    //queryInfo:'user_id',
                     searchInfo: $("#searchInput").val()
 
                 },

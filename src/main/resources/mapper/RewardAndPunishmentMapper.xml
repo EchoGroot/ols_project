@@ -25,7 +25,24 @@
         create_time
         from
         ols_reward_and_punishment
-        ORDER BY create_time DESC
+        where 1=1
+        <if test="searchInfo != ''">
+            and (user_id like '%${searchInfo}%')
+        </if>
+        <choose>
+            <when test="queryInfo == 'reward'">
+                and type= 1
+            </when>
+            <when test="queryInfo == 'punishment'">
+                and type = 0
+            </when>
+        </choose>
+        <if test="queryInfo == 'timeUp'">
+            ORDER BY create_time
+        </if>
+        <if test="queryInfo == 'timeDown'">
+            ORDER BY create_time DESC
+        </if>
         limit
         #{start},#{end};
         SELECT FOUND_ROWS() as total;
