@@ -8,9 +8,8 @@ $(function () {
         table.render({
             elem: '#acceptList'
             ,height: 312
-            ,url: '/accept/getAcceptTaskByTaskId/' //数据接口
+            ,url: '/accept/getAcceptTaskByTaskId/'+taskId //数据接口
             ,page: true //开启分页
-            ,where: {taskId: taskId}
             ,cols: [[ //表头
                 {field: 'id', title: '接受任务编号', width:150, sort: true, fixed: 'left'}
                 ,{field: 'name', title: '完成任务的用户名', width:150}
@@ -37,7 +36,16 @@ $(function () {
             if(layEvent === 'check'){
                 alert("查看")
             } else if(layEvent === 'adopt'){
-                alert("采纳")
+                alert(JSON.stringify(data));
+                r_id = data.id
+                t_id = taskId
+                $.ajax({
+                    url:'/accept/adoptByAcceptId/'+r_id+"/"+t_id,
+                    type:'post',
+                    success:function(res){
+                        alert(res)
+                    }
+                })
             }else if(layEvent === 'download'){
                 // 下载
                 downloadFunc(data.id);

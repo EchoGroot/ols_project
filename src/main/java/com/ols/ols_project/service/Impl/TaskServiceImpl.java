@@ -429,12 +429,14 @@ public class TaskServiceImpl implements TaskService {
         String url = taskMapper.getDocListByTaskId(taskId);//获取文件url
         //从url中截取文件名,返回数组
         JSONObject urlJson = JSONObject.parseObject(url);//将url转json对象
-        JSONArray taskFileArray = JSONArray.parseArray(urlJson.getString("taskImage"));//获取taskImage数组
+        JSONArray taskFileArray = JSONArray.parseArray(urlJson.getString("taskDoc"));//获取task数组
+        System.out.println(taskFileArray);
         for(int i=0;i<taskFileArray.size();i++)
         {
             JSONObject taskImage = JSONObject.parseObject(taskFileArray.get(i).toString());//获取taskImage数组的每个对象
-            fileNameArray.add(taskImage.getString("originalImage"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
+            fileNameArray.add(taskImage.getString("labeledInfo"));//获取taskImage[i]对象的originalImage值，并赋值到新数组内
         }
+        System.out.println(fileNameArray);
         return fileNameArray;
     }
     //管理员删除任务文件时使用    ！！慎用 会使任务获取不到源图片文件

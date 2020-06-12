@@ -668,7 +668,7 @@ public class TaskController {
         }
         //获取要下载的所有文件名
         JSONArray fileNameArray = taskService.getDocFileNameByTaskId(taskId);
-        String path = desFilePath;//规定的下载地址
+        String path = "D:\\docTask\\";//规定的下载地址
         //String path = "http:\\\\yuyy.info\\image\\ols\\";//linux 路径有点问题
         //新建临时文件夹用于打包所有要下载的问文件 若已存在，则先删除再创建
         File fileAllTemp = new File(path+taskId);

@@ -13,6 +13,7 @@ $(function () {
         $("#option2").val('11');
         $("#option3").text('已删除');
         $("#option3").val('12');
+
     // 已发布未完成
     }else if(query==='releasenotfinish'){
         $("#option1").text('审核中');
@@ -55,6 +56,8 @@ $(function () {
         var url='';
         // 发布的任务
         if(page==='releaseTask'){
+            if(query == 'releasenotfinish'){
+
             url='/user/getReleaseTaskByUserId/';
             cols=[[ //表头
                 {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
@@ -67,6 +70,21 @@ $(function () {
                 , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
                 , {title: '操作', align:'center',toolbar: '#barHandle'}
             ]];
+            }else if(query == 'releasefinish'){
+
+                url='/user/getReleaseTaskByUserId/';
+                cols=[[ //表头
+                    {field: 'id', title: '任务编号', align:'center',width: '10%',fixed: 'left'}
+                    , {field: 'name', title: '任务名称', align:'center',width: '10%'}
+                    , {field: 'points', title: '任务分值', align:'center',width: '10%', sort: true}
+                    , {field: 'state', title: '状态', align:'center',width: '10%'}
+                    , {field: 'type', title: '文件类型', align:'center',width: '10%', sort: true}
+                    , {field: 'release_time', title: '发布时间',align:'center', width: '15%', sort: true}
+                    , {field: 'accept_num', title: '接受者数量',align:'center', width: '10%', sort: true}
+                    , {field: 'ext1', title: '完成任务数量',align:'center', width: '10%', sort: true}
+                    , {title: '操作', align:'center',toolbar: '#barHandle2'}
+                ]];
+            }
         }else{
             // 接受的任务
             url='/user/getAcceptTaskByUserId/';
@@ -116,9 +134,7 @@ $(function () {
                     $(".adoptClass").hide();
                 };
                 if(query==='releasefinish' && taskType==='txt'){
-                    $(".checkClass").hide();
-                    $(".adoptClass").hide();
-                    $(".downloadClass").show();
+
                 };
             }
 
@@ -144,9 +160,11 @@ $(function () {
                 if(taskType=='doc'){
                     chooseAdoptFunc(data.id);
                 }
-            }else if(layEvent === 'download'){
+            }else if(layEvent === 'download3'){
                 // 下载
                 downloadFunc(data.id);
+            }else if(layEvent === 'lableExm'){
+                lableExmFunc(data.id);
             }
         });
         //筛选按钮点击时间
@@ -547,8 +565,18 @@ function chooseAdoptFunc(taskId) {
     //使用文本采纳的HTML和参数
 
     parent.$("#iframeMain").attr("src","./adopt.html?a=1&"+'taskId='+taskId+'&userId='+userId);
+
 }
 function downloadFunc(taskId) {
-    //window.open("http://localhost:8080/task/downloadFinishedTask?taskId="+taskId);
+    window.open("http://localhost:8080/task/downloadDocTask?taskId="+taskId);
     //使用文本任务下载地址
+}
+function lableExmFunc(taskId) {
+    top.location.href="/TextLabelTaskPage/TextLabelTask.html?" +
+        "userId="+userId+
+        "&pageType=labelExamplePage"+
+        "&taskId="+taskId+
+        "&pageFrom= %2FPersonalCenterPage%2Findex.html"
+        +"%3FuserId%3D"+userId
+        +"%26page%3DreleaseNotFinishDocTask";
 }

@@ -7,7 +7,7 @@
     </select>
 
     <select id="getDocListByTaskId" resultType="java.lang.String">
-        select url from ols_task where id = #{taskId}
+        select url from ols_accept where task_id = #{taskId} and state=2
     </select>
 
     <select id="getAccepteImageListByAccepteId" resultType="com.ols.ols_project.model.AcceptTaskForTaskInfo">

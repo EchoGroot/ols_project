@@ -81,15 +81,21 @@ public class AcceptController {
 
     }
 
-    @PostMapping("/adoptByAcceptId")
-    public String adoptByAcceptId(@RequestParam(value = "acceptId") Long acceptId,
-                                  @RequestParam(value = "taskId") Long taskId) {
+    @PostMapping("/adoptByAcceptId/{acceptId}/{taskId}")
+    public String adoptByAcceptId(@PathVariable(value = "acceptId") Long acceptId,
+                                  @PathVariable(value = "taskId") Long taskId) {
         String str;
         if (acceptService.adoptByAcceptId(acceptId, taskId) == "200") {
             str = "采纳成功！";
             //查询信息BY acceptId
             long releaseUID = taskService.getTaskInfoByTaskId(taskId).getRelease_user_id();
             long acceptUID = acceptService.getUserId(acceptId);
+            String res = acceptService.adoptByAcceptId(acceptId,taskId);
+            if(res.equals("200")){
+                System.out.println("采纳成功！");
+            }else{
+                System.out.println("采纳失败！");
+            }
             systemService.createSystem(releaseUID,acceptUID, "恭喜，用户"+releaseUID+"在"+taskId+"任务中已采纳您的标注");
         } else {
             str = "未知错误！";
@@ -106,17 +112,20 @@ public class AcceptController {
         return resultStr;
     }
 
-    @GetMapping("/getAcceptTaskByTaskId")
-    public String getAcceptTaskByTaskId(@RequestParam("taskId") String taskId
+    @GetMapping("/getAcceptTaskByTaskId/{taskId}")
+    public String getAcceptTaskByTaskId(@PathVariable("taskId") String taskId
             ,@RequestParam("page") String pageNum
             ,@RequestParam("limit") String pageSize
     ){
+        System.out.println("Accept");
         HashMap<String,Object> data= acceptService.getAcceptByTaskId(Long.parseLong(taskId)
                 ,Integer.parseInt(pageNum),Integer.parseInt(pageSize));
         String resultStr = JSON.toJSONStringWithDateFormat(new Result(data,"0","查询接受任务成功")
                 ,"yyyy-MM-dd hh:mm:ss"
                 , SerializerFeature.WriteNonStringValueAsString
         );
+        System.out.println("--------------------------------------------------");
+        System.out.println(resultStr);
         return resultStr;
     }
 }
