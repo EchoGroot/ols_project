@@ -15,7 +15,6 @@ import java.io.*;
 /**
  * 获取word文本
  *
- * @author Steven
  *
  */
 public class WordUtil {
