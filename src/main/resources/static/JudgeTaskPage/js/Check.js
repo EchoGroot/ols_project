@@ -48,12 +48,13 @@ $(function () {
                 searchInfo:''
             };
             cols=[[ //表头
-                {field: 'judgeId', title: '审核编号', align:'center',width: '10%',fixed: 'left', sort: true}
-                , {field: 'taskName', title: '任务名称', align:'center',width: '15%', sort: true}
-                , {field: 'taskId', title: '任务编号', align:'center',width: '10%', sort: true}
+                {field: 'judgeId', title: '审核编号', align:'center',width: '10%',fixed: 'left'}
+                , {field: 'taskName', title: '任务名称', align:'center',width: '12%'}
+                , {field: 'taskId', title: '任务编号', align:'center',width: '10%'}
                 , {field: 'releaseTime', title: '任务发布时间', align:'center',width: '10%', sort: true}
-                , {field: 'releaseUserName', title: '任务发布者', align:'center',width: '10%', sort: true}
-                , {field: 'isPassed', title: '是否通过审核',align:'center', width: '10%', sort: true}
+                , {field: 'releaseUserName', title: '任务发布者', align:'center',width: '8%'}
+                , {field: 'type', title: '文件类型', align:'center',width: '7%'}
+                , {field: 'isPassed', title: '通过审核',align:'center', width: '7%'}
                 , {field: 'message', title: '审核答复信息',align:'center', width: '15%'}
                 , {field: 'judgeTime', title: '审核时间',align:'center', width: '10%', sort: true}
                 , {title: '操作', align:'center',toolbar: '#barHandle'}

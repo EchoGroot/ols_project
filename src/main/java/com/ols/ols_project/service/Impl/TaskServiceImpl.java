@@ -262,6 +262,7 @@ public class TaskServiceImpl implements TaskService {
                     .releaseUserName(e.getReleaseUserName())
                     .judgeId(e.getJudgeId())
                     .isPassed(IsPassedEnum.getNameByCode(e.getIsPassed()))
+                    .type(FileTypeEnum.getNameByCode(e.getType()))
                     .message(e.getMessage())
                     .judgeTime(e.getJudgeTime())
                     .build());
@@ -472,6 +473,7 @@ public class TaskServiceImpl implements TaskService {
         }
         return resultArr;
     }
+    @Override
     public int[][] getAdminDocChartData(int year) {
         int[][] resultArr=new int[7][12];
         List<List<MonthAndCount>> lists = new ArrayList<>();

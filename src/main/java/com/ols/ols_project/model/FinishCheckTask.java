@@ -56,4 +56,6 @@ public class FinishCheckTask {
      * 审核时间
      */
     private Timestamp judgeTime;
+
+    private Integer type;
 }

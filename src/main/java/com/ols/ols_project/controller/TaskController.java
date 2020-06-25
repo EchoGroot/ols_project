@@ -368,7 +368,9 @@ public class TaskController {
         // layui默认数据表格的status为0才显示数据
         String result=JSON.toJSONStringWithDateFormat(
                 new Result(taskService.getFinishCheckTaskByUserId(Long.parseLong(userId),queryInfo,searchInfo,pageNum, pageSize),"0","根据审核者id获取已审核的任务"),
-                "yyyy-MM-dd");
+                "yyyy-MM-dd",
+                SerializerFeature.WriteNonStringValueAsString
+        );
         return result;
     }
 

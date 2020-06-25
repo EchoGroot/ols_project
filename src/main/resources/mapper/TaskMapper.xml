@@ -239,6 +239,7 @@
         ols_judge.id as judge_id,
         user_id,
         task_id,
+        ols_task.type,
         ispassed,
         message,
         judge_time,
@@ -317,6 +318,7 @@
         <result column="judge_id" property="judgeId" />
         <result column="ispassed" property="isPassed" />
         <result column="message" property="message" />
+        <result column="type" property="type" />
         <result column="judge_time" property="judgeTime" />
     </resultMap>
 
